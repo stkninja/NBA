@@ -31,7 +31,9 @@ public class TeamPO {
 	//助攻数
 	//抢断数
 	//盖帽数
-	//
+	//失误数
+	//犯规数
+	//比赛得分
 	public TeamPO() {
 	}
 
