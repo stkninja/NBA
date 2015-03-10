@@ -52,6 +52,7 @@ public class PlayerPO {
 		this.doubledouble = new ArrayList<String>();
 	}
 	
+	
 	public String getName() {
 		return name;
 	}
