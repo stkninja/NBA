@@ -38,5 +38,4 @@ public class PlayerVO {
 	public ArrayList<String> blockrate;     //盖帽率
 	public ArrayList<String> errorrate;     //失误率
 	public ArrayList<String> usage;         //使用率
-	
 }

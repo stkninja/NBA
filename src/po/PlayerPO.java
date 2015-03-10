@@ -6,7 +6,7 @@ public class PlayerPO {
 	private String name;
 	private String team;
 	private String position;
-	private String subArea;                   //分区
+	private String subArea;                  //分区
 	private ArrayList<String> gameplay;      //参赛场数
 	private ArrayList<String> gamestart;     //先发场数
 	private ArrayList<String> rebound;       //篮板数
