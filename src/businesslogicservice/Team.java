@@ -8,4 +8,5 @@ public interface Team {
 	public TeamVO getOneTeam(String name);
 	
 	public ArrayList<TeamVO> getAllTeams();
+	
 }

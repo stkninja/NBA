@@ -10,4 +10,5 @@ public interface Player {
 	public PlayerVO getOnePlayer(String name,String team);
 	
 	public ArrayList<PlayerVO> getAllPlayers();
+	
 }
