@@ -24,7 +24,6 @@ public class TeamPO {
 	//建立时间
 	private int setupTime;
 	
-	
 	/**球队比赛信息*/
 	//比赛场数
 	private double gamesNum;
