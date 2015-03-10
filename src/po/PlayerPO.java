@@ -1,9 +1,12 @@
 package po;
 
+import java.awt.Image;
 import java.util.ArrayList;
 
 public class PlayerPO {
 	private String name;
+	private Image portrait;                  //肖像
+	private Image action;                    //动作照
 	private String team;
 	private String position;
 	private String subArea;                  //分区
@@ -20,9 +23,34 @@ public class PlayerPO {
 	private ArrayList<String> foul;          //犯规数
 	private ArrayList<String> point;         //得分
 	private ArrayList<String> shoot;         //投篮数
-	private ArrayList<String> threepoint;    //三分球
-	private ArrayList<String> freethrow;     //罚球数
+	private ArrayList<String> shootmade;     //投篮命中数
+	private ArrayList<String> threepoint;    //三分出手数
+	private ArrayList<String> threepointmade;//三分命中数
+	private ArrayList<String> freethrow;     //罚球出手数
+	private ArrayList<String> freethrowmade; //罚球命中数
 	private ArrayList<String> doubledouble;  //两双
+	
+	public PlayerPO(){
+		this.gameplay = new ArrayList<String>();
+		this.gamestart = new ArrayList<String>();
+		this.rebound = new ArrayList<String>();
+		this.assist = new ArrayList<String>();
+		this.minute = new ArrayList<String>();
+		this.offense = new ArrayList<String>();
+		this.defence = new ArrayList<String>();
+		this.steal = new ArrayList<String>();
+		this.block = new ArrayList<String>();
+		this.error = new ArrayList<String>();
+		this.foul = new ArrayList<String>();
+		this.point = new ArrayList<String>();
+		this.shoot = new ArrayList<String>();
+		this.shootmade = new ArrayList<String>();
+		this.threepoint = new ArrayList<String>();
+		this.threepointmade = new ArrayList<String>();
+		this.freethrow = new ArrayList<String>();
+		this.freethrowmade = new ArrayList<String>();
+		this.doubledouble = new ArrayList<String>();
+	}
 	
 	public String getName() {
 		return name;
@@ -143,6 +171,42 @@ public class PlayerPO {
 	}
 	public void setSubArea(String subArea) {
 		this.subArea = subArea;
+	}
+	public Image getPortrait() {
+		return portrait;
+	}
+	public void setPortrait(Image portrait) {
+		this.portrait = portrait;
+	}
+	public Image getAction() {
+		return action;
+	}
+	public void setAction(Image action) {
+		this.action = action;
+	}
+
+	public ArrayList<String> getShootmade() {
+		return shootmade;
+	}
+
+	public void setShootmade(ArrayList<String> shootmade) {
+		this.shootmade = shootmade;
+	}
+
+	public ArrayList<String> getThreepointmade() {
+		return threepointmade;
+	}
+
+	public void setThreepointmade(ArrayList<String> threepointmade) {
+		this.threepointmade = threepointmade;
+	}
+
+	public ArrayList<String> getFreethrowmade() {
+		return freethrowmade;
+	}
+
+	public void setFreethrowmade(ArrayList<String> freethrowmade) {
+		this.freethrowmade = freethrowmade;
 	}
 	
 	

@@ -1,9 +1,12 @@
 package vo;
 
+import java.awt.Image;
 import java.util.ArrayList;
 
 public class PlayerVO {
 	public String name;
+	public Image portrait;                  //肖像
+	public Image action;                    //动作照
 	public String team;
 	public String position;
 	public String subArea;                  //分区
