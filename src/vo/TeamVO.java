@@ -160,4 +160,6 @@ public class TeamVO {
 		this.fouls = fouls;
 		this.scores = scores;
 	}
+	
+
 }
