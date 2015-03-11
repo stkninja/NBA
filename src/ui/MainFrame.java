@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,9 +40,11 @@ public class MainFrame extends JFrame{
 		//--------------------------------------------------------------------
 		navigation = new JPanel();
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
+		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		team = new JButton("«Ú∂”");
 		player = new JButton("«Ú‘±");
 		navigation.add(team);
+		navigation.add(Box.createVerticalStrut(20));
 		navigation.add(player);
 		
 		this.getContentPane().add(navigation, BorderLayout.WEST);
