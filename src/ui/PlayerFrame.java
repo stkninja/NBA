@@ -48,7 +48,8 @@ public class PlayerFrame extends JFrame{
     JLabel getTeam;
     ImageIcon bg;  //±³¾°Í¼
     JLabel lab;  //±³¾°
-	
+    ImageIcon portrait;
+	ImageIcon action;
 	
     
 	public PlayerFrame (PlayerVO vo){
@@ -69,7 +70,7 @@ public class PlayerFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
-		ImageIcon portrait = new ImageIcon("Brandon Jennings.png");
+		portrait = new ImageIcon("Brandon Jennings.png");
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(portrait);
 		panel1.add(Pic1,BorderLayout.NORTH);
@@ -119,7 +120,7 @@ public class PlayerFrame extends JFrame{
 		panel.setLayout(new BorderLayout());
 		panel.add(panel2,BorderLayout.CENTER);
 		panel.add(panel1,BorderLayout.WEST);
-		ImageIcon action = new ImageIcon("Brandon Jennings(1).png");
+		action = new ImageIcon("Brandon Jennings(1).png");
 		action.setImage(action.getImage().getScaledInstance(200,500,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
 		Pic2.setIcon(action);
@@ -129,6 +130,7 @@ public class PlayerFrame extends JFrame{
 		this.setTitle(vo.name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		
 	}
 	
 //------------------------------------------------------------
