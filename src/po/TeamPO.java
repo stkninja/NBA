@@ -3,9 +3,7 @@ package po;
 import java.awt.Image;
 import java.util.ArrayList;
 
-import vo.TeamVO;
-
-public class TeamPO {
+public class TeamPO{
 	/**球队基本信息*/
 	//球队标志
 	private Image teamLogo;
@@ -386,7 +384,7 @@ public class TeamPO {
 		this.assistEfficiency = assistEfficiency;
 	}
 	
-	/**ToVO*/
+	/**ToVO
 	public TeamVO ToVO(){
 		return new TeamVO(teamLogo, fullName, abbName, 
 				location, competionArea, subArea, homeGround, setupTime, 
@@ -394,5 +392,5 @@ public class TeamPO {
 				threePoint, freeThrowHit, freeThrow, offensiveRebounds, 
 				defensiveRebounds, opponentOffensiveRebounds, opponentDefensiveRebounds, 
 				defensiveRebounds, assists, steals, caps, turnovers, fouls, scores);
-	}
+	}*/
 }

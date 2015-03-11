@@ -3,7 +3,7 @@ package po;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class PlayerPO {
+public class PlayerPO{
 	private String name;
 	private Image portrait;                  //Ð¤Ïñ
 	private Image action;                    //¶¯×÷ÕÕ
@@ -209,6 +209,4 @@ public class PlayerPO {
 	public void setFreethrowmade(ArrayList<String> freethrowmade) {
 		this.freethrowmade = freethrowmade;
 	}
-	
-	
 }
