@@ -1,14 +1,19 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * 
- * @date 2015年3月10日
- * @time 下午6:46:00
+ * @date 2015年3月11日
  * @author stk
  *
  */
@@ -18,6 +23,10 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
+	private JPanel navigation;
+	private JPanel pane;
+	private JButton team;
+	private JButton player;
 	//--------------------------------------------------------
 	public MainFrame() {
 		//定义界面大小
@@ -26,12 +35,44 @@ public class MainFrame extends JFrame{
 		int frameHeight = screenSize.height * 3 / 4;
 		int frameWidth = frameHeight * 7 / 4;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
+		//--------------------------------------------------------------------
+		navigation = new JPanel();
+		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
+		team = new JButton("球队");
+		player = new JButton("球员");
+		navigation.add(team);
+		navigation.add(player);
 		
+		this.getContentPane().add(navigation, BorderLayout.WEST);
+		//----------------------------------------------------------------
+		pane = new TeamPane();
+		this.getContentPane().add(pane, BorderLayout.CENTER);
+		//监听
+		team.addActionListener(new TeamListener());
+		player.addActionListener(new PlayerListener());
+		//------------------------------------------------------------------
 		this.setTitle("NBA查询平台");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+	//--------------------------------------------------------------
+	private class TeamListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			MainFrame.this.remove(pane);
+			pane = new TeamPane();
+			MainFrame.this.getContentPane().add(pane);
+			revalidate();
+		}
+	}
 	
+	private class PlayerListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			MainFrame.this.remove(pane);
+			pane = new PlayerPane();
+			MainFrame.this.getContentPane().add(pane);
+			revalidate();
+		}
+	}
 	//------------------------------------------------------------
 	public static void main(String[] args) {
 		new MainFrame();
