@@ -1,6 +1,5 @@
 package datalogic;
 
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,15 +7,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 public class ReadTeam {
 	public static ArrayList<String> readTeamInfo(String addr) {
-		FileInputStream f = null;
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
 		BufferedReader br = null;
 		ArrayList<String> data = new ArrayList<String>();
 		
 		try {
-			f = new FileInputStream(addr);
-			br = new BufferedReader(new InputStreamReader(f));
+			fis = new FileInputStream(addr);
+			isr = new InputStreamReader(fis,"UTF-8"); 
+			br = new BufferedReader(isr);
 			
 			String line = new String();
 			while((line = br.readLine()) != null){
@@ -32,7 +35,8 @@ public class ReadTeam {
 			e.printStackTrace();
 		} finally{
 			try {
-				f.close();
+				fis.close();
+				isr.close();
 				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -42,7 +46,8 @@ public class ReadTeam {
 		return data;
 	}
 	
-	public static Image readLogo(String addr){
-		
+	public static ImageIcon readLogo(String addr){
+		ImageIcon img = new ImageIcon(addr);
+		return img;
 	}
 }
