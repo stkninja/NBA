@@ -1,4 +1,4 @@
-package datalogic;
+package data;
 /**
  * 用于对比赛数据整理
  * 统计得到球员信息

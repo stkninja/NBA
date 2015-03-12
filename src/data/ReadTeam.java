@@ -1,4 +1,4 @@
-package datalogic;
+package data;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class ReadTeam {
-	public static ArrayList<String> readTeamInfo(String addr) {
+	public static ArrayList<String> readTeamBasicInfo(String addr) {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;

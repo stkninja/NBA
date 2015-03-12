@@ -1,4 +1,4 @@
-package datalogic;
+package data;
 
 public class ReadPlayer {
 

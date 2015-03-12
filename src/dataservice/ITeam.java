@@ -1,4 +1,4 @@
-package datalogicservice;
+package dataservice;
 
 import java.util.ArrayList;
 import po.TeamPO;
