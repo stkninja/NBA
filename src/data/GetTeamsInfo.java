@@ -2,7 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
-import po.TeamPO;
+import po.TeamBasicInfoPO;
 import dataservice.ITeam;
 
 public class GetTeamsInfo implements ITeam{
@@ -10,11 +10,11 @@ public class GetTeamsInfo implements ITeam{
 	public GetTeamsInfo() {
 	}
 
-	public TeamPO getSingleTeamInfo(String name) {
+	public TeamBasicInfoPO getSingleTeamInfo(String name) {
 		return null;
 	}
 
-	public ArrayList<TeamPO> getAllTeamsInfo() {
+	public ArrayList<TeamBasicInfoPO> getAllTeamsInfo() {
 		return null;
 	}
 

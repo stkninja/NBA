@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class ReadTeam {
+public class ReadTeamBasicInfo {
 	public static ArrayList<String> readTeamBasicInfo(String addr) {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;

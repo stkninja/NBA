@@ -1,11 +1,11 @@
 package dataservice;
 
 import java.util.ArrayList;
-import po.PlayerPO;
+import po.PlayerBasicInfoPO;
 
 public interface IPlayer {
 	/**获得指定球员信息*/
-	public PlayerPO getSinglePlayerInfo(String name);
+	public PlayerBasicInfoPO getSinglePlayerInfo(String name);
 	/**获得指定球员信息*/
-	public ArrayList<PlayerPO> getAllPlayersInfo();
+	public ArrayList<PlayerBasicInfoPO> getAllPlayersInfo();
 }

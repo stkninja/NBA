@@ -2,7 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
-import po.PlayerPO;
+import po.PlayerBasicInfoPO;
 import dataservice.IPlayer;
 
 public class GetPlayersInfo implements IPlayer{
@@ -10,11 +10,11 @@ public class GetPlayersInfo implements IPlayer{
 	public GetPlayersInfo() {
 	}
 
-	public PlayerPO getSinglePlayerInfo(String name) {
+	public PlayerBasicInfoPO getSinglePlayerInfo(String name) {
 		return null;
 	}
 
-	public ArrayList<PlayerPO> getAllPlayersInfo() {
+	public ArrayList<PlayerBasicInfoPO> getAllPlayersInfo() {
 		return null;
 	}
 

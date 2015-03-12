@@ -1,11 +1,11 @@
 package dataservice;
 
 import java.util.ArrayList;
-import po.TeamPO;
+import po.TeamBasicInfoPO;
 
 public interface ITeam {
 	/**获得指定球队信息*/
-	public TeamPO getSingleTeamInfo(String name);
+	public TeamBasicInfoPO getSingleTeamInfo(String name);
 	/**获得所有球队信息*/
-	public ArrayList<TeamPO> getAllTeamsInfo();
+	public ArrayList<TeamBasicInfoPO> getAllTeamsInfo();
 }
