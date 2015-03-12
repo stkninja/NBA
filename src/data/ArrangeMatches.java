@@ -39,14 +39,14 @@ public class ArrangeMatches {
 			matchPO.setSeason(list[i].split("_")[0]);
 			matchPO.setDate(list[i].split("_")[1]);
 			
-			matchPO.setTeam1(getTeams(absolutePath));
+			matchPO.setTeam1(getTeams(absolutePath, name));
 			
 			matchesInfo.add(matchPO);
 		}
 	}
 	
 	/**从文件中获得球队的比赛信息*/
-	private static MatchTeamDataPO getTeams(String absolutePath) {
+	private static MatchTeamDataPO getTeams(String absolutePath, String name) {
 		
 	}
 }
