@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import po.MatchTeamDataPO;
 
 public class ArrangeMatches {
 	
@@ -21,7 +22,7 @@ public class ArrangeMatches {
 			list = f.list();
 		}
 		
-		/**初始化比赛信息*/
+		/**比赛信息统计*/
 		if(list != null)
 			initMatchesInfo(list);
 		
@@ -38,7 +39,14 @@ public class ArrangeMatches {
 			matchPO.setSeason(list[i].split("_")[0]);
 			matchPO.setDate(list[i].split("_")[1]);
 			
+			matchPO.setTeam1(getTeams(absolutePath));
+			
 			matchesInfo.add(matchPO);
 		}
+	}
+	
+	/**从文件中获得球队的比赛信息*/
+	private static MatchTeamDataPO getTeams(String absolutePath) {
+		
 	}
 }

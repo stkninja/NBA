@@ -7,15 +7,12 @@ import dataservice.IPlayer;
 
 public class GetPlayersInfo implements IPlayer{
 
-	public GetPlayersInfo() {
-	}
-
-	public PlayerBasicInfoPO getSinglePlayerInfo(String name) {
+	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name) {
 		return null;
 	}
 
-	public ArrayList<PlayerBasicInfoPO> getAllPlayersInfo() {
+	public ArrayList<PlayerBasicInfoPO> getAllPlayersBasicInfo() {
 		return null;
 	}
-
+	
 }

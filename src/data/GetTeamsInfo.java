@@ -7,15 +7,13 @@ import dataservice.ITeam;
 
 public class GetTeamsInfo implements ITeam{
 
-	public GetTeamsInfo() {
-	}
-
-	public TeamBasicInfoPO getSingleTeamInfo(String name) {
+	public TeamBasicInfoPO getSingleTeamBasicInfo(String name) {
 		return null;
 	}
 
-	public ArrayList<TeamBasicInfoPO> getAllTeamsInfo() {
+	public ArrayList<TeamBasicInfoPO> getAllTeamsBasicInfo() {
 		return null;
 	}
+
 
 }
