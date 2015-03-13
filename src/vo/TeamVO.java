@@ -20,7 +20,7 @@ public class TeamVO {
 	//主场
 	public String homeGround;
 	//建立时间
-	public int setupTime;
+	public String setupTime;
 	
 	/**球队比赛信息*/
 	//比赛场数
