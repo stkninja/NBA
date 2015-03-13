@@ -3,6 +3,7 @@ package po;
 
 public class MatchPO {
 	
+	
 	private String season = new String();
 	private String date = new String();
 	
