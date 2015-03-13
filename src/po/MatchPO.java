@@ -1,6 +1,5 @@
 package po;
 
-import java.util.ArrayList;
 
 public class MatchPO {
 	
@@ -9,9 +8,6 @@ public class MatchPO {
 	
 	private MatchTeamDataPO team1 = new MatchTeamDataPO();
 	private MatchTeamDataPO team2 = new MatchTeamDataPO();
-	
-	private ArrayList<MatchPlayerDataPO> team1Players = new ArrayList<MatchPlayerDataPO>();
-	private ArrayList<MatchPlayerDataPO> team2Players = new ArrayList<MatchPlayerDataPO>();
 	
 	public MatchPO() {}
 
@@ -47,23 +43,6 @@ public class MatchPO {
 	public void setTeam2(MatchTeamDataPO team2) {
 		this.team2 = team2;
 	}
-
-	public ArrayList<MatchPlayerDataPO> getTeam1Players() {
-		return team1Players;
-	}
-
-	public void setTeam1Players(ArrayList<MatchPlayerDataPO> team1Players) {
-		this.team1Players = team1Players;
-	}
-
-	public ArrayList<MatchPlayerDataPO> getTeam2Players() {
-		return team2Players;
-	}
-
-	public void setTeam2Players(ArrayList<MatchPlayerDataPO> team2Players) {
-		this.team2Players = team2Players;
-	}
-	
 	
 	/**TODO*/
 }

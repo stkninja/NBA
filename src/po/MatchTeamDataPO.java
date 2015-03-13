@@ -1,5 +1,7 @@
 package po;
 
+import java.util.ArrayList;
+
 
 public class MatchTeamDataPO {
 
@@ -40,6 +42,10 @@ public class MatchTeamDataPO {
 	private double fouls;
 	//比赛得分
 	private double scores;
+	
+	private ArrayList<MatchPlayerDataPO> team1Players = new ArrayList<MatchPlayerDataPO>();
+	private ArrayList<MatchPlayerDataPO> team2Players = new ArrayList<MatchPlayerDataPO>();
+	
 	
 	public MatchTeamDataPO() {
 	}
@@ -188,4 +194,21 @@ public class MatchTeamDataPO {
 	public void setScores(double scores) {
 		this.scores = scores;
 	}
+	
+	public ArrayList<MatchPlayerDataPO> getTeam1Players() {
+		return team1Players;
+	}
+
+	public void setTeam1Players(ArrayList<MatchPlayerDataPO> team1Players) {
+		this.team1Players = team1Players;
+	}
+
+	public ArrayList<MatchPlayerDataPO> getTeam2Players() {
+		return team2Players;
+	}
+
+	public void setTeam2Players(ArrayList<MatchPlayerDataPO> team2Players) {
+		this.team2Players = team2Players;
+	}
+	
 }

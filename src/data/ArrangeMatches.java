@@ -48,6 +48,10 @@ public class ArrangeMatches {
 	
 	/**从文件中获得球队的比赛信息*/
 	private static MatchTeamDataPO getTeams(String absolutePath, String name) {
+		MatchTeamDataPO teamDataPO = new MatchTeamDataPO();
 		
+		
+		
+		return teamDataPO;
 	}
 }
