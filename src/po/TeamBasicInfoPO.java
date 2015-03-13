@@ -23,11 +23,11 @@ public class TeamBasicInfoPO{
 	//建立时间
 	private int setupTime;
 	//比赛场数
-	private ArrayList<Double> gamesNum;
+	private ArrayList<String> gamesNum;
 	//胜利场数
-	private ArrayList<Double> winsNum;
+	private ArrayList<String> winsNum;
 	//赛季胜率
-	private ArrayList<Double> winsRate;
+	private ArrayList<String> winsRate;
 	
 	public TeamBasicInfoPO() {}
 
@@ -64,15 +64,15 @@ public class TeamBasicInfoPO{
 		return setupTime;
 	}
 
-	public ArrayList<Double> getGamesNum() {
+	public ArrayList<String> getGamesNum() {
 		return gamesNum;
 	}
 
-	public ArrayList<Double> getWinsNum() {
+	public ArrayList<String> getWinsNum() {
 		return winsNum;
 	}
 	
-	public ArrayList<Double> getWinsRate() {
+	public ArrayList<String> getWinsRate() {
 		return winsRate;
 	}
 
@@ -110,15 +110,15 @@ public class TeamBasicInfoPO{
 		this.setupTime = setupTime;
 	}
 
-	public void setGamesNum(ArrayList<Double> gamesNum) {
+	public void setGamesNum(ArrayList<String> gamesNum) {
 		this.gamesNum = gamesNum;
 	}
 
-	public void setWinsNum(ArrayList<Double> winsNum) {
+	public void setWinsNum(ArrayList<String> winsNum) {
 		this.winsNum = winsNum;
 	}
 
-	public void setWinsRate(ArrayList<Double> winsRate) {
+	public void setWinsRate(ArrayList<String> winsRate) {
 		this.winsRate = winsRate;
 	}
 	

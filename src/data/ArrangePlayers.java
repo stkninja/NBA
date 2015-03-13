@@ -46,6 +46,7 @@ public class ArrangePlayers {
 //			basicInfoPO.setTeam(team);
 			basicInfoPO.setAge(Integer.parseInt(data.get(6).split("¨U")[1].split("©¦")[1].trim()));
 			basicInfoPO.setBirth(data.get(5).split("¨U")[1].split("©¦")[1].trim());
+			System.out.println(Integer.parseInt(data.get(7).split("¨U")[1].split("©¦")[1].trim()));
 			basicInfoPO.setExp(Integer.parseInt(data.get(7).split("¨U")[1].split("©¦")[1].trim()));
 			basicInfoPO.setHeight(data.get(3).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setNumber(Integer.parseInt(data.get(1).split("¨U")[1].split("©¦")[1].trim()));

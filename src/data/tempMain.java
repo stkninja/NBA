@@ -11,6 +11,6 @@ public class tempMain {
 	public static void main(String[] args) {
 		ArrayList<PlayerBasicInfoPO> data = ArrangePlayers.arrangePlayersBasicInfo();
 //		ArrayList<TeamBasicInfoPO> data2 = ArrangeTeams.arrangeTeamsBasicInfo();		
-		System.out.println(data2.size());
+//		System.out.println(data.size());
 	}
 }
