@@ -8,7 +8,7 @@ import po.TeamBasicInfoPO;
  * 用于对比赛数据整理
  * 统计得到球队信息
  */
-public class ArrangeTeams {
+public class ArrangeTeamsBasicInfo {
 	
 	/**to return 球队基本信息*/
 	private static ArrayList<TeamBasicInfoPO> teamsBasicInfo = new ArrayList<TeamBasicInfoPO>();
@@ -41,7 +41,7 @@ public class ArrangeTeams {
 			teamBasicInfoPO.setCompetionArea(info[3].trim());
 			teamBasicInfoPO.setSubArea(info[4].trim());
 			teamBasicInfoPO.setHomeGround(info[5].trim());
-			teamBasicInfoPO.setSetupTime(Integer.parseInt(info[6].trim()));
+			teamBasicInfoPO.setSetupTime(info[6].trim());
 			//TODO 比赛总场数 胜率,etc
 			
 			teamsBasicInfo.add(teamBasicInfoPO);

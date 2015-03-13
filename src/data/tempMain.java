@@ -9,8 +9,8 @@ import po.TeamBasicInfoPO;
 
 public class tempMain {
 	public static void main(String[] args) {
-		ArrayList<PlayerBasicInfoPO> data = ArrangePlayers.arrangePlayersBasicInfo();
+		ArrayList<PlayerBasicInfoPO> data = ArrangePlayersBasicInfo.arrangePlayersBasicInfo();
 //		ArrayList<TeamBasicInfoPO> data2 = ArrangeTeams.arrangeTeamsBasicInfo();		
-//		System.out.println(data.size());
+		System.out.println(data.size());
 	}
 }

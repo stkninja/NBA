@@ -9,7 +9,7 @@ import po.PlayerBasicInfoPO;
  * 用于对比赛数据整理
  * 统计得到球员信息
  */
-public class ArrangePlayers {
+public class ArrangePlayersBasicInfo {
 
 	private static ArrayList<PlayerBasicInfoPO> playerBasicInfo = new ArrayList<PlayerBasicInfoPO>();
 	/**球员全身照地址*/
@@ -44,12 +44,11 @@ public class ArrangePlayers {
 			basicInfoPO.setPosition(data.get(2).split("║")[1].split("│")[1].trim());
 //			basicInfoPO.setSubArea(subArea);
 //			basicInfoPO.setTeam(team);
-			basicInfoPO.setAge(Integer.parseInt(data.get(6).split("║")[1].split("│")[1].trim()));
+			basicInfoPO.setAge(data.get(6).split("║")[1].split("│")[1].trim());
 			basicInfoPO.setBirth(data.get(5).split("║")[1].split("│")[1].trim());
-			System.out.println(Integer.parseInt(data.get(7).split("║")[1].split("│")[1].trim()));
-			basicInfoPO.setExp(Integer.parseInt(data.get(7).split("║")[1].split("│")[1].trim()));
+			basicInfoPO.setExp(data.get(7).split("║")[1].split("│")[1].trim());
 			basicInfoPO.setHeight(data.get(3).split("║")[1].split("│")[1].trim());
-			basicInfoPO.setNumber(Integer.parseInt(data.get(1).split("║")[1].split("│")[1].trim()));
+			basicInfoPO.setNumber(data.get(1).split("║")[1].split("│")[1].trim());
 			basicInfoPO.setSchool(data.get(8).split("║")[1].split("│")[1].trim());
 			basicInfoPO.setWeight(data.get(4).split("║")[1].split("│")[1].trim());
 //			basicInfoPO.setGameplay(gameplay);

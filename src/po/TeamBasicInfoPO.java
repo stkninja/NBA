@@ -21,7 +21,7 @@ public class TeamBasicInfoPO{
 	//主场
 	private String homeGround = new String();
 	//建立时间
-	private int setupTime;
+	private String setupTime;
 	//比赛场数
 	private ArrayList<String> gamesNum;
 	//胜利场数
@@ -60,7 +60,7 @@ public class TeamBasicInfoPO{
 		return homeGround;
 	}
 
-	public int getSetupTime() {
+	public String getSetupTime() {
 		return setupTime;
 	}
 
@@ -106,7 +106,7 @@ public class TeamBasicInfoPO{
 		this.homeGround = homeGround;
 	}
 
-	public void setSetupTime(int setupTime) {
+	public void setSetupTime(String setupTime) {
 		this.setupTime = setupTime;
 	}
 

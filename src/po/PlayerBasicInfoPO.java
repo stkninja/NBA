@@ -6,12 +6,12 @@ import javax.swing.ImageIcon;
 
 public class PlayerBasicInfoPO{
 	private String name = new String();
-	private int number;
+	private String number;
 	private String height = new String();
 	private String weight = new String();
 	private String birth = new String();
-	private int age;
-	private int exp;
+	private String age;
+	private String exp;
 	private String school =new String();
 	private ImageIcon portrait = null;                 //Ð¤Ïñ
 	private ImageIcon action = null;                    //¶¯×÷ÕÕ
@@ -89,12 +89,12 @@ public class PlayerBasicInfoPO{
 		this.action = action;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
@@ -129,22 +129,22 @@ public class PlayerBasicInfoPO{
 	}
 
 
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
 
 
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
 
-	public int getExp() {
+	public String getExp() {
 		return exp;
 	}
 
 
-	public void setExp(int exp) {
+	public void setExp(String exp) {
 		this.exp = exp;
 	}
 

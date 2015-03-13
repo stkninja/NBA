@@ -11,8 +11,7 @@ public class GetPlayersInfo implements IPlayer{
 		return null;
 	}
 
-	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name,
-			String belongTeam) {
+	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name) {
 		return null;
 	}
 	
