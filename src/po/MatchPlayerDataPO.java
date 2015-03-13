@@ -4,6 +4,10 @@ package po;
 public class MatchPlayerDataPO {
 	private String name = new String();
 	private double rebound;       //篮板数
+	//进攻篮板数
+	private double offensiveRebounds;
+	//防守篮板数
+	private double defensiveRebounds;
 	private double assist;        //助攻数
 	private double minute;        //在场时间
 	private double offense;       //进攻数
@@ -166,5 +170,21 @@ public class MatchPlayerDataPO {
 
 	public void setDoubledouble(double doubledouble) {
 		this.doubledouble = doubledouble;
+	}
+
+	public double getOffensiveRebounds() {
+		return offensiveRebounds;
+	}
+
+	public void setOffensiveRebounds(double offensiveRebounds) {
+		this.offensiveRebounds = offensiveRebounds;
+	}
+
+	public double getDefensiveRebounds() {
+		return defensiveRebounds;
+	}
+
+	public void setDefensiveRebounds(double defensiveRebounds) {
+		this.defensiveRebounds = defensiveRebounds;
 	}
 }

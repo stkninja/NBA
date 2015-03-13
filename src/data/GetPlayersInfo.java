@@ -7,11 +7,12 @@ import dataservice.IPlayer;
 
 public class GetPlayersInfo implements IPlayer{
 
-	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name) {
+	public ArrayList<PlayerBasicInfoPO> getAllPlayersBasicInfo() {
 		return null;
 	}
 
-	public ArrayList<PlayerBasicInfoPO> getAllPlayersBasicInfo() {
+	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name,
+			String belongTeam) {
 		return null;
 	}
 	

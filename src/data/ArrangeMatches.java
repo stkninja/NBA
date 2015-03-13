@@ -39,7 +39,8 @@ public class ArrangeMatches {
 			matchPO.setSeason(list[i].split("_")[0]);
 			matchPO.setDate(list[i].split("_")[1]);
 			
-			matchPO.setTeam1(getTeams(absolutePath, name));
+			matchPO.setTeam1(getTeams(absolutePath, list[i].split("_")[2].split("-")[0]));
+			matchPO.setTeam1(getTeams(absolutePath, list[i].split("_")[2].split("-")[1]));
 			
 			matchesInfo.add(matchPO);
 		}

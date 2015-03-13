@@ -5,7 +5,7 @@ import po.PlayerBasicInfoPO;
 
 public interface IPlayer {
 	/**获得指定球员基本信息*/
-	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name);
+	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name, String belongTeam);
 	/**获得所有球员基本信息*/
 	public ArrayList<PlayerBasicInfoPO> getAllPlayersBasicInfo();
 }
