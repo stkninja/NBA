@@ -41,7 +41,7 @@ public class ArrangeMatches {
 			
 			matchPO.setTeam1(getTeams(absolutePath, list[i].split("_")[2].split("-")[0]));
 			matchPO.setTeam1(getTeams(absolutePath, list[i].split("_")[2].split("-")[1]));
-			
+			 
 			matchesInfo.add(matchPO);
 		}
 	}
