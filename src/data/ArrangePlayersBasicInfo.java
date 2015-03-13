@@ -53,7 +53,7 @@ public class ArrangePlayersBasicInfo {
 			basicInfoPO.setWeight(data.get(4).split("¨U")[1].split("©¦")[1].trim());
 //			basicInfoPO.setGameplay(gameplay);
 //			basicInfoPO.setGamestart(gamestart);
-			
+			 
 			playerBasicInfo.add(basicInfoPO);
 		}
 	}
