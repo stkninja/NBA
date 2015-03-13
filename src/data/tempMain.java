@@ -1,10 +1,16 @@
 package data;
 
+import java.util.ArrayList;
+
+import po.PlayerBasicInfoPO;
+import po.TeamBasicInfoPO;
+
 
 
 public class tempMain {
 	public static void main(String[] args) {
-//		ArrayList<TeamBasicInfoPO> data = ArrangeTeams.arrangeTeams();
-//		System.out.println(data.size());
+		ArrayList<PlayerBasicInfoPO> data = ArrangePlayers.arrangePlayersBasicInfo();
+//		ArrayList<TeamBasicInfoPO> data2 = ArrangeTeams.arrangeTeamsBasicInfo();		
+		System.out.println(data2.size());
 	}
 }
