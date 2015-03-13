@@ -11,43 +11,44 @@ public class PlayerVO {
 	public String subArea;                  //分区
 	public int gameplay;                    //参赛场数
 	public int gamestart;                   //先发场数
-	public int allrebound;                  //总篮板数
+	public double allrebound;                  //总篮板数
 	public double rebound;                  //场均篮板数
 	public double alloffensiverebound;      //总进攻篮板数
 	public double offensiverebound;         //场均进攻篮板数
 	public double alldefensiverebound;      //总防守篮板数
 	public double defensiverebound;         //场均防守篮板数
-	public int allassist;                   //总助攻数
+	public double allassist;                   //总助攻数
 	public double assist;                   //场均助攻数
 	public double allminute;                //总在场时间
 	public double minute;                   //场均在场时间
-	public int alloffense;                  //总进攻数
+	public double alloffense;                  //总进攻数
     public double offense;                  //场均进攻数
-	public int alldefence;                  //总防守数
+	public double alldefence;                  //总防守数
 	public double defence;                  //场均防守数
-	public int allsteal;                    //总抢断数
+	public double allsteal;                    //总抢断数
 	public double steal;                    //场均抢断数
-	public int allblock;                    //总盖帽数
+	public double allblock;                    //总盖帽数
 	public double block;                    //场均盖帽数
-	public int allerror;                    //总失误数
+	public double allerror;                    //总失误数
 	public double error;                    //场均失误数
-	public int allfoul;                     //总犯规数
+	public double allfoul;                     //总犯规数
 	public double foul;                     //场均犯规数
-	public int allpoint;                    //总得分
+	public double allpoint;                    //总得分
 	public double point;                    //场均得分
-	public int allshoot;                    //总投篮出手数
+	public double allshoot;                    //总投篮出手数
 	public double shoot;                    //场均投篮出手数
 	public double allshootmade;             //总投篮命中数
 	public double shootmade;                //场均投篮命中数
-	public int allthreepoint;               //总三分出手数
+	public double allthreepoint;               //总三分出手数
 	public double threepoint;               //场均三分出手数
 	public double allthreepointmade;        //总三分命中数
 	public double threepointmade;           //场均三分命中数
-	public int allfreethrow;                //总罚球出手数
+	public double allfreethrow;                //总罚球出手数
 	public double freethrow;                //场均罚球出手数
 	public double allfreethrowmade;         //总罚球命中数
 	public double freethrowmade;            //场均罚球命中数
-	public int doubledouble;                //两双
+	public double alldoubledouble;                //总两双
+	public double doubleDouble;             //场均两双
 	public double allfieldgoalpercent;      //总投篮命中率
 	public double fieldgoalpercent;         //场均投篮命中率
 	public double allthreepointpercent; //总三分命中率
@@ -89,5 +90,6 @@ public class PlayerVO {
 		allshootefficiency = (allshootmade + 0.5 * allthreepointmade) / allshoot;
 		allerrorrate = allerror / (allshoot - allthreepoint + 0.44 * allfreethrow + allerror);
 	}
+	
 }
 
