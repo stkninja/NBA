@@ -8,4 +8,7 @@ public interface IPlayer {
 	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name);
 	/**获得所有球员基本信息*/
 	public ArrayList<PlayerBasicInfoPO> getAllPlayersBasicInfo();
+	/**获得所有球员名称*/
+	public ArrayList<String> getAllPlayersName();
+	
 }

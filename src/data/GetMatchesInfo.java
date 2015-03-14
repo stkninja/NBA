@@ -11,10 +11,6 @@ public class GetMatchesInfo implements IMatch{
 		return null;
 	}
 
-	public ArrayList<MatchPO> getAllMatches() {
-		return null;
-	}
-
 	public ArrayList<MatchPO> getMatchesAboutPlayer(String name) {
 		return null;
 	}

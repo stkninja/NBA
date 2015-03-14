@@ -15,4 +15,7 @@ public class GetPlayersInfo implements IPlayer{
 		return null;
 	}
 	
+	public ArrayList<String> getAllPlayersName(){
+		return null;
+	}
 }

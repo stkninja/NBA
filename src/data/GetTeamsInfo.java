@@ -15,5 +15,9 @@ public class GetTeamsInfo implements ITeam{
 		return null;
 	}
 
+	public ArrayList<String> getAllTeamsName() {
+		return null;
+	}
+
 
 }
