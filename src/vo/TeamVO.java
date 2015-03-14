@@ -121,10 +121,14 @@ public class TeamVO {
 	public double alldefenceEfficiency;
 	//赛季场均防守效率
 	public double defenceEfficiency;
-	//赛季总篮板效率
-	public double allreboundsEfficiency;
-	//赛季场均篮板效率
-	public double reboundsEfficiency;
+	//赛季总进攻篮板效率
+	public double alloffensivereboundsEfficiency;
+	//赛季场均进攻篮板效率
+	public double offensivereboundsEfficiency;
+	//总防守篮板效率
+	public double alldefensivereboundsEfficiency;
+	//场均防守篮板效率
+	public double defensivereboundsEfficiency;
 	//赛季总抢断效率
 	public double allstealEfficiency;
 	//赛季场均抢断效率
