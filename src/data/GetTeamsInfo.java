@@ -18,6 +18,4 @@ public class GetTeamsInfo implements ITeam{
 	public ArrayList<String> getAllTeamsName() {
 		return null;
 	}
-
-
 }

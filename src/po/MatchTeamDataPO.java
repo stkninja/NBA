@@ -43,8 +43,7 @@ public class MatchTeamDataPO {
 	//比赛得分
 	private double scores;
 	
-	private ArrayList<MatchPlayerDataPO> team1Players = new ArrayList<MatchPlayerDataPO>();
-	private ArrayList<MatchPlayerDataPO> team2Players = new ArrayList<MatchPlayerDataPO>();
+	private ArrayList<MatchPlayerDataPO> teamPlayers = new ArrayList<MatchPlayerDataPO>();
 	
 	
 	public MatchTeamDataPO() {
@@ -195,20 +194,16 @@ public class MatchTeamDataPO {
 		this.scores = scores;
 	}
 	
-	public ArrayList<MatchPlayerDataPO> getTeam1Players() {
-		return team1Players;
+	public ArrayList<MatchPlayerDataPO> getTeamPlayers() {
+		return teamPlayers;
 	}
 
-	public void setTeam1Players(ArrayList<MatchPlayerDataPO> team1Players) {
-		this.team1Players = team1Players;
-	}
-
-	public ArrayList<MatchPlayerDataPO> getTeam2Players() {
-		return team2Players;
-	}
-
-	public void setTeam2Players(ArrayList<MatchPlayerDataPO> team2Players) {
-		this.team2Players = team2Players;
+	public void setTeamPlayers(ArrayList<MatchPlayerDataPO> teamPlayers) {
+		this.teamPlayers = teamPlayers;
 	}
 	
+	/***/
+	public void addPlayer(MatchPlayerDataPO playerDataPO){
+		this.teamPlayers.add(playerDataPO);
+	}
 }

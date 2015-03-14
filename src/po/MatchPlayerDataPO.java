@@ -3,7 +3,6 @@ package po;
 
 public class MatchPlayerDataPO {
 	private String name = new String();
-	private double rebound;       //Àº°åÊı
 	//½ø¹¥Àº°åÊı
 	private double offensiveRebounds;
 	//·ÀÊØÀº°åÊı
@@ -36,14 +35,6 @@ public class MatchPlayerDataPO {
 		this.name = name;
 	}
 	
-	public double getRebound() {
-		return rebound;
-	}
-
-	public void setRebound(double rebound) {
-		this.rebound = rebound;
-	}
-
 	public double getAssist() {
 		return assist;
 	}
@@ -186,5 +177,10 @@ public class MatchPlayerDataPO {
 
 	public void setDefensiveRebounds(double defensiveRebounds) {
 		this.defensiveRebounds = defensiveRebounds;
+	}
+	
+	/**×ÜÀº°åÊı*/
+	public double getRebound() {
+		return this.offensiveRebounds + this.defensiveRebounds;
 	}
 }
