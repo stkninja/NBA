@@ -145,7 +145,7 @@ public class Player implements businesslogicservice.Player{
 		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,assistratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
 		
 		for(MatchPO po : matchdata.getMatchesAboutPlayer(name)){
-			for(MatchPlayerDataPO playerpo : po.getTeam1().getTeam1Players()){
+			for(MatchPlayerDataPO playerpo : po.getTeam1().getTeamPlayers()){
 				if(playerpo.getName().equals(name)){
 					vo.allrebound = vo.allrebound + playerpo.getRebound();
 					vo.alloffensiverebound = vo.alloffensiverebound + playerpo.getOffensiveRebounds();
