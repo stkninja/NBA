@@ -10,5 +10,4 @@ public interface TeamBLService {
 	
 	public TeamBasicInfoVO getOneTeam(String name);
 	
-	public ArrayList<TeamVO> getAllTeams();
 }
