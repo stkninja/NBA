@@ -1,8 +1,9 @@
-package data;
+package data.arrangeData;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import data.readOriginFiles.ReadPlayerBasicInfo;
 import po.PlayerBasicInfoPO;
 
 /**

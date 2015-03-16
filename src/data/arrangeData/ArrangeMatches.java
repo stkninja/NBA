@@ -1,8 +1,9 @@
-package data;
+package data.arrangeData;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import data.readOriginFiles.ReadMatches;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
@@ -44,7 +45,7 @@ public class ArrangeMatches {
 			
 			if(dataPOs.size() != 0){
 				matchPO.setTeam1(dataPOs.get(0));
-				matchPO.setTeam1(dataPOs.get(1));
+				matchPO.setTeam2(dataPOs.get(1));
 				matchesInfo.add(matchPO);
 			}
 			
@@ -89,7 +90,6 @@ public class ArrangeMatches {
 			if(isIllegalData(data))
 				continue;
 			
-			System.out.println(absolutePath);
 			playerDataPO.setName(data[0]);
 			playerDataPO.setMinute(Double.parseDouble(data[2].split(":")[0]) + Double.parseDouble(data[2].split(":")[1]) / 60);
 			playerDataPO.setAssist(Double.parseDouble(data[12]));		//Öú¹¥Êý
@@ -155,14 +155,6 @@ public class ArrangeMatches {
 			if(data[i].equals("null") || data[i].equals("") || Double.parseDouble(data[i]) < 0)
 				return true;
 		}
-		
-//		if(data[2].equals("null")  || data[2].equals("00:00"))
-//			return true;
-//		
-//		for(int i = 3; i <= 17; i++){
-//			if(Double.parseDouble(data[i]) < 0)
-//				return true;
-//		}
 		
 		return false;
 	}

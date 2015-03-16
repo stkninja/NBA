@@ -1,7 +1,8 @@
-package data;
+package data.arrangeData;
 
 import java.util.ArrayList;
 
+import data.readOriginFiles.ReadTeamBasicInfo;
 import po.TeamBasicInfoPO;
 
 /**
@@ -42,7 +43,6 @@ public class ArrangeTeamsBasicInfo {
 			teamBasicInfoPO.setSubArea(info[4].trim());
 			teamBasicInfoPO.setHomeGround(info[5].trim());
 			teamBasicInfoPO.setSetupTime(info[6].trim());
-			//TODO 比赛总场数 胜率,etc
 			
 			teamsBasicInfo.add(teamBasicInfoPO);
 		}

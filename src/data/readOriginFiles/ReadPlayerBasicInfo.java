@@ -1,28 +1,32 @@
-package data;
+package data.readOriginFiles;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ReadMatches {
+public class ReadPlayerBasicInfo {
 
-	public static ArrayList<String> readMatches(String addr) {
-		ArrayList<String> data = new ArrayList<String>();
+	public static ArrayList<String> readPlayerBasicInfo(String addr) {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
+		ArrayList<String> data = new ArrayList<String>();
 		
 		try {
 			fis = new FileInputStream(addr);
 			isr = new InputStreamReader(fis,"UTF-8"); 
 			br = new BufferedReader(isr);
 			
+			int i = 0;
 			String line = new String();
 			while((line = br.readLine()) != null){
-				data.add(line);
+				if(i % 2 == 1)
+					data.add(line);
+				i++;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -39,5 +43,15 @@ public class ReadMatches {
 		}
 		
 		return data;
+	}
+	
+	public static File getPlayerPortrait(String addr){
+		File portrait = new File(addr);
+		return portrait;
+	}
+	
+	public static File getPlayerAction(String addr){
+		File action = new File(addr);
+		return action;
 	}
 }

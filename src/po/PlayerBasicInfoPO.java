@@ -1,10 +1,12 @@
 package po;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-
-public class PlayerBasicInfoPO{
+public class PlayerBasicInfoPO implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String name = new String();
 	private String number;
 	private String height = new String();
@@ -13,10 +15,11 @@ public class PlayerBasicInfoPO{
 	private String age;
 	private String exp;
 	private String school =new String();
-	private ImageIcon portrait = null;                 //肖像
-	private ImageIcon action = null;                    //动作照
-	private String team = new String();
+	private File portrait = null;                 //肖像
+	private File action = null;                    //动作照
 	private String position = new String();
+	/**TODO*/
+	private String team = new String();
 	private String subArea = new String();                  //分区
 	private ArrayList<String> gameplay;      //参赛场数
 	private ArrayList<String> gamestart;     //先发场数
@@ -73,19 +76,19 @@ public class PlayerBasicInfoPO{
 		this.subArea = subArea;
 	}
 	
-	public ImageIcon getPortrait() {
+	public File getPortrait() {
 		return portrait;
 	}
 	
-	public void setPortrait(ImageIcon portrait) {
+	public void setPortrait(File portrait) {
 		this.portrait = portrait;
 	}
 	
-	public ImageIcon getAction() {
+	public File getAction() {
 		return action;
 	}
 	
-	public void setAction(ImageIcon action) {
+	public void setAction(File action) {
 		this.action = action;
 	}
 
@@ -157,5 +160,4 @@ public class PlayerBasicInfoPO{
 	public void setSchool(String school) {
 		this.school = school;
 	}
-	
 }

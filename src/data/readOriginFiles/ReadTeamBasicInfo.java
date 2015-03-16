@@ -1,13 +1,12 @@
-package data;
+package data.readOriginFiles;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
 
 public class ReadTeamBasicInfo {
 	public static ArrayList<String> readTeamBasicInfo(String addr) {
@@ -46,8 +45,8 @@ public class ReadTeamBasicInfo {
 		return data;
 	}
 	
-	public static ImageIcon readLogo(String addr){
-		ImageIcon img = new ImageIcon(addr);
-		return img;
+	public static File readLogo(String addr){
+		File loge = new File(addr);
+		return loge;
 	}
 }

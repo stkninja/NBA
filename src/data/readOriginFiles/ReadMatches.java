@@ -1,4 +1,4 @@
-package data;
+package data.readOriginFiles;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -6,28 +6,26 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+/**
+ * @author pc
+ * 读取原始数据
+ */
+public class ReadMatches {
 
-import javax.swing.ImageIcon;
-
-public class ReadPlayerBasicInfo {
-
-	public static ArrayList<String> readPlayerBasicInfo(String addr) {
+	public static ArrayList<String> readMatches(String addr) {
+		ArrayList<String> data = new ArrayList<String>();
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
-		ArrayList<String> data = new ArrayList<String>();
 		
 		try {
 			fis = new FileInputStream(addr);
 			isr = new InputStreamReader(fis,"UTF-8"); 
 			br = new BufferedReader(isr);
 			
-			int i = 0;
 			String line = new String();
 			while((line = br.readLine()) != null){
-				if(i % 2 == 1)
-					data.add(line);
-				i++;
+				data.add(line);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -44,15 +42,5 @@ public class ReadPlayerBasicInfo {
 		}
 		
 		return data;
-	}
-	
-	public static ImageIcon getPlayerPortrait(String addr){
-		ImageIcon img = new ImageIcon(addr);
-		return img;
-	}
-	
-	public static ImageIcon getPlayerAction(String addr){
-		ImageIcon img = new ImageIcon(addr);
-		return img;
 	}
 }

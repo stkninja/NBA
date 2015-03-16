@@ -1,7 +1,10 @@
 package po;
 
+import java.io.Serializable;
 
-public class MatchPO {
+
+public class MatchPO implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	private String season = new String();
 	private String date = new String();
@@ -45,4 +48,5 @@ public class MatchPO {
 	}
 	
 	/**TODO*/
+	
 }

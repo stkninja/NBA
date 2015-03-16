@@ -1,16 +1,16 @@
 package po;
 
+import java.io.Serializable;
 
-public class MatchPlayerDataPO {
+
+public class MatchPlayerDataPO implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String name = new String();
-	//进攻篮板数
-	private double offensiveRebounds;
-	//防守篮板数
-	private double defensiveRebounds;
+	private double offensiveRebounds;	//进攻篮板数
+	private double defensiveRebounds;	//防守篮板数
 	private double assist;        //助攻数
 	private double minute;        //在场时间
-	private double offense;       //进攻数
-	private double defence;       //防守数
 	private double steal;         //抢断数
 	private double block;         //盖帽数
 	private double error;         //失误数
@@ -22,7 +22,6 @@ public class MatchPlayerDataPO {
 	private double threepointmade;//三分命中数
 	private double freethrow;     //罚球出手数
 	private double freethrowmade; //罚球命中数
-	private double doubledouble;  //两双
 	
 	public MatchPlayerDataPO() {}
 	
@@ -49,22 +48,6 @@ public class MatchPlayerDataPO {
 
 	public void setMinute(double minute) {
 		this.minute = minute;
-	}
-
-	public double getOffense() {
-		return offense;
-	}
-
-	public void setOffense(double offense) {
-		this.offense = offense;
-	}
-
-	public double getDefence() {
-		return defence;
-	}
-
-	public void setDefence(double defence) {
-		this.defence = defence;
 	}
 
 	public double getSteal() {
@@ -156,11 +139,7 @@ public class MatchPlayerDataPO {
 	}
 
 	public double getDoubledouble() {
-		return doubledouble;
-	}
-
-	public void setDoubledouble(double doubledouble) {
-		this.doubledouble = doubledouble;
+		return 0.0;
 	}
 
 	public double getOffensiveRebounds() {
@@ -182,5 +161,14 @@ public class MatchPlayerDataPO {
 	/**总篮板数*/
 	public double getRebound() {
 		return this.offensiveRebounds + this.defensiveRebounds;
+	}
+	
+	/**TODO*/
+	public double getDefence(){
+		return 0.0;
+	}
+	
+	public double getOffense(){
+		return 0.0;
 	}
 }

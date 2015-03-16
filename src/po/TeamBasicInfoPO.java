@@ -1,13 +1,14 @@
 package po;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.Serializable;
 
-import javax.swing.ImageIcon;
-
-public class TeamBasicInfoPO{
+public class TeamBasicInfoPO implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	/**球队基本信息*/
 	//球队标志
-	private ImageIcon teamLogo = null;
+	private File teamLogo = null;
 	//球队全名
 	private String fullName = new String();
 	//球队缩写
@@ -22,17 +23,11 @@ public class TeamBasicInfoPO{
 	private String homeGround = new String();
 	//建立时间
 	private String setupTime;
-	//比赛场数
-	private ArrayList<String> gamesNum;
-	//胜利场数
-	private ArrayList<String> winsNum;
-	//赛季胜率
-	private ArrayList<String> winsRate;
 	
 	public TeamBasicInfoPO() {}
 
 	/**球队get方法*/
-	public ImageIcon getTeamLogo() {
+	public File getTeamLogo() {
 		return teamLogo;
 	}
 	
@@ -64,21 +59,9 @@ public class TeamBasicInfoPO{
 		return setupTime;
 	}
 
-	public ArrayList<String> getGamesNum() {
-		return gamesNum;
-	}
-
-	public ArrayList<String> getWinsNum() {
-		return winsNum;
-	}
-	
-	public ArrayList<String> getWinsRate() {
-		return winsRate;
-	}
-
 	
 	/**球队及比赛信息set方法*/
-	public void setTeamLogo(ImageIcon teamLogo) {
+	public void setTeamLogo(File teamLogo) {
 		this.teamLogo = teamLogo;
 	}
 
@@ -109,26 +92,4 @@ public class TeamBasicInfoPO{
 	public void setSetupTime(String setupTime) {
 		this.setupTime = setupTime;
 	}
-
-	public void setGamesNum(ArrayList<String> gamesNum) {
-		this.gamesNum = gamesNum;
-	}
-
-	public void setWinsNum(ArrayList<String> winsNum) {
-		this.winsNum = winsNum;
-	}
-
-	public void setWinsRate(ArrayList<String> winsRate) {
-		this.winsRate = winsRate;
-	}
-	
-	/**ToVO
-	public TeamVO ToVO(){
-		return new TeamVO(teamLogo, fullName, abbName, 
-				location, competionArea, subArea, homeGround, setupTime, 
-				gamesNum, winsNum, shootingHit, shooting, threePointHits, 
-				threePoint, freeThrowHit, freeThrow, offensiveRebounds, 
-				defensiveRebounds, opponentOffensiveRebounds, opponentDefensiveRebounds, 
-				defensiveRebounds, assists, steals, caps, turnovers, fouls, scores);
-	}*/
 }

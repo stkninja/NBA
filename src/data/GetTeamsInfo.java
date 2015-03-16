@@ -7,7 +7,7 @@ import dataservice.ITeam;
 
 public class GetTeamsInfo implements ITeam{
 
-	public TeamBasicInfoPO getSingleTeamBasicInfo(String name) {
+	public TeamBasicInfoPO getSingleTeamBasicInfo(String fullName) {
 		return null;
 	}
 
@@ -18,4 +18,13 @@ public class GetTeamsInfo implements ITeam{
 	public ArrayList<String> getAllTeamsName() {
 		return null;
 	}
+
+	public double getwinNum(String fullName, String season) {
+		return 0;
+	}
+
+	public double getMainNum(String fullName, String season) {
+		return 0;
+	}
+
 }
