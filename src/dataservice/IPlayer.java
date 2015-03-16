@@ -14,4 +14,8 @@ public interface IPlayer {
 	public double getPlayerGameStart(String name, String season);
 	/**获得球员参赛场数*/	
 	public double getPlayerGamePlay(String name, String season);
+	/**获得球员最近所在球队*/
+	public String getTeam(String name);
+	/**获得球员最近所在分区*/
+	public String getSubArea(String name);
 }

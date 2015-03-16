@@ -52,4 +52,12 @@ public class GetPlayersInfo implements IPlayer{
 		
 		return matchPOs.size();
 	}
+
+	public String getTeam(String name) {
+		return null;
+	}
+
+	public String getSubArea(String name) {
+		return null;
+	}
 }
