@@ -138,10 +138,6 @@ public class MatchPlayerDataPO implements Serializable{
 		this.freethrowmade = freethrowmade;
 	}
 
-	public double getDoubledouble() {
-		return 0.0;
-	}
-
 	public double getOffensiveRebounds() {
 		return offensiveRebounds;
 	}
@@ -163,12 +159,36 @@ public class MatchPlayerDataPO implements Serializable{
 		return this.offensiveRebounds + this.defensiveRebounds;
 	}
 	
-	/**TODO*/
+	/**进攻数*/
 	public double getDefence(){
-		return 0.0;
+		return this.defensiveRebounds;
 	}
 	
+	/**防守数*/
 	public double getOffense(){
-		return 0.0;
+		return this.offensiveRebounds;
+	}
+	
+	/**两双 
+	 * 得分篮板助攻抢断盖帽 有两项大于等于10则为两双
+	 * */
+	public double getDoubledouble() {
+		int num = 0;
+		
+		if(this.point >= 10)
+			num++;
+		if(this.getRebound() >= 10)
+			num++;
+		if(this.assist >= 10)
+			num++;
+		if(this.steal >= 10)
+			num++;
+		if(this.block >= 10)
+			num++;
+	
+		if(num >= 2)
+			return 1.0;
+		else
+			return 0.0;
 	}
 }

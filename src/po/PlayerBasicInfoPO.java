@@ -2,7 +2,6 @@ package po;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class PlayerBasicInfoPO implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -18,9 +17,8 @@ public class PlayerBasicInfoPO implements Serializable{
 	private File portrait = null;                 //肖像
 	private File action = null;                    //动作照
 	private String position = new String();
-	/**TODO*/
-	private String team = new String();
-	private String subArea = new String();                  //分区
+//	private String team = new String();
+//	private String subArea = new String();        
 	
 	public PlayerBasicInfoPO(){
 	}
@@ -34,28 +32,12 @@ public class PlayerBasicInfoPO implements Serializable{
 		this.name = name;
 	}
 	
-	public String getTeam() {
-		return team;
-	}
-	
-	public void setTeam(String team) {
-		this.team = team;
-	}
-	
 	public String getPosition() {
 		return position;
 	}
 	
 	public void setPosition(String position) {
 		this.position = position;
-	}
-	
-	public String getSubArea() {
-		return subArea;
-	}
-	
-	public void setSubArea(String subArea) {
-		this.subArea = subArea;
 	}
 	
 	public File getPortrait() {
@@ -127,7 +109,6 @@ public class PlayerBasicInfoPO implements Serializable{
 	public String getExp() {
 		return exp;
 	}
-
 
 	public void setExp(String exp) {
 		this.exp = exp;

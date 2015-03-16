@@ -157,4 +157,12 @@ public class MatchTeamDataPO implements Serializable{
 	public void addPlayer(MatchPlayerDataPO playerDataPO){
 		this.teamPlayers.add(playerDataPO);
 	}
+	
+	public boolean existPlayer(String name){
+		for(MatchPlayerDataPO matchPlayerDataPO : teamPlayers)
+			if(matchPlayerDataPO.getName().equals(name))
+				return true;
+		
+		return false;
+	}
 }

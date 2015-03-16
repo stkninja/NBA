@@ -47,6 +47,10 @@ public class MatchPO implements Serializable{
 		this.team2 = team2;
 	}
 	
-	/**TODO*/
-	
+	/**Ωªªªteam1 team2 Œª÷√*/
+	public void swapTeam(){
+		MatchTeamDataPO temp = this.team2;
+		this.team2 = this.team1;
+		this.team1 = temp;
+	}
 }

@@ -38,13 +38,11 @@ public class ArrangePlayersBasicInfo {
 			PlayerBasicInfoPO basicInfoPO = new PlayerBasicInfoPO();
 			
 			ArrayList<String> data = new ArrayList<String>(ReadPlayerBasicInfo.readPlayerBasicInfo(infoRootPath + "\\" + list[i]));
-			//TODO
+		
 			basicInfoPO.setAction(ReadPlayerBasicInfo.getPlayerAction(actRootPath + "\\" + list[i] + ".png"));
 			basicInfoPO.setPortrait(ReadPlayerBasicInfo.getPlayerPortrait(portraitRootPath + "\\" + list[i] + ".png"));
 			basicInfoPO.setName(data.get(0).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setPosition(data.get(2).split("¨U")[1].split("©¦")[1].trim());
-//			basicInfoPO.setSubArea(subArea);
-//			basicInfoPO.setTeam(team);
 			basicInfoPO.setAge(data.get(6).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setBirth(data.get(5).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setExp(data.get(7).split("¨U")[1].split("©¦")[1].trim());
@@ -52,8 +50,6 @@ public class ArrangePlayersBasicInfo {
 			basicInfoPO.setNumber(data.get(1).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setSchool(data.get(8).split("¨U")[1].split("©¦")[1].trim());
 			basicInfoPO.setWeight(data.get(4).split("¨U")[1].split("©¦")[1].trim());
-//			basicInfoPO.setGameplay(gameplay);
-//			basicInfoPO.setGamestart(gamestart);
 			 
 			playerBasicInfo.add(basicInfoPO);
 		}
