@@ -16,12 +16,12 @@ import vo.TeamVO;
 public class PlayerBL implements businesslogicservice.PlayerBLService{
 	private IPlayer playerdata = null;
 	private IMatch matchdata = null;
-	private TeamBL team = null;
+	private TeamBL teambl = null;
 	
 	public PlayerBL(){
 		playerdata = new GetPlayersInfo();
 		matchdata = new GetMatchesInfo();
-		team = new TeamBL();
+		teambl = new TeamBL();
 	}
 	
 	@Override
@@ -111,9 +111,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.school = pp.getSchool();
 		vo.portrait = pp.getPortrait();
 		vo.action = pp.getAction();
-		vo.team = pp.getTeam();
 		vo.position = pp.getPosition();
-		vo.subArea = pp.getSubArea();
 		return vo;
 	}
 
@@ -130,10 +128,10 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public PlayerVO findPlayer(String name){
 		PlayerVO vo = new PlayerVO();
 		PlayerBasicInfoPO pp = playerdata.getSinglePlayerBasicInfo(name);
-		vo.team = pp.getTeam();
-		TeamVO teamvo = team.findTeam(vo.team);
+		vo.team = playerdata.getTeam(name);
+		TeamVO teamvo = teambl.findTeam(vo.team);
 		vo.position = pp.getPosition();
-		vo.subArea = pp.getSubArea();
+		vo.subArea = playerdata.getSubArea(name);
 		vo.gameplay = (int)playerdata.getPlayerGamePlay(name, "13-14");
 		vo.gamestart = (int)playerdata.getPlayerGameStart(name, "13-14");
 		double allopponentthreepoint = 0;
@@ -201,7 +199,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.allreboundrate = vo.allrebound * 48 * vo.gameplay / vo.allminute / (teamvo.allrebounds + teamvo.allopponentDefensiveRebounds + teamvo.allopponentOffensiveRebounds);
 		vo.allassistrate = vo.allassist / (vo.allminute / (48 * vo.gameplay) * teamvo.allshootingHit - vo.allshootmade);
 		
-//		vo.allstealrate = 
+		vo.allstealrate = vo.allsteal * (48 * vo.gameplay) / vo.allminute / teambl.findTeam(vo.team).allopponentOffensiveRebounds;
 		vo.allblockrate = vo.allblock * (48 * vo.gameplay) / vo.allminute / allopponentthreepoint;
 		
 		vo.allerrorrate = vo.allerror / (vo.allshoot - vo.allthreepoint + 0.44 * vo.allfreethrow + vo.allerror);
@@ -211,8 +209,8 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.rebound = vo.allrebound / vo.gameplay;
 		vo.assist = vo.allassist / vo.gameplay;
 		vo.minute = vo.allminute / vo.gameplay;
-		vo.offense = 
-//		vo.defence = 
+		vo.offense = vo.alloffense / vo.gameplay;
+		vo.defence = vo.alldefence / vo.gameplay;
 		vo.steal = vo.allsteal / vo.gameplay;
 		vo.block = vo.allblock / vo.gameplay;
 		vo.error = vo.allerror / vo.gameplay;

@@ -23,9 +23,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	@Override
 	public ArrayList<TeamVO> getTeams(String subArea) {
-		// TODO Auto-generated method stub
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		if(subArea.equals("ALL")){
+		if(subArea.equals("All")){
 			return getAllTeams();
 		}
 		else{
