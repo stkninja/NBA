@@ -138,7 +138,6 @@ public class PlayerFrame extends JFrame{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		PlayerVO vo = new PlayerVO();
 		new PlayerFrame(vo);
-		
 	}
 
 }
