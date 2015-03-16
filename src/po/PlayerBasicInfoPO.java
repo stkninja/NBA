@@ -21,8 +21,6 @@ public class PlayerBasicInfoPO implements Serializable{
 	/**TODO*/
 	private String team = new String();
 	private String subArea = new String();                  //分区
-	private ArrayList<String> gameplay;      //参赛场数
-	private ArrayList<String> gamestart;     //先发场数
 	
 	public PlayerBasicInfoPO(){
 	}
@@ -50,22 +48,6 @@ public class PlayerBasicInfoPO implements Serializable{
 	
 	public void setPosition(String position) {
 		this.position = position;
-	}
-	
-	public ArrayList<String> getGameplay() {
-		return gameplay;
-	}
-	
-	public void setGameplay(ArrayList<String> gameplay) {
-		this.gameplay = gameplay;
-	}
-	
-	public ArrayList<String> getGamestart() {
-		return gamestart;
-	}
-	
-	public void setGamestart(ArrayList<String> gamestart) {
-		this.gamestart = gamestart;
 	}
 	
 	public String getSubArea() {
