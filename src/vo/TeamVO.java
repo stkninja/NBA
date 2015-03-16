@@ -1,12 +1,12 @@
 package vo;
 
-import java.awt.Image;
+import java.io.File;
 
 
 public class TeamVO {
 	/**球队基本信息*/
 	//球队标志
-	public Image teamLogo;
+	public File teamLogo;
 	//球队全名
 	public String fullName;
 	//球队缩写

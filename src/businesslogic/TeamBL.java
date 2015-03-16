@@ -72,8 +72,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		vo.homeGround = teamdata.getSingleTeamBasicInfo(name).getHomeGround();
 		vo.setupTime = teamdata.getSingleTeamBasicInfo(name).getSetupTime();
 
-		vo.gamesNum = Double.parseDouble(teamdata.getSingleTeamBasicInfo(name).getGamesNum().get(0).split(";")[1]);
-		vo.winsNum = Double.parseDouble(teamdata.getSingleTeamBasicInfo(name).getWinsNum().get(0).split(";")[1]);
+		vo.gamesNum = teamdata.getMainNum(name, "13-14");
+		vo.winsNum = teamdata.getwinNum(name, "13-14");
 		
 		double allopponentscores = 0;
 		double allopponentattackround = 0;
@@ -82,8 +82,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		for(MatchPO po : matchdata.getMatchesAboutTeam(name)){
 			MatchTeamDataPO mp1 = po.getTeam1();
 			MatchTeamDataPO mp2 = po.getTeam2();
-			double team1attackround = calculateAttackround(mp1.getShooting(),mp1.getFreeThrow(),mp1.getOffensiveRebounds(),mp1.getOpponentDefensiveRebounds(),mp1.getShootingHit(),mp1.getTurnovers());
-			double team2attackround = calculateAttackround(mp2.getShooting(),mp2.getFreeThrow(),mp2.getOffensiveRebounds(),mp2.getOpponentDefensiveRebounds(),mp2.getShootingHit(),mp2.getTurnovers());
+			double team1attackround = calculateAttackround(mp1.getShooting(),mp1.getFreeThrow(),mp1.getOffensiveRebounds(),mp2.getDefensiveRebounds(),mp1.getShootingHit(),mp1.getTurnovers());
+			double team2attackround = calculateAttackround(mp2.getShooting(),mp2.getFreeThrow(),mp2.getOffensiveRebounds(),mp1.getDefensiveRebounds(),mp2.getShootingHit(),mp2.getTurnovers());
 			vo.allshooting = vo.allshooting + mp1.getShooting();
 			vo.allshootingHit = vo.allshootingHit + mp1.getShootingHit();
 			vo.allthreePoint = vo.allthreePoint + mp1.getThreePoint();
@@ -92,8 +92,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			vo.allfreeThrowHit = vo.allfreeThrowHit + mp1.getFreeThrowHit();
 			vo.alloffensiveRebounds = vo.alloffensiveRebounds + mp1.getOffensiveRebounds();
 			vo.alldefensiveRebounds = vo.alldefensiveRebounds + mp1.getDefensiveRebounds();
-			vo.allopponentOffensiveRebounds = vo.allopponentOffensiveRebounds + mp1.getOpponentOffensiveRebounds();
-			vo.allopponentDefensiveRebounds = vo.allopponentDefensiveRebounds + mp1.getOpponentDefensiveRebounds();
+			vo.allopponentOffensiveRebounds = vo.allopponentOffensiveRebounds + mp2.getOffensiveRebounds();
+			vo.allopponentDefensiveRebounds = vo.allopponentDefensiveRebounds + mp2.getDefensiveRebounds();
 			vo.allrebounds = vo.allrebounds + mp1.getRebounds();
 			vo.allassists = vo.allassists + mp1.getAssists();
 			vo.allsteal = vo.allsteal + mp1.getSteals();

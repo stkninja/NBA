@@ -1,10 +1,10 @@
 package vo;
 
 
-import javax.swing.ImageIcon;
+import java.io.File;
 
 public class TeamBasicInfoVO {
-	public ImageIcon teamLogo = null;
+	public File teamLogo = null;
 	//球队全名
 	public String fullName = new String();
 	//球队缩写

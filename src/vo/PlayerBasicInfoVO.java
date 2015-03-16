@@ -1,6 +1,6 @@
 package vo;
 
-import javax.swing.ImageIcon;
+import java.io.File;
 
 public class PlayerBasicInfoVO {
 	public String name = new String();
@@ -11,8 +11,8 @@ public class PlayerBasicInfoVO {
 	public String age;
 	public String exp;
 	public String school =new String();
-	public ImageIcon portrait = null;                 //肖像
-	public ImageIcon action = null;                    //动作照
+	public File portrait = null;                 //肖像
+	public File action = null;                    //动作照
 	public String team = new String();
 	public String position = new String();
 	public String subArea = new String();                  //分区

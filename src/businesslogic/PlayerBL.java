@@ -134,8 +134,8 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		TeamVO teamvo = team.findTeam(vo.team);
 		vo.position = pp.getPosition();
 		vo.subArea = pp.getSubArea();
-		vo.gameplay = Integer.parseInt(pp.getGameplay().get(0).split(";")[1]);
-		vo.gamestart = Integer.parseInt(pp.getGamestart().get(0).split(";")[1]);
+		vo.gameplay = (int)playerdata.getPlayerGamePlay(name, "13-14");
+		vo.gamestart = (int)playerdata.getPlayerGameStart(name, "13-14");
 		double allopponentthreepoint = 0;
 		for(MatchPO po : matchdata.getMatchesAboutTeam(vo.team)){
 			allopponentthreepoint = allopponentthreepoint + po.getTeam2().getThreePoint();
