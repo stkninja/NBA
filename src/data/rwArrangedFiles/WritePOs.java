@@ -13,9 +13,9 @@ import data.arrangeData.ArrangeTeamsBasicInfo;
  */
 public class WritePOs {
 	
-	private final static String path1 = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\球队基本信息";
-	private final static String path2 = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\球员基本信息";
-	private final static String path3 = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\比赛数据";
+	private final static String path1 = "data\\统计球队基本信息";
+	private final static String path2 = "data\\统计球员基本信息";
+	private final static String path3 = "data\\统计比赛数据";
 	
 	public static void writePOs(){
 		WritePOs.writeTeamsPOs();
