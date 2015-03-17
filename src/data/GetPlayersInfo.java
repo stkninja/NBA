@@ -57,26 +57,32 @@ public class GetPlayersInfo implements IPlayer{
 	public String getTeam(String name) {
 		ArrayList<MatchPO> list = (new GetMatchesInfo()).getMatchesAboutPlayer(name);
 		
-		/**找到最近的比赛*/
-		MatchPO lastMatchPO = list.get(0);
-		for(int i = 1; i < list.size(); i++)
-			if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
-					(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
-				 lastMatchPO = list.get(i);
-		
-		return lastMatchPO.getTeam1().getAbbName();
+		if(list.size() != 0){
+			/**找到最近的比赛*/
+			MatchPO lastMatchPO = list.get(0);
+			for(int i = 1; i < list.size(); i++)
+				if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
+						(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
+					 lastMatchPO = list.get(i);
+			
+			return lastMatchPO.getTeam1().getAbbName();
+		}
+		return "";
 	}
 
 	public String getSubArea(String name) {
 		ArrayList<MatchPO> list = (new GetMatchesInfo()).getMatchesAboutPlayer(name);
 		
-		/**找到最近的比赛*/
-		MatchPO lastMatchPO = list.get(0);
-		for(int i = 1; i < list.size(); i++)
-			if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
-					(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
-				 lastMatchPO = list.get(i);
-		
-		return (new GetTeamsInfo()).getSubArea(lastMatchPO.getTeam1().getAbbName());
+		if(list.size() != 0){
+			/**找到最近的比赛*/
+			MatchPO lastMatchPO = list.get(0);
+			for(int i = 1; i < list.size(); i++)
+				if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
+						(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
+					 lastMatchPO = list.get(i);
+			
+			return (new GetTeamsInfo()).getSubArea(lastMatchPO.getTeam1().getAbbName());
+		}
+		return "";
 	}
 }
