@@ -139,12 +139,7 @@ public class TeamVO {
 	public double assistEfficiency;
 
 	public TeamVO(){
-		allshootingHitRate = allshootingHit / allshooting;
-		allfreeThrowHitRate = allfreeThrowHit / allfreeThrow;
-		allthreePointHitRate = allthreePointHits / allthreePoint;
-		winsRate = winsNum / gamesNum;
-		allattackEfficiency = allscores * 100 / allattackRound;
-		allassistEfficiency = allassists * 100 / allattackRound;
+		
 	}
 	
 	/**初始化比赛信息*/

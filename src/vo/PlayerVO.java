@@ -43,8 +43,7 @@ public class PlayerVO {
 	public double freethrow;                //场均罚球出手数
 	public double allfreethrowmade;         //总罚球命中数
 	public double freethrowmade;            //场均罚球命中数
-	public double alldoubledouble;                //总两双
-	public double doubleDouble;             //场均两双
+	public double doubledouble;                //两双
 	public double allfieldgoalpercent;      //总投篮命中率
 	public double fieldgoalpercent;         //场均投篮命中率
 	public double allthreepointpercent; //总三分命中率
@@ -77,14 +76,7 @@ public class PlayerVO {
 	public double usage;         //场均使用率
 	
 	public PlayerVO(){
-		allfieldgoalpercent = allshootmade / allshoot;
-		allthreepointpercent = allthreepointmade / allthreepoint;
-		allfreethrowpercent = allfreethrowmade / allfreethrow;
-		allefficiency = (allpoint + allrebound + allassist + allsteal + allblock) - (allshoot - allshootmade) - (allfreethrow - allfreethrowmade) - allerror;
-		allgmsc = allpoint + 0.4 * allshootmade - 0.7 * allshoot - 0.4 * (allfreethrow - allfreethrowmade) + 0.7 * alloffensiverebound + 0.3 * alldefensiverebound + allsteal + 0.7 * allassist + 0.7 * allblock - 0.4 * allfoul - allerror;
-		allrealshootpercent = allpoint / (2 * (allshoot + 0.44 * allfreethrow));
-		allshootefficiency = (allshootmade + 0.5 * allthreepointmade) / allshoot;
-		allerrorrate = allerror / (allshoot - allthreepoint + 0.44 * allfreethrow + allerror);
+		
 	}
 	
 }

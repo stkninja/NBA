@@ -163,7 +163,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 					vo.allthreepointmade = vo.allthreepointmade + playerpo.getThreepointmade();
 					vo.allfreethrow = vo.allfreethrow + playerpo.getFreethrow();
 					vo.allfreethrowmade = vo.allfreethrowmade + playerpo.getFreethrowmade();
-					vo.alldoubledouble = vo.alldoubledouble + playerpo.getDoubledouble();
+					vo.doubledouble = vo.doubledouble + playerpo.getDoubledouble();
 					fieldgoalpercentsum = fieldgoalpercentsum + playerpo.getShootmade() / playerpo.getShoot();
 					threepointpercentsum = threepointpercentsum + playerpo.getThreepointmade() / playerpo.getThreepoint();
 					freethrowpercentsum = freethrowpercentsum + playerpo.getFreethrowmade() / playerpo.getFreethrow();
@@ -222,7 +222,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.threepointmade = vo.allthreepointmade / vo.gameplay;
 		vo.freethrow = vo.allfreethrow / vo.gameplay;
 		vo.freethrowmade = vo.allfreethrowmade / vo.gameplay;
-		vo.doubleDouble = vo.alldoubledouble / vo.gameplay;
 		vo.fieldgoalpercent = fieldgoalpercentsum / vo.gameplay;
 		vo.threepointpercent = threepointpercentsum / vo.gameplay;
 		vo.freethrowpercent = freethrowpercentsum / vo.gameplay;
