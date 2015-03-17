@@ -69,4 +69,9 @@ public class GetTeamsInfo implements ITeam{
 		return matchPOs.size();
 	}
 
+	/**根据球队名 获得所在地区*/
+	public String getSubArea(String abbName){
+		TeamBasicInfoPO po = this.getSingleTeamBasicInfo(abbName);
+		return po.getSubArea();
+	}
 }

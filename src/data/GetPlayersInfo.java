@@ -10,7 +10,7 @@ import dataservice.IPlayer;
 public class GetPlayersInfo implements IPlayer{
 
 	private static ArrayList<PlayerBasicInfoPO> playerBasicInfoPOs = ReadPOs.readPlayerBasicInfoPO();
-
+	
 	public PlayerBasicInfoPO getSinglePlayerBasicInfo(String name) {
 		for(PlayerBasicInfoPO po : playerBasicInfoPOs)
 			if(po.getName().equals(name))
@@ -53,11 +53,30 @@ public class GetPlayersInfo implements IPlayer{
 		return matchPOs.size();
 	}
 
+	/**获得球员的最近的球队 分区*/
 	public String getTeam(String name) {
-		return null;
+		ArrayList<MatchPO> list = (new GetMatchesInfo()).getMatchesAboutPlayer(name);
+		
+		/**找到最近的比赛*/
+		MatchPO lastMatchPO = list.get(0);
+		for(int i = 1; i < list.size(); i++)
+			if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
+					(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
+				 lastMatchPO = list.get(i);
+		
+		return lastMatchPO.getTeam1().getAbbName();
 	}
 
 	public String getSubArea(String name) {
-		return null;
+		ArrayList<MatchPO> list = (new GetMatchesInfo()).getMatchesAboutPlayer(name);
+		
+		/**找到最近的比赛*/
+		MatchPO lastMatchPO = list.get(0);
+		for(int i = 1; i < list.size(); i++)
+			if((list.get(i).getSeason() + list.get(i).getDate()).compareTo
+					(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
+				 lastMatchPO = list.get(i);
+		
+		return (new GetTeamsInfo()).getSubArea(lastMatchPO.getTeam1().getAbbName());
 	}
 }
