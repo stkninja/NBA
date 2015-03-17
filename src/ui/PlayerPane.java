@@ -5,24 +5,27 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import businesslogic.PlayerBL;
-import businesslogicservice.PlayerBLService;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
+import vo.PlayerVO;
+import businesslogic.PlayerBL;
+import businesslogicservice.PlayerBLService;
 
 /**
  * 
- * @date 2015年3月11日
+ * @date 2015年3月17日
  * @author stk
  *
  */
@@ -36,6 +39,10 @@ public class PlayerPane extends JPanel{
 	private JTable table;
 	private JScrollPane sp;
 	private JPanel pane;
+	private JLabel label1;
+	private JLabel label2;
+	private JLabel label3;
+	private JLabel label4;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
@@ -47,33 +54,98 @@ public class PlayerPane extends JPanel{
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//------------------------------------------------------------
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
-		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		
+		label1 = new JLabel("数据类型：");
+		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
-		region.setPreferredSize(new Dimension(170,30));
+		label3 = new JLabel("球队：");
 		team = new JComboBox<String>();
-		team.setPreferredSize(new Dimension(170,30));
+		team.setPreferredSize(new Dimension(170,28));
 		team.setEnabled(false);
+		label4 = new JLabel("位置：");
 		String[] positionList = {"控球后卫(PG)", "得分后卫(SP)", "小前锋(SF)", "大前锋(PF)", "中锋(C)"};
 		position = new JComboBox<String>(positionList);
-		position.setPreferredSize(new Dimension(170,30));
 		search = new JButton("搜索");
 		
+		pane.add(label1);
 		pane.add(mode);
+		pane.add(label2);
 		pane.add(region);
+		pane.add(label3);
 		pane.add(team);
+		pane.add(label4);
 		pane.add(position);
 		pane.add(search);
 		
 		this.add(pane, BorderLayout.NORTH);
 		//----------------------------------------
-		showTable();
+		table = new JTable();
+		sp = new JScrollPane(table);
+		this.add(sp, BorderLayout.CENTER);
+		bl = new PlayerBL();
+		this.setData(bl.getAllPlayers());
 		//监听
 		search.addActionListener(new SearchListener());
 		region.addActionListener(new ComboBoxListener());
 	}
 	//-----------------------------------------------------------------
-	private void showTable() {
+	private void setData(ArrayList<PlayerVO> list) {
+		Object[][] data = new Object[list.size()][36];
+		if (mode.getSelectedItem() == "总数") {
+			for (int i = 0; i < data.length; i++) {
+				data[i][0] = i + 1;
+				data[i][1] = list.get(i).name;
+				data[i][2] = list.get(i).team;
+				data[i][3] = list.get(i).position;
+				data[i][4] = list.get(i).gameplay;
+				data[i][5] = list.get(i).gamestart;
+				data[i][6] = list.get(i).allminute;
+				
+				data[i][7] = list.get(i).allshootmade;
+				data[i][8] = list.get(i).allshoot;
+				data[i][9] = list.get(i).allfieldgoalpercent;
+				data[i][10] = list.get(i).allrealshootpercent;
+				
+				data[i][11] = list.get(i).allthreepointmade;
+				data[i][12] = list.get(i).allthreepoint;
+				data[i][13] = list.get(i).allthreepointpercent;
+				
+				data[i][14] = list.get(i).allfreethrowmade;
+				data[i][15] = list.get(i).allfreethrow;
+				data[i][16] = list.get(i).allfreethrowpercent;
+				
+				data[i][17] = list.get(i).alloffensiverebound;
+				data[i][18] = list.get(i).alldefensiverebound;
+				data[i][19] = list.get(i).allrebound;
+				
+				data[i][20] = list.get(i).allassist;
+				data[i][21] = list.get(i).allsteal;
+				data[i][22] = list.get(i).allblock;
+				data[i][23] = list.get(i).allerror;
+				data[i][24] = list.get(i).allfoul;
+				data[i][25] = list.get(i).allpoint;
+				data[i][26] = list.get(i).doubledouble;
+				
+				data[i][27] = list.get(i).alloffensivereboundrate;
+				data[i][28] = list.get(i).alldefensivereboundrate;
+				data[i][29] = list.get(i).allstealrate;
+				data[i][30] = list.get(i).allassistrate;
+				data[i][31] = list.get(i).allblockrate;
+				data[i][32] = list.get(i).allerrorrate;
+				data[i][33] = list.get(i).allusage;
+				data[i][34] = list.get(i).allgmsc;;
+				data[i][35] = list.get(i).allefficiency;
+			}
+		} else {
+			
+		}
+		this.showTable(data);
+	}
+	
+	private void showTable(Object[][] data) {
+		this.remove(table);
+		
 		DefaultTableModel dm = new DefaultTableModel() {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -154,13 +226,13 @@ public class PlayerPane extends JPanel{
 		cm.addColumnGroup(group5);
 		cm.addColumnGroup(group6);
         //------------------------------------------------------------
-      	sp = new JScrollPane(table);
-      	this.add(sp, BorderLayout.CENTER);
+		sp.setViewportView(table);
+		revalidate();
 	}
 	//-----------------------------------------------------------------
 	private class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			bl = new PlayerBL();
+			PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 		}
 	}
 	

@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import data.rwArrangedFiles.WritePOs;
+
 /**
  * 
  * @date 2015Äê3ÔÂ11ÈÕ
@@ -35,7 +37,7 @@ public class MainFrame extends JFrame{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 3 / 4;
-		int frameWidth = frameHeight * 7 / 4;
+		int frameWidth = frameHeight * 9 / 5;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//--------------------------------------------------------------------
 		navigation = new JPanel();
@@ -79,6 +81,7 @@ public class MainFrame extends JFrame{
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) {
+		WritePOs.writePOs();
 		new MainFrame();
 	}
 }

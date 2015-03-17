@@ -45,6 +45,6 @@ public enum Region {
 	public abstract String[] getTeam();
 	
 	public String[] getRegion() {
-		return new String[]{"ALL", "ATLANTIC", "CENTRAL", "SOUTHEAST", "SOUTHWEST", "NORTHWEST", "PACIFIC"};
+		return new String[]{"All", "ATLANTIC", "CENTRAL", "SOUTHEAST", "SOUTHWEST", "NORTHWEST", "PACIFIC"};
 	}
 }
