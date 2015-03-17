@@ -47,7 +47,7 @@ public class ColumnGroup {
         this.text = text;
         v = new Vector();
     }
-    //------------------------------------------------------------------------------------------
+    
     @SuppressWarnings("unchecked")
 	public void add(Object obj) {
         if (obj == null) {

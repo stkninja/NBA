@@ -19,7 +19,8 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
     @SuppressWarnings("rawtypes")
 	protected Vector paintedGroups = new Vector();
     //----------------------------------------------------------------
-    public void paint(Graphics g, JComponent c) {
+    @SuppressWarnings({ "rawtypes", "unused", "unchecked" })
+	public void paint(Graphics g, JComponent c) {
         Rectangle clipBounds = g.getClipBounds();
         GroupableTableColumnModel cm = (GroupableTableColumnModel)header.getColumnModel();
         if (cm == null) return;
@@ -67,12 +68,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         paintedGroups.clear();
     }
     
-    /**
-     * Paints a header column cell.
-     * @param g Graphics context
-     * @param cellRect The rectangle to contain the cell
-     * @param columnIndex The header column to be painted
-     */    
     private void paintCell(Graphics g, Rectangle cellRect, int columnIndex) {
         TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);
         TableCellRenderer renderer = aColumn.getHeaderRenderer();
@@ -86,12 +81,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         cellRect.width, cellRect.height, true);
     }
     
-    /**
-     * Paint group column cell.
-     * @param g Graphics context
-     * @param cellRect Rectangle that the cell with be painted in
-     * @param cGroup Current column group
-     */    
     private void paintCell(Graphics g, Rectangle cellRect,ColumnGroup cGroup) {
         TableCellRenderer renderer = cGroup.getHeaderRenderer();
         Component component = renderer.getTableCellRendererComponent(
@@ -101,11 +90,8 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         cellRect.width, cellRect.height, true);
     }
     
-    /**
-     * Calculate and return the height of the header.
-     * @return Header Height
-     */    
-    private int getHeaderHeight() {
+    @SuppressWarnings("rawtypes")
+	private int getHeaderHeight() {
         int height = 0;
         GroupableTableColumnModel columnModel = (GroupableTableColumnModel)header.getColumnModel();
         for(int column = 0; column < columnModel.getColumnCount(); column++) {
@@ -129,11 +115,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         return height;
     }
     
-    /**
-     * Calculate and return the dimension of the header.
-     * @param width Starting width to be used.
-     * @return Dimension of the header
-     */    
     private Dimension createHeaderSize(long width) {
         TableColumnModel columnModel = header.getColumnModel();
         width += columnModel.getColumnMargin() * columnModel.getColumnCount();
@@ -143,12 +124,8 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         return new Dimension((int)width, getHeaderHeight());
     }
     
-    /**
-     * Invokes the getPreferredSize method on each UI handled by this object.
-     * @param c the component whose preferred size is being queried; this argument is ignored.
-     * @return the dimension of the whole header
-     */
-    public Dimension getPreferredSize(JComponent c) {
+    @SuppressWarnings("rawtypes")
+	public Dimension getPreferredSize(JComponent c) {
         long width = 0;
         Enumeration columns = header.getColumnModel().getColumns();
         while (columns.hasMoreElements()) {
