@@ -14,9 +14,9 @@ public class ArrangeTeamsBasicInfo {
 	/**to return 球队基本信息*/
 	private static ArrayList<TeamBasicInfoPO> teamsBasicInfo = new ArrayList<TeamBasicInfoPO>();
 	/**球队基本信息地址*/
-	private static final String basicInfoAddr = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\teams\\teams";
+	private static final String basicInfoAddr = "data\\teams\\teams";
 	/**球队标志地址*/
-	private static final String teamLogoAddr = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\teams\\";
+	private static final String teamLogoAddr = "data\\teams\\";
 
 	public static ArrayList<TeamBasicInfoPO> arrangeTeamsBasicInfo() {
 		

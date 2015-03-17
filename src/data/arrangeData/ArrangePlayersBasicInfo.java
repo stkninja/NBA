@@ -14,11 +14,11 @@ public class ArrangePlayersBasicInfo {
 
 	private static ArrayList<PlayerBasicInfoPO> playerBasicInfo = new ArrayList<PlayerBasicInfoPO>();
 	/**球员全身照地址*/
-	private final static String actRootPath= "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\players\\action";
+	private final static String actRootPath= "data\\players\\action";
 	/**球员头像地址*/
-	private final static String portraitRootPath= "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\players\\portrait";
+	private final static String portraitRootPath= "data\\players\\portrait";
 	/**球员信息地址*/
-	private final static String infoRootPath= "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\players\\info";
+	private final static String infoRootPath= "data\\players\\info";
 	
 	public static ArrayList<PlayerBasicInfoPO> arrangePlayersBasicInfo() {
 		/**遍历文件夹下所有文件*/

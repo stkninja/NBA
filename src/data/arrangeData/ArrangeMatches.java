@@ -11,7 +11,7 @@ import po.MatchTeamDataPO;
 public class ArrangeMatches {
 	
 	/**比赛根目录*/
-	private static final String rootDirectory = "D:\\软院课程\\软工III\\数据\\CSEIII data\\迭代一数据\\matches"; 
+	private static final String rootDirectory = "data\\matches"; 
 	/**to return*/
 	private static ArrayList<MatchPO> matchesInfo = new ArrayList<MatchPO>();
 	
