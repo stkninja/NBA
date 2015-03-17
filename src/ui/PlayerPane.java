@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.PlayerBL;
+import businesslogicservice.PlayerBLService;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
@@ -30,9 +32,11 @@ import ui.tableheader.GroupableTableHeader;
  */
 @SuppressWarnings("serial")
 public class PlayerPane extends JPanel{
+	private PlayerBLService bl;
 	private JTable table;
 	private JScrollPane sp;
 	private JPanel pane;
+	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
@@ -43,6 +47,7 @@ public class PlayerPane extends JPanel{
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//------------------------------------------------------------
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		
 		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
 		region.setPreferredSize(new Dimension(170,30));
@@ -54,6 +59,7 @@ public class PlayerPane extends JPanel{
 		position.setPreferredSize(new Dimension(170,30));
 		search = new JButton("搜索");
 		
+		pane.add(mode);
 		pane.add(region);
 		pane.add(team);
 		pane.add(position);
@@ -74,34 +80,19 @@ public class PlayerPane extends JPanel{
 			}
 		};
 		String[] subTitle = {"编号", "球员名称", "所属球队", "位置",//0-6
-							 "分区", "参赛场数", "先发场数",
-							 //篮板7-12
-							 "进攻篮板数", "防守篮板数", "篮板数",//总数
-							 "进攻篮板数", "防守篮板数", "篮板数",//场均
-							 //助攻13-14
-							 "总数", "场均",
-							 //在场时间15-16
-							 "总数", "场均",
-							 //进攻17-18
-							 "总数", "场均",
-							 //防守19-20
-							 "总数", "场均",
-							 //抢断21-22
-							 "总数", "场均",
-							 //盖帽23-24
-							 "总数", "场均",
-							 //失误25-26
-							 "总数", "场均",
-							 //犯规
-							 "总数", "场均",
-							 //得分
-							 "总数", "场均",
-							 //投篮出手
-							 "总数", "场均",
-							 //
-							 "总数", "场均",
-							 //
-							 "总数", "场均",
+							 "参赛场数", "先发场数","在场时间",
+							 //投篮7-10
+							 "命中数","出手数","命中率","真实命中率",
+							 //三分11-13
+							 "命中数","出手数","命中率",
+							 //罚球14-16
+							 "命中数","出手数","命中率",
+							 //篮板17-19
+							 "进攻篮板数", "防守篮板数", "篮板数",
+							 //20-26
+							 "助攻数", "抢断数", "盖帽数", "失误数", "犯规数","得分","两双",
+							 //效率27-35
+							 "进攻篮板", "防守篮板", "抢断", "助攻","盖帽","失误","使用","GmSc","效率"
 							 };
 		
 		dm.setDataVector(new Object[][]{{"111", "2222", "3"}}, subTitle);
@@ -113,14 +104,55 @@ public class PlayerPane extends JPanel{
 		//---------------------------------------------------------------------------
         GroupableTableColumnModel cm = (GroupableTableColumnModel)table.getColumnModel();
         
-        ColumnGroup group0 = new ColumnGroup("胜率");
+        ColumnGroup group1 = new ColumnGroup("基本信息");
+        group1.add(cm.getColumn(1));
+        group1.add(cm.getColumn(2));
+        group1.add(cm.getColumn(3));
+        group1.add(cm.getColumn(4));
+        group1.add(cm.getColumn(5));
+        group1.add(cm.getColumn(6));
         
         
+        ColumnGroup group2 = new ColumnGroup("投篮");
+        group2.add(cm.getColumn(7));
+        group2.add(cm.getColumn(8));
+        group2.add(cm.getColumn(9));
+        group2.add(cm.getColumn(10));
         
+        ColumnGroup group3 = new ColumnGroup("三分");
+        group3.add(cm.getColumn(11));
+        group3.add(cm.getColumn(12));
+        group3.add(cm.getColumn(13));
         
+        ColumnGroup group4 = new ColumnGroup("罚球");
+        group4.add(cm.getColumn(14));
+        group4.add(cm.getColumn(15));
+        group4.add(cm.getColumn(16));
         
+        ColumnGroup group5 = new ColumnGroup("篮板");
+        group5.add(cm.getColumn(17));
+        group5.add(cm.getColumn(18));
+        group5.add(cm.getColumn(19));
         
+        ColumnGroup group6 = new ColumnGroup("效率");
+        group6.add(cm.getColumn(27));
+        group6.add(cm.getColumn(28));
+        group6.add(cm.getColumn(29));
+        group6.add(cm.getColumn(30));
+        group6.add(cm.getColumn(31));
+        group6.add(cm.getColumn(32));
+        group6.add(cm.getColumn(33));
+        group6.add(cm.getColumn(34));
+        group6.add(cm.getColumn(35));
         
+        @SuppressWarnings("unused")
+		GroupableTableHeader header = (GroupableTableHeader)table.getTableHeader();
+		cm.addColumnGroup(group1);
+		cm.addColumnGroup(group2);
+		cm.addColumnGroup(group3);
+		cm.addColumnGroup(group4);
+		cm.addColumnGroup(group5);
+		cm.addColumnGroup(group6);
         //------------------------------------------------------------
       	sp = new JScrollPane(table);
       	this.add(sp, BorderLayout.CENTER);
@@ -128,7 +160,7 @@ public class PlayerPane extends JPanel{
 	//-----------------------------------------------------------------
 	private class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			bl = new PlayerBL();
 		}
 	}
 	
