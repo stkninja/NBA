@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
@@ -80,6 +81,15 @@ public class TeamFrame extends JFrame{
 		subArea = new JLabel("分区:",JLabel.RIGHT);
 		homeGround = new JLabel("主场馆:",JLabel.RIGHT);
 		setupTime = new JLabel("建队时间:",JLabel.RIGHT);
+		Font f1 = new Font("宋体",Font.BOLD,16);
+		fullName.setFont(f1);
+		abbName.setFont(f1);
+		location.setFont(f1);
+		competionArea.setFont(f1);
+		subArea.setFont(f1);
+		homeGround.setFont(f1);
+		setupTime.setFont(f1);
+		Font f2 = new Font("宋体",Font.BOLD,14);
 		getfullName = new JLabel("凯尔特人",JLabel.CENTER);
 		getabbName = new JLabel("BOS",JLabel.CENTER);
 		getlocation = new JLabel("Boston",JLabel.CENTER);
@@ -87,6 +97,13 @@ public class TeamFrame extends JFrame{
 		getsubArea = new JLabel("Atlantic",JLabel.CENTER);
 		gethomeGround = new JLabel("TD Garden",JLabel.CENTER);
 		getsetupTime = new JLabel("1946",JLabel.CENTER);
+		getfullName.setFont(f2);
+		getabbName.setFont(f2);
+		getlocation.setFont(f2);
+		getcompetionArea.setFont(f2);
+		getsubArea.setFont(f2);
+		gethomeGround.setFont(f2);
+		getsetupTime.setFont(f2);
 		panel2.add(fullName);
 		panel2.add(getfullName);
 		panel2.add(abbName);

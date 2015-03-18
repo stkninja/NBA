@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -23,7 +24,7 @@ public class PlayerFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JPanel panel;   //背景paenl
+	JPanel panel;   //背景panel
 	JPanel panel1;  //图片panel
 	JPanel panel2;  //信息panel
 	JPanel panel3;  //按钮panel
@@ -58,7 +59,7 @@ public class PlayerFrame extends JFrame{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		int frameWidth = frameHeight * 6 / 5;
+		int frameWidth = frameHeight * 8 / 9;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景图片
 		bg = new ImageIcon("Yellow.jpg");
@@ -66,7 +67,7 @@ public class PlayerFrame extends JFrame{
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
 		
-		//肖像照panel
+		//肖像照panel-----------------------------------------------------------
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
@@ -74,12 +75,18 @@ public class PlayerFrame extends JFrame{
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(portrait);
 		panel1.add(Pic1,BorderLayout.NORTH);
+		action = new ImageIcon("Brandon Jennings(1).png");
+		action.setImage(action.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
+		JLabel Pic2 = new JLabel();
+		Pic2.setIcon(action);
+		panel1.add(Pic2,BorderLayout.CENTER);
 		
-		//文字信息panel
+		//文字信息panel----------------------------------------
 		panel2 = new JPanel();
 		panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		panel2.setLayout(new GridLayout(9,2,0,20));
 		panel2.setOpaque(false);
+		Font f1 = new Font("宋体",Font.BOLD,14);
 		name = new JLabel("姓名:", JLabel.RIGHT);
 		age = new JLabel("年龄:", JLabel.RIGHT);
 		position = new JLabel("位置:", JLabel.RIGHT);
@@ -89,6 +96,16 @@ public class PlayerFrame extends JFrame{
 		exp = new JLabel("经验:", JLabel.RIGHT);
 		school = new JLabel("毕业学校:", JLabel.RIGHT);
 		team = new JLabel("效力球队:", JLabel.RIGHT);
+		name.setFont(f1);
+		age.setFont(f1);
+		position.setFont(f1);
+		height.setFont(f1);
+		weight.setFont(f1);
+		number.setFont(f1);
+		exp.setFont(f1);
+		school.setFont(f1);
+		team.setFont(f1);
+		Font f2 = new Font("宋体",Font.BOLD,12);
 		getName = new JLabel("库里", JLabel.CENTER);
 		getAge = new JLabel("27", JLabel.CENTER);
 		getPosition = new JLabel("控卫", JLabel.CENTER);
@@ -98,6 +115,15 @@ public class PlayerFrame extends JFrame{
 		getExp = new JLabel("5", JLabel.CENTER);
 		getSchool = new JLabel("杜克大学", JLabel.CENTER);
 		getTeam = new JLabel("金州勇士", JLabel.CENTER);
+		getName.setFont(f2);
+		getAge.setFont(f2);
+		getPosition.setFont(f2);
+		getHeight.setFont(f2);
+		getWeight.setFont(f2);
+		getNumber.setFont(f2);
+		getExp.setFont(f2);
+		getSchool.setFont(f2);
+		getTeam.setFont(f2);
 		panel2.add(name);
 		panel2.add(getName);
 		panel2.add(team);
@@ -114,17 +140,18 @@ public class PlayerFrame extends JFrame{
 		panel2.add(getAge);
 		panel2.add(school);
 		panel2.add(getSchool);
-		
+		//----------------------------------------
 		
 		panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(panel2,BorderLayout.CENTER);
-		panel.add(panel1,BorderLayout.WEST);
-		action = new ImageIcon("Brandon Jennings(1).png");
-		action.setImage(action.getImage().getScaledInstance(200,500,Image.SCALE_DEFAULT));
-		JLabel Pic2 = new JLabel();
-		Pic2.setIcon(action);
-		panel.add(Pic2,BorderLayout.EAST);
+		panel.setLayout(new GridLayout(1,2,0,20));
+		panel.add(panel1);
+		panel.add(panel2);
+		
+//		action = new ImageIcon("Brandon Jennings(1).png");
+//		action.setImage(action.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT));
+//		JLabel Pic2 = new JLabel();
+//		Pic2.setIcon(action);
+//		panel1.add(Pic2,BorderLayout.CENTER);
 		this.setContentPane(panel);
 		panel.setOpaque(false);
 		this.setTitle(vo.name);
