@@ -128,6 +128,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public PlayerVO findPlayer(String name){
 		PlayerVO vo = new PlayerVO();
 		PlayerBasicInfoPO pp = playerdata.getSinglePlayerBasicInfo(name);
+		vo.name = name;
 		vo.team = playerdata.getTeam(name);
 		TeamVO teamvo = teambl.findTeam(vo.team);
 		vo.position = pp.getPosition();

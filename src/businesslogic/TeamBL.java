@@ -60,6 +60,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	public TeamVO findTeam(String name){
 		TeamVO vo = new TeamVO();
+		vo.fullName = teamdata.getSingleTeamBasicInfo(name).getFullName();
 		vo.abbName = teamdata.getSingleTeamBasicInfo(name).getAbbName();
 		vo.location = teamdata.getSingleTeamBasicInfo(name).getLocation();
 		vo.competionArea = teamdata.getSingleTeamBasicInfo(name).getCompetionArea();
@@ -150,13 +151,10 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	public ArrayList<TeamVO> getAllTeams() {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		for(String name : teamdata.getAllTeamsName()){
+		for(String name : teamdata.getAllTeamsAbbName()){
 			list.add(findTeam(name));
 		}
 		return list;
 	}
 	
-	public static void main(String[] args){
-		System.out.println(Math.ceil(1.444 * 100+.5)/100);
-	}
 }
