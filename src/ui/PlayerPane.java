@@ -171,15 +171,15 @@ public class PlayerPane extends JPanel{
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-//			 public Class<?> getColumnClass(int column) {  
-//			        Class<?> returnValue;  
-//			        if ((column >= 0) && (column < getColumnCount())) {  
-//			            returnValue = getValueAt(0,column).getClass();  
-//			        } else {  
-//			            returnValue = Object.class;  
-//			        }  
-//			        return returnValue;  
-//			    }  
+			 public Class<?> getColumnClass(int column) {  
+			        Class<?> returnValue;  
+			        if ((column >= 0) && (column < getColumnCount())) {  
+			            returnValue = getValueAt(0,column).getClass();  
+			        } else {  
+			            returnValue = Object.class;  
+			        }  
+			        return returnValue;  
+			    }  
 		};
 		
 		dm.setDataVector(data, subTitle);
