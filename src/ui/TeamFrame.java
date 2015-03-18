@@ -3,7 +3,6 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
@@ -23,7 +22,7 @@ public class TeamFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = -6571378058437970468L;
-	JPanel panel;   //±≥æ∞paenl
+	JPanel panel;   //±≥æ∞panel
 	JPanel panel1;  //Õº∆¨panel
 	JPanel panel2;  //–≈œ¢panel
 	JPanel panel3;  //∞¥≈•panel

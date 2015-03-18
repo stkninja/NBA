@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import ui.tableheader.ColumnGroup;
@@ -195,7 +198,32 @@ public class TeamPane extends JPanel{
 		cm.addColumnGroup(group4);
 		cm.addColumnGroup(group5);
 		cm.addColumnGroup(group6);
-		//------------------------------------------------------------
+		//列色------------------------------------------------------------
+		try
+        {
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer()
+            {
+              public Component getTableCellRendererComponent(JTable table,
+                  Object value, boolean isSelected, boolean hasFocus,
+                  int row, int column)
+              {
+                if(column%2 == 0)
+                  setBackground(Color.white); //设置奇数行底色
+                else if(column%2 == 1)
+                  setBackground(new Color(206,231,255));  //设置偶数行底色
+                return super.getTableCellRendererComponent(table, value,
+                isSelected, hasFocus, row, column); }
+            };
+                for(int i = 0; i < table.getColumnCount(); i++) {
+                  cm.getColumn(i).setCellRenderer(tcr);
+                  
+          }
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace();
+        }
+		//---------------------------------------------------
 		sp.setViewportView(table);
 		revalidate();
 	}
