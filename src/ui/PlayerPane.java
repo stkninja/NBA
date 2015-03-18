@@ -70,7 +70,7 @@ public class PlayerPane extends JPanel{
 		team.setPreferredSize(new Dimension(170,28));
 		team.setEnabled(false);
 		label4 = new JLabel("位置：");
-		String[] positionList = {"控球后卫(PG)", "得分后卫(SP)", "小前锋(SF)", "大前锋(PF)", "中锋(C)"};
+		String[] positionList = {"全部位置", "后卫(G)", "前锋(F)", "中锋(C)"};
 		position = new JComboBox<String>(positionList);
 		search = new JButton("搜索");
 		
@@ -144,7 +144,50 @@ public class PlayerPane extends JPanel{
 				data[i][35] = list.get(i).allefficiency;
 			}
 		} else {
-			
+			for (int i = 0; i < data.length; i++) {
+				data[i][0] = i + 1;
+				data[i][1] = list.get(i).name;
+				data[i][2] = list.get(i).team;
+				data[i][3] = list.get(i).position;
+				data[i][4] = list.get(i).gameplay;
+				data[i][5] = list.get(i).gamestart;
+				data[i][6] = list.get(i).minute;
+				
+				data[i][7] = list.get(i).shootmade;
+				data[i][8] = list.get(i).shoot;
+				data[i][9] = list.get(i).fieldgoalpercent;
+				data[i][10] = list.get(i).realshootpercent;
+				
+				data[i][11] = list.get(i).threepointmade;
+				data[i][12] = list.get(i).threepoint;
+				data[i][13] = list.get(i).threepointpercent;
+				
+				data[i][14] = list.get(i).freethrowmade;
+				data[i][15] = list.get(i).freethrow;
+				data[i][16] = list.get(i).freethrowpercent;
+				
+				data[i][17] = list.get(i).offensiverebound;
+				data[i][18] = list.get(i).defensiverebound;
+				data[i][19] = list.get(i).rebound;
+				
+				data[i][20] = list.get(i).assist;
+				data[i][21] = list.get(i).steal;
+				data[i][22] = list.get(i).block;
+				data[i][23] = list.get(i).error;
+				data[i][24] = list.get(i).foul;
+				data[i][25] = list.get(i).point;
+				data[i][26] = list.get(i).doubledouble;
+				
+				data[i][27] = list.get(i).offensivereboundrate;
+				data[i][28] = list.get(i).defensivereboundrate;
+				data[i][29] = list.get(i).stealrate;
+				data[i][30] = list.get(i).assistrate;
+				data[i][31] = list.get(i).blockrate;
+				data[i][32] = list.get(i).errorrate;
+				data[i][33] = list.get(i).usage;
+				data[i][34] = list.get(i).gmsc;;
+				data[i][35] = list.get(i).efficiency;
+			}
 		}
 		this.showTable(data);
 	}

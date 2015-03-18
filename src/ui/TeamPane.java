@@ -15,8 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
@@ -119,6 +122,45 @@ public class TeamPane extends JPanel{
 				data[i][30] = list.get(i).allassistEfficiency;
 			}
 		} else {
+			for (int i = 0; i < data.length; i++) {
+				data[i][0] = i + 1;
+				data[i][1] = list.get(i).fullName;
+				data[i][2] = list.get(i).abbName;
+				data[i][3] = list.get(i).winsNum;
+				data[i][4] = list.get(i).gamesNum;
+				data[i][5] = list.get(i).winsRate;
+				
+				data[i][6] = list.get(i).shootingHit;
+				data[i][7] = list.get(i).shooting;
+				data[i][8] = list.get(i).shootingHitRate;
+				
+				data[i][9] = list.get(i).threePointHits;
+				data[i][10] = list.get(i).threePoint;
+				data[i][11] = list.get(i).threePointHitRate;
+				
+				data[i][12] = list.get(i).freeThrowHit;
+				data[i][13] = list.get(i).freeThrow;
+				data[i][14] = list.get(i).threePointHitRate;
+				
+				data[i][15] = list.get(i).offensiveRebounds;
+				data[i][16] = list.get(i).defensiveRebounds;
+				data[i][17] = list.get(i).rebounds;
+				
+				data[i][18] = list.get(i).assists;
+				data[i][19] = list.get(i).steal;
+				data[i][20] = list.get(i).caps;
+				data[i][21] = list.get(i).turnovers;
+				data[i][22] = list.get(i).fouls;
+				data[i][23] = list.get(i).scores;
+				data[i][24] = list.get(i).attackRound;
+				
+				data[i][25] = list.get(i).attackEfficiency;
+				data[i][26] = list.get(i).defenceEfficiency;
+				data[i][27] = list.get(i).offensivereboundsEfficiency;
+				data[i][28] = list.get(i).defensivereboundsEfficiency;
+				data[i][29] = list.get(i).stealEfficiency;
+				data[i][30] = list.get(i).assistEfficiency;
+			}
 			
 		}
 		this.showTable(data);
@@ -131,6 +173,15 @@ public class TeamPane extends JPanel{
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			public Class<?> getColumnClass(int column) {  
+		        Class<?> returnValue;  
+		        if ((column >= 0) && (column < getColumnCount())) {  
+		            returnValue = getValueAt(0,column).getClass();  
+		        } else {  
+		            returnValue = Object.class;  
+		        }  
+		        return returnValue;  
+		    }  
 		};
 		String[] subTitle = {"编号", "球队名称", "队名缩写",
 							 "胜利场数", "比赛场数", "胜率",
@@ -153,6 +204,9 @@ public class TeamPane extends JPanel{
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        
+        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
+        table.setRowSorter(sorter); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//---------------------------------------------------------------------------
 		GroupableTableColumnModel cm = (GroupableTableColumnModel)table.getColumnModel();
