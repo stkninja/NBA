@@ -45,14 +45,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			else{
 				if(team.equals("All")){
 					for(PlayerVO vo : getAllPlayers()){
-						if(vo.position.equals(position)){
+						if(vo.position.indexOf(position) >= 0){
 							list.add(vo);
 						}
 					}
 				}
 				else{
 					for(PlayerVO vo : getAllPlayers()){
-						if(vo.team.equals(team) && vo.position.equals(position)){
+						if(vo.team.equals(team) && vo.position.indexOf(position) >= 0){
 							list.add(vo);
 						}
 					}
@@ -79,14 +79,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			else{
 				if(team.equals("All")){
 					for(PlayerVO vo : getAllPlayers()){
-						if(vo.position.equals(position) && vo.subArea.equals(subArea)){
+						if(vo.position.indexOf(position) >= 0 && vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
 					}
 				}
 				else{
 					for(PlayerVO vo : getAllPlayers()){
-						if(vo.team.equals(team) && vo.position.equals(position) && vo.subArea.equals(subArea)){
+						if(vo.team.equals(team) && vo.position.indexOf(position) >= 0 && vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
 					}
@@ -180,60 +180,61 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 				}
 			}
 		}
-		vo.allfieldgoalpercent = vo.allshootmade / vo.allshoot;
+		vo.allfieldgoalpercent = Math.ceil(vo.allshootmade / vo.allshoot * 100+.5)/ 100;
 	
-		vo.allthreepointpercent = vo.allthreepointmade / vo.allthreepoint;
+		vo.allthreepointpercent = Math.ceil(vo.allthreepointmade / vo.allthreepoint * 100+.5)/ 100;
 		
-		vo.allfreethrowpercent = vo.allfreethrowmade / vo.allfreethrow;
+		vo.allfreethrowpercent = Math.ceil(vo.allfreethrowmade / vo.allfreethrow * 100+.5)/ 100;
 		
-		vo.allefficiency = (vo.allpoint + vo.allrebound + vo.allassist + vo.allsteal + vo.allblock) - (vo.allshoot - vo.allshootmade) - (vo.allfreethrow - vo.allfreethrowmade) -vo.allerror;
+		vo.allefficiency = Math.ceil(((vo.allpoint + vo.allrebound + vo.allassist + vo.allsteal + vo.allblock) - (vo.allshoot - vo.allshootmade) - (vo.allfreethrow - vo.allfreethrowmade) -vo.allerror) * 100+.5)/ 100;
 		
-		vo.allgmsc = vo.allpoint + 0.4 * vo.allshootmade - 0.7 * vo.allshoot - 0.4 * (vo.allfreethrow - vo.allfreethrowmade) + 0.7 * vo.alloffensiverebound + 0.3 * vo.alldefensiverebound + vo.allsteal + 0.7 * vo.allassist + 0.7 * vo.allblock - 0.4 * vo.allfoul - vo.allerror;
+		vo.allgmsc = Math.ceil((vo.allpoint + 0.4 * vo.allshootmade - 0.7 * vo.allshoot - 0.4 * (vo.allfreethrow - vo.allfreethrowmade) + 0.7 * vo.alloffensiverebound + 0.3 * vo.alldefensiverebound + vo.allsteal + 0.7 * vo.allassist + 0.7 * vo.allblock - 0.4 * vo.allfoul - vo.allerror) * 100+.5)/ 100;
 				
-		vo.allrealshootpercent = vo.allpoint / (2 * (vo.allshoot + 0.44 * vo.allfreethrow));
+		vo.allrealshootpercent = Math.ceil(vo.allpoint / (2 * (vo.allshoot + 0.44 * vo.allfreethrow)) * 100+.5)/ 100;
 		
-		vo.allshootefficiency = (vo.allshootmade + 0.5 * vo.allthreepointmade) / vo.allshoot;
+		vo.allshootefficiency = Math.ceil((vo.allshootmade + 0.5 * vo.allthreepointmade) / vo.allshoot * 100+.5)/ 100;
 		
-		vo.alloffensivereboundrate = vo.alloffensiverebound * 48 * vo.gameplay / vo.allminute / (teamvo.alloffensiveRebounds + teamvo.allopponentOffensiveRebounds);
-		vo.alldefensivereboundrate = vo.alldefensiverebound * 48 * vo.gameplay / vo.allminute / (teamvo.alldefensiveRebounds + teamvo.allopponentDefensiveRebounds);
-		vo.allreboundrate = vo.allrebound * 48 * vo.gameplay / vo.allminute / (teamvo.allrebounds + teamvo.allopponentDefensiveRebounds + teamvo.allopponentOffensiveRebounds);
-		vo.allassistrate = vo.allassist / (vo.allminute / (48 * vo.gameplay) * teamvo.allshootingHit - vo.allshootmade);
+		vo.alloffensivereboundrate = Math.ceil(vo.alloffensiverebound * 48 * vo.gameplay / vo.allminute / (teamvo.alloffensiveRebounds + teamvo.allopponentOffensiveRebounds) * 100+.5)/ 100;
+		vo.alldefensivereboundrate = Math.ceil(vo.alldefensiverebound * 48 * vo.gameplay / vo.allminute / (teamvo.alldefensiveRebounds + teamvo.allopponentDefensiveRebounds) * 100+.5)/ 100;
+		vo.allreboundrate = Math.ceil(vo.allrebound * 48 * vo.gameplay / vo.allminute / (teamvo.allrebounds + teamvo.allopponentDefensiveRebounds + teamvo.allopponentOffensiveRebounds) * 100+.5)/ 100;
+		vo.allassistrate = Math.ceil(vo.allassist / (vo.allminute / (48 * vo.gameplay) * teamvo.allshootingHit - vo.allshootmade) * 100+.5)/ 100;
 		
-		vo.allstealrate = vo.allsteal * (48 * vo.gameplay) / vo.allminute / teambl.findTeam(vo.team).allopponentOffensiveRebounds;
-		vo.allblockrate = vo.allblock * (48 * vo.gameplay) / vo.allminute / allopponentthreepoint;
+		vo.allstealrate = Math.ceil(vo.allsteal * (48 * vo.gameplay) / vo.allminute / teambl.findTeam(vo.team).allopponentOffensiveRebounds * 100+.5)/ 100;
+		vo.allblockrate = Math.ceil(vo.allblock * (48 * vo.gameplay) / vo.allminute / allopponentthreepoint * 100+.5)/ 100;
 		
-		vo.allerrorrate = vo.allerror / (vo.allshoot - vo.allthreepoint + 0.44 * vo.allfreethrow + vo.allerror);
+		vo.allerrorrate = Math.ceil(vo.allerror / (vo.allshoot - vo.allthreepoint + 0.44 * vo.allfreethrow + vo.allerror) * 100+.5)/ 100;
 		
-		vo.allusage = (vo.allshoot + 0.44 * vo.allfreethrow + vo.allerror) * (48 * vo.gameplay) / vo.allminute  / (teamvo.allshooting + 0.44 * teamvo.allfreeThrow + teamvo.allturnovers);
+		vo.allusage = Math.ceil((vo.allshoot + 0.44 * vo.allfreethrow + vo.allerror) * (48 * vo.gameplay) / vo.allminute  / (teamvo.allshooting + 0.44 * teamvo.allfreeThrow + teamvo.allturnovers) * 100+.5)/ 100;
 		
-		vo.rebound = vo.allrebound / vo.gameplay;
-		vo.assist = vo.allassist / vo.gameplay;
-		vo.minute = vo.allminute / vo.gameplay;
-		vo.offense = vo.alloffense / vo.gameplay;
-		vo.defence = vo.alldefence / vo.gameplay;
-		vo.steal = vo.allsteal / vo.gameplay;
-		vo.block = vo.allblock / vo.gameplay;
-		vo.error = vo.allerror / vo.gameplay;
-		vo.foul = vo.allfoul / vo.gameplay;
-		vo.point = vo.allpoint / vo.gameplay;
-		vo.shoot = vo.allshoot / vo.gameplay;
-		vo.shootmade = vo.allshootmade / vo.gameplay;
-		vo.threepoint = vo.allthreepoint / vo.gameplay;
-		vo.threepointmade = vo.allthreepointmade / vo.gameplay;
-		vo.freethrow = vo.allfreethrow / vo.gameplay;
-		vo.freethrowmade = vo.allfreethrowmade / vo.gameplay;
-		vo.fieldgoalpercent = fieldgoalpercentsum / vo.gameplay;
-		vo.threepointpercent = threepointpercentsum / vo.gameplay;
-		vo.freethrowpercent = freethrowpercentsum / vo.gameplay;
-		vo.efficiency = efficiencysum / vo.gameplay;
-		vo.gmsc = gmscsum / vo.gameplay;
-		vo.realshootpercent = realshootpercentsum / vo.gameplay;
-		vo.shootefficiency = shootefficiencysum / vo.gameplay;
-		vo.reboundrate = reboundratesum / vo.gameplay;
-		vo.assistrate = assistratesum / vo.gameplay;
-		vo.blockrate = blockratesum / vo.gameplay;
-		vo.errorrate = errorratesum / vo.gameplay;
-		vo.usage = usagesum / vo.gameplay;
+		vo.rebound = Math.ceil(vo.allrebound / vo.gameplay * 100+.5)/ 100;
+		vo.assist = Math.ceil(vo.allassist / vo.gameplay * 100+.5)/ 100;
+		vo.minute = Math.ceil(vo.allminute / vo.gameplay * 100+.5)/ 100;
+		vo.offense = Math.ceil(vo.alloffense / vo.gameplay * 100+.5)/ 100;
+		vo.defence = Math.ceil(vo.alldefence / vo.gameplay * 100+.5)/ 100;
+		vo.steal = Math.ceil(vo.allsteal / vo.gameplay * 100+.5)/ 100;
+		vo.block = Math.ceil(vo.allblock / vo.gameplay * 100+.5)/ 100;
+		vo.error = Math.ceil(vo.allerror / vo.gameplay * 100+.5)/ 100;
+		vo.foul = Math.ceil(vo.allfoul / vo.gameplay * 100+.5)/ 100;
+		vo.point = Math.ceil(vo.allpoint / vo.gameplay * 100+.5)/ 100;
+		vo.shoot = Math.ceil(vo.allshoot / vo.gameplay * 100+.5)/ 100;
+		vo.shootmade = Math.ceil(vo.allshootmade / vo.gameplay * 100+.5)/ 100;
+		vo.threepoint = Math.ceil(vo.allthreepoint / vo.gameplay * 100+.5)/ 100;
+		vo.threepointmade = Math.ceil(vo.allthreepointmade / vo.gameplay * 100+.5)/ 100;
+		vo.freethrow = Math.ceil(vo.allfreethrow / vo.gameplay * 100+.5)/ 100;
+		vo.freethrowmade = Math.ceil(vo.allfreethrowmade / vo.gameplay * 100+.5)/ 100;
+		
+		vo.fieldgoalpercent = Math.ceil(fieldgoalpercentsum / vo.gameplay * 100+.5)/ 100;
+		vo.threepointpercent = Math.ceil(threepointpercentsum / vo.gameplay * 100+.5)/ 100;
+		vo.freethrowpercent = Math.ceil(freethrowpercentsum / vo.gameplay * 100+.5)/ 100;
+		vo.efficiency = Math.ceil(efficiencysum / vo.gameplay * 100+.5)/ 100;
+		vo.gmsc = Math.ceil(gmscsum / vo.gameplay * 100+.5)/ 100;
+		vo.realshootpercent = Math.ceil(realshootpercentsum / vo.gameplay * 100+.5)/ 100;
+		vo.shootefficiency = Math.ceil(shootefficiencysum / vo.gameplay * 100+.5)/ 100;
+		vo.reboundrate = Math.ceil(reboundratesum / vo.gameplay * 100+.5)/ 100;
+		vo.assistrate = Math.ceil(assistratesum / vo.gameplay * 100+.5)/ 100;
+		vo.blockrate = Math.ceil(blockratesum / vo.gameplay * 100+.5)/ 100;
+		vo.errorrate = Math.ceil(errorratesum / vo.gameplay * 100+.5)/ 100;
+		vo.usage = Math.ceil(usagesum / vo.gameplay * 100+.5)/ 100;
 		
 		return vo;
 	}

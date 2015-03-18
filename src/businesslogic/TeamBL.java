@@ -54,14 +54,6 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		return vo;
 	}
 
-	public ArrayList<TeamVO> getAllTeams() {
-		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		for(String name : teamdata.getAllTeamsName()){
-			list.add(findTeam(name));
-		}
-		return list;
-	}
-	
 	public double calculateAttackround(double allshooting,double allfreeThrow,double alloffensiveRebounds,double allopponentDefensiveRebounds,double allshootingHit,double allturnovers){
 		return allshooting + 0.4 * allfreeThrow - 1.07 * (alloffensiveRebounds / (alloffensiveRebounds + allopponentDefensiveRebounds) * (allshooting - allshootingHit)) + 1.07 * allturnovers;
 	}
@@ -116,44 +108,55 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			stealEfficiencysum += 100 * mp1.getSteals() / team2attackround;
 			assistEfficiencysum += 100 * mp1.getAssists() / team1attackround;
 		}
-		vo.allshootingHitRate = vo.allshootingHit / vo.allshooting;
-		vo.allthreePointHitRate = vo.allthreePointHits / vo.allthreePoint;
-		vo.allfreeThrowHitRate = vo.allfreeThrowHit / vo.allfreeThrow;
-		vo.winsRate = vo.winsNum / vo.gamesNum;
-		vo.allattackRound = calculateAttackround(vo.allshooting,vo.allfreeThrow,vo.alloffensiveRebounds,vo.allopponentDefensiveRebounds,vo.allshootingHit,vo.allturnovers);
-		vo.allattackEfficiency = 100 * vo.allscores / vo.allattackRound;
-        vo.alldefenceEfficiency = 100 * allopponentscores / allopponentattackround;
-		vo.alloffensivereboundsEfficiency = vo.alloffensiveRebounds / (vo.alloffensiveRebounds + vo.allopponentDefensiveRebounds);
-		vo.alldefensivereboundsEfficiency = vo.alldefensiveRebounds / (vo.alldefensiveRebounds + vo.allopponentOffensiveRebounds);
-		vo.allstealEfficiency = 100 * vo.allsteal / allopponentattackround;
-		vo.allassistEfficiency = 100 * vo.allassists / vo.allattackRound;
+		vo.allshootingHitRate = Math.ceil(vo.allshootingHit / vo.allshooting * 100+.5)/ 100;
+		vo.allthreePointHitRate = Math.ceil(vo.allthreePointHits / vo.allthreePoint * 100+.5)/ 100;
+		vo.allfreeThrowHitRate = Math.ceil(vo.allfreeThrowHit / vo.allfreeThrow * 100+.5)/ 100;
+		vo.winsRate = Math.ceil(vo.winsNum / vo.gamesNum * 100+.5)/ 100;
+		vo.allattackRound = Math.ceil(calculateAttackround(vo.allshooting,vo.allfreeThrow,vo.alloffensiveRebounds,vo.allopponentDefensiveRebounds,vo.allshootingHit,vo.allturnovers) * 100+.5)/ 100;
+		vo.allattackEfficiency = Math.ceil(100 * vo.allscores / vo.allattackRound * 100+.5)/ 100;
+        vo.alldefenceEfficiency = Math.ceil(100 * allopponentscores / allopponentattackround * 100+.5)/ 100;
+		vo.alloffensivereboundsEfficiency = Math.ceil(vo.alloffensiveRebounds / (vo.alloffensiveRebounds + vo.allopponentDefensiveRebounds) * 100+.5)/ 100;
+		vo.alldefensivereboundsEfficiency = Math.ceil(vo.alldefensiveRebounds / (vo.alldefensiveRebounds + vo.allopponentOffensiveRebounds) * 100+.5)/ 100;
+		vo.allstealEfficiency = Math.ceil(100 * vo.allsteal / allopponentattackround * 100+.5)/ 100;
+		vo.allassistEfficiency = Math.ceil(100 * vo.allassists / vo.allattackRound * 100+.5)/ 100;
 		
-		vo.shooting = vo.allshooting / vo.gamesNum;
-		vo.shootingHit = vo.allshootingHit / vo.gamesNum;
-		vo.threePoint = vo.allthreePoint / vo.gamesNum;
-		vo.threePointHits = vo.allthreePointHits / vo.gamesNum;
-		vo.freeThrow = vo.allfreeThrow / vo.gamesNum;
-		vo.freeThrowHit = vo.allfreeThrowHit / vo.gamesNum;
-		vo.attackRound = vo.allattackRound / vo.gamesNum;
-		vo.offensiveRebounds = vo.alloffensiveRebounds / vo.gamesNum;
-		vo.defensiveRebounds = vo.alldefensiveRebounds / vo.gamesNum;
-		vo.rebounds = vo.allrebounds / vo.gamesNum;
-		vo.assists = vo.allassists / vo.gamesNum;
-		vo.steal = vo.allsteal / vo.gamesNum;
-		vo.caps = vo.allcaps / vo.gamesNum;
-		vo.turnovers = vo.allturnovers / vo.gamesNum;
-		vo.fouls = vo.allfouls / vo.gamesNum;
-		vo.scores = vo.allscores / vo.gamesNum;
-		vo.shootingHitRate = shootingHitRatesum / vo.gamesNum;
-		vo.threePointHitRate = threePointHitRatesum / vo.gamesNum;
-		vo.freeThrowHitRate = freeThrowHitRatesum / vo.gamesNum;
-		vo.attackEfficiency = attackEfficiencysum / vo.gamesNum;
-		vo.defenceEfficiency = defenceEfficiencysum / vo.gamesNum;
-		vo.offensivereboundsEfficiency = offensivereboundsEfficiencysum / vo.gamesNum;
-		vo.defensivereboundsEfficiency = defensivereboundsEfficiencysum / vo.gamesNum;
-		vo.stealEfficiency = stealEfficiencysum / vo.gamesNum;
-		vo.assistEfficiency = assistEfficiencysum / vo.gamesNum;
+		vo.shooting = Math.ceil(vo.allshooting / vo.gamesNum * 100+.5)/ 100;
+		vo.shootingHit = Math.ceil(vo.allshootingHit / vo.gamesNum * 100+.5)/ 100;
+		vo.threePoint = Math.ceil(vo.allthreePoint / vo.gamesNum * 100+.5)/ 100;
+		vo.threePointHits = Math.ceil(vo.allthreePointHits / vo.gamesNum * 100+.5)/ 100;
+		vo.freeThrow = Math.ceil(vo.allfreeThrow / vo.gamesNum * 100+.5)/ 100;
+		vo.freeThrowHit = Math.ceil(vo.allfreeThrowHit / vo.gamesNum * 100+.5)/ 100;
+		vo.attackRound = Math.ceil(vo.allattackRound / vo.gamesNum * 100+.5)/ 100;
+		vo.offensiveRebounds = Math.ceil(vo.alloffensiveRebounds / vo.gamesNum * 100+.5)/ 100;
+		vo.defensiveRebounds = Math.ceil(vo.alldefensiveRebounds / vo.gamesNum * 100+.5)/ 100;
+		vo.rebounds = Math.ceil(vo.allrebounds / vo.gamesNum * 100+.5)/ 100;
+		vo.assists = Math.ceil(vo.allassists / vo.gamesNum * 100+.5)/ 100;
+		vo.steal = Math.ceil(vo.allsteal / vo.gamesNum * 100+.5)/ 100;
+		vo.caps = Math.ceil(vo.allcaps / vo.gamesNum * 100+.5)/ 100;
+		vo.turnovers = Math.ceil(vo.allturnovers / vo.gamesNum * 100+.5)/ 100;
+		vo.fouls = Math.ceil(vo.allfouls / vo.gamesNum * 100+.5)/ 100;
+		vo.scores = Math.ceil(vo.allscores / vo.gamesNum * 100+.5)/ 100;
+		vo.shootingHitRate = Math.ceil(shootingHitRatesum / vo.gamesNum * 100+.5)/ 100;
+		vo.threePointHitRate = Math.ceil(threePointHitRatesum / vo.gamesNum * 100+.5)/ 100;
+		vo.freeThrowHitRate = Math.ceil(freeThrowHitRatesum / vo.gamesNum * 100+.5)/ 100;
+		vo.attackEfficiency = Math.ceil(attackEfficiencysum / vo.gamesNum * 100+.5)/ 100;
+		vo.defenceEfficiency = Math.ceil(defenceEfficiencysum / vo.gamesNum * 100+.5)/ 100;
+		vo.offensivereboundsEfficiency = Math.ceil(offensivereboundsEfficiencysum / vo.gamesNum * 100+.5)/ 100;
+		vo.defensivereboundsEfficiency = Math.ceil(defensivereboundsEfficiencysum / vo.gamesNum * 100+.5)/ 100;
+		vo.stealEfficiency = Math.ceil(stealEfficiencysum / vo.gamesNum * 100+.5)/ 100;
+		vo.assistEfficiency = Math.ceil(assistEfficiencysum / vo.gamesNum * 100+.5)/ 100;
 		return vo;
 	}
 	
+	public ArrayList<TeamVO> getAllTeams() {
+		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
+		for(String name : teamdata.getAllTeamsName()){
+			list.add(findTeam(name));
+		}
+		return list;
+	}
+	
+	public static void main(String[] args){
+		System.out.println(Math.ceil(1.444 * 100+.5)/100);
+	}
 }
