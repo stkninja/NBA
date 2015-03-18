@@ -143,6 +143,10 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		double fieldgoalpercentsum = 0,threepointpercentsum = 0,freethrowpercentsum = 0,efficiencysum = 0,gmscsum = 0,
 		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,assistratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
 		
+		if(matchdata.getMatchesAboutPlayer(name).size() == 0){
+			return vo;
+		}
+		
 		for(MatchPO po : matchdata.getMatchesAboutPlayer(name)){
 			for(MatchPlayerDataPO playerpo : po.getTeam1().getTeamPlayers()){
 				if(playerpo.getName().equals(name)){
@@ -241,5 +245,4 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return vo;
 	}
-	
 }
