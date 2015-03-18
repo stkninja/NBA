@@ -16,8 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
@@ -148,33 +151,45 @@ public class PlayerPane extends JPanel{
 	
 	private void showTable(Object[][] data) {
 		this.remove(table);
+		String[] subTitle = {"编号", "球员名称", "所属球队", "位置",//0-6
+				 "参赛场数", "先发场数","在场时间",
+				 //投篮7-10
+				 "命中数","出手数","命中率","真实命中率",
+				 //三分11-13
+				 "命中数","出手数","命中率",
+				 //罚球14-16
+				 "命中数","出手数","命中率",
+				 //篮板17-19
+				 "进攻篮板数", "防守篮板数", "篮板数",
+				 //20-26
+				 "助攻数", "抢断数", "盖帽数", "失误数", "犯规数","得分","两双",
+				 //效率27-35
+				 "进攻篮板", "防守篮板", "抢断", "助攻","盖帽","失误","使用","GmSc","效率"
+				 };
 		
-		DefaultTableModel dm = new DefaultTableModel() {
+		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+//			 public Class<?> getColumnClass(int column) {  
+//			        Class<?> returnValue;  
+//			        if ((column >= 0) && (column < getColumnCount())) {  
+//			            returnValue = getValueAt(0,column).getClass();  
+//			        } else {  
+//			            returnValue = Object.class;  
+//			        }  
+//			        return returnValue;  
+//			    }  
 		};
-		String[] subTitle = {"编号", "球员名称", "所属球队", "位置",//0-6
-							 "参赛场数", "先发场数","在场时间",
-							 //投篮7-10
-							 "命中数","出手数","命中率","真实命中率",
-							 //三分11-13
-							 "命中数","出手数","命中率",
-							 //罚球14-16
-							 "命中数","出手数","命中率",
-							 //篮板17-19
-							 "进攻篮板数", "防守篮板数", "篮板数",
-							 //20-26
-							 "助攻数", "抢断数", "盖帽数", "失误数", "犯规数","得分","两双",
-							 //效率27-35
-							 "进攻篮板", "防守篮板", "抢断", "助攻","盖帽","失误","使用","GmSc","效率"
-							 };
 		
 		dm.setDataVector(data, subTitle);
 		table = new JTable();
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        
+        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
+        table.setRowSorter(sorter); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//---------------------------------------------------------------------------
         GroupableTableColumnModel cm = (GroupableTableColumnModel)table.getColumnModel();
