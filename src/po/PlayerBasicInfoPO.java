@@ -16,9 +16,7 @@ public class PlayerBasicInfoPO implements Serializable{
 	private String school =new String();
 	private File portrait = null;                 //Ð¤Ïñ
 	private File action = null;                    //¶¯×÷ÕÕ
-	private String position = new String();
-//	private String team = new String();
-//	private String subArea = new String();        
+	private String position = new String();     
 	
 	public PlayerBasicInfoPO(){
 	}

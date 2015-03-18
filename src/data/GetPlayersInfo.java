@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import po.MatchPlayerDataPO;
 import po.PlayerBasicInfoPO;
 import data.rwArrangedFiles.ReadPOs;
 import dataservice.IPlayer;
@@ -33,9 +34,31 @@ public class GetPlayersInfo implements IPlayer{
 		return names;
 	}
 
-	/**TODO*/
 	public double getPlayerGameStart(String name, String season) {
-		return 0;
+		GetMatchesInfo getMatchesInfo = new GetMatchesInfo();
+		ArrayList<MatchPO> matchPOs = getMatchesInfo.getMatchesAboutPlayer(name);
+		
+		/**筛选非该赛季*/
+		for(int i = 0; i < matchPOs.size(); i++){
+			if(!(matchPOs.get(i).getSeason().equals(season))){
+				matchPOs.remove(i);
+				--i;
+			}
+		}
+		
+		/**统计先发场数*/
+		double gameStart = 0.0;
+		for(MatchPO matchPO : matchPOs){
+			ArrayList<MatchPlayerDataPO> teamPlayers = matchPO.getTeam1().getTeamPlayers();
+			for(MatchPlayerDataPO matchPlayerPO : teamPlayers){
+				if(matchPlayerPO.getName().equals(name)){
+					gameStart += matchPlayerPO.getGameStart();
+					break;
+				}
+			}
+		}
+		
+		return gameStart;
 	}
 
 	public double getPlayerGamePlay(String name, String season) {

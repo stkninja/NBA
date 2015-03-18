@@ -13,7 +13,7 @@ public class tempMain {
 		
 		long time2 = System.currentTimeMillis();
 		System.out.println(time2 - time1);
-		System.out.println(getPlayersInfo.getSubArea("Aaron Brooks"));
-		
+		System.out.println(getPlayersInfo.getPlayerGameStart("Reggie Evans", "13-14"));
+		System.out.println(getPlayersInfo.getPlayerGamePlay("Reggie Evans", "13-14"));
 	}
 }

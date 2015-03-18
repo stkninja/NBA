@@ -22,6 +22,7 @@ public class MatchPlayerDataPO implements Serializable{
 	private double threepointmade;//三分命中数
 	private double freethrow;     //罚球出手数
 	private double freethrowmade; //罚球命中数
+	private double gameStart = 0.0;	  //比赛先发场数（0 / 1）
 	
 	public MatchPlayerDataPO() {}
 	
@@ -152,6 +153,14 @@ public class MatchPlayerDataPO implements Serializable{
 
 	public void setDefensiveRebounds(double defensiveRebounds) {
 		this.defensiveRebounds = defensiveRebounds;
+	}
+	
+	public double getGameStart() {
+		return gameStart;
+	}
+	
+	public void setGameStart(double gameStart) {
+		this.gameStart = gameStart;
 	}
 	
 	/**总篮板数*/

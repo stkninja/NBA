@@ -23,10 +23,10 @@ public class GetTeamsInfo implements ITeam{
 		return teamBasicInfoPOs;
 	}
 
-	public ArrayList<String> getAllTeamsName() {
+	public ArrayList<String> getAllTeamsAbbName() {
 		ArrayList<String> names = new ArrayList<String>();
 		for(TeamBasicInfoPO po : teamBasicInfoPOs)
-			names.add(po.getFullName());
+			names.add(po.getAbbName());
 		
 		return names;
 	}

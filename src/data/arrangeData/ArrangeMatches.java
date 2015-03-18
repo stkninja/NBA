@@ -90,22 +90,9 @@ public class ArrangeMatches {
 			if(isIllegalData(data))
 				continue;
 			
-			playerDataPO.setName(data[0]);
-			playerDataPO.setMinute(Double.parseDouble(data[2].split(":")[0]) + Double.parseDouble(data[2].split(":")[1]) / 60);
-			playerDataPO.setAssist(Double.parseDouble(data[12]));		//助攻数
-			playerDataPO.setSteal(Double.parseDouble(data[13]));         //抢断数
-			playerDataPO.setBlock(Double.parseDouble(data[14]));         //盖帽数
-			playerDataPO.setError(Double.parseDouble(data[15]));         //失误数
-			playerDataPO.setFoul(Double.parseDouble(data[16]));          //犯规数
-			playerDataPO.setPoint(Double.parseDouble(data[17]));     //得分
-			playerDataPO.setOffensiveRebounds(Double.parseDouble(data[9]));
-			playerDataPO.setDefensiveRebounds(Double.parseDouble(data[10]));
-			playerDataPO.setShoot(Double.parseDouble(data[4]));         //投篮数
-			playerDataPO.setShootmade(Double.parseDouble(data[3]));     //投篮命中数
-			playerDataPO.setThreepoint(Double.parseDouble(data[6]));    //三分出手数
-			playerDataPO.setThreepointmade(Double.parseDouble(data[5]));//三分命中数
-			playerDataPO.setFreethrow(Double.parseDouble(data[8]));     //罚球出手数
-			playerDataPO.setFreethrowmade(Double.parseDouble(data[7])); //罚球命中数
+			/**设置球员比赛属性*/
+			playerDataPO = setData(data);
+			
 			team1DataPO.addPlayer(playerDataPO);
 		}
 		
@@ -118,22 +105,9 @@ public class ArrangeMatches {
 			if(isIllegalData(data))
 				continue;
 			
-			playerDataPO.setName(data[0]);
-			playerDataPO.setMinute(Double.parseDouble(data[2].split(":")[0]) + Double.parseDouble(data[2].split(":")[1]) / 60);
-			playerDataPO.setAssist(Double.parseDouble(data[12]));		//助攻数
-			playerDataPO.setSteal(Double.parseDouble(data[13]));         //抢断数
-			playerDataPO.setBlock(Double.parseDouble(data[14]));         //盖帽数
-			playerDataPO.setError(Double.parseDouble(data[15]));         //失误数
-			playerDataPO.setFoul(Double.parseDouble(data[16]));          //犯规数
-			playerDataPO.setPoint(Double.parseDouble(data[17]));     //得分
-			playerDataPO.setOffensiveRebounds(Double.parseDouble(data[9]));
-			playerDataPO.setDefensiveRebounds(Double.parseDouble(data[10]));
-			playerDataPO.setShoot(Double.parseDouble(data[4]));         //投篮数
-			playerDataPO.setShootmade(Double.parseDouble(data[3]));     //投篮命中数
-			playerDataPO.setThreepoint(Double.parseDouble(data[6]));    //三分出手数
-			playerDataPO.setThreepointmade(Double.parseDouble(data[5]));//三分命中数
-			playerDataPO.setFreethrow(Double.parseDouble(data[8]));     //罚球出手数
-			playerDataPO.setFreethrowmade(Double.parseDouble(data[7])); //罚球命中数
+			/**设置球员比赛属性*/
+			playerDataPO = setData(data);
+			
 			team2DataPO.addPlayer(playerDataPO);
 		}
 		
@@ -157,5 +131,30 @@ public class ArrangeMatches {
 		}
 		
 		return false;
+	}
+
+	private static MatchPlayerDataPO setData(String[] data){
+		MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
+		
+		playerDataPO.setName(data[0]);
+		if(!(data[1].equals("")))
+			playerDataPO.setGameStart(1.0);
+		playerDataPO.setMinute(Double.parseDouble(data[2].split(":")[0]) + Double.parseDouble(data[2].split(":")[1]) / 60);
+		playerDataPO.setAssist(Double.parseDouble(data[12]));		//助攻数
+		playerDataPO.setSteal(Double.parseDouble(data[13]));         //抢断数
+		playerDataPO.setBlock(Double.parseDouble(data[14]));         //盖帽数
+		playerDataPO.setError(Double.parseDouble(data[15]));         //失误数
+		playerDataPO.setFoul(Double.parseDouble(data[16]));          //犯规数
+		playerDataPO.setPoint(Double.parseDouble(data[17]));     //得分
+		playerDataPO.setOffensiveRebounds(Double.parseDouble(data[9]));
+		playerDataPO.setDefensiveRebounds(Double.parseDouble(data[10]));
+		playerDataPO.setShoot(Double.parseDouble(data[4]));         //投篮数
+		playerDataPO.setShootmade(Double.parseDouble(data[3]));     //投篮命中数
+		playerDataPO.setThreepoint(Double.parseDouble(data[6]));    //三分出手数
+		playerDataPO.setThreepointmade(Double.parseDouble(data[5]));//三分命中数
+		playerDataPO.setFreethrow(Double.parseDouble(data[8]));     //罚球出手数
+		playerDataPO.setFreethrowmade(Double.parseDouble(data[7])); //罚球命中数
+		
+		return playerDataPO;
 	}
 }
