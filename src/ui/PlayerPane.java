@@ -167,7 +167,7 @@ public class PlayerPane extends JPanel{
 							 "½ø¹¥Àº°å", "·ÀÊØÀº°å", "ÇÀ¶Ï", "Öú¹¥","¸ÇÃ±","Ê§Îó","Ê¹ÓÃ","GmSc","Ğ§ÂÊ"
 							 };
 		
-		dm.setDataVector(new Object[][]{{"111", "2222", "3"}}, subTitle);
+		dm.setDataVector(data, subTitle);
 		table = new JTable();
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));

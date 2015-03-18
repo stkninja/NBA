@@ -59,6 +59,7 @@ public class MainFrame extends JFrame{
 		//------------------------------------------------------------------
 		this.setTitle("NBA≤È—Ø∆ΩÃ®");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		this.setUndecorated(true);
 		this.setVisible(true);
 	}
 	//--------------------------------------------------------------
