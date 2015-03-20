@@ -2,9 +2,12 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.PlayerFrame.ExitListener;
 import vo.PlayerVO;
 
 public class TeamFrame extends JFrame{
@@ -118,15 +122,25 @@ public class TeamFrame extends JFrame{
 		panel2.add(gethomeGround);
 		panel2.add(setupTime);
 		panel2.add(getsetupTime);
-		
+		//---------------------------------------
+		panel3 = new JPanel();
+		panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panel3.setOpaque(false);
+		exit = new JButton("X");
+		exit.setPreferredSize(new Dimension(30, 30));
+		panel3.add(exit);
+		exit.addActionListener(new ExitListener());
+		//---------------------------------
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(panel2,BorderLayout.CENTER);
 		panel.add(panel1,BorderLayout.WEST);
+		panel.add(panel3,BorderLayout.NORTH);
 		this.setContentPane(panel);
 		panel.setOpaque(false);
 		this.setTitle("ø≠∂˚Ãÿ»À");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setUndecorated(true);
 		this.setVisible(true);
 	}
 //------------------------------------------------------------
@@ -134,5 +148,11 @@ public class TeamFrame extends JFrame{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		new TeamFrame();
 	}
+	class ExitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
 
 }

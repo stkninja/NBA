@@ -2,10 +2,13 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 
 public class PlayerFrame extends JFrame{
@@ -53,7 +57,7 @@ public class PlayerFrame extends JFrame{
 	ImageIcon action;
 	
     
-	public PlayerFrame (PlayerVO vo){
+	public PlayerFrame (PlayerBasicInfoVO vo){
 		
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -106,15 +110,24 @@ public class PlayerFrame extends JFrame{
 		school.setFont(f1);
 		team.setFont(f1);
 		Font f2 = new Font("宋体",Font.BOLD,12);
-		getName = new JLabel("库里", JLabel.CENTER);
-		getAge = new JLabel("27", JLabel.CENTER);
-		getPosition = new JLabel("控卫", JLabel.CENTER);
-		getHeight = new JLabel("1.92", JLabel.CENTER);
-		getWeight = new JLabel("90kg", JLabel.CENTER);
-		getNumber = new JLabel("6", JLabel.CENTER);
-		getExp = new JLabel("5", JLabel.CENTER);
-		getSchool = new JLabel("杜克大学", JLabel.CENTER);
-		getTeam = new JLabel("金州勇士", JLabel.CENTER);
+//		getName = new JLabel("库里", JLabel.CENTER);
+//		getAge = new JLabel("27", JLabel.CENTER);
+//		getPosition = new JLabel("控卫", JLabel.CENTER);
+//		getHeight = new JLabel("1.92", JLabel.CENTER);
+//		getWeight = new JLabel("90kg", JLabel.CENTER);
+//		getNumber = new JLabel("6", JLabel.CENTER);
+//		getExp = new JLabel("5", JLabel.CENTER);
+//		getSchool = new JLabel("杜克大学", JLabel.CENTER);
+//		getTeam = new JLabel("金州勇士", JLabel.CENTER);
+		getName = new JLabel(vo.name, JLabel.CENTER);
+		getAge = new JLabel(vo.age, JLabel.CENTER);
+		getPosition = new JLabel(vo.position, JLabel.CENTER);
+		getHeight = new JLabel(vo.height, JLabel.CENTER);
+		getWeight = new JLabel(vo.weight, JLabel.CENTER);
+		getNumber = new JLabel(vo.number, JLabel.CENTER);
+		getExp = new JLabel(vo.exp, JLabel.CENTER);
+		getSchool = new JLabel(vo.school, JLabel.CENTER);
+		getTeam = new JLabel(vo.school, JLabel.CENTER);
 		getName.setFont(f2);
 		getAge.setFont(f2);
 		getPosition.setFont(f2);
@@ -141,11 +154,19 @@ public class PlayerFrame extends JFrame{
 		panel2.add(school);
 		panel2.add(getSchool);
 		//----------------------------------------
-		
+		panel3 = new JPanel();
+		panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panel3.setOpaque(false);
+		exit = new JButton("X");
+		exit.setPreferredSize(new Dimension(30, 30));
+		panel3.add(exit);
+		exit.addActionListener(new ExitListener());
+		//-----------------------------------------
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(1,2,0,20));
-		panel.add(panel1);
-		panel.add(panel2);
+		panel.setLayout(new BorderLayout());
+		panel.add(panel1,BorderLayout.WEST);
+		panel.add(panel2,BorderLayout.CENTER);
+		panel.add(panel3,BorderLayout.NORTH);
 		
 //		action = new ImageIcon("Brandon Jennings(1).png");
 //		action.setImage(action.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT));
@@ -156,6 +177,7 @@ public class PlayerFrame extends JFrame{
 		panel.setOpaque(false);
 		this.setTitle(vo.name);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setUndecorated(true);
 		this.setVisible(true);
 		
 	}
@@ -163,8 +185,15 @@ public class PlayerFrame extends JFrame{
 //------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		PlayerVO vo = new PlayerVO();
+		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
 		new PlayerFrame(vo);
+	}
+	
+	class ExitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
 	}
 
 }
+
