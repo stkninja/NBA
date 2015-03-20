@@ -203,6 +203,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 				}
 			}
 		}
+		vo.allpointReboundAssist = vo.allpoint + vo.allrebound + vo.allassist;
 		
 		vo.allfieldgoalpercent = Math.ceil(vo.allshootmade / vo.allshoot * 100)/ 100;
 		
@@ -259,6 +260,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.threepointmade = Math.ceil(vo.allthreepointmade / vo.gameplay * 100)/ 100;
 		vo.freethrow = Math.ceil(vo.allfreethrow / vo.gameplay * 100)/ 100;
 		vo.freethrowmade = Math.ceil(vo.allfreethrowmade / vo.gameplay * 100)/ 100;
+		vo.pointReboundAssist = vo.point + vo.rebound +vo.assist;
 		
 		vo.fieldgoalpercent = Math.ceil(fieldgoalpercentsum / vo.gameplay * 100)/ 100;
 		vo.threepointpercent = Math.ceil(threepointpercentsum / vo.gameplay * 100) / 100;

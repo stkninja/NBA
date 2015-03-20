@@ -44,6 +44,8 @@ public class PlayerVO {
 	public double allfreethrowmade;         //总罚球命中数
 	public double freethrowmade;            //场均罚球命中数
 	public double doubledouble;                //两双
+	public double allpointReboundAssist;       //总得分/篮板/助攻
+	public double pointReboundAssist;       //场均得分/篮板/助攻
 	public double allfieldgoalpercent;      //总投篮命中率
 	public double fieldgoalpercent;         //场均投篮命中率
 	public double allthreepointpercent; //总三分命中率
