@@ -23,13 +23,10 @@ import data.rwArrangedFiles.WritePOs;
 
 /**
  * 
- * @time 2015年3月20日 下午4:52:30
+ * @time 2015年3月20日 下午6:29:50
  * @author stk
- *
- */
-
-/*
  * NBA查询平台主界面
+ *
  */
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
@@ -154,7 +151,9 @@ public class MainFrame extends JFrame{
 //        icon = new ImageIcon(temp);  
 //        iconButton.setIcon(icon);  
 //  }
-	
+	/**
+	 * 设置界面可拖动
+	 */
 	private void setDragable() {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent e) {

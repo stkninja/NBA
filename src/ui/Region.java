@@ -2,13 +2,10 @@ package ui;
 
 /**
  * 
- * @date 2015年3月16日
+ * @time 2015年3月20日 下午5:27:09
  * @author stk
+ * 球队地区枚举
  *
- */
-
-/*
- * 球队地区
  */
 public enum Region {
 	ATLANTIC {
@@ -48,8 +45,15 @@ public enum Region {
 		}
 	};
 	//--------------------------------------
+	/**
+	 * 
+	 * @return 球队名
+	 */
 	public abstract String[] getTeam();
-	
+	/**
+	 * 
+	 * @return 分区名
+	 */
 	public String[] getRegion() {
 		return new String[]{"All", "Atlantic", "Central", "Southeast", "Southwest", "Northwest", "Pacific"};
 	}

@@ -33,13 +33,10 @@ import businesslogicservice.PlayerBLService;
 
 /**
  * 
- * @date 2015年3月20日
+ * @time 2015年3月20日 下午6:26:42
  * @author stk
- *
- */
-
-/*
  * 球员面板
+ *
  */
 @SuppressWarnings("serial")
 public class PlayerPane extends JPanel implements ActionListener{
@@ -118,11 +115,16 @@ public class PlayerPane extends JPanel implements ActionListener{
 		team.addActionListener(this);
 		position.addActionListener(this);
 	}
-	//监听
+	/**
+	 * 监听
+	 */
 	public void actionPerformed(ActionEvent e) {
 		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 	}
-	//-----------------------------------------------------------------
+	/**
+	 * 
+	 * @param list 队员VO列表
+	 */
 	private void setData(ArrayList<PlayerVO> list) {
 		Object[][] data = new Object[list.size()][36];
 		if (mode.getSelectedItem() == "总数") {
@@ -218,7 +220,10 @@ public class PlayerPane extends JPanel implements ActionListener{
 		}
 		this.showTable(data);
 	}
-	
+	/**
+	 * 
+	 * @param data 表格数据
+	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		String[] subTitle = {"编号", "球员名称", "所属球队", "位置",//0-6

@@ -34,13 +34,10 @@ import businesslogicservice.TeamBLService;
 
 /**
  * 
- * @date 2015年3月20日
+ * @time 2015年3月20日 下午6:23:29
  * @author stk
- *
- */
-
-/*
  * 球队面板
+ *
  */
 @SuppressWarnings("serial")
 public class TeamPane extends JPanel implements ActionListener{
@@ -84,11 +81,16 @@ public class TeamPane extends JPanel implements ActionListener{
 		mode.addActionListener(this);
 		region.addActionListener(this);
 	}
-	//监听
+	/**
+	 * 监听
+	 */
 	public void actionPerformed(ActionEvent e) {
 		this.setData(bl.getTeams((String)region.getSelectedItem()));
 	}
-	//------------------------------------------------------------------------
+	/**
+	 * 
+	 * @param list 球队VO列表
+	 */
 	private void setData(ArrayList<TeamVO> list) {
 		Object[][] data = new Object[list.size()][31];
 		if (mode.getSelectedItem() == "总数") {
@@ -175,7 +177,10 @@ public class TeamPane extends JPanel implements ActionListener{
 		}
 		this.showTable(data);
 	}
-	
+	/**
+	 * 
+	 * @param data 表格数据
+	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		
