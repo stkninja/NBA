@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.RowSorter;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -44,6 +47,7 @@ import businesslogicservice.TeamBLService;
 public class TeamPane extends JPanel implements ActionListener{
 	private TeamBLService bl;
 	private JTable table;
+	private JTable fixedTable;
 	private JScrollPane sp;
 	//搜索界面
 	private JPanel pane;
@@ -184,21 +188,6 @@ public class TeamPane extends JPanel implements ActionListener{
 	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
-		
-		DefaultTableModel dm = new DefaultTableModel() {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-			public Class<?> getColumnClass(int column) {  
-		        Class<?> returnValue;  
-		        if ((column >= 0) && (column < getColumnCount())) {  
-		            returnValue = getValueAt(0,column).getClass();  
-		        } else {  
-		            returnValue = Object.class;  
-		        }  
-		        return returnValue;  
-		    }  
-		};
 		String[] subTitle = {"编号", "球队名称", "队名缩写",
 							 "胜利场数", "比赛场数", "胜率",
 							 //投篮 6
@@ -214,12 +203,79 @@ public class TeamPane extends JPanel implements ActionListener{
 							 //效率 25
 							 "进攻", "防守", "进攻篮板", "防守篮板", "抢断", "助攻"
 							 };
+		DefaultTableModel dm = new DefaultTableModel() {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			public int getColumnCount()
+            {
+                return subTitle.length-1;
+            }
+             
+            public String getColumnName(int column)
+            {
+                return subTitle[column + 1];
+            }
+             
+            public int getRowCount()
+            {
+                return data.length;
+            }
+             
+            public Object getValueAt(int row, int column)
+            {
+                return data[row][column + 1];
+            }
+			public Class<?> getColumnClass(int column) {  
+		        Class<?> returnValue;  
+		        if ((column >= 0) && (column < getColumnCount())) {  
+		            returnValue = getValueAt(0,column).getClass();  
+		        } else {  
+		            returnValue = Object.class;  
+		        }  
+		        return returnValue;  
+		    }  
+		};
+		
 		
 		dm.setDataVector(data, subTitle);
+		
+		TableModel fixedColumnModel = new AbstractTableModel()
+        {
+            public int getColumnCount()
+            {
+                return 1;
+            }
+             
+            public String getColumnName(int column)
+            {
+                return subTitle[column];
+            }
+             
+            public int getRowCount()
+            {
+                return data.length;
+            }
+             
+            public Object getValueAt(int row, int column)
+            {
+                return data[row][column];
+            }
+        };
+        
+        fixedTable = new JTable(fixedColumnModel);
+        fixedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);
+        fixedTable.getTableHeader().setReorderingAllowed(false); 
+        fixedTable.getTableHeader().setResizingAllowed(false);
+        Dimension fixedSize = fixedTable.getPreferredSize();
+        
 		table = new JTable();
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        
+        
         
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 
@@ -228,37 +284,37 @@ public class TeamPane extends JPanel implements ActionListener{
 		GroupableTableColumnModel cm = (GroupableTableColumnModel)table.getColumnModel();
 		
 		ColumnGroup group1 = new ColumnGroup("胜率");
+		group1.add(cm.getColumn(2));
 		group1.add(cm.getColumn(3));
 		group1.add(cm.getColumn(4));
-		group1.add(cm.getColumn(5));
 		
 		ColumnGroup group2 = new ColumnGroup("投篮");
+		group2.add(cm.getColumn(5));
 		group2.add(cm.getColumn(6));
 		group2.add(cm.getColumn(7));
-		group2.add(cm.getColumn(8));
 		
 		ColumnGroup group3 = new ColumnGroup("三分");
+		group3.add(cm.getColumn(8));
 		group3.add(cm.getColumn(9));
 		group3.add(cm.getColumn(10));
-		group3.add(cm.getColumn(11));
 		
 		ColumnGroup group4 = new ColumnGroup("罚球");
+		group4.add(cm.getColumn(11));
 		group4.add(cm.getColumn(12));
 		group4.add(cm.getColumn(13));
-		group4.add(cm.getColumn(14));
 		
 		ColumnGroup group5 = new ColumnGroup("篮板");
+		group5.add(cm.getColumn(14));
 		group5.add(cm.getColumn(15));
 		group5.add(cm.getColumn(16));
-		group5.add(cm.getColumn(17));
 		
 		ColumnGroup group6 = new ColumnGroup("效率 ");
+		group6.add(cm.getColumn(24));
 		group6.add(cm.getColumn(25));
 		group6.add(cm.getColumn(26));
 		group6.add(cm.getColumn(27));
 		group6.add(cm.getColumn(28));
 		group6.add(cm.getColumn(29));
-		group6.add(cm.getColumn(30));
 		
 		@SuppressWarnings("unused")
 		GroupableTableHeader header = (GroupableTableHeader)table.getTableHeader();
@@ -293,11 +349,31 @@ public class TeamPane extends JPanel implements ActionListener{
         {
           ex.printStackTrace();
         }
+		
+//		try
+//        {
+//            DefaultTableCellRenderer cr = new DefaultTableCellRenderer()
+//            {
+//              public Component getTableCellRendererComponent(JTable table,
+//                  Object value, boolean isSelected, boolean hasFocus,
+//                  int row, int column)
+//              {
+//                setBackground(Color.red);
+//                return super.getTableCellRendererComponent(fixedTable, value,
+//                isSelected, hasFocus, row, column); }
+//            }; 
+//            fixedTable.getColumn(0).setCellRenderer(cr);
+//          }
+//        catch (Exception ex)
+//        {
+//          ex.printStackTrace();
+//        }
+		fixedTable.setBackground(Color.PINK);
 		//表格监听
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (table.getSelectedColumn() == 1) {
-					String str = (String)table.getValueAt(table.getSelectedRow(), 2);
+				if (table.getSelectedColumn() == 0) {
+					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
 					try {
 						new TeamFrame(bl.getOneTeam(str));
 					} catch (IOException | TranscoderException e1) {
@@ -317,7 +393,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		            else  
 		                table.setToolTipText(null);//关闭提示  
 		        }  
-		        if (col == 1)
+		        if (col == 0)
 		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
 		        else
 		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
@@ -325,6 +401,11 @@ public class TeamPane extends JPanel implements ActionListener{
 		});
 		//---------------------------------------------------
 		sp.setViewportView(table);
+		JViewport viewport = new JViewport();
+        viewport.setView(fixedTable);
+        viewport.setPreferredSize(fixedSize);
+        sp.setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
+        sp.setRowHeaderView(viewport);
 		revalidate();
 	}
 }
