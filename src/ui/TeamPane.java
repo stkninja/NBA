@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -30,7 +32,7 @@ import businesslogicservice.TeamBLService;
 
 /**
  * 
- * @date 2015年3月17日
+ * @date 2015年3月20日
  * @author stk
  *
  */
@@ -51,10 +53,12 @@ public class TeamPane extends JPanel{
 	private JButton search;
 	//--------------------------------------------------------------
 	public TeamPane() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//---------------------------------------
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		pane.setOpaque(false);
 		
 		label1 = new JLabel("数据类型：");
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
@@ -72,11 +76,23 @@ public class TeamPane extends JPanel{
 		//----------------------------------------
 		table = new JTable();
 		sp = new JScrollPane(table);
+		sp.setOpaque(false);
 		this.add(sp, BorderLayout.CENTER);
 		bl = new TeamBL();
 		this.setData(bl.getTeams((String)region.getSelectedItem()));
 		//监听
-		search.addActionListener(new SearchListener());
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TeamPane.this.setData(bl.getTeams((String)region.getSelectedItem()));
+			}
+		});
+		mode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == mode) {
+					TeamPane.this.setData(bl.getTeams((String)region.getSelectedItem()));
+				}
+			}
+		});
 	}
 	//------------------------------------------------------------------------
 	private void setData(ArrayList<TeamVO> list) {
@@ -277,14 +293,19 @@ public class TeamPane extends JPanel{
         {
           ex.printStackTrace();
         }
+		//表格监听
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					if (table.getSelectedColumn() == 1) {
+						String str = (String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+						new TeamFrame(bl.getOneTeam(str));
+					}
+				}
+			}
+		});
 		//---------------------------------------------------
 		sp.setViewportView(table);
 		revalidate();
-	}
-	//-------------------------------------------------------------------------
-	private class SearchListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			TeamPane.this.setData(bl.getTeams((String)region.getSelectedItem()));
-		}
 	}
 }

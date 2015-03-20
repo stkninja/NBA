@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -31,7 +33,7 @@ import businesslogicservice.PlayerBLService;
 
 /**
  * 
- * @date 2015年3月17日
+ * @date 2015年3月20日
  * @author stk
  *
  */
@@ -56,10 +58,12 @@ public class PlayerPane extends JPanel{
 	private JButton search;
 	//--------------------------------------------------------------
 	public PlayerPane() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//------------------------------------------------------------
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		pane.setOpaque(false);
 		
 		label1 = new JLabel("数据类型：");
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
@@ -70,7 +74,7 @@ public class PlayerPane extends JPanel{
 		team.setPreferredSize(new Dimension(170,28));
 		team.setEnabled(false);
 		label4 = new JLabel("位置：");
-		String[] positionList = {"全部位置", "后卫(G)", "前锋(F)", "中锋(C)"};
+		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
 		search = new JButton("搜索");
 		
@@ -92,8 +96,36 @@ public class PlayerPane extends JPanel{
 		bl = new PlayerBL();
 		this.setData(bl.getAllPlayers());
 		//监听
-		search.addActionListener(new SearchListener());
-		region.addActionListener(new ComboBoxListener());
+		mode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == mode) {
+					PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+				}
+			}
+		});
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+			}
+		});
+		region.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == region) {
+					if (region.getSelectedItem().equals("All")) {
+						team.removeAllItems();;
+						team.setEnabled(false);
+					} else {
+						team.removeAllItems();
+						String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
+						team.addItem("All");
+						for (int i = 0; i < list.length; i++) {
+							team.addItem(list[i]);
+						}
+						team.setEnabled(true);
+					}
+				}
+			}
+		});
 	}
 	//-----------------------------------------------------------------
 	private void setData(ArrayList<PlayerVO> list) {
@@ -311,32 +343,19 @@ public class PlayerPane extends JPanel{
         {
           ex.printStackTrace();
         }
+		//表格监听
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					if (table.getSelectedColumn() == 1) {
+						String str = (String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+						new PlayerFrame(bl.getOnePlayer(str));
+					}
+				}
+			}
+		});
         //------------------------------------------------------------
 		sp.setViewportView(table);
 		revalidate();
-	}
-	//-----------------------------------------------------------------
-	private class SearchListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
-		}
-	}
-	
-	private class ComboBoxListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == region) {
-				if (region.getSelectedItem().equals("ALL")) {
-					team.removeAllItems();;
-					team.setEnabled(false);
-				} else {
-					team.removeAllItems();
-					String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
-					for (int i = 0; i < list.length; i++) {
-						team.addItem(list[i]);
-					}
-					team.setEnabled(true);
-				}
-			}
-		}
 	}
 }
