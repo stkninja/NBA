@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -343,7 +344,11 @@ public class PlayerPane extends JPanel implements ActionListener{
 				if (e.getClickCount() == 2) {
 					if (table.getSelectedColumn() == 1) {
 						String str = (String)table.getValueAt(table.getSelectedRow(), 1);
-						new PlayerFrame(bl.getOnePlayer(str));
+						try {
+							new PlayerFrame(bl.getOnePlayer(str));
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
