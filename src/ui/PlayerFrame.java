@@ -182,15 +182,10 @@ public class PlayerFrame extends JFrame{
 	}
 	
 //------------------------------------------------------------
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
-		new PlayerFrame(vo);
-	}
 	
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			dispose();
 		}
 	}
 

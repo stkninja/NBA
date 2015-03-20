@@ -15,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import vo.TeamBasicInfoVO;
 
@@ -150,14 +148,9 @@ public class TeamFrame extends JFrame{
 		this.setVisible(true);
 	}
 //------------------------------------------------------------
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		TeamBasicInfoVO vo=new TeamBasicInfoVO();
-		new TeamFrame(vo);
-	}
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			 dispose();
 		}
 	}
 
