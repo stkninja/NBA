@@ -18,8 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import ui.PlayerFrame.ExitListener;
-import vo.PlayerVO;
+import vo.TeamBasicInfoVO;
 
 public class TeamFrame extends JFrame{
 
@@ -50,7 +49,7 @@ public class TeamFrame extends JFrame{
     JLabel lab;  //背景
     ImageIcon logo;  //队标
 	
-	public TeamFrame (){
+	public TeamFrame (TeamBasicInfoVO vo){
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 	    Dimension screenSize = kit.getScreenSize();
@@ -68,7 +67,7 @@ public class TeamFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
-		logo = new ImageIcon("Brandon Jennings.png");
+		logo = new ImageIcon("BOS.png");
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logo);
 		panel1.add(Pic1,BorderLayout.NORTH);
@@ -94,13 +93,20 @@ public class TeamFrame extends JFrame{
 		homeGround.setFont(f1);
 		setupTime.setFont(f1);
 		Font f2 = new Font("宋体",Font.BOLD,14);
-		getfullName = new JLabel("凯尔特人",JLabel.CENTER);
-		getabbName = new JLabel("BOS",JLabel.CENTER);
-		getlocation = new JLabel("Boston",JLabel.CENTER);
-		getcompetionArea = new JLabel("West",JLabel.CENTER);
-		getsubArea = new JLabel("Atlantic",JLabel.CENTER);
-		gethomeGround = new JLabel("TD Garden",JLabel.CENTER);
-		getsetupTime = new JLabel("1946",JLabel.CENTER);
+		getfullName = new JLabel(vo.fullName,JLabel.CENTER);
+		getabbName = new JLabel(vo.abbName,JLabel.CENTER);
+		getlocation = new JLabel(vo.location,JLabel.CENTER);
+		getcompetionArea = new JLabel(vo.competionArea,JLabel.CENTER);
+		getsubArea = new JLabel(vo.subArea,JLabel.CENTER);
+		gethomeGround = new JLabel(vo.homeGround,JLabel.CENTER);
+		getsetupTime = new JLabel(vo.setupTime,JLabel.CENTER);
+//		getfullName = new JLabel("凯尔特人",JLabel.CENTER);
+//		getabbName = new JLabel("BOS",JLabel.CENTER);
+//		getlocation = new JLabel("Boston",JLabel.CENTER);
+//		getcompetionArea = new JLabel("West",JLabel.CENTER);
+//		getsubArea = new JLabel("Atlantic",JLabel.CENTER);
+//		gethomeGround = new JLabel("TD Garden",JLabel.CENTER);
+//		getsetupTime = new JLabel("1946",JLabel.CENTER);
 		getfullName.setFont(f2);
 		getabbName.setFont(f2);
 		getlocation.setFont(f2);
@@ -146,7 +152,8 @@ public class TeamFrame extends JFrame{
 //------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		new TeamFrame();
+		TeamBasicInfoVO vo=new TeamBasicInfoVO();
+		new TeamFrame(vo);
 	}
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {

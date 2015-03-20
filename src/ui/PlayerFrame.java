@@ -20,7 +20,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import vo.PlayerBasicInfoVO;
-import vo.PlayerVO;
 
 public class PlayerFrame extends JFrame{
 	
