@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,10 +41,11 @@ import businesslogicservice.PlayerBLService;
  * 球员面板
  */
 @SuppressWarnings("serial")
-public class PlayerPane extends JPanel{
+public class PlayerPane extends JPanel implements ActionListener{
 	private PlayerBLService bl;
 	private JTable table;
 	private JScrollPane sp;
+	//搜索界面
 	private JPanel pane;
 	private JLabel label1;
 	private JLabel label2;
@@ -55,13 +55,12 @@ public class PlayerPane extends JPanel{
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
-	private JButton search;
 	//--------------------------------------------------------------
 	public PlayerPane() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
-		//------------------------------------------------------------
+		//搜索界面
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
 		
@@ -70,13 +69,14 @@ public class PlayerPane extends JPanel{
 		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
 		label3 = new JLabel("球队：");
-		team = new JComboBox<String>();
+		//FIXME
+		team = new JComboBox<String>(new String[] {"BOC", "BKN", "NYK", "PHI", "TOR", "CHI", "CLE", "DET", "IND", "MIL", "ATL", "CHA", "MIA", "ORL", "WAS", "DAL", "HOU", "MEM", "NOP", "SAS", "DEN", "MIN", "OKC", "POR", "UTA", "GSW", "LAC", "LAL", "PHX", "SAC"});
+//		team.addItem("All");
 		team.setPreferredSize(new Dimension(170,28));
-		team.setEnabled(false);
+//		team.setEnabled(false);
 		label4 = new JLabel("位置：");
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
-		search = new JButton("搜索");
 		
 		pane.add(label1);
 		pane.add(mode);
@@ -86,46 +86,40 @@ public class PlayerPane extends JPanel{
 		pane.add(team);
 		pane.add(label4);
 		pane.add(position);
-		pane.add(search);
-		
 		this.add(pane, BorderLayout.NORTH);
-		//----------------------------------------
+		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		bl = new PlayerBL();
 		this.setData(bl.getAllPlayers());
 		//监听
-		mode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == mode) {
-					PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
-				}
-			}
-		});
-		search.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
-			}
-		});
-		region.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == region) {
-					if (region.getSelectedItem().equals("All")) {
-						team.removeAllItems();;
-						team.setEnabled(false);
-					} else {
-						team.removeAllItems();
-						String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
-						team.addItem("All");
-						for (int i = 0; i < list.length; i++) {
-							team.addItem(list[i]);
-						}
-						team.setEnabled(true);
-					}
-				}
-			}
-		});
+		mode.addActionListener(this);
+//		region.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				if (e.getSource() == region) {
+//					if (region.getSelectedItem().equals("All")) {
+//						team.removeAllItems();
+//						team.addItem("All");
+//						team.setEnabled(false);
+//					} else {
+//						team.removeAllItems();
+//						String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
+//						team.addItem("All");
+//						for (int i = 0; i < list.length; i++) {
+//							team.addItem(list[i]);
+//						}
+//						team.setEnabled(true);
+//					}
+//				}
+//			}
+//		});
+		team.addActionListener(this);
+		position.addActionListener(this);
+	}
+	//监听
+	public void actionPerformed(ActionEvent e) {
+		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 	}
 	//-----------------------------------------------------------------
 	private void setData(ArrayList<PlayerVO> list) {
@@ -348,7 +342,7 @@ public class PlayerPane extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (table.getSelectedColumn() == 1) {
-						String str = (String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+						String str = (String)table.getValueAt(table.getSelectedRow(), 1);
 						new PlayerFrame(bl.getOnePlayer(str));
 					}
 				}

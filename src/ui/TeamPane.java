@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,22 +40,22 @@ import businesslogicservice.TeamBLService;
  * 球队面板
  */
 @SuppressWarnings("serial")
-public class TeamPane extends JPanel{
+public class TeamPane extends JPanel implements ActionListener{
 	private TeamBLService bl;
 	private JTable table;
 	private JScrollPane sp;
+	//搜索界面
 	private JPanel pane;
 	private JLabel label1;
 	private JLabel label2;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
-	private JButton search;
 	//--------------------------------------------------------------
 	public TeamPane() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
-		//---------------------------------------
+		//搜索界面
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
 		
@@ -64,35 +63,27 @@ public class TeamPane extends JPanel{
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
-		search = new JButton("搜索");
 		
 		pane.add(label1);
 		pane.add(mode);
 		pane.add(label2);
 		pane.add(region);
-		pane.add(search);
-		
 		this.add(pane, BorderLayout.NORTH);
-		//----------------------------------------
+		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		sp.setOpaque(false);
 		this.add(sp, BorderLayout.CENTER);
+		
 		bl = new TeamBL();
 		this.setData(bl.getTeams((String)region.getSelectedItem()));
 		//监听
-		search.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TeamPane.this.setData(bl.getTeams((String)region.getSelectedItem()));
-			}
-		});
-		mode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == mode) {
-					TeamPane.this.setData(bl.getTeams((String)region.getSelectedItem()));
-				}
-			}
-		});
+		mode.addActionListener(this);
+		region.addActionListener(this);
+	}
+	//监听
+	public void actionPerformed(ActionEvent e) {
+		this.setData(bl.getTeams((String)region.getSelectedItem()));
 	}
 	//------------------------------------------------------------------------
 	private void setData(ArrayList<TeamVO> list) {
@@ -298,7 +289,7 @@ public class TeamPane extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (table.getSelectedColumn() == 1) {
-						String str = (String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+						String str = (String)table.getValueAt(table.getSelectedRow(), 2);
 						new TeamFrame(bl.getOneTeam(str));
 					}
 				}

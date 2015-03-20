@@ -1,10 +1,12 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +23,7 @@ import data.rwArrangedFiles.WritePOs;
 
 /**
  * 
- * @date 2015年3月18日
+ * @time 2015年3月20日 下午4:52:30
  * @author stk
  *
  */
@@ -43,6 +45,10 @@ public class MainFrame extends JFrame{
 	private JPanel navigation;
 	private JButton team;
 	private JButton player;
+	
+	Point loc = null;
+    Point tmp = null;
+    boolean isDragged = false;
 	//--------------------------------------------------------
 	public MainFrame() {
 		//定义界面大小
@@ -128,6 +134,7 @@ public class MainFrame extends JFrame{
 		//------------------------------------------------------------------
 		this.setTitle("NBA查询平台");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
 	}
@@ -147,6 +154,29 @@ public class MainFrame extends JFrame{
 //        icon = new ImageIcon(temp);  
 //        iconButton.setIcon(icon);  
 //  }
+	
+	private void setDragable() {
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+               isDragged = false;
+               MainFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+            public void mousePressed(java.awt.event.MouseEvent e) {
+               tmp = new Point(e.getX(), e.getY());
+               isDragged = true;
+               MainFrame.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            }
+        });
+        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent e) {
+               if(isDragged) {
+                   loc = new Point(MainFrame.this.getLocation().x + e.getX() - tmp.x,
+                		   MainFrame.this.getLocation().y + e.getY() - tmp.y);
+                   MainFrame.this.setLocation(loc);
+               }
+            }
+        });
+	}
 	//------------------------------------------------------------
 	public static void main(String[] args) {
 		WritePOs.writePOs();
