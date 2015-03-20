@@ -9,15 +9,15 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import vo.PlayerBasicInfoVO;
 
@@ -52,11 +52,13 @@ public class PlayerFrame extends JFrame{
     JLabel getTeam;
     ImageIcon bg;  //背景图
     JLabel lab;  //背景
-    ImageIcon portrait;
-	ImageIcon action;
+    Image portrait;
+    ImageIcon portraiticon;
+	Image action;
+	ImageIcon actionicon;
 	
     
-	public PlayerFrame (PlayerBasicInfoVO vo){
+	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
 		
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -74,14 +76,16 @@ public class PlayerFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
-		portrait = new ImageIcon("Brandon Jennings.png");
+		portrait=ImageIO.read(vo.portrait);
+		portraiticon=new ImageIcon(portrait);
 		JLabel Pic1 = new JLabel();
-		Pic1.setIcon(portrait);
+		Pic1.setIcon(portraiticon);
 		panel1.add(Pic1,BorderLayout.NORTH);
-		action = new ImageIcon("Brandon Jennings(1).png");
-		action.setImage(action.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
+		action=ImageIO.read(vo.action);
+		actionicon = new ImageIcon(action);
+		actionicon.setImage(actionicon.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
-		Pic2.setIcon(action);
+		Pic2.setIcon(actionicon);
 		panel1.add(Pic2,BorderLayout.CENTER);
 		
 		//文字信息panel----------------------------------------

@@ -65,7 +65,7 @@ public class TeamFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
-		logo = new ImageIcon("BOS.png");
+		logo = new ImageIcon("Brandon Jennings.png");
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logo);
 		panel1.add(Pic1,BorderLayout.NORTH);
