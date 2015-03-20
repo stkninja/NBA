@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -122,7 +123,7 @@ public class PlayerPane extends JPanel implements ActionListener{
 		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 	}
 	/**
-	 * 
+	 * 设置表格数据
 	 * @param list 队员VO列表
 	 */
 	private void setData(ArrayList<PlayerVO> list) {
@@ -221,7 +222,7 @@ public class PlayerPane extends JPanel implements ActionListener{
 		this.showTable(data);
 	}
 	/**
-	 * 
+	 * 显示表格
 	 * @param data 表格数据
 	 */
 	private void showTable(Object[][] data) {
@@ -346,17 +347,32 @@ public class PlayerPane extends JPanel implements ActionListener{
 		//表格监听
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					if (table.getSelectedColumn() == 1) {
-						String str = (String)table.getValueAt(table.getSelectedRow(), 1);
-						try {
-							new PlayerFrame(bl.getOnePlayer(str));
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
+				if (table.getSelectedColumn() == 1) {
+					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
+					try {
+						new PlayerFrame(bl.getOnePlayer(str));
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
 				}
 			}
+		});
+		table.addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {  
+		        int row = table.rowAtPoint(e.getPoint());  
+		        int col = table.columnAtPoint(e.getPoint());  
+		        if (row > -1 && col > -1) {  
+		            Object value = table.getValueAt(row, col);  
+		            if (value != null && !value.equals(""))  
+		                table.setToolTipText(value.toString());//悬浮显示单元格内容  
+		            else  
+		                table.setToolTipText(null);//关闭提示  
+		        }  
+		        if (col == 1)
+		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		        else
+		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
+		    }  
 		});
         //------------------------------------------------------------
 		sp.setViewportView(table);
