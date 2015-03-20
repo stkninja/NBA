@@ -141,7 +141,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		}
 		
 		double fieldgoalpercentsum = 0,threepointpercentsum = 0,freethrowpercentsum = 0,efficiencysum = 0,gmscsum = 0,
-		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,assistratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
+		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,offensivereboundratesum = 0,defensivereboundratesum = 0,assistratesum = 0,stealratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
 		
 		if(matchdata.getMatchesAboutPlayer(name).size() == 0){
 			return vo;
@@ -178,25 +178,47 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 					if(playerpo.getFreethrow() != 0){
 						freethrowpercentsum = freethrowpercentsum + playerpo.getFreethrowmade() / playerpo.getFreethrow();
 					}
+					
 					efficiencysum = efficiencysum + (playerpo.getPoint() + playerpo.getRebound() + playerpo.getAssist() + playerpo.getSteal() + playerpo.getBlock()) - (playerpo.getShoot() - playerpo.getShootmade()) - (playerpo.getFreethrow() - playerpo.getFreethrowmade()) - playerpo.getError();
 					gmscsum = gmscsum + playerpo.getPoint() + 0.4 * playerpo.getShootmade() - 0.7 * playerpo.getShoot() - 0.4 * (playerpo.getFreethrow() - playerpo.getFreethrowmade()) + 0.7 * playerpo.getOffensiveRebounds() + 0.3 * playerpo.getDefensiveRebounds() + playerpo.getSteal() + 0.7 * 
 							playerpo.getAssist() + 0.7 * playerpo.getBlock() - 0.4 * playerpo.getFoul() - playerpo.getError();
-					realshootpercentsum = realshootpercentsum + playerpo.getPoint() / (2 * (playerpo.getShoot() + 0.44 * playerpo.getFreethrow()));
+					
+					if(playerpo.getShoot() + 0.44 * playerpo.getFreethrow() != 0){
+						realshootpercentsum = realshootpercentsum + playerpo.getPoint() / (2 * (playerpo.getShoot() + 0.44 * playerpo.getFreethrow()));
+					}
+					
 					shootefficiencysum = shootefficiencysum + (playerpo.getShootmade() + 0.5 * playerpo.getThreepointmade()) / playerpo.getShoot();
 					reboundratesum = reboundratesum + playerpo.getRebound() * 48 / playerpo.getMinute() / (po.getTeam1().getRebounds() + po.getTeam2().getRebounds());
+					offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * 48 / playerpo.getMinute() / (po.getTeam1().getOffensiveRebounds() + po.getTeam2().getOffensiveRebounds());
+					defensivereboundratesum = defensivereboundratesum + playerpo.getDefensiveRebounds() * 48 / playerpo.getMinute() / (po.getTeam1().getDefensiveRebounds() + po.getTeam2().getDefensiveRebounds());
 					assistratesum = assistratesum + playerpo.getAssist() / (playerpo.getMinute() / 48 * po.getTeam1().getShootingHit() - playerpo.getShootmade());
+					stealratesum = stealratesum + playerpo.getSteal() * 48 / playerpo.getMinute() / po.getTeam2().getOffensiveRebounds();
 					blockratesum = blockratesum + playerpo.getBlock() * 48 / playerpo.getMinute() / po.getTeam2().getThreePoint();
-					errorratesum = errorratesum + playerpo.getError() / (playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError());
+					
+					if(playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError() != 0){
+						errorratesum = errorratesum + playerpo.getError() / (playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError());
+					}
+					
 					usagesum = usagesum + (playerpo.getShoot() + 0.44 * playerpo.getFreethrow() + playerpo.getError()) * 48 / playerpo.getMinute() / (po.getTeam1().getShooting() + 0.44 * po.getTeam1().getFreeThrow() + po.getTeam1().getTurnovers());
 				}
 			}
 		}
 		
 		vo.allfieldgoalpercent = Math.ceil(vo.allshootmade / vo.allshoot * 100)/ 100;
-	
-		vo.allthreepointpercent = Math.ceil(vo.allthreepointmade / vo.allthreepoint * 100)/ 100;
 		
-		vo.allfreethrowpercent = Math.ceil(vo.allfreethrowmade / vo.allfreethrow * 100)/ 100;
+	    if(vo.allthreepoint == 0){
+	    	vo.allthreepointpercent = 0;
+	    }
+	    else{
+	    	vo.allthreepointpercent = Math.ceil(vo.allthreepointmade / vo.allthreepoint * 100)/ 100;
+	    }
+		
+	    if(vo.allfreethrow == 0){
+	    	vo.allfreethrowpercent = 0;
+	    }
+	    else{
+	    	vo.allfreethrowpercent = Math.ceil(vo.allfreethrowmade / vo.allfreethrow * 100)/ 100;
+	    }
 		
 		vo.allefficiency = Math.ceil(((vo.allpoint + vo.allrebound + vo.allassist + vo.allsteal + vo.allblock) - (vo.allshoot - vo.allshootmade) - (vo.allfreethrow - vo.allfreethrowmade) -vo.allerror) * 100)/ 100;
 		
@@ -218,7 +240,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		vo.allusage = Math.ceil((vo.allshoot + 0.44 * vo.allfreethrow + vo.allerror) * (48 * vo.gameplay) / vo.allminute  / (teamvo.allshooting + 0.44 * teamvo.allfreeThrow + teamvo.allturnovers) * 100)/ 100;
 		
-		vo.rebound = Math.ceil(vo.allrebound / vo.gameplay * 100)/ 100;
+		vo.rebound = Math.ceil(vo.allrebound / vo.gameplay * 100) / 100;
+		vo.offensiverebound = Math.ceil(vo.alloffensiverebound / vo.gameplay * 100) / 100;
+		vo.defensiverebound = Math.ceil((vo.allrebound / vo.gameplay - vo.alloffensiverebound / vo.gameplay) * 100) / 100;
 		vo.assist = Math.ceil(vo.allassist / vo.gameplay * 100)/ 100;
 		vo.minute = Math.ceil(vo.allminute / vo.gameplay * 100)/ 100;
 		vo.allminute = Math.ceil(vo.allminute * 100)/ 100;
@@ -236,16 +260,18 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		vo.freethrow = Math.ceil(vo.allfreethrow / vo.gameplay * 100)/ 100;
 		vo.freethrowmade = Math.ceil(vo.allfreethrowmade / vo.gameplay * 100)/ 100;
 		
-		System.out.println();
 		vo.fieldgoalpercent = Math.ceil(fieldgoalpercentsum / vo.gameplay * 100)/ 100;
-		vo.threepointpercent = threepointpercentsum / vo.gameplay ;
+		vo.threepointpercent = Math.ceil(threepointpercentsum / vo.gameplay * 100) / 100;
 		vo.freethrowpercent = Math.ceil(freethrowpercentsum / vo.gameplay * 100)/ 100;
 		vo.efficiency = Math.ceil(efficiencysum / vo.gameplay * 100)/ 100;
 		vo.gmsc = Math.ceil(gmscsum / vo.gameplay * 100)/ 100;
 		vo.realshootpercent = Math.ceil(realshootpercentsum / vo.gameplay * 100)/ 100;
 		vo.shootefficiency = Math.ceil(shootefficiencysum / vo.gameplay * 100)/ 100;
 		vo.reboundrate = Math.ceil(reboundratesum / vo.gameplay * 100)/ 100;
+		vo.offensivereboundrate = Math.ceil(offensivereboundratesum / vo.gameplay * 100)/ 100;
+		vo.defensivereboundrate = Math.ceil(defensivereboundratesum / vo.gameplay * 100)/ 100;
 		vo.assistrate = Math.ceil(assistratesum / vo.gameplay * 100)/ 100;
+		vo.stealrate = Math.ceil(stealratesum / vo.gameplay * 100)/ 100;
 		vo.blockrate = Math.ceil(blockratesum / vo.gameplay * 100)/ 100;
 		vo.errorrate = Math.ceil(errorratesum / vo.gameplay * 100)/ 100;
 		vo.usage = Math.ceil(usagesum / vo.gameplay * 100)/ 100;
