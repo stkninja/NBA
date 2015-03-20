@@ -5,16 +5,22 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.apache.batik.transcoder.TranscoderException;
 
 import vo.TeamBasicInfoVO;
 
@@ -45,9 +51,10 @@ public class TeamFrame extends JFrame{
 	JLabel getsetupTime;  //建立时间
 	ImageIcon bg;  //背景图
     JLabel lab;  //背景
-    ImageIcon logo;  //队标
-	
-	public TeamFrame (TeamBasicInfoVO vo){
+    Image logo;  //队标
+    ImageIcon logoicon;
+	File logofile;
+	public TeamFrame (TeamBasicInfoVO vo) throws IOException, TranscoderException{
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 	    Dimension screenSize = kit.getScreenSize();
@@ -65,9 +72,13 @@ public class TeamFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.setOpaque(false);
-		logo = new ImageIcon("Brandon Jennings.png");
+		logofile = new File("logofile");
+		logofile.createNewFile();
+		SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
+		logo = ImageIO.read(logofile);
+		logoicon = new ImageIcon(logo);
 		JLabel Pic1 = new JLabel();
-		Pic1.setIcon(logo);
+		Pic1.setIcon(logoicon);
 		panel1.add(Pic1,BorderLayout.NORTH);
 		
 		//文字信息panel
