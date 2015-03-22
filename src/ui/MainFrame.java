@@ -18,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import data.rwArrangedFiles.WritePOs;
 
@@ -36,7 +38,6 @@ public class MainFrame extends JFrame{
 	//退出、最大最小化按钮
 	private JPanel top;
 	private JButton exit;
-	private JButton max;
 	private JButton mini;
 	//导航
 	private JPanel navigation;
@@ -57,10 +58,18 @@ public class MainFrame extends JFrame{
 		//背景
 		background = new ImageIcon("data/pic/TeamFrame_background.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
+//			public void paint(Graphics g) {
+//				super.paint(g);
+//		        RoundRectangle2D rect = new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),70,70);
+//		        g.setClip(rect);
+//		        if(background!=null)
+//		            g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
+//		        revalidate();
+//			}
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image img = background.getImage();  
-                g.drawImage(img, 0, 0, background.getIconWidth(), background.getIconHeight(), background.getImageObserver());
+				Image img = background.getImage();
+				g.drawImage(img, 0, 0, getWidth(), getHeight(), background.getImageObserver());
 			}
 		};
 		this.setContentPane(contentPane);
@@ -78,15 +87,16 @@ public class MainFrame extends JFrame{
 		//按钮
 		top = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		top.setOpaque(false);
-		exit = new JButton("X");
+		
+		exit = new JButton();
+		exit.setSize(new Dimension(25, 25));
 		exit.setPreferredSize(new Dimension(25, 25));
-//		this.setIcon("data/pic/TeamFrame_icon.jpg", exit);
-		max = new JButton("[]");
-		max.setPreferredSize(new Dimension(25, 25));
+		this.setIcon("data/pic/TeamFrame_icon.jpg", exit);
 		mini = new JButton("-");
+		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));
+		
 		top.add(mini);
-		top.add(max);
 		top.add(exit);
 		contentPane.add(top, BorderLayout.NORTH);
 		//内容panel
@@ -96,15 +106,6 @@ public class MainFrame extends JFrame{
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-			}
-		});
-		max.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (MainFrame.this.getExtendedState() != JFrame.MAXIMIZED_BOTH) {
-					MainFrame.this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				} else {
-					MainFrame.this.setExtendedState(JFrame.NORMAL);
-				}
 			}
 		});
 		mini.addActionListener(new ActionListener() {
@@ -135,22 +136,18 @@ public class MainFrame extends JFrame{
 		this.setUndecorated(true);
 		this.setVisible(true);
 	}
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//        RoundRectangle2D rect = new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),70,70);
-//        g.setClip(rect);
-//        if(background!=null)
-//            g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
-//        revalidate();
-//	}
-	
-//	public void setIcon(String file, JButton iconButton) {  
-//        ImageIcon icon = new ImageIcon(file);  
-//        Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(),  
-//                iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
-//        icon = new ImageIcon(temp);  
-//        iconButton.setIcon(icon);  
-//  }
+	/**
+	 * 设置图标背景
+	 * @param file 图标路径
+	 * @param iconButton 按钮
+	 */
+	public void setIcon(String file, JButton iconButton) {  
+        ImageIcon icon = new ImageIcon(file);  
+        @SuppressWarnings("static-access")
+		Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(), iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
+        icon = new ImageIcon(temp);  
+        iconButton.setIcon(icon);  
+	}
 	/**
 	 * 设置界面可拖动
 	 */
@@ -177,8 +174,9 @@ public class MainFrame extends JFrame{
         });
 	}
 	//------------------------------------------------------------
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		WritePOs.writePOs();
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		new MainFrame();
 	}
 }
