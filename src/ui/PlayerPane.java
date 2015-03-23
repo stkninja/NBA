@@ -4,10 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -34,13 +35,12 @@ import businesslogicservice.PlayerBLService;
 
 /**
  * 
- * @time 2015年3月20日 下午6:26:42
  * @author stk
  * 球员面板
  *
  */
 @SuppressWarnings("serial")
-public class PlayerPane extends JPanel implements ActionListener{
+public class PlayerPane extends JPanel implements ActionListener {
 	private PlayerBLService bl;
 	private JTable table;
 	private JScrollPane sp;
@@ -66,13 +66,11 @@ public class PlayerPane extends JPanel implements ActionListener{
 		label1 = new JLabel("数据类型：");
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		label2 = new JLabel("地区：");
-		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
+		region = new JComboBox<String>(Region.getRegion());
 		label3 = new JLabel("球队：");
-		//FIXME
-		team = new JComboBox<String>(new String[] {"BOC", "BKN", "NYK", "PHI", "TOR", "CHI", "CLE", "DET", "IND", "MIL", "ATL", "CHA", "MIA", "ORL", "WAS", "DAL", "HOU", "MEM", "NOP", "SAS", "DEN", "MIN", "OKC", "POR", "UTA", "GSW", "LAC", "LAL", "PHX", "SAC"});
-//		team.addItem("All");
-		team.setPreferredSize(new Dimension(170,28));
-//		team.setEnabled(false);
+		team = new JComboBox<String>();
+		team.addItem("All");
+		team.setEnabled(false);
 		label4 = new JLabel("位置：");
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
@@ -94,33 +92,36 @@ public class PlayerPane extends JPanel implements ActionListener{
 		this.setData(bl.getAllPlayers());
 		//监听
 		mode.addActionListener(this);
-//		region.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				if (e.getSource() == region) {
-//					if (region.getSelectedItem().equals("All")) {
-//						team.removeAllItems();
-//						team.addItem("All");
-//						team.setEnabled(false);
-//					} else {
-//						team.removeAllItems();
-//						String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
-//						team.addItem("All");
-//						for (int i = 0; i < list.length; i++) {
-//							team.addItem(list[i]);
-//						}
-//						team.setEnabled(true);
-//					}
-//				}
-//			}
-//		});
-		team.addActionListener(this);
+		region.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (region.getSelectedItem().equals("All")) {
+					team.removeAllItems();
+					team.addItem("All");
+					team.setEnabled(false);
+				} else {
+					team.removeAllItems();
+					String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
+					team.addItem("All");
+					for (int i = 0; i < list.length; i++) {
+						team.addItem(list[i]);
+					}
+					team.setEnabled(true);
+				}
+			}
+		});
+		team.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED)
+					PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+			}
+		});
 		position.addActionListener(this);
 	}
 	/**
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+		PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
 	}
 	/**
 	 * 设置表格数据

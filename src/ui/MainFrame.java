@@ -1,15 +1,20 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,12 +25,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 
 import data.rwArrangedFiles.WritePOs;
 
 /**
  * 
- * @time 2015年3月20日 下午6:29:50
  * @author stk
  * NBA查询平台主界面
  *
@@ -91,7 +96,37 @@ public class MainFrame extends JFrame{
 		exit = new JButton();
 		exit.setSize(new Dimension(25, 25));
 		exit.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/TeamFrame_icon.jpg", exit);
+		this.setIcon("data/pic/exit.jpg", exit);
+		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		exit.setRolloverEnabled(true);
+		exit.addMouseListener(new MouseAdapter() {  
+			  
+		    @Override  
+		    public void mouseEntered(MouseEvent e) {  
+//		        if (isRolloverEnabled()) {  
+		            exit.setBorder(new Border() {
+						public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+							g.setColor(Color.gray);  
+			                g.drawRect(x, y, width - 1, height - 1);
+						}
+						public boolean isBorderOpaque() {
+							return true;
+						}
+						public Insets getBorderInsets(Component c) {
+							return new Insets(1, 1, 1, 1);
+						}
+					});  
+//		        }  
+		    }
+		    public void mouseExited(MouseEvent e) {  
+//		        if (isRolloverEnabled()) {  
+		            exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));  
+//		        }  
+		    }  
+		});  
+		
+		
+		
 		mini = new JButton("-");
 		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));

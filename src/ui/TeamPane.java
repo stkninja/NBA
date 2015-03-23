@@ -38,7 +38,6 @@ import businesslogicservice.TeamBLService;
 
 /**
  * 
- * @time 2015年3月20日 下午6:23:29
  * @author stk
  * 球队面板
  *
@@ -67,7 +66,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		label1 = new JLabel("数据类型：");
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		label2 = new JLabel("地区：");
-		region = new JComboBox<String>(Region.valueOf("ATLANTIC").getRegion());
+		region = new JComboBox<String>(Region.getRegion());
 		
 		pane.add(label1);
 		pane.add(mode);
