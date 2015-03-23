@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -56,7 +58,8 @@ public class PlayerFrame extends JFrame{
     ImageIcon portraiticon;
 	Image action;
 	ImageIcon actionicon;
-	
+	ImageIcon actionicon1;
+	JFrame playeraction;
     
 	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
 		
@@ -83,9 +86,17 @@ public class PlayerFrame extends JFrame{
 		panel1.add(Pic1,BorderLayout.NORTH);
 		action=ImageIO.read(vo.action);
 		actionicon = new ImageIcon(action);
+		actionicon1 = new ImageIcon(action);
 		actionicon.setImage(actionicon.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
-		
+		Pic2.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent e){
+				playeraction = new PlayerPicture(actionicon1);
+			}
+			public void mouseExited(MouseEvent e){
+				playeraction.dispose();
+			}
+		});
 		Pic2.setIcon(actionicon);
 		panel1.add(Pic2,BorderLayout.CENTER);
 		
