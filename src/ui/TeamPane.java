@@ -349,24 +349,6 @@ public class TeamPane extends JPanel implements ActionListener{
           ex.printStackTrace();
         }
 		
-//		try
-//        {
-//            DefaultTableCellRenderer cr = new DefaultTableCellRenderer()
-//            {
-//              public Component getTableCellRendererComponent(JTable table,
-//                  Object value, boolean isSelected, boolean hasFocus,
-//                  int row, int column)
-//              {
-//                setBackground(Color.red);
-//                return super.getTableCellRendererComponent(fixedTable, value,
-//                isSelected, hasFocus, row, column); }
-//            }; 
-//            fixedTable.getColumn(0).setCellRenderer(cr);
-//          }
-//        catch (Exception ex)
-//        {
-//          ex.printStackTrace();
-//        }
 		fixedTable.setBackground(Color.PINK);
 		//±í¸ñ¼àÌý
 		table.addMouseListener(new MouseAdapter() {

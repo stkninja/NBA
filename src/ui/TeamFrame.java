@@ -63,7 +63,7 @@ public class TeamFrame extends JFrame{
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		//±³¾°Í¼Æ¬
-		bg = new ImageIcon("Yellow.jpg");
+		bg = new ImageIcon("data/pic/Yellow.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));

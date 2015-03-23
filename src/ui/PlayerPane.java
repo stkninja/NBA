@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.RowSorter;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -43,6 +46,7 @@ import businesslogicservice.PlayerBLService;
 public class PlayerPane extends JPanel implements ActionListener {
 	private PlayerBLService bl;
 	private JTable table;
+	private JTable fixedTable;
 	private JScrollPane sp;
 	//搜索界面
 	private JPanel pane;
@@ -248,7 +252,26 @@ public class PlayerPane extends JPanel implements ActionListener {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-			 public Class<?> getColumnClass(int column) {  
+			public int getColumnCount()
+            {
+                return subTitle.length-1;
+            }
+             
+            public String getColumnName(int column)
+            {
+                return subTitle[column + 1];
+            }
+             
+            public int getRowCount()
+            {
+                return data.length;
+            }
+             
+            public Object getValueAt(int row, int column)
+            {
+                return data[row][column + 1];
+            }
+			public Class<?> getColumnClass(int column) {  
 			        Class<?> returnValue;  
 			        if ((column >= 0) && (column < getColumnCount())) {  
 			            returnValue = getValueAt(0,column).getClass();  
@@ -260,6 +283,37 @@ public class PlayerPane extends JPanel implements ActionListener {
 		};
 		
 		dm.setDataVector(data, subTitle);
+		
+		TableModel fixedColumnModel = new AbstractTableModel()
+        {
+            public int getColumnCount()
+            {
+                return 1;
+            }
+             
+            public String getColumnName(int column)
+            {
+                return subTitle[column];
+            }
+             
+            public int getRowCount()
+            {
+                return data.length;
+            }
+             
+            public Object getValueAt(int row, int column)
+            {
+                return data[row][column];
+            }
+        };
+        
+        fixedTable = new JTable(fixedColumnModel);
+        fixedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);
+        fixedTable.getTableHeader().setReorderingAllowed(false); 
+        fixedTable.getTableHeader().setResizingAllowed(false);
+        Dimension fixedSize = fixedTable.getPreferredSize();
+        
 		table = new JTable();
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
@@ -272,36 +326,37 @@ public class PlayerPane extends JPanel implements ActionListener {
         GroupableTableColumnModel cm = (GroupableTableColumnModel)table.getColumnModel();
         
         ColumnGroup group1 = new ColumnGroup("基本信息");
+        group1.add(cm.getColumn(0));
         group1.add(cm.getColumn(1));
         group1.add(cm.getColumn(2));
         group1.add(cm.getColumn(3));
         group1.add(cm.getColumn(4));
         group1.add(cm.getColumn(5));
-        group1.add(cm.getColumn(6));
         
         
         ColumnGroup group2 = new ColumnGroup("投篮");
+        group2.add(cm.getColumn(6));
         group2.add(cm.getColumn(7));
         group2.add(cm.getColumn(8));
         group2.add(cm.getColumn(9));
-        group2.add(cm.getColumn(10));
         
         ColumnGroup group3 = new ColumnGroup("三分");
+        group3.add(cm.getColumn(10));
         group3.add(cm.getColumn(11));
         group3.add(cm.getColumn(12));
-        group3.add(cm.getColumn(13));
         
         ColumnGroup group4 = new ColumnGroup("罚球");
+        group4.add(cm.getColumn(13));
         group4.add(cm.getColumn(14));
         group4.add(cm.getColumn(15));
-        group4.add(cm.getColumn(16));
         
         ColumnGroup group5 = new ColumnGroup("篮板");
+        group5.add(cm.getColumn(16));
         group5.add(cm.getColumn(17));
         group5.add(cm.getColumn(18));
-        group5.add(cm.getColumn(19));
         
         ColumnGroup group6 = new ColumnGroup("效率");
+        group6.add(cm.getColumn(26));
         group6.add(cm.getColumn(27));
         group6.add(cm.getColumn(28));
         group6.add(cm.getColumn(29));
@@ -310,7 +365,6 @@ public class PlayerPane extends JPanel implements ActionListener {
         group6.add(cm.getColumn(32));
         group6.add(cm.getColumn(33));
         group6.add(cm.getColumn(34));
-        group6.add(cm.getColumn(35));
         
         @SuppressWarnings("unused")
 		GroupableTableHeader header = (GroupableTableHeader)table.getTableHeader();
@@ -345,11 +399,12 @@ public class PlayerPane extends JPanel implements ActionListener {
         {
           ex.printStackTrace();
         }
+		fixedTable.setBackground(Color.PINK);
 		//表格监听
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (table.getSelectedColumn() == 1) {
-					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
+				if (table.getSelectedColumn() == 0) {
+					String str = (String)table.getValueAt(table.getSelectedRow(), 0);
 					try {
 						new PlayerFrame(bl.getOnePlayer(str));
 					} catch (IOException e1) {
@@ -369,7 +424,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		            else  
 		                table.setToolTipText(null);//关闭提示  
 		        }  
-		        if (col == 1)
+		        if (col == 0)
 		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
 		        else
 		        	table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
@@ -377,6 +432,11 @@ public class PlayerPane extends JPanel implements ActionListener {
 		});
         //------------------------------------------------------------
 		sp.setViewportView(table);
+		JViewport viewport = new JViewport();
+        viewport.setView(fixedTable);
+        viewport.setPreferredSize(fixedSize);
+        sp.setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
+        sp.setRowHeaderView(viewport);
 		revalidate();
 	}
 }

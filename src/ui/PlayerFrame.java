@@ -33,6 +33,7 @@ public class PlayerFrame extends JFrame{
 	JPanel panel1;  //图片panel
 	JPanel panel2;  //信息panel
 	JPanel panel3;  //按钮panel
+	JPanel subpanel;
 	JButton exit;  //关闭按钮
 	JLabel name;  
 	JLabel getName;
@@ -70,24 +71,24 @@ public class PlayerFrame extends JFrame{
 		int frameWidth = frameHeight * 8 / 9;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景图片
-		bg = new ImageIcon("Yellow.jpg");
+		bg = new ImageIcon("data/pic/Yellow.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
 		
 		//肖像照panel-----------------------------------------------------------
 		panel1 = new JPanel();
-		panel1.setLayout(new BorderLayout());
+		panel1.setLayout(new GridLayout(2,1,0,20));
 		panel1.setOpaque(false);
 		portrait=ImageIO.read(vo.portrait);
 		portraiticon=new ImageIcon(portrait);
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(portraiticon);
-		panel1.add(Pic1,BorderLayout.NORTH);
+		panel1.add(Pic1);
 		action=ImageIO.read(vo.action);
 		actionicon = new ImageIcon(action);
 		actionicon1 = new ImageIcon(action);
-		actionicon.setImage(actionicon.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
+		actionicon.setImage(actionicon.getImage().getScaledInstance(100,200,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
 		Pic2.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent e){
@@ -98,12 +99,16 @@ public class PlayerFrame extends JFrame{
 			}
 		});
 		Pic2.setIcon(actionicon);
-		panel1.add(Pic2,BorderLayout.CENTER);
+		subpanel = new JPanel();
+		subpanel.setLayout(new BorderLayout());
+		subpanel.add(Pic2, BorderLayout.CENTER);
+		subpanel.setOpaque(false);
+		panel1.add(subpanel);
 		
 		//文字信息panel----------------------------------------
 		panel2 = new JPanel();
 		panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
-		panel2.setLayout(new GridLayout(9,2,0,20));
+		panel2.setLayout(new GridLayout(8,2,0,0));
 		panel2.setOpaque(false);
 		Font f1 = new Font("宋体",Font.BOLD,14);
 		name = new JLabel("姓名:", JLabel.RIGHT);
@@ -114,7 +119,6 @@ public class PlayerFrame extends JFrame{
 		number = new JLabel("号码:", JLabel.RIGHT);
 		exp = new JLabel("经验:", JLabel.RIGHT);
 		school = new JLabel("毕业学校:", JLabel.RIGHT);
-		team = new JLabel("效力球队:", JLabel.RIGHT);
 		name.setFont(f1);
 		age.setFont(f1);
 		position.setFont(f1);
@@ -123,7 +127,6 @@ public class PlayerFrame extends JFrame{
 		number.setFont(f1);
 		exp.setFont(f1);
 		school.setFont(f1);
-		team.setFont(f1);
 		Font f2 = new Font("宋体",Font.BOLD,12);
 
 		getName = new JLabel(vo.name, JLabel.CENTER);
@@ -134,7 +137,6 @@ public class PlayerFrame extends JFrame{
 		getNumber = new JLabel(vo.number, JLabel.CENTER);
 		getExp = new JLabel(vo.exp, JLabel.CENTER);
 		getSchool = new JLabel(vo.school, JLabel.CENTER);
-		getTeam = new JLabel(vo.school, JLabel.CENTER);
 		getName.setFont(f2);
 		getAge.setFont(f2);
 		getPosition.setFont(f2);
@@ -143,11 +145,8 @@ public class PlayerFrame extends JFrame{
 		getNumber.setFont(f2);
 		getExp.setFont(f2);
 		getSchool.setFont(f2);
-		getTeam.setFont(f2);
 		panel2.add(name);
 		panel2.add(getName);
-		panel2.add(team);
-		panel2.add(getTeam);
 		panel2.add(number);
 		panel2.add(getNumber);
 		panel2.add(position);
@@ -175,11 +174,6 @@ public class PlayerFrame extends JFrame{
 		panel.add(panel2,BorderLayout.CENTER);
 		panel.add(panel3,BorderLayout.NORTH);
 		
-//		action = new ImageIcon("Brandon Jennings(1).png");
-//		action.setImage(action.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT));
-//		JLabel Pic2 = new JLabel();
-//		Pic2.setIcon(action);
-//		panel1.add(Pic2,BorderLayout.CENTER);
 		this.setContentPane(panel);
 		panel.setOpaque(false);
 		this.setTitle(vo.name);

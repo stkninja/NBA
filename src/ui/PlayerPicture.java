@@ -18,7 +18,7 @@ public class PlayerPicture extends JFrame{
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
 		int frameWidth = frameHeight * 1 / 2;
-		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
+		this.setBounds((screenSize.width - frameHeight * 8 / 9) / 2 - frameWidth , (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		i = ii;
 		label = new JLabel(i);
