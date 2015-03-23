@@ -77,6 +77,7 @@ public class TeamFrame extends JFrame{
 		SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
 		logo = ImageIO.read(logofile);
 		logoicon = new ImageIcon(logo);
+		logoicon.setImage(logoicon.getImage().getScaledInstance(280,280,Image.SCALE_DEFAULT));
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logoicon);
 		panel1.add(Pic1,BorderLayout.NORTH);
@@ -101,6 +102,7 @@ public class TeamFrame extends JFrame{
 		subArea.setFont(f1);
 		homeGround.setFont(f1);
 		setupTime.setFont(f1);
+		
 		Font f2 = new Font("ÀŒÃÂ",Font.BOLD,14);
 		getfullName = new JLabel(vo.fullName,JLabel.CENTER);
 		getabbName = new JLabel(vo.abbName,JLabel.CENTER);
@@ -109,13 +111,6 @@ public class TeamFrame extends JFrame{
 		getsubArea = new JLabel(vo.subArea,JLabel.CENTER);
 		gethomeGround = new JLabel(vo.homeGround,JLabel.CENTER);
 		getsetupTime = new JLabel(vo.setupTime,JLabel.CENTER);
-//		getfullName = new JLabel("ø≠∂˚Ãÿ»À",JLabel.CENTER);
-//		getabbName = new JLabel("BOS",JLabel.CENTER);
-//		getlocation = new JLabel("Boston",JLabel.CENTER);
-//		getcompetionArea = new JLabel("West",JLabel.CENTER);
-//		getsubArea = new JLabel("Atlantic",JLabel.CENTER);
-//		gethomeGround = new JLabel("TD Garden",JLabel.CENTER);
-//		getsetupTime = new JLabel("1946",JLabel.CENTER);
 		getfullName.setFont(f2);
 		getabbName.setFont(f2);
 		getlocation.setFont(f2);

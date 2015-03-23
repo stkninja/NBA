@@ -85,6 +85,7 @@ public class PlayerFrame extends JFrame{
 		actionicon = new ImageIcon(action);
 		actionicon.setImage(actionicon.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
+		
 		Pic2.setIcon(actionicon);
 		panel1.add(Pic2,BorderLayout.CENTER);
 		
@@ -113,15 +114,7 @@ public class PlayerFrame extends JFrame{
 		school.setFont(f1);
 		team.setFont(f1);
 		Font f2 = new Font("宋体",Font.BOLD,12);
-//		getName = new JLabel("库里", JLabel.CENTER);
-//		getAge = new JLabel("27", JLabel.CENTER);
-//		getPosition = new JLabel("控卫", JLabel.CENTER);
-//		getHeight = new JLabel("1.92", JLabel.CENTER);
-//		getWeight = new JLabel("90kg", JLabel.CENTER);
-//		getNumber = new JLabel("6", JLabel.CENTER);
-//		getExp = new JLabel("5", JLabel.CENTER);
-//		getSchool = new JLabel("杜克大学", JLabel.CENTER);
-//		getTeam = new JLabel("金州勇士", JLabel.CENTER);
+
 		getName = new JLabel(vo.name, JLabel.CENTER);
 		getAge = new JLabel(vo.age, JLabel.CENTER);
 		getPosition = new JLabel(vo.position, JLabel.CENTER);
