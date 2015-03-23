@@ -48,10 +48,10 @@ public class MainFrame extends JFrame{
 	private JPanel navigation;
 	private JButton team;
 	private JButton player;
-	
-	Point loc = null;
-    Point tmp = null;
-    boolean isDragged = false;
+	//拖动
+	private Point loc = null;
+	private Point tmp = null;
+	private boolean isDragged = false;
 	//--------------------------------------------------------
 	public MainFrame() {
 		//定义界面大小
@@ -83,6 +83,7 @@ public class MainFrame extends JFrame{
 		navigation.setOpaque(false);
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
+		
 		team = new JButton("球队");
 		player = new JButton("球员");
 		navigation.add(team);
@@ -98,38 +99,50 @@ public class MainFrame extends JFrame{
 		exit.setPreferredSize(new Dimension(25, 25));
 		this.setIcon("data/pic/exit.jpg", exit);
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		exit.setRolloverEnabled(true);
 		exit.addMouseListener(new MouseAdapter() {  
-			  
-		    @Override  
 		    public void mouseEntered(MouseEvent e) {  
-//		        if (isRolloverEnabled()) {  
-		            exit.setBorder(new Border() {
-						public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-							g.setColor(Color.gray);  
-			                g.drawRect(x, y, width - 1, height - 1);
-						}
-						public boolean isBorderOpaque() {
-							return true;
-						}
-						public Insets getBorderInsets(Component c) {
-							return new Insets(1, 1, 1, 1);
-						}
-					});  
-//		        }  
+		    	exit.setBorder(new Border() {
+					public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+						g.setColor(Color.gray);  
+		                g.drawRect(x, y, width - 1, height - 1);
+					}
+					public boolean isBorderOpaque() {
+						return true;
+					}
+					public Insets getBorderInsets(Component c) {
+						return new Insets(1, 1, 1, 1);
+					}
+				});
 		    }
-		    public void mouseExited(MouseEvent e) {  
-//		        if (isRolloverEnabled()) {  
-		            exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));  
-//		        }  
+		    public void mouseExited(MouseEvent e) {
+		    	exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		    }  
-		});  
+		});
 		
-		
-		
-		mini = new JButton("-");
+		mini = new JButton();
 		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));
+		this.setIcon("data/pic/mini.jpg", mini);
+		mini.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		mini.addMouseListener(new MouseAdapter() {  
+		    public void mouseEntered(MouseEvent e) {  
+		    	mini.setBorder(new Border() {
+					public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+						g.setColor(Color.gray);  
+		                g.drawRect(x, y, width - 1, height - 1);
+					}
+					public boolean isBorderOpaque() {
+						return true;
+					}
+					public Insets getBorderInsets(Component c) {
+						return new Insets(1, 1, 1, 1);
+					}
+				});
+		    }
+		    public void mouseExited(MouseEvent e) {
+		    	mini.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		    }  
+		});
 		
 		top.add(mini);
 		top.add(exit);
