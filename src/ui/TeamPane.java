@@ -76,7 +76,6 @@ public class TeamPane extends JPanel implements ActionListener{
 		//±í¸ñ
 		table = new JTable();
 		sp = new JScrollPane(table);
-		sp.setOpaque(false);
 		this.add(sp, BorderLayout.CENTER);
 		
 		bl = new TeamBL();

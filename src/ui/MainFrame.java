@@ -67,8 +67,7 @@ public class MainFrame extends JFrame{
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image img = background.getImage();
-				g.drawImage(img, 0, 0, getWidth(), getHeight(), background.getImageObserver());
+				g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
 			}
 		};
 		this.setContentPane(contentPane);
@@ -78,8 +77,10 @@ public class MainFrame extends JFrame{
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		
-		team = new JButton("球队");
+		team = new JButton();
+//		this.setIcon("data/pic/team.jpg", team);
 		player = new JButton("球员");
+		
 		navigation.add(team);
 		navigation.add(Box.createVerticalStrut(20));
 		navigation.add(player);
@@ -218,12 +219,12 @@ public class MainFrame extends JFrame{
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		WritePOs.writePOs();
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("restriction")
 			public void run() {
 				MainFrame frame = new MainFrame();
-				com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);
+				com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 				com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 			}
 	    });
