@@ -62,12 +62,6 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		TeamVO vo = new TeamVO();
 		vo.fullName = teamdata.getSingleTeamBasicInfo(name).getFullName();
 		vo.abbName = teamdata.getSingleTeamBasicInfo(name).getAbbName();
-		vo.location = teamdata.getSingleTeamBasicInfo(name).getLocation();
-		vo.competionArea = teamdata.getSingleTeamBasicInfo(name).getCompetionArea();
-		vo.subArea = teamdata.getSingleTeamBasicInfo(name).getSubArea();
-		vo.homeGround = teamdata.getSingleTeamBasicInfo(name).getHomeGround();
-		vo.setupTime = teamdata.getSingleTeamBasicInfo(name).getSetupTime();
-
 		vo.gamesNum = teamdata.getMainNum(name, "13-14");
 		vo.winsNum = teamdata.getwinNum(name, "13-14");
 		
@@ -90,7 +84,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			vo.alldefensiveRebounds = vo.alldefensiveRebounds + mp1.getDefensiveRebounds();
 			vo.allopponentOffensiveRebounds = vo.allopponentOffensiveRebounds + mp2.getOffensiveRebounds();
 			vo.allopponentDefensiveRebounds = vo.allopponentDefensiveRebounds + mp2.getDefensiveRebounds();
-			vo.allrebounds = vo.allrebounds + mp1.getRebounds();
+//			vo.allrebounds = vo.allrebounds + mp1.getRebounds();
 			vo.allassists = vo.allassists + mp1.getAssists();
 			vo.allsteal = vo.allsteal + mp1.getSteals();
 			vo.allcaps = vo.allcaps + mp1.getCaps();
@@ -109,6 +103,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			stealEfficiencysum += 100 * mp1.getSteals() / team2attackround;
 			assistEfficiencysum += 100 * mp1.getAssists() / team1attackround;
 		}
+		vo.allrebounds = vo.alloffensiveRebounds + vo.alldefensiveRebounds;
+		
 		vo.allshootingHitRate = Math.ceil(vo.allshootingHit / vo.allshooting * 100)/ 100;
 		vo.allthreePointHitRate = Math.ceil(vo.allthreePointHits / vo.allthreePoint * 100)/ 100;
 		vo.allfreeThrowHitRate = Math.ceil(vo.allfreeThrowHit / vo.allfreeThrow * 100)/ 100;
