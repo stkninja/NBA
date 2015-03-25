@@ -9,6 +9,7 @@ import data.GetMatchesInfo;
 import data.GetPlayersInfo;
 import dataservice.IMatch;
 import dataservice.IPlayer;
+import vo.MatchPlayerDataVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 import vo.TeamVO;
@@ -123,6 +124,43 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			list.add(findPlayer(name));
 		}
 		return list;
+	}
+	
+	@Override
+	public ArrayList<MatchPlayerDataVO> getPlayer(String name) {
+		// TODO Auto-generated method stub
+		ArrayList<MatchPlayerDataVO> list = new ArrayList<MatchPlayerDataVO>();
+		for(MatchPO po : matchdata.getMatchesAboutPlayer(name)){
+			for(MatchPlayerDataPO playerpo : po.getTeam1().getTeamPlayers()){
+				if(playerpo.getName().equals(name)){
+					list.add(potovo(playerpo));
+				}
+			}
+		}
+		return list;
+	}
+	
+	public MatchPlayerDataVO potovo(MatchPlayerDataPO po){
+		MatchPlayerDataVO vo = new MatchPlayerDataVO();
+		vo.name = po.getName();
+		vo.offensiveRebounds = po.getOffensiveRebounds();
+		vo.defensiveRebounds = po.getDefensiveRebounds();
+		vo.assist = po.getAssist();
+		vo.minute = po.getMinute();
+		vo.steal = po.getSteal();
+		vo.block = po.getBlock();
+		vo.error = po.getError();
+		vo.foul = po.getFoul();
+		vo.point = po.getPoint();
+		vo.shoot = po.getShoot();
+		vo.shootmade = po.getShootmade();
+		vo.threepoint = po.getThreepoint();
+		vo.threepointmade = po.getThreepointmade();
+		vo.freethrow = po.getFreethrow();
+		vo.freethrowmade = po.getFreethrowmade();
+		vo.gameStart = po.getGameStart();
+		
+		return vo;
 	}
 	
 	public PlayerVO findPlayer(String name){
@@ -280,5 +318,5 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return vo;
 	}
-	
+
 }
