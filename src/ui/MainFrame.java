@@ -90,9 +90,10 @@ public class MainFrame extends JFrame{
 		top.setOpaque(false);
 		
 		exit = new JButton();
+		exit.setOpaque(false);
 		exit.setSize(new Dimension(25, 25));
 		exit.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/exit.jpg", exit);
+		this.setIcon("data/pic/exit.png", exit);
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		exit.addMouseListener(new MouseAdapter() {  
 		    public void mouseEntered(MouseEvent e) {  
@@ -115,9 +116,10 @@ public class MainFrame extends JFrame{
 		});
 		
 		mini = new JButton();
+		mini.setOpaque(false);
 		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/mini.jpg", mini);
+		this.setIcon("data/pic/mini.png", mini);
 		mini.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		mini.addMouseListener(new MouseAdapter() {  
 		    public void mouseEntered(MouseEvent e) {  
