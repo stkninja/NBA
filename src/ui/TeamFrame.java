@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,7 +24,7 @@ import org.apache.batik.transcoder.TranscoderException;
 
 import vo.TeamBasicInfoVO;
 
-public class TeamFrame extends JFrame{
+public class TeamFrame extends JDialog{
 
 	/**
 	 * 
@@ -56,10 +56,11 @@ public class TeamFrame extends JFrame{
 	File logofile;
 	public TeamFrame (TeamBasicInfoVO vo) throws IOException, TranscoderException{
 		//定义界面大小
+		
 		Toolkit kit = Toolkit.getDefaultToolkit();
 	    Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		int frameWidth = frameHeight * 1;
+		int frameWidth = frameHeight * 5 / 4;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		//背景图片
@@ -87,14 +88,14 @@ public class TeamFrame extends JFrame{
 		panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		panel2.setLayout(new GridLayout(7,2,0,20));
 		panel2.setOpaque(false);
-		fullName = new JLabel("球队名:",JLabel.RIGHT);
-		abbName = new JLabel("队名缩写:",JLabel.RIGHT);
-		location = new JLabel("所在地:",JLabel.RIGHT);
-		competionArea = new JLabel("赛区:",JLabel.RIGHT);
-		subArea = new JLabel("分区:",JLabel.RIGHT);
-		homeGround = new JLabel("主场馆:",JLabel.RIGHT);
-		setupTime = new JLabel("建队时间:",JLabel.RIGHT);
-		Font f1 = new Font("宋体",Font.BOLD,16);
+		fullName = new JLabel("球队名(fullName):",JLabel.RIGHT);
+		abbName = new JLabel("队名缩写(abbName):",JLabel.RIGHT);
+		location = new JLabel("所在地(location):",JLabel.RIGHT);
+		competionArea = new JLabel("赛区(competionArea):",JLabel.RIGHT);
+		subArea = new JLabel("分区(subArea):",JLabel.RIGHT);
+		homeGround = new JLabel("主场馆(homeGround):",JLabel.RIGHT);
+		setupTime = new JLabel("建队时间(setupTime):",JLabel.RIGHT);
+		Font f1 = new Font("宋体",Font.BOLD,14);
 		fullName.setFont(f1);
 		abbName.setFont(f1);
 		location.setFont(f1);
@@ -103,7 +104,7 @@ public class TeamFrame extends JFrame{
 		homeGround.setFont(f1);
 		setupTime.setFont(f1);
 		
-		Font f2 = new Font("宋体",Font.BOLD,14);
+		Font f2 = new Font("宋体",Font.BOLD,16);
 		getfullName = new JLabel(vo.fullName,JLabel.CENTER);
 		getabbName = new JLabel(vo.abbName,JLabel.CENTER);
 		getlocation = new JLabel(vo.location,JLabel.CENTER);
@@ -149,7 +150,7 @@ public class TeamFrame extends JFrame{
 		this.setContentPane(panel);
 		panel.setOpaque(false);
 		this.setTitle("凯尔特人");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setModal(true);
 		this.setUndecorated(true);
 		this.setVisible(true);
 	}

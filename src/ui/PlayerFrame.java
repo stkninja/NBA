@@ -17,13 +17,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import vo.PlayerBasicInfoVO;
 
-public class PlayerFrame extends JFrame{
+public class PlayerFrame extends JDialog{
 	
 	/**
 	 * 
@@ -53,6 +54,9 @@ public class PlayerFrame extends JFrame{
     JLabel getSchool;
     JLabel team;
     JLabel getTeam;
+    JLabel actionlabel;
+    JLabel birth;
+    JLabel getbirth;
     ImageIcon bg;  //背景图
     JLabel lab;  //背景
     Image portrait;
@@ -68,7 +72,7 @@ public class PlayerFrame extends JFrame{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		int frameWidth = frameHeight * 8 / 9;
+		int frameWidth = frameHeight * 1;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景图片
 		bg = new ImageIcon("data/pic/Yellow.jpg");
@@ -80,14 +84,26 @@ public class PlayerFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(2,1,0,20));
 		panel1.setOpaque(false);
-		portrait=ImageIO.read(vo.portrait);
+		try{
+			portrait=ImageIO.read(vo.portrait);
+		}
+		catch (Exception ex){
+			
+		}
+		
 		portraiticon=new ImageIcon(portrait);
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(portraiticon);
 		panel1.add(Pic1);
-		action=ImageIO.read(vo.action);
-		actionicon = new ImageIcon(action);
-		actionicon1 = new ImageIcon(action);
+		try{
+			action = ImageIO.read(vo.action);
+			actionicon = new ImageIcon(action);
+			actionicon1 = new ImageIcon(action);	   
+		}
+        catch (Exception ex){
+			actionicon = new ImageIcon("data/pic/error.jpg");
+			actionicon1 = new ImageIcon("data/pic/error.jpg");
+		}
 		actionicon.setImage(actionicon.getImage().getScaledInstance(100,200,Image.SCALE_DEFAULT));
 		JLabel Pic2 = new JLabel();
 		Pic2.addMouseListener(new MouseAdapter(){
@@ -100,25 +116,32 @@ public class PlayerFrame extends JFrame{
 		});
 		Pic2.setIcon(actionicon);
 		subpanel = new JPanel();
+		Font f = new Font("宋体",Font.BOLD,14);
+		actionlabel = new JLabel("动作图(Action):",JLabel.RIGHT);
+		actionlabel.setFont(f);
 		subpanel.setLayout(new BorderLayout());
-		subpanel.add(Pic2, BorderLayout.CENTER);
+		subpanel.add(actionlabel, BorderLayout.CENTER);
+		subpanel.add(Pic2, BorderLayout.EAST);
 		subpanel.setOpaque(false);
 		panel1.add(subpanel);
 		
 		//文字信息panel----------------------------------------
 		panel2 = new JPanel();
 		panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
-		panel2.setLayout(new GridLayout(8,2,0,0));
+		panel2.setLayout(new GridLayout(9,2,0,0));
 		panel2.setOpaque(false);
 		Font f1 = new Font("宋体",Font.BOLD,14);
-		name = new JLabel("姓名:", JLabel.RIGHT);
-		age = new JLabel("年龄:", JLabel.RIGHT);
-		position = new JLabel("位置:", JLabel.RIGHT);
-		height = new JLabel("身高:", JLabel.RIGHT);
-		weight = new JLabel("体重:", JLabel.RIGHT);
-		number = new JLabel("号码:", JLabel.RIGHT);
-		exp = new JLabel("经验:", JLabel.RIGHT);
-		school = new JLabel("毕业学校:", JLabel.RIGHT);
+		name = new JLabel("姓名(Name):", JLabel.RIGHT);
+		age = new JLabel("年龄(Age):", JLabel.RIGHT);
+		position = new JLabel("位置(Position):", JLabel.RIGHT);
+		height = new JLabel("身高(Height):", JLabel.RIGHT);
+		weight = new JLabel("体重(Weight):", JLabel.RIGHT);
+		number = new JLabel("号码(Number):", JLabel.RIGHT);
+		exp = new JLabel("经验(Exp):", JLabel.RIGHT);
+		school = new JLabel("毕业学校(School):", JLabel.RIGHT);
+		birth = new JLabel("出生日期(Birth):", JLabel.RIGHT);
+		
+		birth.setFont(f1);
 		name.setFont(f1);
 		age.setFont(f1);
 		position.setFont(f1);
@@ -137,6 +160,7 @@ public class PlayerFrame extends JFrame{
 		getNumber = new JLabel(vo.number, JLabel.CENTER);
 		getExp = new JLabel(vo.exp, JLabel.CENTER);
 		getSchool = new JLabel(vo.school, JLabel.CENTER);
+		getbirth = new JLabel(vo.birth, JLabel.CENTER);
 		getName.setFont(f2);
 		getAge.setFont(f2);
 		getPosition.setFont(f2);
@@ -145,6 +169,7 @@ public class PlayerFrame extends JFrame{
 		getNumber.setFont(f2);
 		getExp.setFont(f2);
 		getSchool.setFont(f2);
+		getbirth.setFont(f2);
 		panel2.add(name);
 		panel2.add(getName);
 		panel2.add(number);
@@ -157,6 +182,10 @@ public class PlayerFrame extends JFrame{
 		panel2.add(getWeight);
 		panel2.add(age);
 		panel2.add(getAge);
+		panel2.add(birth);
+		panel2.add(getbirth);
+		panel2.add(exp);
+        panel2.add(getExp);
 		panel2.add(school);
 		panel2.add(getSchool);
 		//----------------------------------------
@@ -177,7 +206,7 @@ public class PlayerFrame extends JFrame{
 		this.setContentPane(panel);
 		panel.setOpaque(false);
 		this.setTitle(vo.name);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setModal(true);
 		this.setUndecorated(true);
 		this.setVisible(true);
 		
