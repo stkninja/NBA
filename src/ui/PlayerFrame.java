@@ -199,8 +199,9 @@ public class PlayerFrame extends JDialog{
 		panel3.setOpaque(false);
 		exit = new JButton();
 		exit.setSize(new Dimension(25, 25));
+		exit.setOpaque(false);
 		exit.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/exit.jpg", exit);
+		this.setIcon("data/pic/exit.png", exit);
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		exit.addMouseListener(new MouseAdapter() {  
 		    public void mouseEntered(MouseEvent e) {  
