@@ -12,17 +12,20 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -406,11 +409,19 @@ public class PlayerPane extends JPanel implements ActionListener {
 			public void mouseClicked(MouseEvent e) {
 				if (table.getSelectedColumn() == 0) {
 					String str = (String)table.getValueAt(table.getSelectedRow(), 0);
-					try {
-						new PlayerFrame(bl.getOnePlayer(str));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					SwingUtilities.invokeLater(new Runnable() {
+						@SuppressWarnings("restriction")
+						public void run() {
+							try {
+								JFrame.setDefaultLookAndFeelDecorated(true);
+								PlayerFrame frame = new PlayerFrame(bl.getOnePlayer(str));
+								com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+								com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+				    });
 				}
 			}
 		});

@@ -360,10 +360,9 @@ public class TeamPane extends JPanel implements ActionListener{
 					SwingUtilities.invokeLater(new Runnable() {
 						@SuppressWarnings("restriction")
 						public void run() {
-							JFrame.setDefaultLookAndFeelDecorated(true);
-							TeamFrame frame;
 							try {
-								frame = new TeamFrame(bl.getOneTeam(str));
+								JFrame.setDefaultLookAndFeelDecorated(true);
+								TeamFrame frame = new TeamFrame(bl.getOneTeam(str));
 								com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 								com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 							} catch (IOException | TranscoderException e) {

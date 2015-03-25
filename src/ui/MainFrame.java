@@ -1,8 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,8 +11,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
@@ -27,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 
 import data.rwArrangedFiles.WritePOs;
 
@@ -78,8 +73,13 @@ public class MainFrame extends JFrame{
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		
 		team = new JButton();
-//		this.setIcon("data/pic/team.jpg", team);
-		player = new JButton("球员");
+		team.setSize(new Dimension(80, 30));
+		team.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(team, "data/pic/exit1.png", "data/pic/exit2.png");
+		player = new JButton();
+		player.setSize(new Dimension(80, 30));
+		player.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(player, "data/pic/exit1.png", "data/pic/exit2.png");
 		
 		navigation.add(team);
 		navigation.add(Box.createVerticalStrut(20));
@@ -90,56 +90,13 @@ public class MainFrame extends JFrame{
 		top.setOpaque(false);
 		
 		exit = new JButton();
-		exit.setOpaque(false);
-		exit.setSize(new Dimension(25, 25));
-		exit.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/exit.png", exit);
-		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		exit.addMouseListener(new MouseAdapter() {  
-		    public void mouseEntered(MouseEvent e) {  
-		    	exit.setBorder(new Border() {
-					public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-						g.setColor(Color.gray);  
-		                g.drawRect(x, y, width - 1, height - 1);
-					}
-					public boolean isBorderOpaque() {
-						return true;
-					}
-					public Insets getBorderInsets(Component c) {
-						return new Insets(1, 1, 1, 1);
-					}
-				});
-		    }
-		    public void mouseExited(MouseEvent e) {
-		    	exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		    }  
-		});
-		
+        exit.setSize(new Dimension(25, 25));
+        exit.setPreferredSize(new Dimension(25, 25));
+		this.setIcon(exit, "data/pic/exit1.png", "data/pic/exit2.png");
 		mini = new JButton();
-		mini.setOpaque(false);
 		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));
-		this.setIcon("data/pic/mini.png", mini);
-		mini.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		mini.addMouseListener(new MouseAdapter() {  
-		    public void mouseEntered(MouseEvent e) {  
-		    	mini.setBorder(new Border() {
-					public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-						g.setColor(Color.gray);  
-		                g.drawRect(x, y, width - 1, height - 1);
-					}
-					public boolean isBorderOpaque() {
-						return true;
-					}
-					public Insets getBorderInsets(Component c) {
-						return new Insets(1, 1, 1, 1);
-					}
-				});
-		    }
-		    public void mouseExited(MouseEvent e) {
-		    	mini.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		    }  
-		});
+		this.setIcon(mini, "data/pic/mini1.png", "data/pic/mini2.png");
 		
 		top.add(mini);
 		top.add(exit);
@@ -182,16 +139,23 @@ public class MainFrame extends JFrame{
 		this.setVisible(true);
 	}
 	/**
-	 * 设置图标背景
-	 * @param file 图标路径
-	 * @param iconButton 按钮
+	 * 设置图标
+	 * @param button 图标
+	 * @param file1 默认图标路径
+	 * @param file2 翻转图标路径
 	 */
-	public void setIcon(String file, JButton iconButton) {  
-        ImageIcon icon = new ImageIcon(file);  
-        @SuppressWarnings("static-access")
-		Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(), iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
-        icon = new ImageIcon(temp);  
-        iconButton.setIcon(icon);  
+	public void setIcon(JButton button, String file1, String file2) {  
+        ImageIcon icon1 = new ImageIcon(file1);
+		Image temp1 = icon1.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
+		ImageIcon icon2 = new ImageIcon(file2);
+		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
+        button.setIcon(new ImageIcon(temp1));
+		button.setRolloverIcon(new ImageIcon(temp2));
+		button.setFocusPainted(false);//无选择效果
+        button.setOpaque(false);//透明
+		button.setContentAreaFilled(false);//填充
+		button.setBorderPainted(false);//无边框
+		button.setMargin(new Insets(0, 0, 0, 0));//无边距
 	}
 	/**
 	 * 设置界面可拖动
