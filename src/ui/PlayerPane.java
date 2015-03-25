@@ -160,14 +160,14 @@ public class PlayerPane extends JPanel implements ActionListener {
 				data[i][18] = list.get(i).alldefensiverebound;
 				data[i][19] = list.get(i).allrebound;
 				
-				data[i][20] = list.get(i).pointReboundAssist;
+				data[i][20] = list.get(i).allassist;
 				data[i][21] = list.get(i).allsteal;
 				data[i][22] = list.get(i).allblock;
 				data[i][23] = list.get(i).allerror;
 				data[i][24] = list.get(i).allfoul;
 				data[i][25] = list.get(i).allpoint;
 				data[i][26] = list.get(i).doubledouble;
-				data[i][27] = list.get(i).allassist;
+				data[i][27] = list.get(i).allpointReboundAssist;
 				data[i][28] = list.get(i).alloffensivereboundrate;
 				data[i][29] = list.get(i).alldefensivereboundrate;
 				data[i][30] = list.get(i).allstealrate;
@@ -205,14 +205,14 @@ public class PlayerPane extends JPanel implements ActionListener {
 				data[i][18] = list.get(i).defensiverebound;
 				data[i][19] = list.get(i).rebound;
 				
-				data[i][20] = list.get(i).pointReboundAssist;
+				data[i][20] = list.get(i).assist;
 				data[i][21] = list.get(i).steal;
 				data[i][22] = list.get(i).block;
 				data[i][23] = list.get(i).error;
 				data[i][24] = list.get(i).foul;
 				data[i][25] = list.get(i).point;
 				data[i][26] = list.get(i).doubledouble;
-				data[i][27] = list.get(i).allassist;
+				data[i][27] = list.get(i).pointReboundAssist;
 				
 				data[i][28] = list.get(i).offensivereboundrate;
 				data[i][29] = list.get(i).defensivereboundrate;
