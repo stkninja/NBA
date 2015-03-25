@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,12 +66,16 @@ public class PlayerFrame extends JDialog{
     JLabel getbirth;
     ImageIcon bg;  //±³¾°Í¼
     JLabel lab;  //±³¾°
-    Image portrait;
+    Image portrait; //Ð¤ÏñÍ¼
     ImageIcon portraiticon;
-	Image action;
+	Image action;  //¶¯×÷Í¼
 	ImageIcon actionicon;
 	ImageIcon actionicon1;
 	JFrame playeraction;
+	
+	Point loc = null;
+	Point tmp = null;
+	boolean isDragged = false;
     
 	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
 		
@@ -200,6 +206,7 @@ public class PlayerFrame extends JDialog{
 		exit = new JButton();
 		exit.setSize(new Dimension(25, 25));
 		exit.setOpaque(false);
+		exit.setFocusPainted(false);
 		exit.setPreferredSize(new Dimension(25, 25));
 		this.setIcon("data/pic/exit.png", exit);
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -233,8 +240,7 @@ public class PlayerFrame extends JDialog{
 		
 		this.setContentPane(panel);
 		panel.setOpaque(false);
-		this.setTitle(vo.name);
-		this.setModal(true);
+		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
 		
@@ -246,6 +252,29 @@ public class PlayerFrame extends JDialog{
 		Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(), iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
         icon = new ImageIcon(temp);  
         iconButton.setIcon(icon);  
+	}
+	
+	private void setDragable() {
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+               isDragged = false;
+               PlayerFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+            public void mousePressed(java.awt.event.MouseEvent e) {
+               tmp = new Point(e.getX(), e.getY());
+               isDragged = true;
+               PlayerFrame.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            }
+        });
+        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent e) {
+               if(isDragged) {
+                   loc = new Point(PlayerFrame.this.getLocation().x + e.getX() - tmp.x,
+                		   PlayerFrame.this.getLocation().y + e.getY() - tmp.y);
+                   PlayerFrame.this.setLocation(loc);
+               }
+            }
+        });
 	}
 	
 //------------------------------------------------------------

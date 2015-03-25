@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,6 +63,10 @@ public class TeamFrame extends JDialog{
     Image logo;  //队标
     ImageIcon logoicon;
 	File logofile;
+	
+	Point loc = null;
+	Point tmp = null;
+	boolean isDragged = false;
 	public TeamFrame (TeamBasicInfoVO vo) throws IOException, TranscoderException{
 		//定义界面大小
 		
@@ -149,6 +155,7 @@ public class TeamFrame extends JDialog{
 		exit.setOpaque(false);
 		exit.setPreferredSize(new Dimension(25, 25));
 		this.setIcon("data/pic/exit.png", exit);
+		exit.setFocusPainted(false);
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		exit.addMouseListener(new MouseAdapter() {  
 		    public void mouseEntered(MouseEvent e) {  
@@ -179,8 +186,7 @@ public class TeamFrame extends JDialog{
 		panel.add(panel3,BorderLayout.NORTH);
 		this.setContentPane(panel);
 		panel.setOpaque(false);
-		this.setTitle("凯尔特人");
-		this.setModal(true);
+		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
 	}
@@ -190,6 +196,28 @@ public class TeamFrame extends JDialog{
 		Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(), iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
         icon = new ImageIcon(temp);  
         iconButton.setIcon(icon);  
+	}
+	private void setDragable() {
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+               isDragged = false;
+               TeamFrame.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+            public void mousePressed(java.awt.event.MouseEvent e) {
+               tmp = new Point(e.getX(), e.getY());
+               isDragged = true;
+               TeamFrame.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            }
+        });
+        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent e) {
+               if(isDragged) {
+                   loc = new Point(TeamFrame.this.getLocation().x + e.getX() - tmp.x,
+                		   TeamFrame.this.getLocation().y + e.getY() - tmp.y);
+                   TeamFrame.this.setLocation(loc);
+               }
+            }
+        });
 	}
 //------------------------------------------------------------
 	class ExitListener implements ActionListener {
