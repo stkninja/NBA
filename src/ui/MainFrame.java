@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
@@ -63,14 +65,6 @@ public class MainFrame extends JFrame{
 		//±≥æ∞
 		background = new ImageIcon("data/pic/TeamFrame_background.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
-//			public void paint(Graphics g) {
-//				super.paint(g);
-//		        RoundRectangle2D rect = new RoundRectangle2D.Double(0,0,getWidth(),getHeight(),70,70);
-//		        g.setClip(rect);
-//		        if(background!=null)
-//		            g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), this);
-//		        revalidate();
-//			}
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Image img = background.getImage();
@@ -225,6 +219,13 @@ public class MainFrame extends JFrame{
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		WritePOs.writePOs();
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		new MainFrame();
+		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("restriction")
+			public void run() {
+				MainFrame frame = new MainFrame();
+				com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);
+				com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//…Ë÷√‘≤Ω«
+			}
+	    });
 	}
 }
