@@ -1,11 +1,15 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +25,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import vo.PlayerBasicInfoVO;
 
@@ -192,8 +197,30 @@ public class PlayerFrame extends JDialog{
 		panel3 = new JPanel();
 		panel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panel3.setOpaque(false);
-		exit = new JButton("X");
-		exit.setPreferredSize(new Dimension(30, 30));
+		exit = new JButton();
+		exit.setSize(new Dimension(25, 25));
+		exit.setPreferredSize(new Dimension(25, 25));
+		this.setIcon("data/pic/exit.jpg", exit);
+		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		exit.addMouseListener(new MouseAdapter() {  
+		    public void mouseEntered(MouseEvent e) {  
+		    	exit.setBorder(new Border() {
+					public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+						g.setColor(Color.gray);  
+		                g.drawRect(x, y, width - 1, height - 1);
+					}
+					public boolean isBorderOpaque() {
+						return true;
+					}
+					public Insets getBorderInsets(Component c) {
+						return new Insets(1, 1, 1, 1);
+					}
+				});
+		    }
+		    public void mouseExited(MouseEvent e) {
+		    	exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		    }  
+		});
 		panel3.add(exit);
 		exit.addActionListener(new ExitListener());
 		//-----------------------------------------
@@ -210,6 +237,14 @@ public class PlayerFrame extends JDialog{
 		this.setUndecorated(true);
 		this.setVisible(true);
 		
+	}
+	
+	public void setIcon(String file, JButton iconButton) {  
+        ImageIcon icon = new ImageIcon(file);  
+        @SuppressWarnings("static-access")
+		Image temp = icon.getImage().getScaledInstance(iconButton.getWidth(), iconButton.getHeight(), icon.getImage().SCALE_DEFAULT);  
+        icon = new ImageIcon(temp);  
+        iconButton.setIcon(icon);  
 	}
 	
 //------------------------------------------------------------
