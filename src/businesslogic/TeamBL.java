@@ -64,7 +64,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		vo.abbName = teamdata.getSingleTeamBasicInfo(name).getAbbName();
 		vo.gamesNum = teamdata.getMainNum(name, "13-14");
 		vo.winsNum = teamdata.getwinNum(name, "13-14");
-		
+		vo.subArea = teamdata.getSingleTeamBasicInfo(name).getSubArea();
 		double allopponentscores = 0;
 		double allopponentattackround = 0;
 		double shootingHitRatesum = 0,threePointHitRatesum = 0,freeThrowHitRatesum = 0,attackEfficiencysum = 0,defenceEfficiencysum = 0,offensivereboundsEfficiencysum = 0,

@@ -318,5 +318,5 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return vo;
 	}
-
+	
 }
