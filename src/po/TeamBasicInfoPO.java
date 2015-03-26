@@ -22,7 +22,7 @@ public class TeamBasicInfoPO implements Serializable{
 	//主场
 	private String homeGround = new String();
 	//建立时间
-	private String setupTime;
+	private String setupTime = new String();
 	
 	public TeamBasicInfoPO() {}
 

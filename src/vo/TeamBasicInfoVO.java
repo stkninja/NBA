@@ -18,7 +18,7 @@ public class TeamBasicInfoVO {
 	//主场
 	public String homeGround = new String();
 	//建立时间
-	public String setupTime;
+	public String setupTime = new String();
 	
 	public TeamBasicInfoVO(){
 		
