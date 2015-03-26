@@ -10,7 +10,7 @@ public enum Region {
 	Atlantic {
 		public String[] getTeam() {
 //			return new String[]{"Boston Celtics", "Brooklyn Nets", "New York Knicks", "Philadelphia 76ers", "Toronto Raptors"};
-			return new String[]{"BOC", "BKN", "NYK", "PHI", "TOR"};
+			return new String[]{"BOS", "BKN", "NYK", "PHI", "TOR"};
 		}
 	},
 	Central {
