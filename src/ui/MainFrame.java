@@ -72,14 +72,14 @@ public class MainFrame extends JFrame{
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		
-		team = new JButton();
+		team = new JButton("«Ú∂”");
 		team.setSize(new Dimension(80, 30));
 		team.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(team, "data/pic/exit1.png", "data/pic/exit2.png");
-		player = new JButton();
+//		this.setIcon(team, "data/pic/exit1.png", "data/pic/exit2.png");
+		player = new JButton("«Ú‘±");
 		player.setSize(new Dimension(80, 30));
 		player.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(player, "data/pic/exit1.png", "data/pic/exit2.png");
+//		this.setIcon(player, "data/pic/exit1.png", "data/pic/exit2.png");
 		
 		navigation.add(team);
 		navigation.add(Box.createVerticalStrut(20));
