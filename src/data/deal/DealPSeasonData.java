@@ -37,12 +37,13 @@ public class DealPSeasonData {
 		    po.setGameplay(matchesAbout.size());
 		    po.setGamestart((int)getPlayerGameStart(name,season));
 		    
+		    if(po.getGameplay() == 0){
+		    	list.add(po);
+		    	continue;
+		    }
+		    
 		    double fieldgoalpercentsum = 0,threepointpercentsum = 0,freethrowpercentsum = 0,efficiencysum = 0,gmscsum = 0,
 		    		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,offensivereboundratesum = 0,defensivereboundratesum = 0,assistratesum = 0,stealratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
-		    
-		    if(matchesAbout.size() == 0){
-		    	list.add(po);
-		    }
 		    
 		    for(MatchPO match : matchesAbout){
 		    	for(MatchPlayerDataPO playerpo : match.getTeam1().getTeamPlayers()){
@@ -101,8 +102,12 @@ public class DealPSeasonData {
 		    	}
 		    }
 		    po.setAllpointReboundAssist(po.getAllpoint() + po.getAllrebound() + po.getAllassist());
-			
-			po.setAllfieldgoalpercent(Math.ceil(po.getAllshootmade() / po.getAllshoot() * 100)/ 100);
+			if(po.getAllshoot() == 0){
+				po.setAllfieldgoalpercent(0);
+			}
+			else{
+				po.setAllfieldgoalpercent(Math.ceil(po.getAllshootmade() / po.getAllshoot() * 100)/ 100);
+			}
 			
 		    if(po.getAllthreepoint() == 0){
 		    	po.setAllthreepointpercent(0);
@@ -121,18 +126,28 @@ public class DealPSeasonData {
 			po.setAllefficiency(Math.ceil(((po.getAllpoint() + po.getAllrebound() + po.getAllassist() + po.getAllsteal() + po.getAllblock()) - (po.getAllshoot() - po.getAllshootmade()) - (po.getAllfreethrow() - po.getAllfreethrowmade()) -po.getAllerror()) * 100)/ 100);
 			
 			po.setAllgmsc(Math.ceil((po.getAllpoint() + 0.4 * po.getAllshootmade() - 0.7 * po.getAllshoot() - 0.4 * (po.getAllfreethrow() - po.getAllfreethrowmade()) + 0.7 * po.getAlloffensiverebound() + 0.3 * po.getAlldefensiverebound() + po.getAllsteal() + 0.7 * po.getAllassist() + 0.7 * po.getAllblock() - 0.4 * po.getAllfoul() - po.getAllerror()) * 100)/ 100);
-					
-			po.setAllrealshootpercent(Math.ceil(po.getAllpoint() / (2 * (po.getAllshoot() + 0.44 * po.getAllfreethrow())) * 100)/ 100);
+			
+			if(po.getAllshoot() + 0.44 * po.getAllfreethrow() == 0){
+				po.setAllrealshootpercent(0);
+			}
+			else{
+				po.setAllrealshootpercent(Math.ceil(po.getAllpoint() / (2 * (po.getAllshoot() + 0.44 * po.getAllfreethrow())) * 100)/ 100);
+			}			
 			
 			po.setAllshootefficiency(Math.ceil((po.getAllshootmade() + 0.5 * po.getAllthreepointmade()) / po.getAllshoot() * 100)/ 100);
-			
 			po.setAlloffensivereboundrate(Math.ceil(po.getAlloffensiverebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(0) + teamlist.get(4)) * 100)/ 100);
 			po.setAlldefensivereboundrate(Math.ceil(po.getAlldefensiverebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(1) + teamlist.get(5)) * 100)/ 100);
 			po.setAllreboundrate(Math.ceil(po.getAllrebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(2) + teamlist.get(5) + teamlist.get(4)) * 100)/ 100);
 			po.setAllassistrate(Math.ceil(po.getAllassist() / (po.getAllminute() / (48 * po.getGameplay()) * teamlist.get(3) - po.getAllshootmade()) * 100)/ 100);
 			
 			po.setAllstealrate(Math.ceil(po.getAllsteal() * (48 * po.getGameplay()) / po.getAllminute() / teamlist.get(4) * 100)/ 100);
-			po.setAllblockrate(Math.ceil(po.getAllblock() * (48 * po.getGameplay()) / po.getAllminute() / (teamlist.get(6) - teamlist.get(7)) * 100)/ 100);
+			if(teamlist.get(6) - teamlist.get(7) == 0){
+				po.setAllblockrate(0);
+			}
+
+			else{				
+				po.setAllblockrate(Math.ceil(po.getAllblock() * (48 * po.getGameplay()) / po.getAllminute() / (teamlist.get(6) - teamlist.get(7)) * 100)/ 100);
+			}
 			
 			po.setAllerrorrate(Math.ceil(po.getAllerror() / (po.getAllshoot() - po.getAllthreepoint() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * 100)/ 100);
 			

@@ -113,7 +113,7 @@ public class MatchTeamDataPO implements Serializable{
 	public double getThreePoint() {
 		double total = 0.0;
 		for(MatchPlayerDataPO dataPO : teamPlayers){
-			total += dataPO.getShoot();
+			total += dataPO.getThreepoint();
 		}
 		return total;
 	}
