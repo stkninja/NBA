@@ -1,8 +1,9 @@
 package data;
 
+import java.util.ArrayList;
+
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
-import data.readOriFiles.ReadPBasicInfo;
 import dataservice.PlayerService;
 
 public class GetPlayerInfo implements PlayerService{
