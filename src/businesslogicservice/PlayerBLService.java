@@ -13,5 +13,4 @@ public interface PlayerBLService {
 	
 	public ArrayList<PlayerVO> getAllPlayers();
 	
-	public ArrayList<MatchPlayerDataVO> getPlayer(String name);
 }
