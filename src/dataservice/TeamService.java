@@ -6,5 +6,5 @@ import po.TSeasonDataPO;
 
 public interface TeamService {	
 	public TSeasonDataPO getAllTSeasonData(String season);
-	public TBasicInfoPO getAllTBasicInfo();
+	public TBasicInfoPO getSingleTBasicInfo(String abbName);
 }

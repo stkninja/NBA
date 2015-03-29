@@ -6,5 +6,5 @@ import po.PSeasonDataPO;
 
 public interface PlayerService {
 	public PSeasonDataPO getAllPSeasonData(String season);
-	public PBasicInfoPO getAllPBasicInfo();
+	public PBasicInfoPO getSinglePBasicInfo(String name);
 }

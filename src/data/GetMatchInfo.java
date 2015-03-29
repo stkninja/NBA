@@ -13,5 +13,4 @@ public class GetMatchInfo implements MatchService{
 	public ArrayList<MatchPO> getAllMatches(String season) {
 		return null;
 	}
-
 }

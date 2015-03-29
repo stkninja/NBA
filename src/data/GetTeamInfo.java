@@ -13,8 +13,7 @@ public class GetTeamInfo implements TeamService{
 		return null;
 	}
 
-	public TBasicInfoPO getAllTBasicInfo() {
+	public TBasicInfoPO getSingleTBasicInfo(String abbName) {
 		return null;
 	}
-
 }
