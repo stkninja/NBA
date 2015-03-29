@@ -12,7 +12,6 @@ import data.readPOs.ReadPBasicPO;
 import data.readPOs.ReadTBasicPO;
 
 public class DealPSeasonData {
-	
 	private static ArrayList<MatchPO> matches;
 	private static ArrayList<PBasicInfoPO> players;
 	private static ArrayList<TBasicInfoPO> teams;
