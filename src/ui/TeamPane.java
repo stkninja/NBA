@@ -118,7 +118,7 @@ public class TeamPane extends JPanel implements ActionListener{
 				
 				data[i][12] = list.get(i).allfreeThrowHit;
 				data[i][13] = list.get(i).allfreeThrow;
-				data[i][14] = list.get(i).allthreePointHitRate;
+				data[i][14] = list.get(i).allfreeThrowHitRate;
 				
 				data[i][15] = list.get(i).alloffensiveRebounds;
 				data[i][16] = list.get(i).alldefensiveRebounds;
