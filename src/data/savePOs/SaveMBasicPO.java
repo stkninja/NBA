@@ -20,10 +20,11 @@ public class SaveMBasicPO {
 		File f = new File(rootPath);
 		if(!f.exists())
 			f.mkdir();
-			
+	
 		/**保存*/
 		DealMBasicInfo dealMBasicInfo = new DealMBasicInfo();
 		seasonMatches = dealMBasicInfo.dealMBasicInfo();
+		
 		for(int i = 0; i < seasonMatches.size(); i++){
 			/**判断文件是否已存在*/
 			String season = seasonMatches.get(i).get(0).getSeason();
