@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import po.TBasicInfoPO;
 import po.TSeasonDataPO;
+import data.readPOs.ReadTBasicPO;
+import data.readPOs.ReadTSeasonDataPO;
 import dataservice.TeamService;
 
 public class GetTeamInfo implements TeamService{
@@ -12,10 +14,16 @@ public class GetTeamInfo implements TeamService{
 	}
 
 	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season) {
-		return null;
+		return ReadTSeasonDataPO.readTSeasonDataPO(season);
 	}
 
 	public TBasicInfoPO getSingleTBasicInfo(String abbName) {
-		return null;
+		ArrayList<TBasicInfoPO> pos = ReadTBasicPO.readTBasicPO();
+		
+		for(TBasicInfoPO po : pos)
+			if(po.getAbbName().equals(abbName))
+				return po;
+		
+		return new TBasicInfoPO();
 	}
 }

@@ -11,7 +11,7 @@ public class ReadMBasicPO {
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<MatchPO> readMBasicPO(String season) {
-		String path = "data\\统计比赛基本数据" + "\\" + season;
+		String path = "data\\统计赛季比赛数据" + "\\" + season;
 
 		ObjectInputStream ois = null;
 		try {

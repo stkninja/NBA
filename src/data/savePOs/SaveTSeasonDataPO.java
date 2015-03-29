@@ -1,5 +1,6 @@
 package data.savePOs;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,8 +12,12 @@ public class SaveTSeasonDataPO {
 	public static void saveTSeasonDataPO(String season) {
 		ObjectOutputStream oos = null;
 		try {
-			String path = "data\\统计球队比赛数据" + "\\" + season;
+			String rootPath = "data\\统计球队比赛数据";
+			File f = new File(rootPath);
+			if(!f.exists())
+				f.mkdir();
 			
+			String path = rootPath + "\\" + season;
 			oos = new ObjectOutputStream(new FileOutputStream(path));
 			
 			DealTSeasonData dealTSeasonData = new DealTSeasonData();

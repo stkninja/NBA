@@ -24,7 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import data.rwArrangedFiles.WritePOs;
+import data.Pretreatment;
 
 /**
  * 
@@ -184,7 +184,8 @@ public class MainFrame extends JFrame{
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		WritePOs.writePOs();
+		Pretreatment.pretreatment();
+		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("restriction")
