@@ -9,7 +9,7 @@ public class GetTeamInfo implements TeamService{
 	public GetTeamInfo() {
 	}
 
-	public TSeasonDataPO getAllTSeasonData(String season) {
+	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season) {
 		return null;
 	}
 

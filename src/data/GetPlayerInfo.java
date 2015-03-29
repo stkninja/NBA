@@ -9,8 +9,8 @@ public class GetPlayerInfo implements PlayerService{
 
 	public GetPlayerInfo() {}
 
-	public PSeasonDataPO getAllPSeasonData(String season) {
-//		return ReadPBasicInfo.readPBasicInfo(addr)
+	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season) {
+		
 	}
 
 	public PBasicInfoPO getSinglePBasicInfo(String name) {
