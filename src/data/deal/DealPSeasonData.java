@@ -87,17 +87,29 @@ public class DealPSeasonData {
 						
 						shootefficiencysum = shootefficiencysum + (playerpo.getShootmade() + 0.5 * playerpo.getThreepointmade()) / playerpo.getShoot();
 						reboundratesum = reboundratesum + playerpo.getRebound() * 48 / playerpo.getMinute() / (match.getTeam1().getRebounds() + match.getTeam2().getRebounds());
-						offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds());
-						defensivereboundratesum = defensivereboundratesum + playerpo.getDefensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds());
-						assistratesum = assistratesum + playerpo.getAssist() / (playerpo.getMinute() / 48 * match.getTeam1().getShootingHit() - playerpo.getShootmade());
-						stealratesum = stealratesum + playerpo.getSteal() * 48 / playerpo.getMinute() / match.getTeam2().getOffensiveRebounds();
-						blockratesum = blockratesum + playerpo.getBlock() * 48 / playerpo.getMinute() / match.getTeam2().getThreePoint();
+						if(match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds() != 0){
+							offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds());
+						}
+						if(match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds() != 0){
+							defensivereboundratesum = defensivereboundratesum + playerpo.getDefensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds());
+						}
+						if(playerpo.getMinute() / 48 * match.getTeam1().getShootingHit() - playerpo.getShootmade() != 0){
+							assistratesum = assistratesum + playerpo.getAssist() / (playerpo.getMinute() / 48 * match.getTeam1().getShootingHit() - playerpo.getShootmade());
+						}
+						if(match.getTeam2().getOffensiveRebounds() != 0){
+							stealratesum = stealratesum + playerpo.getSteal() * 48 / playerpo.getMinute() / match.getTeam2().getOffensiveRebounds();
+						}
+						if(match.getTeam2().getThreePoint() != 0){
+							blockratesum = blockratesum + playerpo.getBlock() * 48 / playerpo.getMinute() / match.getTeam2().getThreePoint();
+						}
 						
 						if(playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError() != 0){
 							errorratesum = errorratesum + playerpo.getError() / (playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError());
 						}
 						
-						usagesum = usagesum + (playerpo.getShoot() + 0.44 * playerpo.getFreethrow() + playerpo.getError()) * 48 / playerpo.getMinute() / (match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers());
+						if(match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers() != 0){
+							usagesum = usagesum + (playerpo.getShoot() + 0.44 * playerpo.getFreethrow() + playerpo.getError()) * 48 / playerpo.getMinute() / (match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers());
+						}
 		    		}
 		    	}
 		    }
@@ -172,7 +184,7 @@ public class DealPSeasonData {
 			po.setThreepointmade(Math.ceil(po.getAllthreepointmade() / po.getGameplay() * 100)/ 100);
 			po.setFreethrow(Math.ceil(po.getAllfreethrow() / po.getGameplay() * 100)/ 100);
 			po.setFreethrowmade(Math.ceil(po.getAllfreethrowmade() / po.getGameplay() * 100)/ 100);
-			po.setPointReboundAssist(po.getPoint() + po.getRebound() + po.getAssist());
+			po.setPointReboundAssist(Math.ceil((po.getPoint() + po.getRebound() + po.getAssist()) * 100) / 100);
 			
 			po.setFieldgoalpercent(Math.ceil(fieldgoalpercentsum / po.getGameplay() * 100)/ 100);
 			po.setThreepointpercent(Math.ceil(threepointpercentsum / po.getGameplay() * 100) / 100);

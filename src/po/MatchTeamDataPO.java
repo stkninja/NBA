@@ -137,7 +137,7 @@ public class MatchTeamDataPO implements Serializable{
 	public double getOffensiveRebounds() {
 		double total = 0.0;
 		for(MatchPlayerDataPO dataPO : teamPlayers){
-			total += dataPO.getShootmade();
+			total += dataPO.getOffensiveRebounds();
 		}
 		return total;
 	}

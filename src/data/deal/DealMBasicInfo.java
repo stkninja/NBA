@@ -162,7 +162,7 @@ public class DealMBasicInfo {
 	 * @return
 	 */
 	private static boolean isIllegalData(String[] data){
-		if(data[2].equals("null") || data[2].equals("None"))
+		if(data[2].equals("null") || data[2].equals("None") || data[2].equals("00:00") || data[2].equals("0:00"))
 			return true;
 		
 		for(int i = 3; i <= 17; i++){
