@@ -2,27 +2,18 @@ package businesslogic;
 
 import java.util.ArrayList;
 
-import po.MatchPO;
-import po.MatchPlayerDataPO;
-import po.PlayerBasicInfoPO;
-import data.GetMatchesInfo;
-import data.GetPlayersInfo;
-import dataservice.IMatch;
-import dataservice.IPlayer;
-import vo.MatchPlayerDataVO;
+import po.PBasicInfoPO;
+import po.PSeasonDataPO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
-import vo.TeamVO;
+import data.GetPlayerInfo;
+import dataservice.PlayerService;
 
 public class PlayerBL implements businesslogicservice.PlayerBLService{
-	private IPlayer playerdata = null;
-	private IMatch matchdata = null;
-	private TeamBL teambl = null;
+	private PlayerService playerdata = null;
 	
 	public PlayerBL(){
-		playerdata = new GetPlayersInfo();
-		matchdata = new GetMatchesInfo();
-		teambl = new TeamBL();
+		playerdata = new GetPlayerInfo();
 	}
 	
 	@Override
@@ -101,7 +92,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public PlayerBasicInfoVO getOnePlayer(String name) {
 		// TODO Auto-generated method stub
 		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
-		PlayerBasicInfoPO pp = playerdata.getSinglePlayerBasicInfo(name);
+		PBasicInfoPO pp = playerdata.getSinglePBasicInfo(name);
 		vo.name = pp.getName();
 		vo.number = pp.getNumber();
 		vo.height = pp.getHeight();
@@ -119,13 +110,92 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	@Override
 	public ArrayList<PlayerVO> getAllPlayers() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(PSeasonDataPO po : playerdata.getAllPSeasonData("13-14")){
+			list.add(potovo(po));
+		}
+		return list;
 	}
-
-	@Override
-	public ArrayList<MatchPlayerDataVO> getPlayer(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private PlayerVO potovo(PSeasonDataPO po){
+		PlayerVO vo = new PlayerVO();
+		vo.name = po.getName();
+		vo.team = po.getTeam();
+		vo.position = po.getPosition();
+		vo.subArea = po.getSubArea();
+		vo.gameplay = po.getGameplay();
+		vo.gamestart = po.getGamestart();
+		vo.allrebound = po.getAllrebound();
+		vo.rebound = po.getRebound();
+		vo.alloffensiverebound = po.getAlloffensiverebound();
+		vo.offensiverebound = po.getOffensiverebound();
+		vo.alldefensiverebound = po.getAlldefensiverebound();
+		vo.defensiverebound = po.getDefensiverebound();
+		vo.allassist = po.getAllassist();
+		vo.assist = po.getAssist();
+		vo.allminute = po.getAllminute();
+		vo.minute = po.getMinute();
+		vo.alloffense = po.getAlloffense();
+		vo.offense = po.getOffense();
+		vo.alldefence = po.getAlldefence();
+		vo.defence = po.getDefence();
+		vo.allsteal = po.getAllsteal();
+		vo.steal = po.getSteal();
+		vo.allblock = po.getAllblock();
+		vo.block = po.getBlock();
+		vo.allerror = po.getAllerror();
+		vo.error = po.getError();
+		vo.allfoul = po.getAllfoul();
+		vo.foul = po.getFoul();
+		vo.allpoint = po.getAllpoint();
+		vo.point = po.getPoint();
+		vo.allshoot = po.getAllshoot();
+		vo.shoot = po.getShoot();
+		vo.allshootmade = po.getAllshootmade();
+		vo.shootmade = po.getShootmade();
+		vo.allthreepoint = po.getAllthreepoint();
+		vo.threepoint = po.getThreepoint();
+		vo.allthreepointmade = po.getAllthreepointmade();
+		vo.threepointmade = po.getThreepointmade();
+		vo.allfreethrow = po.getAllfreethrow();
+	    vo.freethrow = po.getFreethrow();
+	    vo.allfreethrowmade = po.getAllfreethrowmade();
+	    vo.freethrowmade = po.getFreethrowmade();
+	    vo.doubledouble = po.getDoubledouble();
+	    vo.allpointReboundAssist = po.getAllpointReboundAssist();
+	    vo.pointReboundAssist = po.getPointReboundAssist();
+	    vo.allfieldgoalpercent = po.getAllfieldgoalpercent();
+	    vo.fieldgoalpercent = po.getFieldgoalpercent();
+	    vo.allthreepointpercent = po.getAllthreepointpercent();
+	    vo.threepointpercent = po.getThreepointpercent();
+	    vo.allfreethrowpercent = po.getAllfreethrowpercent();
+	    vo.freethrowpercent = po.getFreethrowpercent();
+	    vo.allefficiency = po.getAllefficiency();
+	    vo.efficiency = po.getEfficiency();
+	    vo.allgmsc = po.getAllgmsc();
+	    vo.gmsc = po.getGmsc();
+	    vo.allrealshootpercent = po.getAllrealshootpercent();
+	    vo.realshootpercent = po.getRealshootpercent();
+	    vo.allshootefficiency = po.getAllshootefficiency();
+	    vo.shootefficiency = po.getShootefficiency();
+	    vo.allreboundrate = po.getAllreboundrate();
+	    vo.reboundrate = po.getReboundrate();
+	    vo.alloffensivereboundrate = po.getAlloffensivereboundrate();
+	    vo.offensivereboundrate = po.getOffensivereboundrate();
+	    vo.alldefensivereboundrate = po.getAlldefensivereboundrate();
+	    vo.defensivereboundrate = po.getDefensivereboundrate();
+	    vo.allassistrate = po.getAllassistrate();
+	    vo.assistrate = po.getAssistrate();
+	    vo.allstealrate = po.getAllstealrate();
+	    vo.stealrate = po.getStealrate();
+	    vo.allblockrate = po.getAllblockrate();
+	    vo.blockrate = po.getBlockrate();
+	    vo.allerrorrate = po.getAllerrorrate();
+	    vo.errorrate = po.getErrorrate();
+	    vo.allusage = po.getAllusage();
+	    vo.usage = po.getUsage();
+	    
+	    return vo;
 	}
 
 }
