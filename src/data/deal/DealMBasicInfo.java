@@ -19,7 +19,7 @@ public class DealMBasicInfo {
 		ArrayList<MatchPO> allMatches = getAllMatches();
 		ArrayList<ArrayList<MatchPO>> seasonMatches = new ArrayList<ArrayList<MatchPO>>();
 		
-		if(seasonMatches.size() != 0){
+		if(allMatches.size() != 0){
 			ArrayList<MatchPO> newSeason = new ArrayList<MatchPO>();
 			newSeason.add(allMatches.get(0));
 			seasonMatches.add(newSeason);
