@@ -23,9 +23,7 @@ public class MatchPlayerDataPO implements Serializable{
 	private double freethrow;     //罚球出手数
 	private double freethrowmade; //罚球命中数
 	private double gameStart = 0.0;	  //比赛先发场数（0 / 1）
-	
-	public MatchPlayerDataPO() {}
-	
+		
 	/**get set*/
 	public String getName() {
 		return name;

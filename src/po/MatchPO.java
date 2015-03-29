@@ -11,8 +11,6 @@ public class MatchPO implements Serializable{
 	
 	private MatchTeamDataPO team1 = new MatchTeamDataPO();
 	private MatchTeamDataPO team2 = new MatchTeamDataPO();
-	
-	public MatchPO() {}
 
 	/**get()set()*/	
 	public String getSeason() {

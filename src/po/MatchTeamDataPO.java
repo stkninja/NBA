@@ -12,17 +12,54 @@ public class MatchTeamDataPO implements Serializable{
 	private String abbName = new String();
 	//比赛得分
 	private double scores;
+	private double qt1Scores;
+	private double qt2Scores;
+	private double qt3Scores;
+	private double qt4Scores;
+	private double qtPlusScores;
 	private ArrayList<MatchPlayerDataPO> teamPlayers = new ArrayList<MatchPlayerDataPO>();
 
 	/**get set*/
-	public String getAbbName() {
-		return abbName;
+	public double getQt1Scores() {
+		return qt1Scores;
 	}
 	
-	public void setAbbName(String abbName) {
-		this.abbName = abbName;
+	public void setQt1Scores(double qt1Scores) {
+		this.qt1Scores = qt1Scores;
 	}
-
+	
+	public double getQt2Scores() {
+		return qt2Scores;
+	}
+	
+	public void setQt2Scores(double qt2Scores) {
+		this.qt2Scores = qt2Scores;
+	}
+	
+	public double getQt3Scores() {
+		return qt3Scores;
+	}
+	
+	public void setQt3Scores(double qt3Scores) {
+		this.qt3Scores = qt3Scores;
+	}
+	
+	public double getQt4Scores() {
+		return qt4Scores;
+	}
+	
+	public void setQt4Scores(double qt4Scores) {
+		this.qt4Scores = qt4Scores;
+	}
+	
+	public double getQtPlusScores() {
+		return qtPlusScores;
+	}
+	
+	public void setQtPlusScores(double qtPlusScores) {
+		this.qtPlusScores = qtPlusScores;
+	}
+	
 	public double getScores() {
 		return scores;
 	}
@@ -31,6 +68,14 @@ public class MatchTeamDataPO implements Serializable{
 		this.scores = scores;
 	}
 	
+	public String getAbbName() {
+		return abbName;
+	}
+	
+	public void setAbbName(String abbName) {
+		this.abbName = abbName;
+	}
+
 	public ArrayList<MatchPlayerDataPO> getTeamPlayers() {
 		return teamPlayers;
 	}
