@@ -67,7 +67,7 @@ public class TeamFrame extends JDialog{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 	    Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		int frameWidth = frameHeight * 5 / 4;
+		int frameWidth = frameHeight * 4 / 3;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		//±³¾°Í¼Æ¬
