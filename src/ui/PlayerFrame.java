@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -24,6 +25,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import vo.PlayerBasicInfoVO;
 
@@ -68,6 +70,7 @@ public class PlayerFrame extends JDialog{
 	ImageIcon actionicon;
 	ImageIcon actionicon1;
 	JFrame playeraction;
+	int frameWidth;
 	
 	Point loc = null;
 	Point tmp = null;
@@ -79,7 +82,7 @@ public class PlayerFrame extends JDialog{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		int frameWidth = frameHeight * 1;
+		frameWidth = frameHeight * 1;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//±≥æ∞Õº∆¨
 		bg = new ImageIcon("data/pic/Yellow.jpg");
@@ -115,7 +118,15 @@ public class PlayerFrame extends JDialog{
 		JLabel Pic2 = new JLabel();
 		Pic2.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent e){
-				playeraction = new PlayerPicture(actionicon1);
+				SwingUtilities.invokeLater(new Runnable() {
+					@SuppressWarnings("restriction")
+					public void run() {
+						playeraction = new PlayerPicture(actionicon1,PlayerFrame.this);
+						com.sun.awt.AWTUtilities.setWindowOpacity(playeraction, 0.9f);//…Ë÷√Õ∏√˜∂»
+						com.sun.awt.AWTUtilities.setWindowShape(playeraction, new RoundRectangle2D.Double(0.0D, 0.0D, playeraction.getWidth(), playeraction.getHeight(), 26.0D, 26.0D));//…Ë÷√‘≤Ω«
+					}
+			    });
+				
 			}
 			public void mouseExited(MouseEvent e){
 				playeraction.dispose();

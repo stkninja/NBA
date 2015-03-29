@@ -15,12 +15,20 @@ public class PlayerPicture extends JFrame{
 	ImageIcon i;
 	JPanel panel;
 	JLabel label;
-	public PlayerPicture(ImageIcon ii){
+	ImageIcon bg;
+	JLabel lab;
+	public PlayerPicture(ImageIcon ii,PlayerFrame dialog){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
 		int frameWidth = frameHeight * 1 / 2;
-		this.setBounds((screenSize.width - frameHeight * 1) / 2 - frameWidth , (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
+		this.setBounds(dialog.getX()-frameWidth , dialog.getY(), frameWidth, frameHeight);
+		
+		//±³¾°Í¼Æ¬
+		bg = new ImageIcon("data/pic/Yellow.jpg");
+		lab = new JLabel(bg);
+		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
+		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
 		
 		i = ii;
 		panel = new JPanel(){
@@ -31,9 +39,6 @@ public class PlayerPicture extends JFrame{
 			}
 		};
 		panel.setOpaque(false);
-//		label = new JLabel(i);
-//		label.setBounds(0, 0,i.getIconWidth(), i.getIconHeight());
-//		this.add(label);
 		this.setContentPane(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
