@@ -85,7 +85,9 @@ public class DealPSeasonData {
 							realshootpercentsum = realshootpercentsum + playerpo.getPoint() / (2 * (playerpo.getShoot() + 0.44 * playerpo.getFreethrow()));
 						}
 						
-						shootefficiencysum = shootefficiencysum + (playerpo.getShootmade() + 0.5 * playerpo.getThreepointmade()) / playerpo.getShoot();
+						if(playerpo.getShoot() != 0){
+							shootefficiencysum = shootefficiencysum + (playerpo.getShootmade() + 0.5 * playerpo.getThreepointmade()) / playerpo.getShoot();
+						}
 						reboundratesum = reboundratesum + playerpo.getRebound() * 48 / playerpo.getMinute() / (match.getTeam1().getRebounds() + match.getTeam2().getRebounds());
 						if(match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds() != 0){
 							offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds());
