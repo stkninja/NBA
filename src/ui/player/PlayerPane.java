@@ -261,7 +261,6 @@ public class PlayerPane extends JPanel implements ActionListener {
 				 //Ð§ÂÊ30-40
 				 "Í¶Àº","½ø¹¥Àº°å", "·ÀÊØÀº°å","Àº°å", "ÇÀ¶Ï", "Öú¹¥","¸ÇÃ±","Ê§Îó","Ê¹ÓÃ","GmSc","Ð§ÂÊ"
 				 };
-		
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -295,9 +294,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 			        return returnValue;  
 			    }  
 		};
-		
 		dm.setDataVector(data, subTitle);
-		
 		TableModel fixedColumnModel = new AbstractTableModel()
         {
             public int getColumnCount()
@@ -320,7 +317,6 @@ public class PlayerPane extends JPanel implements ActionListener {
                 return data[row][column];
             }
         };
-        
         fixedTable = new JTable(fixedColumnModel);
         fixedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);

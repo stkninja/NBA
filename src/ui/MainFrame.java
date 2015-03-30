@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.hotspot.HotspotPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
 import data.Pretreatment;
@@ -123,6 +124,7 @@ public class MainFrame extends JFrame{
 		pane.setLayout(cardLayout);
 		pane.setOpaque(false);
 		
+		pane.add(new HotspotPane(), "Hotspot");
 		pane.add(new TeamPane(), "Team");
 		pane.add(new PlayerPane(), "Player");
 		contentPane.add(pane, BorderLayout.CENTER);
@@ -135,6 +137,11 @@ public class MainFrame extends JFrame{
 		mini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainFrame.this.setExtendedState(JFrame.ICONIFIED);
+			}
+		});
+		hotspot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(pane, "Hotspot");
 			}
 		});
 		team.addActionListener(new ActionListener() {

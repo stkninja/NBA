@@ -238,10 +238,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		        return returnValue;  
 		    }  
 		};
-		
-		
 		dm.setDataVector(data, subTitle);
-		
 		TableModel fixedColumnModel = new AbstractTableModel()
         {
             public int getColumnCount()
@@ -264,7 +261,6 @@ public class TeamPane extends JPanel implements ActionListener{
                 return data[row][column];
             }
         };
-        
         fixedTable = new JTable(fixedColumnModel);
         fixedTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);
@@ -276,9 +272,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
-        
-        
-        
+        table.setOpaque(false);
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
