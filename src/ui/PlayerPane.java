@@ -135,7 +135,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 	 * @param list 队员VO列表
 	 */
 	private void setData(ArrayList<PlayerVO> list) {
-		Object[][] data = new Object[list.size()][37];
+		Object[][] data = new Object[list.size()][41];
 		if (mode.getSelectedItem() == "总数") {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
@@ -163,23 +163,28 @@ public class PlayerPane extends JPanel implements ActionListener {
 				data[i][18] = list.get(i).alldefensiverebound;
 				data[i][19] = list.get(i).allrebound;
 				
-				data[i][20] = list.get(i).allassist;
-				data[i][21] = list.get(i).allsteal;
-				data[i][22] = list.get(i).allblock;
-				data[i][23] = list.get(i).allerror;
-				data[i][24] = list.get(i).allfoul;
-				data[i][25] = list.get(i).allpoint;
-				data[i][26] = list.get(i).doubledouble;
-				data[i][27] = list.get(i).allpointReboundAssist;
-				data[i][28] = list.get(i).alloffensivereboundrate;
-				data[i][29] = list.get(i).alldefensivereboundrate;
-				data[i][30] = list.get(i).allstealrate;
-				data[i][31] = list.get(i).allassistrate;
-				data[i][32] = list.get(i).allblockrate;
-				data[i][33] = list.get(i).allerrorrate;
-				data[i][34] = list.get(i).allusage;
-				data[i][35] = list.get(i).allgmsc;;
-				data[i][36] = list.get(i).allefficiency;
+				data[i][20] = list.get(i).alloffense;
+				data[i][21] = list.get(i).alldefence;
+				data[i][22] = list.get(i).allassist;
+				data[i][23] = list.get(i).allsteal;
+				data[i][24] = list.get(i).allblock;
+				data[i][25] = list.get(i).allerror;
+				data[i][26] = list.get(i).allfoul;
+				data[i][27] = list.get(i).allpoint;
+				data[i][28] = list.get(i).doubledouble;
+				data[i][29] = list.get(i).allpointReboundAssist;
+				 
+				data[i][30] = list.get(i).allshootefficiency;
+				data[i][31] = list.get(i).alloffensivereboundrate;
+				data[i][32] = list.get(i).alldefensivereboundrate;
+				data[i][33] = list.get(i).allreboundrate;
+				data[i][34] = list.get(i).allstealrate;
+				data[i][35] = list.get(i).allassistrate;
+				data[i][36] = list.get(i).allblockrate;
+				data[i][37] = list.get(i).allerrorrate;
+				data[i][38] = list.get(i).allusage;
+				data[i][39] = list.get(i).allgmsc;;
+				data[i][40] = list.get(i).allefficiency;
 			}
 		} else {
 			for (int i = 0; i < data.length; i++) {
@@ -208,24 +213,28 @@ public class PlayerPane extends JPanel implements ActionListener {
 				data[i][18] = list.get(i).defensiverebound;
 				data[i][19] = list.get(i).rebound;
 				
-				data[i][20] = list.get(i).assist;
-				data[i][21] = list.get(i).steal;
-				data[i][22] = list.get(i).block;
-				data[i][23] = list.get(i).error;
-				data[i][24] = list.get(i).foul;
-				data[i][25] = list.get(i).point;
-				data[i][26] = list.get(i).doubledouble;
-				data[i][27] = list.get(i).pointReboundAssist;
-				
-				data[i][28] = list.get(i).offensivereboundrate;
-				data[i][29] = list.get(i).defensivereboundrate;
-				data[i][30] = list.get(i).stealrate;
-				data[i][31] = list.get(i).assistrate;
-				data[i][32] = list.get(i).blockrate;
-				data[i][33] = list.get(i).errorrate;
-				data[i][34] = list.get(i).usage;
-				data[i][35] = list.get(i).gmsc;;
-				data[i][36] = list.get(i).efficiency;
+				data[i][20] = list.get(i).offense;
+				data[i][21] = list.get(i).defence;
+				data[i][22] = list.get(i).assist;
+				data[i][23] = list.get(i).steal;
+				data[i][24] = list.get(i).block;
+				data[i][25] = list.get(i).error;
+				data[i][26] = list.get(i).foul;
+				data[i][27] = list.get(i).point;
+				data[i][28] = list.get(i).doubledouble;
+				data[i][29] = list.get(i).pointReboundAssist;
+				 
+				data[i][30] = list.get(i).shootefficiency;
+				data[i][31] = list.get(i).offensivereboundrate;
+				data[i][32] = list.get(i).defensivereboundrate;
+				data[i][33] = list.get(i).reboundrate;
+				data[i][34] = list.get(i).stealrate;
+				data[i][35] = list.get(i).assistrate;
+				data[i][36] = list.get(i).blockrate;
+				data[i][37] = list.get(i).errorrate;
+				data[i][38] = list.get(i).usage;
+				data[i][39] = list.get(i).gmsc;;
+				data[i][40] = list.get(i).efficiency;
 			}
 		}
 		this.showTable(data);
@@ -246,10 +255,10 @@ public class PlayerPane extends JPanel implements ActionListener {
 				 "命中数","出手数","命中率",
 				 //篮板17-19
 				 "进攻篮板数", "防守篮板数", "篮板数",
-				 //20-27
-				 "助攻数", "抢断数", "盖帽数", "失误数", "犯规数","得分","两双","得分/篮板/助攻",
-				 //效率28-36
-				 "进攻篮板", "防守篮板", "抢断", "助攻","盖帽","失误","使用","GmSc","效率"
+				 //20-29
+				 "进攻数","防守数","助攻数", "抢断数", "盖帽数", "失误数", "犯规数","得分","两双","得分/篮板/助攻",
+				 //效率30-40
+				 "投篮","进攻篮板", "防守篮板","篮板", "抢断", "助攻","盖帽","失误","使用","GmSc","效率"
 				 };
 		
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
@@ -360,8 +369,6 @@ public class PlayerPane extends JPanel implements ActionListener {
         group5.add(cm.getColumn(18));
         
         ColumnGroup group6 = new ColumnGroup("效率");
-        group6.add(cm.getColumn(27));
-        group6.add(cm.getColumn(28));
         group6.add(cm.getColumn(29));
         group6.add(cm.getColumn(30));
         group6.add(cm.getColumn(31));
@@ -369,6 +376,10 @@ public class PlayerPane extends JPanel implements ActionListener {
         group6.add(cm.getColumn(33));
         group6.add(cm.getColumn(34));
         group6.add(cm.getColumn(35));
+        group6.add(cm.getColumn(36));
+        group6.add(cm.getColumn(37));
+        group6.add(cm.getColumn(38));
+        group6.add(cm.getColumn(39));
         
         @SuppressWarnings("unused")
 		GroupableTableHeader header = (GroupableTableHeader)table.getTableHeader();
