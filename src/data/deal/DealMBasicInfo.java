@@ -58,24 +58,28 @@ public class DealMBasicInfo {
 		return matchesInfo;
 	}
 	
+	/**判断一场比赛是否有脏数据*/
+	private static boolean hasDutyData;
 	private static void initMatchesInfo(String[] list) {
 		for(int i = 0; i < list.length; i++){
 			/**第i个文件的绝对路径*/
 			String absolutePath = rootDirectory + "\\" + list[i];
 			
 			MatchPO matchPO = new MatchPO();
+			hasDutyData = false;
 			matchPO.setSeason(list[i].split("_")[0]);
 			matchPO.setDate(list[i].split("_")[1]);
 						
 			/**解析文件获取球队比赛数据*/
 			ArrayList<MatchTeamDataPO> dataPOs = getTeams(absolutePath);
 			
-			if(dataPOs.size() != 0){
-				matchPO.setTeam1(dataPOs.get(0));
-				matchPO.setTeam2(dataPOs.get(1));
-				matchesInfo.add(matchPO);
+			if(hasDutyData){
+				dataPOs = calData(dataPOs);
 			}
 			
+			matchPO.setTeam1(dataPOs.get(0));
+			matchPO.setTeam2(dataPOs.get(1));
+			matchesInfo.add(matchPO);
 			/**读取完数据删除文件*/
 			File f = new File(absolutePath);
 			f.delete();
@@ -126,9 +130,17 @@ public class DealMBasicInfo {
 			MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
 			String[] data = team1Data.get(j).split(";");
 			
-			/**存在空(脏)数据 跳过该球员*/
-			if(isIllegalData(data))
+			/**存在空(脏)数据*/
+			if(isIllegalData(data).equals(DutyType.DUTY_TIME_AND_DATA) || isIllegalData(data).equals(DutyType.TIME_ZERO))
 				continue;
+			else if(isIllegalData(data).equals(DutyType.NULL_POINT)){
+				data[17] = "-1";
+				hasDutyData = true;
+			}
+			else if(isIllegalData(data).equals(DutyType.ONLY_DUTY_TIME)){
+				data[2] = "-1:00";
+				hasDutyData = true;
+			}
 			
 			/**设置球员比赛属性*/
 			playerDataPO = setData(data);
@@ -141,9 +153,22 @@ public class DealMBasicInfo {
 			MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
 			String[] data = team2Data.get(j).split(";");
 			
-			/**存在空(脏)数据 跳过该球员*/
-			if(isIllegalData(data))
+			/**存在空(脏)数据*/
+			if(isIllegalData(data).equals(DutyType.DUTY_TIME_AND_DATA) || isIllegalData(data).equals(DutyType.TIME_ZERO))
 				continue;
+			else if(isIllegalData(data).equals(DutyType.NULL_POINT)){
+				data[17] = "-1";
+				hasDutyData = true;
+			}
+			else if(isIllegalData(data).equals(DutyType.ONLY_DUTY_TIME)){
+				data[2] = "-1:00";
+				hasDutyData = true;
+			}
+			
+			if(Double.parseDouble(data[3])>Double.parseDouble(data[4]) || Double.parseDouble(data[5])>Double.parseDouble(data[6]) || Double.parseDouble(data[7])>Double.parseDouble(data[8]))
+			{
+				System.out.println(team1DataPO.getAbbName() + "-" + team2DataPO.getAbbName());
+			}
 			
 			/**设置球员比赛属性*/
 			playerDataPO = setData(data);
@@ -158,21 +183,26 @@ public class DealMBasicInfo {
 	
 	/**
 	 * 判断是否存在脏数据或空数据
-	 * @param data
-	 * @return
+	 * 返回值
 	 */
-	private static boolean isIllegalData(String[] data){
-		if(data[2].equals("null") || data[2].equals("None") || data[2].equals("00:00") || data[2].equals("0:00"))
-			return true;
+	private static DutyType isIllegalData(String[] data){
+		if(data[2].equals("0:00"))
+			return DutyType.TIME_ZERO;
+		else if(data[17].equals("None") || data[17].equals("null"))
+			return DutyType.NULL_POINT;
 		
-		for(int i = 3; i <= 17; i++){
-			if(data[i].equals("null") || data[i].equals("") || Double.parseDouble(data[i]) < 0)
-				return true;
+		if(data[2].equals("null") || data[2].equals("None"))
+			for(int i = 3; i <= 17; i++){
+				if(!data[i].equals("0"))
+					return DutyType.ONLY_DUTY_TIME;
+				else if(i == 17)
+					return DutyType.DUTY_TIME_AND_DATA;
 		}
 		
-		return false;
+		return DutyType.DATA_OK;
 	}
 
+	/**设置球员信息*/
 	private static MatchPlayerDataPO setData(String[] data){
 		MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
 		
@@ -196,5 +226,36 @@ public class DealMBasicInfo {
 		playerDataPO.setFreethrowmade(Double.parseDouble(data[7])); //罚球命中数
 		
 		return playerDataPO;
+	}
+	
+	/**可计算的脏数据*/
+	private static ArrayList<MatchTeamDataPO> calData(ArrayList<MatchTeamDataPO> pos){
+		/**每一个球队*/
+		for(int i = 0; i < pos.size(); i++){
+			/**脏数据球员移至末尾*/
+			ArrayList<MatchPlayerDataPO> players = pos.get(i).getTeamPlayers();
+			for(int j = 0; j < players.size(); j++){
+				if(players.get(j).getMinute() == -1 || players.get(j).getPoint() == -1){
+					/**交换至末尾*/
+					MatchPlayerDataPO temp = pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1);
+					pos.get(i).getTeamPlayers().set(pos.get(i).getTeamPlayers().size() - 1, pos.get(i).getTeamPlayers().get(j));
+					pos.get(i).getTeamPlayers().set(j, temp);
+					break;
+				}
+			}
+			
+			/**计算*/
+			double point = 0;
+			double minute = 0;
+			for(int j = 0; j < pos.get(i).getTeamPlayers().size() - 1; j++){
+				point += pos.get(i).getTeamPlayers().get(j).getPoint();
+				minute += pos.get(i).getTeamPlayers().get(j).getMinute();
+			}
+			
+			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(minute);
+			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setPoint(point);
+		}
+		
+		return pos;
 	}
 }

@@ -30,7 +30,7 @@ public class SaveMBasicPO {
 			String season = seasonMatches.get(i).get(0).getSeason();
 			File f2 = new File(rootPath + "\\" + season);
 			if(f2.exists())
-				seasonMatches.get(i).addAll(ReadMBasicPO.readMBasicPO(rootPath + "\\" + season));
+				seasonMatches.get(i).addAll(ReadMBasicPO.readMBasicPO(season));
 			
 			/**保存本赛季比赛*/
 			saveMBasicInfo(season, i);
