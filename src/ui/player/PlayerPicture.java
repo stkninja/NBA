@@ -1,4 +1,4 @@
-package ui;
+package ui.player;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

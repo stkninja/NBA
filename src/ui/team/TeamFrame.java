@@ -1,4 +1,4 @@
-package ui;
+package ui.team;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import ui.SvgUtil;
 import vo.TeamBasicInfoVO;
 
 public class TeamFrame extends JDialog{

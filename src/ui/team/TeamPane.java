@@ -1,4 +1,4 @@
-package ui;
+package ui.team;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,6 +32,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import ui.Region;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;

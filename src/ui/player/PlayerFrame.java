@@ -1,4 +1,4 @@
-package ui;
+package ui.player;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

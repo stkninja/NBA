@@ -25,6 +25,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.player.PlayerPane;
+import ui.team.TeamPane;
 import data.Pretreatment;
 
 /**
@@ -45,8 +47,10 @@ public class MainFrame extends JFrame{
 	private JButton mini;
 	//导航
 	private JPanel navigation;
+	private JButton hotspot;
 	private JButton team;
 	private JButton player;
+	private JButton match;
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
@@ -74,6 +78,9 @@ public class MainFrame extends JFrame{
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		
+		hotspot = new JButton("热点");
+		hotspot.setSize(new Dimension(80, 30));
+		hotspot.setPreferredSize(new Dimension(80, 30));
 		team = new JButton("球队");
 		team.setSize(new Dimension(80, 30));
 		team.setPreferredSize(new Dimension(80, 30));
@@ -82,10 +89,17 @@ public class MainFrame extends JFrame{
 		player.setSize(new Dimension(80, 30));
 		player.setPreferredSize(new Dimension(80, 30));
 //		this.setIcon(player, "data/pic/exit1.png", "data/pic/exit2.png");
+		match = new JButton("比赛");
+		match.setSize(new Dimension(80, 30));
+		match.setPreferredSize(new Dimension(80, 30));
 		
+		navigation.add(hotspot);
+		navigation.add(Box.createVerticalStrut(20));
 		navigation.add(team);
 		navigation.add(Box.createVerticalStrut(20));
 		navigation.add(player);
+		navigation.add(Box.createVerticalStrut(20));
+		navigation.add(match);
 		contentPane.add(navigation, BorderLayout.WEST);
 		//按钮
 		top = new JPanel(new FlowLayout(FlowLayout.RIGHT));

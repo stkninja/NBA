@@ -1,4 +1,4 @@
-package ui;
+package ui.player;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import ui.Region;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
