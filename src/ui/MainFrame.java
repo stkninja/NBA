@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -36,6 +37,7 @@ import data.Pretreatment;
 public class MainFrame extends JFrame{
 	private JPanel contentPane;//总panel
 	private JPanel pane;//内容panel
+	private CardLayout cardLayout;//卡片式布局
 	private ImageIcon background;//背景图片
 	//退出、最大最小化按钮
 	private JPanel top;
@@ -102,7 +104,13 @@ public class MainFrame extends JFrame{
 		top.add(exit);
 		contentPane.add(top, BorderLayout.NORTH);
 		//内容panel
-		pane = new TeamPane();
+		pane = new JPanel();
+		cardLayout = new CardLayout();
+		pane.setLayout(cardLayout);
+		pane.setOpaque(false);
+		
+		pane.add(new TeamPane(), "Team");
+		pane.add(new PlayerPane(), "Player");
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
 		exit.addActionListener(new ActionListener() {
@@ -117,18 +125,12 @@ public class MainFrame extends JFrame{
 		});
 		team.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.remove(pane);
-				pane = new TeamPane();
-				MainFrame.this.getContentPane().add(pane);
-				revalidate();
+				cardLayout.show(pane, "Team");
 			}
 		});
 		player.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainFrame.this.remove(pane);
-				pane = new PlayerPane();
-				MainFrame.this.getContentPane().add(pane);
-				revalidate();
+				cardLayout.show(pane, "Player");
 			}
 		});
 		//------------------------------------------------------------------
@@ -184,8 +186,7 @@ public class MainFrame extends JFrame{
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		Pretreatment.pretreatment();
-		
+		Pretreatment.pretreatment();//预处理
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("restriction")
