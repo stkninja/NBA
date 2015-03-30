@@ -82,7 +82,7 @@ public class PlayerFrame extends JDialog{
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 2 / 3;
-		frameWidth = frameHeight * 1;
+		frameWidth = frameHeight * 6 / 5;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//±³¾°Í¼Æ¬
 		bg = new ImageIcon("data/pic/Yellow.jpg");
