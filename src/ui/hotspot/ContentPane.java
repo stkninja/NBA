@@ -23,6 +23,10 @@ public class ContentPane extends JPanel{
 	private JLabel l4;
 	private JLabel l5;
 	//---------------------------------------------------------
+	/**
+	 * 
+	 * @param condition É¸Ñ¡Ìõ¼þ
+	 */
 	public ContentPane(String[] condition) {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
