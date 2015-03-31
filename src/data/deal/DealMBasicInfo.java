@@ -252,8 +252,8 @@ public class DealMBasicInfo {
 				minute += pos.get(i).getTeamPlayers().get(j).getMinute();
 			}
 			
-			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(minute);
-			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setPoint(point);
+			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(240 - minute);
+			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setPoint(pos.get(i).getQt1Scores() + pos.get(i).getQt2Scores() + pos.get(i).getQt3Scores() + pos.get(i).getQt4Scores() + pos.get(i).getQtPlusScores() - point);
 		}
 		
 		return pos;
