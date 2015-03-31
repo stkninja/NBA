@@ -243,13 +243,6 @@ public class DealPSeasonData {
 		return list;
 	}
 	
-	public double getTeamTime(){
-		double time = 0;
-		for(MatchPO po : matchesAbout){
-			time += po.getTeam1().getQtPlusNum() * 5;
-		}
-		return time;
-	}
 	/********************************************************************************************
 	 *获得球员name在season的所有比赛数据
 	 *该球员处于team1 中 
