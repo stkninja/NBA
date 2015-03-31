@@ -16,7 +16,7 @@ public class MatchTeamDataPO implements Serializable{
 	private double qt2Scores;
 	private double qt3Scores;
 	private double qt4Scores;
-	private double qtPlusScores;
+	private ArrayList<Double> qtPlusScores = new ArrayList<Double>();
 	private ArrayList<MatchPlayerDataPO> teamPlayers = new ArrayList<MatchPlayerDataPO>();
 
 	/**get set*/
@@ -52,12 +52,16 @@ public class MatchTeamDataPO implements Serializable{
 		this.qt4Scores = qt4Scores;
 	}
 	
-	public double getQtPlusScores() {
+	public ArrayList<Double> getQtPlusScores() {
 		return qtPlusScores;
 	}
 	
-	public void setQtPlusScores(double qtPlusScores) {
-		this.qtPlusScores = qtPlusScores;
+	public void addQtPlusScores(double qtPlusScores) {
+		this.qtPlusScores.add(qtPlusScores);
+	}
+	
+	public int getQtPlusNum(){
+		return qtPlusScores.size();
 	}
 	
 	public double getScores() {
