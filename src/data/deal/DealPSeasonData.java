@@ -43,9 +43,12 @@ public class DealPSeasonData {
 		    }
 		    
 		    double fieldgoalpercentsum = 0,threepointpercentsum = 0,freethrowpercentsum = 0,efficiencysum = 0,gmscsum = 0,
-		    		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,offensivereboundratesum = 0,defensivereboundratesum = 0,assistratesum = 0,stealratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0;
+		    		realshootpercentsum = 0,shootefficiencysum = 0,reboundratesum = 0,offensivereboundratesum = 0,defensivereboundratesum = 0,assistratesum = 0,stealratesum = 0,blockratesum = 0,errorratesum = 0,usagesum = 0,time = 0;
 		    
 		    for(MatchPO match : matchesAbout){
+		    	double plustime = match.getTeam1().getQtPlusNum() * 5;
+		    	time += plustime;
+		    	
 		    	for(MatchPlayerDataPO playerpo : match.getTeam1().getTeamPlayers()){
 		    		if(playerpo.getName().equals(name)){
 		    			po.setAllrebound(po.getAllrebound() + playerpo.getRebound());
@@ -88,21 +91,21 @@ public class DealPSeasonData {
 						if(playerpo.getShoot() != 0){
 							shootefficiencysum = shootefficiencysum + (playerpo.getShootmade() + 0.5 * playerpo.getThreepointmade()) / playerpo.getShoot();
 						}
-						reboundratesum = reboundratesum + playerpo.getRebound() * 48 / playerpo.getMinute() / (match.getTeam1().getRebounds() + match.getTeam2().getRebounds());
+						reboundratesum = reboundratesum + playerpo.getRebound() * (48 + plustime) / playerpo.getMinute() / (match.getTeam1().getRebounds() + match.getTeam2().getRebounds());
 						if(match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds() != 0){
-							offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds());
+							offensivereboundratesum = offensivereboundratesum + playerpo.getOffensiveRebounds() * (48 + plustime) / playerpo.getMinute() / (match.getTeam1().getOffensiveRebounds() + match.getTeam2().getOffensiveRebounds());
 						}
 						if(match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds() != 0){
-							defensivereboundratesum = defensivereboundratesum + playerpo.getDefensiveRebounds() * 48 / playerpo.getMinute() / (match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds());
+							defensivereboundratesum = defensivereboundratesum + playerpo.getDefensiveRebounds() * (48 + plustime) / playerpo.getMinute() / (match.getTeam1().getDefensiveRebounds() + match.getTeam2().getDefensiveRebounds());
 						}
-						if(playerpo.getMinute() / 48 * match.getTeam1().getShootingHit() - playerpo.getShootmade() != 0){
-							assistratesum = assistratesum + playerpo.getAssist() / (playerpo.getMinute() / 48 * match.getTeam1().getShootingHit() - playerpo.getShootmade());
+						if(playerpo.getMinute() / (48 + plustime) * match.getTeam1().getShootingHit() - playerpo.getShootmade() != 0){
+							assistratesum = assistratesum + playerpo.getAssist() / (playerpo.getMinute() / (48 + plustime) * match.getTeam1().getShootingHit() - playerpo.getShootmade());
 						}
 						if(match.getTeam2().getOffensiveRebounds() != 0){
-							stealratesum = stealratesum + playerpo.getSteal() * 48 / playerpo.getMinute() / match.getTeam2().getOffensiveRebounds();
+							stealratesum = stealratesum + playerpo.getSteal() * (48 + plustime) / playerpo.getMinute() / match.getTeam2().getOffensiveRebounds();
 						}
 						if(match.getTeam2().getThreePoint() != 0){
-							blockratesum = blockratesum + playerpo.getBlock() * 48 / playerpo.getMinute() / match.getTeam2().getThreePoint();
+							blockratesum = blockratesum + playerpo.getBlock() * (48 + plustime) / playerpo.getMinute() / match.getTeam2().getThreePoint();
 						}
 						
 						if(playerpo.getShoot() - playerpo.getThreepoint() + 0.44 * playerpo.getFreethrow() + playerpo.getError() != 0){
@@ -110,7 +113,7 @@ public class DealPSeasonData {
 						}
 						
 						if(match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers() != 0){
-							usagesum = usagesum + (playerpo.getShoot() + 0.44 * playerpo.getFreethrow() + playerpo.getError()) * 48 / playerpo.getMinute() / (match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers());
+							usagesum = usagesum + (playerpo.getShoot() + 0.44 * playerpo.getFreethrow() + playerpo.getError()) * (48 + plustime) / playerpo.getMinute() / (match.getTeam1().getShooting() + 0.44 * match.getTeam1().getFreeThrow() + match.getTeam1().getTurnovers());
 						}
 		    		}
 		    	}
@@ -149,23 +152,23 @@ public class DealPSeasonData {
 			}			
 			
 			po.setAllshootefficiency(Math.ceil((po.getAllshootmade() + 0.5 * po.getAllthreepointmade()) / po.getAllshoot() * 100)/ 100);
-			po.setAlloffensivereboundrate(Math.ceil(po.getAlloffensiverebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(0) + teamlist.get(4)) * 100)/ 100);
-			po.setAlldefensivereboundrate(Math.ceil(po.getAlldefensiverebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(1) + teamlist.get(5)) * 100)/ 100);
-			po.setAllreboundrate(Math.ceil(po.getAllrebound() * 48 * po.getGameplay() / po.getAllminute() / (teamlist.get(2) + teamlist.get(5) + teamlist.get(4)) * 100)/ 100);
-			po.setAllassistrate(Math.ceil(po.getAllassist() / (po.getAllminute() / (48 * po.getGameplay()) * teamlist.get(3) - po.getAllshootmade()) * 100)/ 100);
+			po.setAlloffensivereboundrate(Math.ceil(po.getAlloffensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(0) + teamlist.get(4)) * 100)/ 100);
+			po.setAlldefensivereboundrate(Math.ceil(po.getAlldefensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(1) + teamlist.get(5)) * 100)/ 100);
+			po.setAllreboundrate(Math.ceil(po.getAllrebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(2) + teamlist.get(5) + teamlist.get(4)) * 100)/ 100);
+			po.setAllassistrate(Math.ceil(po.getAllassist() / (po.getAllminute() / ((48 * po.getGameplay() + time)) * teamlist.get(3) - po.getAllshootmade()) * 100)/ 100);
 			
-			po.setAllstealrate(Math.ceil(po.getAllsteal() * (48 * po.getGameplay()) / po.getAllminute() / teamlist.get(4) * 100)/ 100);
+			po.setAllstealrate(Math.ceil(po.getAllsteal() * ((48 * po.getGameplay() + time)) / po.getAllminute() / teamlist.get(4) * 100)/ 100);
 			if(teamlist.get(6) - teamlist.get(7) == 0){
 				po.setAllblockrate(0);
 			}
 
 			else{				
-				po.setAllblockrate(Math.ceil(po.getAllblock() * (48 * po.getGameplay()) / po.getAllminute() / (teamlist.get(6) - teamlist.get(7)) * 100)/ 100);
+				po.setAllblockrate(Math.ceil(po.getAllblock() * ((48 * po.getGameplay() + time)) / po.getAllminute() / (teamlist.get(6) - teamlist.get(7)) * 100)/ 100);
 			}
 			
 			po.setAllerrorrate(Math.ceil(po.getAllerror() / (po.getAllshoot() - po.getAllthreepoint() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * 100)/ 100);
 			
-			po.setAllusage(Math.ceil((po.getAllshoot() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * (48 * po.getGameplay()) / po.getAllminute()  / (teamlist.get(8) + 0.44 * teamlist.get(9) + teamlist.get(10)) * 100)/ 100);
+			po.setAllusage(Math.ceil((po.getAllshoot() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * ((48 * po.getGameplay() + time)) / po.getAllminute()  / (teamlist.get(8) + 0.44 * teamlist.get(9) + teamlist.get(10)) * 100)/ 100);
 			
 			po.setRebound(Math.ceil(po.getAllrebound() / po.getGameplay() * 100) / 100);
 			po.setOffensiverebound(Math.ceil(po.getAlloffensiverebound() / po.getGameplay() * 100) / 100);
@@ -240,7 +243,13 @@ public class DealPSeasonData {
 		return list;
 	}
 	
-	
+	public double getTeamTime(){
+		double time = 0;
+		for(MatchPO po : matchesAbout){
+			time += po.getTeam1().getQtPlusNum() * 5;
+		}
+		return time;
+	}
 	/********************************************************************************************
 	 *获得球员name在season的所有比赛数据
 	 *该球员处于team1 中 
