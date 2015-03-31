@@ -1,17 +1,22 @@
 package event;
 
-import java.util.ArrayList;
+import java.util.EventObject;
 
-public class DataUpdEvent {
-	private ArrayList<DataUpdListener> listener;
+public class DataUpdEvent extends EventObject{
+	private static final long serialVersionUID = 1L;
+	//封装事件源
+	private Object source;
 	
-	public DataUpdEvent() {
-		listener = new ArrayList<DataUpdListener>();
+	public DataUpdEvent(Object source) {
+		super(source);
+		this.source = source;
 	}
 
-	public void addDataUpdListener(DataUpdListener dul){
-		listener.add(dul);
+	public Object getSource() {
+		return source;
 	}
-	
-	//
+
+	public void setSource(Object source) {
+		this.source = source;
+	}
 }

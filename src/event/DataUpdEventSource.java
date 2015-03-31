@@ -1,22 +1,71 @@
 package event;
 
-import java.util.EventObject;
+import java.io.File;
+import java.util.ArrayList;
 
-public class DataUpdEventSource extends EventObject{
-	private static final long serialVersionUID = 1L;
-	//封装事件源
-	private Object source;
+import data.Pretreatment;
+
+
+public class DataUpdEventSource implements Runnable{
 	
-	public DataUpdEventSource(Object source) {
-		super(source);
-		this.source = source;
+	private File f = new File("data\\matches");
+	private ArrayList<DataUpdListener> listener = new ArrayList<DataUpdListener>();
+	
+	public DataUpdEventSource(){
+		//轮询事件是否触发
+		Thread t = new Thread(this);
+		t.start();
+	}	
+	
+	public void addDataUpdListener(DataUpdListener dul){
+		this.listener.add(dul);
 	}
+	
+	private void notifies(){  
+		//更新数据库数据
+		Pretreatment.redoMBasic();
+		
+		//告知
+        for(DataUpdListener dul : listener)
+        	dul.dataUpdated(new DataUpdEvent(this));
+    }
 
-	public Object getSource() {
-		return source;
-	}
-
-	public void setSource(Object source) {
-		this.source = source;
-	}
+	//判断事件是否触发
+	public void run() {
+		int preSize = 0;
+		int curSize;
+		while(true){
+			String[] list = f.list();
+			curSize = list.length;
+			if(preSize == 0 && curSize == 0){
+				try {
+					//休眠10s
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(preSize != curSize){
+				try {
+					//休眠10s
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				preSize = curSize;
+			}
+			else if(preSize == curSize && curSize != 0){
+				//触发
+				this.notifies();
+				
+				try {
+					//完成更新 休眠20s
+					Thread.sleep(20000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				preSize = 0;
+			}
+		}
+	}  
 }

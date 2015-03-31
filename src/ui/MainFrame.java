@@ -29,6 +29,9 @@ import ui.hotspot.HotspotPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
 import data.Pretreatment;
+import event.DataUpdEvent;
+import event.DataUpdEventSource;
+import event.DataUpdListener;
 
 /**
  * 
@@ -160,6 +163,16 @@ public class MainFrame extends JFrame{
 		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
+		
+		
+		//启动线程
+		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
+		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
+			public void dataUpdated(DataUpdEvent e){
+				//刷新
+				System.out.println("有新数据，是否刷新");
+			} 
+		});
 	}
 	/**
 	 * 设置图标
@@ -208,6 +221,7 @@ public class MainFrame extends JFrame{
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		Pretreatment.pretreatment();//预处理
+		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("restriction")
