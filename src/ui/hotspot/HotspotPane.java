@@ -39,10 +39,10 @@ public class HotspotPane extends JScrollPane {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
         
-		ep1 = new ExpandablePane("data/pic/exit1.png", "data/pic/mini1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
-		ep2 = new ExpandablePane("data/pic/exit1.png", "data/pic/mini1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
-		ep3 = new ExpandablePane("data/pic/exit1.png", "data/pic/mini1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
-		ep4 = new ExpandablePane("data/pic/exit1.png", "data/pic/mini1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
+		ep1 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
+		ep2 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
+		ep3 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
+		ep4 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "¸ÇÃ±", "ÇÀ¶Ï"});
 		pane.add(ep1, gbc);
 		pane.add(ep2, gbc);
 		pane.add(ep3, gbc);

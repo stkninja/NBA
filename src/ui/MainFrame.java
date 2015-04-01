@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import ui.hotspot.HotspotPane;
+import ui.match.MatchPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
 import data.Pretreatment;
@@ -68,7 +69,7 @@ public class MainFrame extends JFrame{
 		int frameWidth = frameHeight * 9 / 5;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//±³¾°
-		background = new ImageIcon("data/pic/TeamFrame_background.jpg");
+		background = new ImageIcon("data/pic/background.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -85,19 +86,19 @@ public class MainFrame extends JFrame{
 		hotspot = new JButton();
 		hotspot.setSize(new Dimension(80, 30));
 		hotspot.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(hotspot, "data/pic/team1.png", "data/pic/exit2.png");
+		this.setIcon(hotspot, "data/pic/hotspot1.png", "data/pic/hotspot2.png");
 		team = new JButton();
 		team.setSize(new Dimension(80, 30));
 		team.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(team, "data/pic/team1.png", "data/pic/exit2.png");
+		this.setIcon(team, "data/pic/team1.png", "data/pic/team2.png");
 		player = new JButton();
 		player.setSize(new Dimension(80, 30));
 		player.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(player, "data/pic/team1.png", "data/pic/exit2.png");
+		this.setIcon(player, "data/pic/player1.png", "data/pic/player2.png");
 		match = new JButton();
 		match.setSize(new Dimension(80, 30));
 		match.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(match, "data/pic/team1.png", "data/pic/exit2.png");
+		this.setIcon(match, "data/pic/match1.png", "data/pic/match2.png");
 		
 		navigation.add(hotspot);
 		navigation.add(Box.createVerticalStrut(20));
@@ -132,6 +133,7 @@ public class MainFrame extends JFrame{
 		pane.add(new HotspotPane(), "Hotspot");
 		pane.add(new TeamPane(), "Team");
 		pane.add(new PlayerPane(), "Player");
+		pane.add(new MatchPane(), "Match");
 		contentPane.add(pane, BorderLayout.CENTER);
 		//¼àÌý
 		exit.addActionListener(new ActionListener() {
@@ -157,6 +159,11 @@ public class MainFrame extends JFrame{
 		player.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(pane, "Player");
+			}
+		});
+		match.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(pane, "Match");
 			}
 		});
 		//------------------------------------------------------------------
