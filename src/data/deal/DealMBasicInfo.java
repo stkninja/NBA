@@ -111,19 +111,10 @@ public class DealMBasicInfo {
 		team2DataPO.setQt3Scores(Double.parseDouble(matchData.get(1).split(";")[2].split("-")[1]));
 		team1DataPO.setQt4Scores(Double.parseDouble(matchData.get(1).split(";")[3].split("-")[0]));
 		team2DataPO.setQt4Scores(Double.parseDouble(matchData.get(1).split(";")[3].split("-")[1]));
-		if(matchData.get(1).split(";").length > 4){			
-			team1DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[4].split("-")[0]));
-			team2DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[4].split("-")[1]));
-		}
 		
-		if(matchData.get(1).split(";").length > 5){
-			team1DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[5].split("-")[0]));
-			team2DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[5].split("-")[1]));	
-		}
-			
-		if(matchData.get(1).split(";").length > 6){
-			team1DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[6].split("-")[0]));
-			team2DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[6].split("-")[1]));	
+		for(int i = 4; i < matchData.get(1).split(";").length; i++){
+			team1DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[i].split("-")[0]));
+			team2DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[i].split("-")[1]));
 		}
 			
 		/**每支球队的所有球员，从第4行开始*/
@@ -265,14 +256,7 @@ public class DealMBasicInfo {
 			}
 			
 			int temp = pos.get(i).getQtPlusScores().size();
-			if(temp == 0)
-				pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(240 - minute);
-			else if(temp == 1)
-				pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(265 - minute);
-			else if(temp == 2)
-				pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(290 - minute);
-			else if(temp == 3)
-				pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(315 - minute);
+			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setMinute(240 + 25 * temp - minute);
 			
 			pos.get(i).getTeamPlayers().get(pos.get(i).getTeamPlayers().size() - 1).setPoint(pos.get(i).getScores() - point);
 		}
