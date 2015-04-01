@@ -25,4 +25,8 @@ public class GetPlayerInfo implements PlayerService{
 		
 		return new PBasicInfoPO();
 	}
+
+	public PSeasonDataPO getOnePSeasonDataPO(String name, String season) {
+		return null;
+	}
 }
