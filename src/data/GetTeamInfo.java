@@ -28,6 +28,11 @@ public class GetTeamInfo implements TeamService{
 	}
 
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
-		return null;
+		ArrayList<TSeasonDataPO> pos = ReadTSeasonDataPO.readTSeasonDataPO(season);
+		for(TSeasonDataPO po :pos)
+			if(po.getAbbName().equals(abbName))
+				return po;
+		
+		return new TSeasonDataPO();
 	}
 }

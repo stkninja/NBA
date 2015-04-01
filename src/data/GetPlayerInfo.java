@@ -27,6 +27,11 @@ public class GetPlayerInfo implements PlayerService{
 	}
 
 	public PSeasonDataPO getOnePSeasonDataPO(String name, String season) {
-		return null;
+		ArrayList<PSeasonDataPO> pos = ReadPSeasonDataPO.readPSeasonDataPO(season);
+		for(PSeasonDataPO po :pos)
+			if(po.getName().equals(name))
+				return po;
+		
+		return new PSeasonDataPO();
 	}
 }
