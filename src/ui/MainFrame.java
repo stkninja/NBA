@@ -82,20 +82,22 @@ public class MainFrame extends JFrame{
 		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
 		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
 		
-		hotspot = new JButton("热点");
+		hotspot = new JButton();
 		hotspot.setSize(new Dimension(80, 30));
 		hotspot.setPreferredSize(new Dimension(80, 30));
-		team = new JButton("球队");
+		this.setIcon(hotspot, "data/pic/team1.png", "data/pic/exit2.png");
+		team = new JButton();
 		team.setSize(new Dimension(80, 30));
 		team.setPreferredSize(new Dimension(80, 30));
-//		this.setIcon(team, "data/pic/exit1.png", "data/pic/exit2.png");
-		player = new JButton("球员");
+		this.setIcon(team, "data/pic/team1.png", "data/pic/exit2.png");
+		player = new JButton();
 		player.setSize(new Dimension(80, 30));
 		player.setPreferredSize(new Dimension(80, 30));
-//		this.setIcon(player, "data/pic/exit1.png", "data/pic/exit2.png");
-		match = new JButton("比赛");
+		this.setIcon(player, "data/pic/team1.png", "data/pic/exit2.png");
+		match = new JButton();
 		match.setSize(new Dimension(80, 30));
 		match.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(match, "data/pic/team1.png", "data/pic/exit2.png");
 		
 		navigation.add(hotspot);
 		navigation.add(Box.createVerticalStrut(20));
@@ -187,6 +189,7 @@ public class MainFrame extends JFrame{
 		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
         button.setIcon(new ImageIcon(temp1));
 		button.setRolloverIcon(new ImageIcon(temp2));
+		button.setPressedIcon(new ImageIcon(temp2));
 		button.setFocusPainted(false);//无选择效果
         button.setOpaque(false);//透明
 		button.setContentAreaFilled(false);//填充
