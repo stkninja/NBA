@@ -26,4 +26,8 @@ public class GetTeamInfo implements TeamService{
 		
 		return new TBasicInfoPO();
 	}
+
+	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
+		return null;
+	}
 }

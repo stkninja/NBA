@@ -29,4 +29,27 @@ public class GetMatchInfo implements MatchService{
 	public ArrayList<MatchPO> getTodayAllMatches() {
 		return null;
 	}
+
+	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
+			String season) {
+		return null;
+	}
+
+	public ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
+		return null;
+	}
+
+	public ArrayList<MatchPO> getAllMatchesAboutTeam(String abbName,
+			String season) {
+		return null;
+	}
+
+	public ArrayList<MatchPO> getLastFiveMatchesAboutTeam(String abbName) {
+		return null;
+	}
+
+	public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1,
+			String abbName2, String season) {
+		return null;
+	}
 }
