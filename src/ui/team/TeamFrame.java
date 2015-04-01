@@ -171,6 +171,7 @@ public class TeamFrame extends JDialog{
 		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
         button.setIcon(new ImageIcon(temp1));
 		button.setRolloverIcon(new ImageIcon(temp2));
+		button.setPressedIcon(new ImageIcon(temp2));
 		button.setFocusPainted(false);//无选择效果
         button.setOpaque(false);//透明
 		button.setContentAreaFilled(false);//填充

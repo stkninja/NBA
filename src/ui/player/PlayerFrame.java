@@ -96,15 +96,16 @@ public class PlayerFrame extends JDialog{
 		panel1.setOpaque(false);
 		try{
 			portrait=ImageIO.read(vo.portrait);
+			portraiticon=new ImageIcon(portrait);
+		    JLabel Pic1 = new JLabel();
+		    Pic1.setIcon(portraiticon);
+		    panel1.add(Pic1);
 		}
 		catch (Exception ex){
 			
 		}
 		
-		portraiticon=new ImageIcon(portrait);
-		JLabel Pic1 = new JLabel();
-		Pic1.setIcon(portraiticon);
-		panel1.add(Pic1);
+		
 		try{
 			action = ImageIO.read(vo.action);
 			actionicon = new ImageIcon(action);
