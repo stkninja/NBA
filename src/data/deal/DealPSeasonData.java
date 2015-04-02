@@ -7,6 +7,7 @@ import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
 import po.TBasicInfoPO;
+import data.GetMatchInfo;
 import data.readPOs.ReadMBasicPO;
 import data.readPOs.ReadPBasicPO;
 import data.readPOs.ReadTBasicPO;
@@ -16,6 +17,11 @@ public class DealPSeasonData {
 	private static ArrayList<PBasicInfoPO> players;
 	private static ArrayList<TBasicInfoPO> teams;
 	private static ArrayList<MatchPO> matchesAbout;
+	private GetMatchInfo match;
+	
+	public DealPSeasonData(){
+		match = new GetMatchInfo();
+	}
 	
 	public ArrayList<PSeasonDataPO> dealPSeasonData(String season) {
 		matches =  ReadMBasicPO.readMBasicPO(season);
@@ -206,6 +212,39 @@ public class DealPSeasonData {
 			po.setBlockrate(Math.ceil(blockratesum / po.getGameplay() * 100)/ 100);
 			po.setErrorrate(Math.ceil(errorratesum / po.getGameplay() * 100)/ 100);
 			po.setUsage(Math.ceil(usagesum / po.getGameplay() * 100)/ 100);
+			
+			double fivepoint = 0,fiverebound = 0,fiveassist = 0;
+			for(MatchPO matchpo : match.getLastFiveMatchesAboutPlayer(po.getName())){
+				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
+					if(playerpo.getName().equals(po.getName())){
+						fivepoint += playerpo.getPoint();
+						fiverebound += playerpo.getRebound();
+						fiveassist += playerpo.getAssist();
+					}
+				}
+				for(MatchPlayerDataPO playerpo : matchpo.getTeam2().getTeamPlayers()){
+					if(playerpo.getName().equals(po.getName())){
+						fivepoint += playerpo.getPoint();
+						fiverebound += playerpo.getRebound();
+						fiveassist += playerpo.getAssist();
+					}
+				}
+			}
+			
+			if(po.getGameplay() <= 5){
+				po.setPointpromotion(0);
+				po.setReboundpromotion(0);
+				po.setAssistpromotion(0);
+			}
+			else{
+				double fivebeforepoint = (po.getAllpoint() - fivepoint) / (po.getGameplay() - 5);
+				double fivebeforerebound = (po.getAllrebound() - fiverebound) / (po.getGameplay() - 5);
+				double fivebeforeassist = (po.getAllassist() - fiveassist) / (po.getGameplay() - 5);
+			
+				po.setPointpromotion(Math.ceil((fivepoint / 5 - fivebeforepoint) / fivebeforepoint * 100) / 100);
+				po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
+				po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
+			}
 			
 			list.add(po);
 		}

@@ -23,6 +23,8 @@ public class TeamVO {
 	public String setupTime;
 	
 	/**球队比赛信息*/
+	//赛季
+	public String season;
 	//比赛场数
 	public double gamesNum;
 	//胜利场数

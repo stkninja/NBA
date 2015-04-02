@@ -80,6 +80,9 @@ public class PSeasonDataPO implements Serializable{
 	private double errorrate;     //场均失误率
 	private double allusage;         //总使用率
 	private double usage;         //场均使用率
+	private double pointpromotion;//场均得分近5场提升率
+	private double reboundpromotion;//场均篮板近5场提升率
+	private double assistpromotion;//场均助攻近5场提升率
 	
 	public String getSeason() {
 		return season;
@@ -536,5 +539,23 @@ public class PSeasonDataPO implements Serializable{
 	}
 	public void setUsage(double usage) {
 		this.usage = usage;
+	}
+	public double getPointpromotion() {
+		return pointpromotion;
+	}
+	public void setPointpromotion(double pointpromotion) {
+		this.pointpromotion = pointpromotion;
+	}
+	public double getReboundpromotion() {
+		return reboundpromotion;
+	}
+	public void setReboundpromotion(double reboundpromotion) {
+		this.reboundpromotion = reboundpromotion;
+	}
+	public double getAssistpromotion() {
+		return assistpromotion;
+	}
+	public void setAssistpromotion(double assistpromotion) {
+		this.assistpromotion = assistpromotion;
 	}
 }

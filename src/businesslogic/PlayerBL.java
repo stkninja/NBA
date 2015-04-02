@@ -2,24 +2,32 @@ package businesslogic;
 
 import java.util.ArrayList;
 
+import po.MatchPO;
+import po.MatchPlayerDataPO;
+import po.MatchTeamDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
+import vo.MatchPlayerDataVO;
+import vo.MatchTeamDataVO;
+import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
+import data.GetMatchInfo;
 import data.GetPlayerInfo;
+import dataservice.MatchService;
 import dataservice.PlayerService;
 
 public class PlayerBL implements businesslogicservice.PlayerBLService{
 	private PlayerService playerdata = null;
+	private MatchService matchdata = null;
 	
 	public PlayerBL(){
 		playerdata = new GetPlayerInfo();
+		matchdata = new GetMatchInfo();
 	}
 	
-	@Override
 	public ArrayList<PlayerVO> getPlayers(String subArea, String position,
 			String team) {
-		// TODO Auto-generated method stub
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		if(subArea.equals("All")){
 			if(position.equals("All")){
@@ -88,9 +96,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return list;
 	}
 
-	@Override
 	public PlayerBasicInfoVO getOnePlayer(String name) {
-		// TODO Auto-generated method stub
 		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
 		PBasicInfoPO pp = playerdata.getSinglePBasicInfo(name);
 		vo.name = pp.getName();
@@ -107,9 +113,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return vo;
 	}
 
-	@Override
 	public ArrayList<PlayerVO> getAllPlayers() {
-		// TODO Auto-generated method stub
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		for(PSeasonDataPO po : playerdata.getAllPSeasonData("13-14")){
 			list.add(potovo(po));
@@ -121,6 +125,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		PlayerVO vo = new PlayerVO();
 		vo.name = po.getName();
 		vo.team = po.getTeam();
+		vo.season = po.getSeason();
 		vo.position = po.getPosition();
 		vo.subArea = po.getSubArea();
 		vo.gameplay = po.getGameplay();
@@ -198,4 +203,299 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	    return vo;
 	}
 
+	public ArrayList<MatchVO> getLastFiveMatches(String name) {
+		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
+		for(MatchPO po : matchdata.getLastFiveMatchesAboutPlayer(name)){
+			list.add(potovo(po));
+		}
+		return list;
+	}
+
+	public ArrayList<MatchVO> getMatchesAboutPlayer(String season, String name) {
+		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
+		for(MatchPO po : matchdata.getAllMatchesAboutPlayer(name, season)){
+			list.add(potovo(po));
+		}
+		return list;
+	}
+
+	public PlayerVO getPlayerPast(String season, String name) {
+		PlayerVO vo = new PlayerVO();
+		vo = potovo(playerdata.getOnePSeasonDataPO(name, season));
+		return vo;
+	}
+
+	public ArrayList<PlayerVO> getTodayPlayers() {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(MatchPO matchpo : matchdata.getTodayAllMatches()){
+			for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
+				PlayerVO vo = new PlayerVO();
+				vo.name = playerpo.getName();
+				vo.team = matchpo.getTeam1().getAbbName();
+				vo.offensiverebound = playerpo.getOffensiveRebounds();
+				vo.defensiverebound = playerpo.getDefensiveRebounds();
+				vo.assist = playerpo.getAssist();
+				vo.minute = playerpo.getMinute();
+				vo.steal = playerpo.getSteal();
+				vo.block = playerpo.getBlock();
+				vo.error = playerpo.getError();
+				vo.foul = playerpo.getFoul();
+				vo.point = playerpo.getPoint();
+				vo.shoot = playerpo.getShoot();
+				vo.shootmade = playerpo.getShootmade();
+				vo.threepoint = playerpo.getThreepoint();
+				vo.threepointmade = playerpo.getThreepointmade();
+				vo.freethrow = playerpo.getFreethrow();
+				vo.freethrowmade = playerpo.getFreethrowmade();
+				vo.gamestart = (int) playerpo.getGameStart();
+				vo.rebound = playerpo.getRebound();
+				vo.assist = playerpo.getAssist();
+				vo.block = playerpo.getBlock();
+				vo.steal = playerpo.getSteal();
+				list.add(vo);
+			}
+			
+			for(MatchPlayerDataPO playerpo : matchpo.getTeam2().getTeamPlayers()){
+				PlayerVO vo = new PlayerVO();
+				vo.name = playerpo.getName();
+				vo.team = matchpo.getTeam2().getAbbName();
+				vo.offensiverebound = playerpo.getOffensiveRebounds();
+				vo.defensiverebound = playerpo.getDefensiveRebounds();
+				vo.assist = playerpo.getAssist();
+				vo.minute = playerpo.getMinute();
+				vo.steal = playerpo.getSteal();
+				vo.block = playerpo.getBlock();
+				vo.error = playerpo.getError();
+				vo.foul = playerpo.getFoul();
+				vo.point = playerpo.getPoint();
+				vo.shoot = playerpo.getShoot();
+				vo.shootmade = playerpo.getShootmade();
+				vo.threepoint = playerpo.getThreepoint();
+				vo.threepointmade = playerpo.getThreepointmade();
+				vo.freethrow = playerpo.getFreethrow();
+				vo.freethrowmade = playerpo.getFreethrowmade();
+				vo.gamestart = (int) playerpo.getGameStart();
+				vo.rebound = playerpo.getRebound();
+				vo.assist = playerpo.getAssist();
+				vo.block = playerpo.getBlock();
+				vo.steal = playerpo.getSteal();
+				list.add(vo);
+			}
+		}
+		return list;
+	}
+
+	public ArrayList<PlayerVO> getSeasonPlayers(String season) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(PSeasonDataPO po : playerdata.getAllPSeasonData(season)){
+			list.add(potovo(po));
+		}
+		return list;
+	}
+	
+	public MatchVO potovo(MatchPO po){
+		MatchVO vo = new MatchVO();
+		vo.season = po.getSeason();
+		vo.date = po.getDate();
+		vo.team1 = potovo(po.getTeam1());
+		vo.team2 = potovo(po.getTeam2());
+		
+		return vo;
+	}
+
+	public MatchTeamDataVO potovo(MatchTeamDataPO po){
+		MatchTeamDataVO vo = new MatchTeamDataVO();
+		vo.abbName = po.getAbbName();
+		vo.scores = po.getScores();
+		vo.qt1Scores = po.getQt1Scores();
+		vo.qt2Scores = po.getQt2Scores();
+		vo.qt3Scores = po.getQt3Scores();
+		vo.qt4Scores = po.getQt4Scores();
+		vo.qtPlusScores = po.getQtPlusScores();
+		for(MatchPlayerDataPO mp : po.getTeamPlayers()){
+			vo.teamPlayers.add(potovo(mp));
+		}
+		
+		return vo;
+	}
+	
+	public MatchPlayerDataVO potovo(MatchPlayerDataPO po){
+		MatchPlayerDataVO vo = new MatchPlayerDataVO();
+		vo.name = po.getName();
+		vo.offensiveRebounds = po.getOffensiveRebounds();
+		vo.defensiveRebounds = po.getDefensiveRebounds();
+		vo.assist = po.getAssist();
+		vo.minute = po.getMinute();
+		vo.steal = po.getSteal();
+		vo.block = po.getBlock();
+		vo.error = po.getError();
+		vo.foul = po.getFoul();
+		vo.point = po.getPoint();
+		vo.shoot = po.getShoot();
+		vo.shootmade = po.getShootmade();
+		vo.threepoint = po.getThreepoint();
+		vo.threepointmade = po.getThreepointmade();
+		vo.freethrow = po.getFreethrow();
+		vo.freethrowmade = po.getFreethrowmade();
+		vo.gameStart = po.getGameStart();
+		
+		return vo;
+	}
+	
+	private PlayerVO findMax(ArrayList<PlayerVO> templist,String filter){
+		PlayerVO max = new PlayerVO();
+		max = templist.get(0);
+		for(int i = 0;i < templist.size();i ++){
+			if(filter.equals("得分")){
+				if(max.point < templist.get(i).point){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("篮板")){
+				if(max.rebound < templist.get(i).rebound){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("助攻")){
+				if(max.assist < templist.get(i).assist){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("盖帽")){
+				if(max.block < templist.get(i).block){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("抢断")){
+				if(max.steal < templist.get(i).steal){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("三分命中率")){
+				if(max.allthreepointpercent < templist.get(i).allthreepointpercent){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("投篮命中率")){
+				if(max.allfieldgoalpercent < templist.get(i).allfieldgoalpercent){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("罚球命中率")){
+				if(max.allfreethrowpercent < templist.get(i).allfreethrowpercent){
+					max = templist.get(i);
+				}
+			}
+		}
+		return max;
+	}
+	
+	private ArrayList<PlayerVO> sort(ArrayList<PlayerVO> templist,String filter){
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		PlayerVO vo1 = findMax(templist,filter);
+		list.add(vo1);
+		templist.remove(vo1);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo2 = findMax(templist,filter);
+		list.add(vo2);
+		templist.remove(vo2);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo3 = findMax(templist,filter);
+		list.add(vo3);
+		templist.remove(vo3);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo4 = findMax(templist,filter);
+		list.add(vo4);
+		templist.remove(vo4);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo5 = findMax(templist,filter);
+		list.add(vo5);
+		templist.remove(vo5);
+		return list;
+	}
+
+	public ArrayList<PlayerVO> getTodayTopFivePlayers(String filter) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		ArrayList<PlayerVO> templist = getTodayPlayers();
+		list = sort(templist,filter);
+		return list;
+	}
+	
+	public ArrayList<PlayerVO> getSeasonTopFivePlayers(String season,
+			String filter) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		ArrayList<PlayerVO> templist = getSeasonPlayers(season);
+		list = sort(templist,filter);
+		return list;
+	}
+	
+	private PlayerVO findPromotionMax(ArrayList<PlayerVO> templist,String filter){
+		PlayerVO max = new PlayerVO();
+		max = templist.get(0);
+		for(int i = 0;i < templist.size();i ++){
+			if(filter.equals("场均得分")){
+				if(max.pointpromotion < templist.get(i).pointpromotion){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("场均篮板")){
+				if(max.reboundpromotion < templist.get(i).reboundpromotion){
+					max = templist.get(i);
+				}
+			}
+			else if(filter.equals("场均助攻")){
+				if(max.assistpromotion < templist.get(i).assistpromotion){
+					max = templist.get(i);
+				}
+			}
+		}
+		return max;
+	}
+	
+	private ArrayList<PlayerVO> sortPromotion(ArrayList<PlayerVO> templist,String filter){
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		PlayerVO vo1 = findPromotionMax(templist,filter);
+		list.add(vo1);
+		templist.remove(vo1);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo2 = findPromotionMax(templist,filter);
+		list.add(vo2);
+		templist.remove(vo2);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo3 = findPromotionMax(templist,filter);
+		list.add(vo3);
+		templist.remove(vo3);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo4 = findPromotionMax(templist,filter);
+		list.add(vo4);
+		templist.remove(vo4);
+		if(templist.size() == 0){
+			return list;
+		}
+		PlayerVO vo5 = findPromotionMax(templist,filter);
+		list.add(vo5);
+		templist.remove(vo5);
+		return list;
+	}
+
+	public ArrayList<PlayerVO> getPromotionPlayers(String filter) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		ArrayList<PlayerVO> templist = getSeasonPlayers(matchdata.getLastSeason());
+		list = sortPromotion(templist,filter);
+		return list;
+	}
 }

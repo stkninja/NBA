@@ -1,6 +1,7 @@
 package vo;
 
 public class PlayerVO {
+	public String season;
 	public String name;
 	public String team;
 	public String position;
@@ -76,6 +77,10 @@ public class PlayerVO {
 	public double errorrate;     //场均失误率
 	public double allusage;         //总使用率
 	public double usage;         //场均使用率
+	
+	public double pointpromotion;//场均得分近5场提升率
+	public double reboundpromotion;//场均篮板近5场提升率
+	public double assistpromotion;//场均助攻近5场提升率
 	
 	public PlayerVO(){
 		
