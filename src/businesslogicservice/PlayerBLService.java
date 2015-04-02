@@ -25,5 +25,5 @@ public interface PlayerBLService {
 	
 	public ArrayList<PlayerVO> getSeasonTopFivePlayers(String season,String filter);//依据筛选条件从赛季筛选前5名
 	
-	public ArrayList<PlayerVO> getPromotionPlayers(String filter);
+	public ArrayList<PlayerVO> getPromotionPlayers(String filter);//依据筛选条件筛选进步最快球员
 }
