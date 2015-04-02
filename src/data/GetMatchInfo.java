@@ -150,7 +150,7 @@ public class GetMatchInfo implements MatchService{
 	}
 	
 	//最近赛季
-	private String getLastSeason(){
+	public String getLastSeason(){
 		File f = new File("data\\统计赛季比赛数据");
 		String[] seasons = f.list();
 		return seasons[seasons.length - 1];
