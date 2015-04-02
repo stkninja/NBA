@@ -34,4 +34,5 @@ public class GetPlayerInfo implements PlayerService{
 		
 		return new PSeasonDataPO();
 	}
+	
 }

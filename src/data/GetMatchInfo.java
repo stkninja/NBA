@@ -92,7 +92,7 @@ public class GetMatchInfo implements MatchService{
 		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
 		for(MatchPO po : pos){
-			if(po.getTeam1().equals(abbName) || po.getTeam2().equals(abbName))
+			if(po.getTeam1().getAbbName().equals(abbName) || po.getTeam2().getAbbName().equals(abbName))
 				res.add(po);
 		}
 		

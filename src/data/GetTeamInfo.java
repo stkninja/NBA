@@ -35,4 +35,5 @@ public class GetTeamInfo implements TeamService{
 		
 		return new TSeasonDataPO();
 	}
+	
 }
