@@ -18,4 +18,6 @@ public interface MatchService {
 	public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1, String abbName2, String season);
 	//获得最近赛季
 	public String getLastSeason();
+	//
+	public ArrayList<String> getExistedSeasons();
 }
