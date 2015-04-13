@@ -39,10 +39,10 @@ public class HotspotPane extends JScrollPane {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
         
-		ep1 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"得分", "篮板", "助攻", "盖帽", "抢断"});
-		ep2 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"得分", "篮板", "助攻", "盖帽", "抢断"});
-		ep3 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"得分", "篮板", "助攻", "盖帽", "抢断"});
-		ep4 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"得分", "篮板", "助攻", "盖帽", "抢断"});
+		ep1 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"当天热点球员", "得分", "篮板", "助攻", "盖帽", "抢断"});
+		ep2 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"赛季热点球员", "场均得分", "场均篮板", "场均助攻", "场均盖帽", "场均抢断", "三分命中率", "投篮命中率", "罚球命中率"});
+		ep3 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"赛季热点球队", "场均得分", "场均篮板", "场均助攻", "场均盖帽", "场均抢断", "三分命中率", "投篮命中率", "罚球命中率"});
+		ep4 = new ExpandablePane("data/pic/2.png", "data/pic/1.png", new String[]{"进步最快球员", "场均得分", "场均篮板", "场均助攻"});
 		pane.add(ep1, gbc);
 		pane.add(ep2, gbc);
 		pane.add(ep3, gbc);
