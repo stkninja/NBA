@@ -245,7 +245,6 @@ public class DealPSeasonData {
 				po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
 				po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
 			}
-			
 			list.add(po);
 		}
 		return list;
