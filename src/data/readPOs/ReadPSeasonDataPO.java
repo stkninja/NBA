@@ -1,5 +1,6 @@
 package data.readPOs;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,9 +15,13 @@ public class ReadPSeasonDataPO {
 		ObjectInputStream ois = null;
 		try {
 			String path = "data\\统计球员比赛数据" + "\\" + season;
+			File f = new File(path);
 			
-			ois = new ObjectInputStream(new FileInputStream(path));
-			return (ArrayList<PSeasonDataPO>)ois.readObject();
+			if(f.exists()){
+				ois = new ObjectInputStream(new FileInputStream(path));
+				return (ArrayList<PSeasonDataPO>)ois.readObject();
+			}
+			return new ArrayList<PSeasonDataPO>();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -164,4 +164,16 @@ public class GetMatchInfo implements MatchService{
 				lastIndex = i;
 		return lastIndex;
 	}
+	
+	//获得数据库中已存在的赛季列表
+	public ArrayList<String> getExistedSeasons() {
+		File f = new File("data\\统计赛季比赛数据");
+		String[] seasons = f.list();
+		
+		ArrayList<String> array = new ArrayList<String>();
+		for(int i = 0; i < seasons.length; i++){
+			array.add(seasons[i]);
+		}
+		return array;
+	}
 }

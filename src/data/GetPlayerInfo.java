@@ -12,6 +12,17 @@ public class GetPlayerInfo implements PlayerService{
 
 	public GetPlayerInfo() {}
 
+
+	public ArrayList<String> getAllPlayersName() {
+		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<PBasicInfoPO> pos = ReadPBasicPO.readPBasicPO();
+		
+		for(PBasicInfoPO po : pos){
+			names.add(po.getName());
+		}
+		return names;
+	}
+	
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season) {
 		return ReadPSeasonDataPO.readPSeasonDataPO(season);
 	}
