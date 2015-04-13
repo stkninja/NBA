@@ -211,14 +211,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return list;
 	}
 
-	public ArrayList<MatchVO> getMatchesAboutPlayer(String season, String name) {
-		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
-		for(MatchPO po : matchdata.getAllMatchesAboutPlayer(name, season)){
-			list.add(potovo(po));
-		}
-		return list;
-	}
-
 	public PlayerVO getPlayerPast(String season, String name) {
 		PlayerVO vo = new PlayerVO();
 		vo = potovo(playerdata.getOnePSeasonDataPO(name, season));

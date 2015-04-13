@@ -133,7 +133,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		TeamVO vo = new TeamVO();
 		vo = potovo(teamdata.getOneTSeasonDataPO(name, season));
 		return vo;
-   }
+    }
 
 	public ArrayList<MatchVO> getSeasonMatches(String season, String name) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();

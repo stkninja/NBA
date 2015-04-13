@@ -213,7 +213,7 @@ public class DealPSeasonData {
 			po.setErrorrate(Math.ceil(errorratesum / po.getGameplay() * 100)/ 100);
 			po.setUsage(Math.ceil(usagesum / po.getGameplay() * 100)/ 100);
 			
-			double fivepoint = 0,fiverebound = 0,fiveassist = 0;
+/*			double fivepoint = 0,fiverebound = 0,fiveassist = 0;
 			for(MatchPO matchpo : match.getLastFiveMatchesAboutPlayer(po.getName())){
 				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
 					if(playerpo.getName().equals(po.getName())){
@@ -244,7 +244,7 @@ public class DealPSeasonData {
 				po.setPointpromotion(Math.ceil((fivepoint / 5 - fivebeforepoint) / fivebeforepoint * 100) / 100);
 				po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
 				po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
-			}
+			}*/
 			list.add(po);
 		}
 		return list;

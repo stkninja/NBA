@@ -12,9 +12,7 @@ public interface PlayerBLService {
 	public PlayerBasicInfoVO getOnePlayer(String name);
 	
 	public ArrayList<PlayerVO> getAllPlayers();
-	
-	public ArrayList<MatchVO> getMatchesAboutPlayer(String season,String name);
-	
+
 	public ArrayList<MatchVO> getLastFiveMatches(String name);
 	
 	public PlayerVO getPlayerPast(String season,String name);

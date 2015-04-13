@@ -3,9 +3,9 @@ package businesslogic;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import vo.MatchVO;
 import data.GetMatchInfo;
 import dataservice.MatchService;
-import vo.MatchVO;
 
 public class MatchBL implements businesslogicservice.MatchBLService{
 	private PlayerBL playerbl = null;
@@ -40,5 +40,11 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		}
 		return list;
 	}
-	
+
+	@Override
+	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season,
+			String date, String player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
