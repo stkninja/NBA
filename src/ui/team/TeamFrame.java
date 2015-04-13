@@ -350,7 +350,7 @@ public class TeamFrame extends JDialog{
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		//近比赛表格
-		String[] subTitle = {"日期", "比赛", "位置", "首发","时间",//0-4
+		String[] subTitle = {"日期", "比赛",//0-4
 					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
 					"失误","犯规","得分"//12-14
 					};

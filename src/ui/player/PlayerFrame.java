@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.imageio.ImageIO;
@@ -35,7 +36,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+import businesslogic.PlayerBL;
 import businesslogicservice.PlayerBLService;
+import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 
 public class PlayerFrame extends JDialog{
@@ -107,7 +110,7 @@ public class PlayerFrame extends JDialog{
 	boolean isDragged = false;
     
 	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
-		
+		bl = new PlayerBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -251,7 +254,8 @@ public class PlayerFrame extends JDialog{
 		table = new JTable();
 		sp = new JScrollPane(table);
 		sp.setOpaque(false);
-		this.setData();
+		
+		this.setData(vo.name);
 		table.setBackground(Color.YELLOW);
 
 		panel2.add(sp ,BorderLayout.CENTER);
@@ -369,24 +373,59 @@ public class PlayerFrame extends JDialog{
         });
 	}
 	
-	private void setData() {
+	private void setData(String name) {
+		ArrayList<MatchVO> list = bl.getLastFiveMatches(name);
 		Object[][] data = new Object[5][15];
 		for (int i = 0; i < 5; i++) {
-		     data[i][0] = "01-01";
-		     data[i][1] = "DAL-WAS";
-		     data[i][2] = "F";
-		     data[i][3] = "是";
-		     data[i][4] = "30:09";
-		     data[i][5] = "18-18";
-		     data[i][6] = "18-18";
-		     data[i][7] = "10-10";
-		     data[i][8] = "20-15-45";
-		     data[i][9] = "10";
-		     data[i][10] = "10";
-		     data[i][11] = "15";
-		     data[i][12] = "6";
-		     data[i][13] = "5";
-		     data[i][14] = "30";
+		     data[i][0] = list.get(i).date;
+		     data[i][1] = list.get(i).team1.abbName+list.get(i).team2.abbName;
+		     data[i][2] = "常规赛";
+		     for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
+		    	 if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
+		    		 if(list.get(i).team1.teamPlayers.get(m).gameStart==1){
+		    			 data[i][3] = "是";
+		    		 }
+		    		 else{
+		    			 data[i][3] = "否";
+		    		 }
+				     data[i][4] = list.get(i).team1.teamPlayers.get(m).minute;
+				     data[i][5] = list.get(i).team1.teamPlayers.get(m).shootmade+"-"+list.get(i).team1.teamPlayers.get(m).shoot;
+				     data[i][6] = list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+list.get(i).team1.teamPlayers.get(m).threepoint;
+				     data[i][7] = list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+list.get(i).team1.teamPlayers.get(m).freethrow;
+				     data[i][8] = list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
+				    		 +list.get(i).team1.teamPlayers.get(m).defensiveRebounds+"-"
+				    		 +(list.get(i).team1.teamPlayers.get(m).defensiveRebounds+list.get(i).team1.teamPlayers.get(m).offensiveRebounds);
+				     data[i][9] = list.get(i).team1.teamPlayers.get(m).assist;
+				     data[i][10] = list.get(i).team1.teamPlayers.get(m).steal;
+				     data[i][11] = list.get(i).team1.teamPlayers.get(m).block;
+				     data[i][12] = list.get(i).team1.teamPlayers.get(m).error;
+				     data[i][13] = list.get(i).team1.teamPlayers.get(m).foul;
+				     data[i][14] = list.get(i).team1.teamPlayers.get(m).point;
+		    	 }
+		     }
+		     for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
+		    	 if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
+		    		 if(list.get(i).team2.teamPlayers.get(m).gameStart==1){
+		    			 data[i][3] = "是";
+		    		 }
+		    		 else{
+		    			 data[i][3] = "否";
+		    		 }
+				     data[i][4] = list.get(i).team2.teamPlayers.get(m).minute;
+				     data[i][5] = list.get(i).team2.teamPlayers.get(m).shootmade+"-"+list.get(i).team2.teamPlayers.get(m).shoot;
+				     data[i][6] = list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+list.get(i).team2.teamPlayers.get(m).threepoint;
+				     data[i][7] = list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+list.get(i).team2.teamPlayers.get(m).freethrow;
+				     data[i][8] = list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
+				    		 +list.get(i).team2.teamPlayers.get(m).defensiveRebounds+"-"
+				    		 +(list.get(i).team2.teamPlayers.get(m).defensiveRebounds+list.get(i).team2.teamPlayers.get(m).offensiveRebounds);
+				     data[i][9] = list.get(i).team2.teamPlayers.get(m).assist;
+				     data[i][10] = list.get(i).team2.teamPlayers.get(m).steal;
+				     data[i][11] = list.get(i).team2.teamPlayers.get(m).block;
+				     data[i][12] = list.get(i).team2.teamPlayers.get(m).error;
+				     data[i][13] = list.get(i).team2.teamPlayers.get(m).foul;
+				     data[i][14] = list.get(i).team2.teamPlayers.get(m).point;
+		    	 }
+		     }
 		}
 		this.showTable(data);
 	}
