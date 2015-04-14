@@ -328,6 +328,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        table.setShowVerticalLines(false);
         
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 

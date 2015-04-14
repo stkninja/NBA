@@ -272,6 +272,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        table.setShowVerticalLines(false);
         table.setOpaque(false);
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 
