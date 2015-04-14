@@ -97,7 +97,7 @@ public class MatchPane extends JPanel{
 	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
-		String[] subtitle = new String[]{"赛季", "日期", "主队", "比分", "客队"};
+		String[] subtitle = new String[]{"赛季·", "日期", "主队", "比分", "客队"};
 		table = new JTable(new DefaultTableModel(data, subtitle) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
