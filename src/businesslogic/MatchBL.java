@@ -41,10 +41,21 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		return list;
 	}
 
-	@Override
+	public ArrayList<MatchVO> getAllMatches(){
+		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
+		for()
+	}
+	
 	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season,
 			String date, String player) {
-		// TODO Auto-generated method stub
-		return null;
+		if(team.equals("All")){
+			if(season.equals("All")){
+				if(date.equals("All")){
+					if(player.equals("All")){
+						
+					}
+				}
+			}
+		}
 	}
 }
