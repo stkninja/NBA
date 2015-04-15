@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -58,10 +59,12 @@ public class PlayerPane extends JPanel implements ActionListener {
 	private JLabel label2;
 	private JLabel label3;
 	private JLabel label4;
+	private JLabel label5;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
+	private JTextField season;
 	//--------------------------------------------------------------
 	public PlayerPane() {
 		this.setOpaque(false);
@@ -82,7 +85,10 @@ public class PlayerPane extends JPanel implements ActionListener {
 		label4 = new JLabel("Î»ÖÃ£º");
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
-		
+		label5 = new JLabel("Èü¼¾£º");
+		season = new JTextField("13-14",5);
+		pane.add(label5);
+		pane.add(season);
 		pane.add(label1);
 		pane.add(mode);
 		pane.add(label2);

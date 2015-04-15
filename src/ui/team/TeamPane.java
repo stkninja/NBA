@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -56,8 +57,10 @@ public class TeamPane extends JPanel implements ActionListener{
 	private JPanel pane;
 	private JLabel label1;
 	private JLabel label2;
+	private JLabel label3;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
+	private JTextField season;
 	//--------------------------------------------------------------
 	public TeamPane() {
 		this.setOpaque(false);
@@ -71,7 +74,10 @@ public class TeamPane extends JPanel implements ActionListener{
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.getRegion());
-		
+		label3 = new JLabel("赛季：");
+		season = new JTextField("13-14",5);
+		pane.add(label3);
+		pane.add(season);
 		pane.add(label1);
 		pane.add(mode);
 		pane.add(label2);

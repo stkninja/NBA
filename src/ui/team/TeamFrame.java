@@ -187,6 +187,7 @@ public class TeamFrame extends JDialog{
 		panel2 = new JPanel();
 		panel2.setOpaque(false);
 		panel2.setLayout(new BorderLayout());
+		panel2.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 		subpanel4 = new JPanel();
 		subpanel4.setOpaque(false);
 		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -195,34 +196,33 @@ public class TeamFrame extends JDialog{
 		subpanel4.add(recentTitle);
 		table = new JTable();
 		sp = new JScrollPane(table);
-		sp.setOpaque(false);
 		this.setData();
 		table.setBackground(Color.YELLOW);
-
-		panel2.add(sp ,BorderLayout.CENTER);
-		panel2.add(subpanel4,BorderLayout.NORTH);
-		//panel3---------------------------------------
-		panel3 = new JPanel();
-		panel3.setLayout(new BorderLayout());
-		panel3.setOpaque(false);
+		
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 		subpanel3.setOpaque(false);
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		type = new JLabel("数据类型:");
-		historytable = new JTable();
-		hsp = new JScrollPane(historytable);
-		hsp.setOpaque(false);
-		this.setHistoryData();
-		historytable.setBackground(Color.YELLOW);
-		
-		historyTitle = new JLabel("生涯统计:");
+        historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
 		subpanel3.add(historyTitle);
 		subpanel3.add(type);
 		subpanel3.add(mode);
 		
-		panel3.add(subpanel3,BorderLayout.NORTH);
+		panel2.add(sp ,BorderLayout.CENTER);
+		panel2.add(subpanel4,BorderLayout.NORTH);
+		panel2.add(subpanel3,BorderLayout.SOUTH);
+		//panel3---------------------------------------
+		panel3 = new JPanel();
+		panel3.setLayout(new BorderLayout());
+		panel3.setOpaque(false);
+		panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+		
+		historytable = new JTable();
+		hsp = new JScrollPane(historytable);
+		this.setHistoryData();
+		historytable.setBackground(Color.YELLOW);
 		panel3.add(hsp,BorderLayout.CENTER);
 		//数据panel---------------------------------------------
 		panelB = new JPanel();
@@ -237,6 +237,7 @@ public class TeamFrame extends JDialog{
 		
 		panelA1 = new JPanel();
 		panelA1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panelA1.setBorder(BorderFactory.createEmptyBorder(0, 65, 0, 0));
 		panelA2 = new JPanel();
 		panelA2.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelA2.setOpaque(false);
@@ -304,45 +305,38 @@ public class TeamFrame extends JDialog{
 	}
 	
 	private void setData() {
-		Object[][] data = new Object[5][15];
+		Object[][] data = new Object[5][9];
 		for (int i = 0; i < 5; i++) {
-		     data[i][0] = "01-01";
-		     data[i][1] = "DAL-WAS";
-		     data[i][2] = "F";
-		     data[i][3] = "是";
-		     data[i][4] = "30:09";
+		     data[i][0] = "13-14";
+		     data[i][1] = "4.12";
+		     data[i][2] = "DAL-WAS";
+		     data[i][3] = "25-55";
+		     data[i][4] = "30-20";
 		     data[i][5] = "18-18";
 		     data[i][6] = "18-18";
-		     data[i][7] = "10-10";
-		     data[i][8] = "20-15-45";
-		     data[i][9] = "10";
-		     data[i][10] = "10";
-		     data[i][11] = "15";
-		     data[i][12] = "6";
-		     data[i][13] = "5";
-		     data[i][14] = "30";
+		     data[i][7] = "12-12,12-12,12-12";
+		     data[i][8] = "98-99";
 		}
 		this.showTable(data);
 	}
 	
 	private void setHistoryData() {
-		Object[][] data = new Object[20][15];
+		Object[][] data = new Object[20][14];
 		for (int i = 0; i < 5; i++) {
 		     data[i][0] = "14-15";
-		     data[i][1] = "DAL";
-		     data[i][2] = "82";
-		     data[i][3] = "82";
-		     data[i][4] = "30:09";
-		     data[i][5] = "50%";
-		     data[i][6] = "30%";
-		     data[i][7] = "85%";
-		     data[i][8] = "20-15-45";
-		     data[i][9] = "8.6";
-		     data[i][10] = "2";
-		     data[i][11] = "0.2";
+		     data[i][1] = "50%";
+		     data[i][2] = "30%";
+		     data[i][3] = "82%";
+		     data[i][4] = "11-10-21";
+		     data[i][5] = "4";
+		     data[i][6] = "4";
+		     data[i][7] = "4";
+		     data[i][8] = "4";
+		     data[i][9] = "4";
+		     data[i][10] = "80";
+		     data[i][11] = "4";
 		     data[i][12] = "4";
-		     data[i][13] = "2.7";
-		     data[i][14] = "27";
+		     data[i][13] = "80";
 		}
 		this.showHistoryTable(data);
 	}
@@ -350,9 +344,9 @@ public class TeamFrame extends JDialog{
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		//近比赛表格
-		String[] subTitle = {"日期", "比赛",//0-4
-					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
-					"失误","犯规","得分"//12-14
+		String[] subTitle = {"赛季", "日期","比赛",//0-2
+					"第一节","第二节","第三节","第四节","加时",//3-7
+					"比分"//8
 					};
 		//------------------------------------------------------
 		@SuppressWarnings("serial")
@@ -364,21 +358,18 @@ public class TeamFrame extends JDialog{
 		table = new JTable(dm);
 		table.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table.setFont(new Font("宋体",0,12));
-		FitTableColumns(table);
-        table.getTableHeader().setReorderingAllowed(false); 
-        table.getTableHeader().setResizingAllowed(false);
-			
+//		FitTableColumns(table);
+        table.getTableHeader().setReorderingAllowed(false); //表头不能移动
+		
 		sp.setViewportView(table);
-		sp.setBorder(BorderFactory.createEmptyBorder(5, 20, 25, 20));
 		revalidate();
 	}
 	
 	private void showHistoryTable(Object[][] data) {
 		this.remove(historytable);
 		//生涯比赛表格
-		String[] subTitle = {"赛季", "球队", "出场", "首发","时间",//0-4
-					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
-					"失误","犯规","得分"//12-14
+		String[] subTitle = {"赛季","胜场","比赛场数","胜率","投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//0-7
+					"失误","犯规","得分"//8-10
 					};
 		//------------------------------------------------------
 		@SuppressWarnings("serial")
@@ -395,7 +386,6 @@ public class TeamFrame extends JDialog{
 		historytable.getTableHeader().setResizingAllowed(false);
 			
 		hsp.setViewportView(historytable);
-		hsp.setBorder(BorderFactory.createEmptyBorder(5, 20, 20, 20));
 		revalidate();
 	}
 //------------------------------------------------------------
