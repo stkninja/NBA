@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -15,8 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import vo.MatchVO;
 import businesslogic.MatchBL;
@@ -28,7 +33,7 @@ import businesslogicservice.MatchBLService;
  *
  */
 @SuppressWarnings("serial")
-public class MatchPane extends JPanel{
+public class MatchPane extends JPanel implements ActionListener{
 	private MatchBLService bl;
 	private JTable table;
 	private JScrollPane sp;
@@ -46,8 +51,10 @@ public class MatchPane extends JPanel{
 	private JTextField text1;
 	private JTextField text2;
 	private JButton search;
+	private JButton reset;
 	//--------------------------------------------------
 	public MatchPane() {
+		bl = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
@@ -60,18 +67,18 @@ public class MatchPane extends JPanel{
 		label3 = new JLabel("月");
 		label4 = new JLabel("日");
 		label5 = new JLabel("球员：");
-		label6 = new JLabel("球队：");
-		bl = new MatchBL();
+		label6 = new JLabel("球队缩写：");
 		comboBox1 = new JComboBox<String>((String[])bl.getAllSeasons().toArray(new String[bl.getAllSeasons().size()]));
-		comboBox2 = new JComboBox<String>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
-		comboBox3 = new JComboBox<String>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+		comboBox2 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
+		comboBox3 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
 													   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 													   "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
 		text1 = new JTextField();
 		text1.setPreferredSize(new Dimension(100, 20));
 		text2 = new JTextField();
-		text2.setPreferredSize(new Dimension(100, 20));
+		text2.setPreferredSize(new Dimension(50, 20));
 		search = new JButton("搜索");
+		reset = new JButton("重置");
 		
 		pane.add(label1);
 		pane.add(comboBox1);
@@ -84,19 +91,32 @@ public class MatchPane extends JPanel{
 		pane.add(text1);
 		pane.add(label6);
 		pane.add(text2);
-		
 		pane.add(search);
+		pane.add(reset);
 		this.add(pane, BorderLayout.NORTH);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
-		this.setData();
+		this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
 		this.add(sp, BorderLayout.CENTER);
 		//监听
+		search.addActionListener(this);
+		reset.addActionListener(this);
 	}
-	
-	private void setData() {
-		ArrayList<MatchVO> list = bl.getMatches((String)comboBox1.getSelectedItem());
+	/**
+	 * 监听
+	 * @param e
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == search)
+			this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem(), text1.getText()));
+		else
+			this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
+	}
+	/**
+	 * 设置数据
+	 */
+	private void setData(ArrayList<MatchVO> list) {
 		Object[][] data = new Object[list.size()][5];
 		for (int i = 0; i < list.size(); i++) {
 			data[i][0] = list.get(i).season;
@@ -113,12 +133,16 @@ public class MatchPane extends JPanel{
 	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
-		String[] subtitle = new String[]{"赛季", "日期", "主队", "比分", "客队"};
-		table = new JTable(new DefaultTableModel(data, subtitle) {
+		String[] subTitle = new String[]{"赛季", "日期", "主队", "比分", "客队"};
+		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-		});
+		};
+		table = new JTable(dm);
+        table.setShowVerticalLines(false);
+        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);
+        table.setRowSorter(sorter);
 		//列色
 	    DefaultTableCellRenderer tcr = new DefaultTableCellRenderer() {
 	    	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -131,12 +155,9 @@ public class MatchPane extends JPanel{
 	    };
 	    for(int i = 0; i < table.getColumnCount(); i++) {
 	    	table.getColumnModel().getColumn(i).setCellRenderer(tcr);
-	                  
 	    }
 	    tcr.setHorizontalAlignment(JLabel.CENTER);
-//	    table.getTableHeader().setDefaultRenderer(tcr);//表头居中
 	    table.setDefaultRenderer(Object.class, tcr);//内容居中
-	    table.setShowVerticalLines(false);
 		sp.setViewportView(table);
 		revalidate();
 	}

@@ -172,8 +172,6 @@ public class MainFrame extends JFrame{
 		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
-		
-		
 		//Æô¶¯Ïß³Ì
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){

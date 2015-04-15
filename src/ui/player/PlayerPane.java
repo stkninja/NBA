@@ -129,7 +129,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
+		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
 	}
 	/**
 	 * 设置表格数据
@@ -265,55 +265,40 @@ public class PlayerPane extends JPanel implements ActionListener {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-			public int getColumnCount()
-            {
+			public int getColumnCount() {
                 return subTitle.length-1;
             }
-             
-            public String getColumnName(int column)
-            {
+            public String getColumnName(int column) {
                 return subTitle[column + 1];
             }
-             
-            public int getRowCount()
-            {
+            public int getRowCount() {
                 return data.length;
             }
-             
-            public Object getValueAt(int row, int column)
-            {
+            public Object getValueAt(int row, int column) {
                 return data[row][column + 1];
             }
 			public Class<?> getColumnClass(int column) {  
-			        Class<?> returnValue;  
-			        if ((column >= 0) && (column < getColumnCount())) {  
-			            returnValue = getValueAt(0,column).getClass();  
-			        } else {  
-			            returnValue = Object.class;  
-			        }  
-			        return returnValue;  
-			    }  
+				Class<?> returnValue;  
+				if ((column >= 0) && (column < getColumnCount())) {  
+					returnValue = getValueAt(0,column).getClass();  
+				} else {  
+					returnValue = Object.class;  
+				}  
+				return returnValue;  
+			}  
 		};
 		dm.setDataVector(data, subTitle);
-		TableModel fixedColumnModel = new AbstractTableModel()
-        {
-            public int getColumnCount()
-            {
+		TableModel fixedColumnModel = new AbstractTableModel() {
+            public int getColumnCount() {
                 return 1;
             }
-             
-            public String getColumnName(int column)
-            {
+            public String getColumnName(int column) {
                 return subTitle[column];
             }
-             
-            public int getRowCount()
-            {
+            public int getRowCount() {
                 return data.length;
             }
-             
-            public Object getValueAt(int row, int column)
-            {
+            public Object getValueAt(int row, int column) {
                 return data[row][column];
             }
         };
@@ -388,29 +373,21 @@ public class PlayerPane extends JPanel implements ActionListener {
 		cm.addColumnGroup(group5);
 		cm.addColumnGroup(group6);
 		//列色-------------------------------------------------------
-		try
-        {
-            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer()
-            {
-              public Component getTableCellRendererComponent(JTable table,
-                  Object value, boolean isSelected, boolean hasFocus,
-                  int row, int column)
-              {
-                if(column%2 == 0)
-                  setBackground(Color.white); //设置奇数行底色
-                else if(column%2 == 1)
-                  setBackground(new Color(206,231,255));  //设置偶数行底色
-                return super.getTableCellRendererComponent(table, value,
-                isSelected, hasFocus, row, column); }
+		try {
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer() {
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+					if(column%2 == 0)
+						setBackground(Color.white); //设置奇数行底色
+					else if(column%2 == 1)
+						setBackground(new Color(206,231,255));  //设置偶数行底色
+					return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				}
             };
-                for(int i = 0; i < table.getColumnCount(); i++) {
-                  cm.getColumn(i).setCellRenderer(tcr);
-                  
-          }
-        }
-        catch (Exception ex)
-        {
-          ex.printStackTrace();
+            for(int i = 0; i < table.getColumnCount(); i++) {
+            	cm.getColumn(i).setCellRenderer(tcr);
+            }
+        } catch (Exception ex) {
+        	ex.printStackTrace();
         }
 		fixedTable.setBackground(Color.PINK);
 		//表格监听
