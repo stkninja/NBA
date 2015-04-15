@@ -15,6 +15,8 @@ public interface PlayerBLService {
 	
 	public PlayerVO getPlayerPast(String season,String name);
 	
+	public ArrayList<PlayerVO> getAllSeasonPlayer(String name);
+	
 	public ArrayList<PlayerVO> getSeasonPlayers(String season);
 	
 	public ArrayList<PlayerVO> getTodayTopFivePlayers(String filter);//依据筛选条件从当天筛选前5名

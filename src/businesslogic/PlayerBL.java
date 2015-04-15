@@ -1,7 +1,7 @@
 package businesslogic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 import po.MatchPO;
@@ -572,7 +572,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		case "得分/篮板/助攻":
 			res = vo.allpointReboundAssist;
 			break;
-		case "场均场均篮板数":
+		case "场均篮板数":
 			res = vo.rebound;
 			break;
 		case "场均助攻数":
@@ -657,15 +657,60 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return res;		
 	}
 	
-	public ArrayList<PlayerVO> sort(ArrayList<PlayerVO> list,ArrayList<String> filter){
+	public ArrayList<PlayerVO> sortPlayer(ArrayList<PlayerVO> list,ArrayList<String> filter,String sortOrder){
 		Comparator<PlayerVO> comparator = new Comparator<PlayerVO>(){
 			public int compare(PlayerVO vo1, PlayerVO vo2) {
-				
-				return 0;
+				int res = 0;
+				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("球员名称")){
+						if(!vo1.name.equals(vo2.name)){
+							res = vo1.name.compareTo(vo2.name);
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else if(filter.get(i).equals("所属球队")){
+						if(!vo1.team.equals(vo2.team)){
+							res = vo1.team.compareTo(vo2.team);
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+						if(getAttribute(vo1,filter.get(i)) != getAttribute(vo2,filter.get(i))){
+							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				return res;
 			}
-			
 		};
+		Collections.sort(list,comparator);
+		if(sortOrder.equals("升序")){
+			return list;
+		}
+		else{
+			ArrayList<PlayerVO> reslist = new ArrayList<PlayerVO>();
+			for(int j = list.size() - 1;j >= 0;j --){
+				reslist.add(list.get(j));
+			}
+			return reslist;
+		}
+	}
+
+	public ArrayList<PlayerVO> getAllSeasonPlayer(String name) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(String season : matchdata.getExistedSeasons()){
+			list.add(getPlayerPast(season,name));
+		}
 		return list;
 	}
-	
 }

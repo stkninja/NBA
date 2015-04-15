@@ -1,6 +1,8 @@
 package businesslogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import po.MatchPO;
 import po.TBasicInfoPO;
@@ -332,5 +334,219 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		}
 		list = sort(templist,filter);
 		return list;
+	}
+	
+	public double getAttribute(TeamVO vo,String filter){
+		double res = 0;
+		switch (filter){
+		case "比赛场数":
+			res = vo.gamesNum;
+			break;
+		case "胜率":
+			res = vo.winsRate;
+			break;
+		case "投篮命中数":
+			res = vo.allshootingHit;
+			break;
+		case "投篮出手次数":
+			res = vo.allshooting;
+			break;
+		case "三分命中数":
+			res = vo.allthreePointHits;
+			break;
+		case "三分出手数":
+			res = vo.allthreePoint;
+			break;
+		case "罚球命中数":
+			res = vo.allfreeThrowHit;
+			break;
+		case "罚球出手数":
+			res = vo.allfreeThrow;
+			break;
+		case "进攻篮板数":
+			res = vo.alloffensiveRebounds;
+			break;
+		case "防守篮板数":
+			res = vo.alldefensiveRebounds;
+			break;
+		case "进攻回合":
+			res = vo.allattackRound;
+			break;
+		case "进攻效率":
+			res = vo.allattackEfficiency;
+			break;
+		case "防守效率":
+			res = vo.alldefenceEfficiency;
+			break;
+		case "进攻篮板效率":
+			res = vo.alloffensivereboundsEfficiency;
+			break;
+		case "防守篮板效率":
+			res = vo.alldefensivereboundsEfficiency;
+			break;
+		case "抢断效率":
+			res = vo.allstealEfficiency;
+			break;
+			
+		case "篮板数":
+			res = vo.allrebounds;
+			break;
+		case "助攻数":
+			res = vo.allassists;
+			break;
+		case "投篮命中率":
+			res = vo.allshootingHitRate;
+			break;
+		case "三分命中率":
+			res = vo.allthreePointHitRate;
+			break;
+		case "罚球命中率":
+			res = vo.allfreeThrowHitRate;
+			break;
+		case "抢断数":
+			res = vo.allsteal;
+			break;
+		case "盖帽数":
+			res = vo.allcaps;
+			break;
+		case "失误数":
+			res = vo.allturnovers;
+			break;
+		case "犯规数":
+			res = vo.allfouls;
+			break;
+		case "比赛得分":
+			res = vo.allscores;
+			break;
+		case "助攻效率":
+			res = vo.allassistEfficiency;
+			break;
+			
+		case "场均投篮命中数":
+			res = vo.shootingHit;
+			break;
+		case "场均投篮出手次数":
+			res = vo.shooting;
+			break;
+		case "场均三分命中数":
+			res = vo.threePointHits;
+			break;
+		case "场均三分出手数":
+			res = vo.threePoint;
+			break;
+		case "场均罚球命中数":
+			res = vo.freeThrowHit;
+			break;
+		case "场均罚球出手数":
+			res = vo.freeThrow;
+			break;
+		case "场均进攻篮板数":
+			res = vo.offensiveRebounds;
+			break;
+		case "场均防守篮板数":
+			res = vo.defensiveRebounds;
+			break;
+		case "场均篮板数":
+			res = vo.rebounds;
+			break;
+		case "场均进攻回合":
+			res = vo.attackRound;
+			break;
+		case "场均助攻数":
+			res = vo.assists;
+			break;
+		case "场均投篮命中率":
+			res = vo.shootingHitRate;
+			break;
+		case "场均三分命中率":
+			res = vo.threePointHitRate;
+			break;
+		case "场均罚球命中率":
+			res = vo.freeThrowHitRate;
+			break;
+		case "场均抢断数":
+			res = vo.steal;
+			break;
+		case "场均盖帽数":
+			res = vo.caps;
+			break;
+		case "场均失误数":
+			res = vo.turnovers;
+			break;
+		case "场均犯规数":
+			res = vo.fouls;
+			break;
+		case "场均比赛得分":
+			res = vo.scores;
+			break;
+		case "场均进攻篮板效率":
+			res = vo.offensivereboundsEfficiency;
+			break;
+		case "场均防守篮板效率":
+			res = vo.defensivereboundsEfficiency;
+			break;
+		case "场均进攻效率":
+			res = vo.attackEfficiency;
+			break;
+		case "场均防守效率":
+			res = vo.defenceEfficiency;
+			break;
+		case "场均助攻效率":
+			res = vo.assistEfficiency;
+			break;
+		case "场均抢断效率":
+			res = vo.stealEfficiency;
+			break;
+		}
+		return res;		
+	}
+	
+	public ArrayList<TeamVO> sortTeam(ArrayList<TeamVO> list,ArrayList<String> filter,String sortOrder){
+		Comparator<TeamVO> comparator = new Comparator<TeamVO>(){
+			public int compare(TeamVO vo1, TeamVO vo2) {
+				int res = 0;
+				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("球队名称")){
+						if(!vo1.fullName.equals(vo2.fullName)){
+							res = vo1.fullName.compareTo(vo2.fullName);
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else if(filter.get(i).equals("队名缩写")){
+						if(!vo1.abbName.equals(vo2.abbName)){
+							res = vo1.abbName.compareTo(vo2.abbName);
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+						if(getAttribute(vo1,filter.get(i)) != getAttribute(vo2,filter.get(i))){
+							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				return res;
+			}
+		};
+		Collections.sort(list,comparator);
+		if(sortOrder.equals("升序")){
+			return list;
+		}
+		else{
+			ArrayList<TeamVO> reslist = new ArrayList<TeamVO>();
+			for(int j = list.size() - 1;j >= 0;j --){
+				reslist.add(list.get(j));
+			}
+			return reslist;
+		}
 	}
 }
