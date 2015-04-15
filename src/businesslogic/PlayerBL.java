@@ -660,7 +660,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public ArrayList<PlayerVO> sort(ArrayList<PlayerVO> list,ArrayList<String> filter){
 		Comparator<PlayerVO> comparator = new Comparator<PlayerVO>(){
 			public int compare(PlayerVO vo1, PlayerVO vo2) {
-				if()
+				
 				return 0;
 			}
 			

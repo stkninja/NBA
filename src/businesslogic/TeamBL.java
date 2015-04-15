@@ -26,7 +26,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	public ArrayList<TeamVO> getTeams(String season,String subArea) {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		if(season.equals("All")){
+		if(subArea.equals("All")){
 			return getSeasonTeams(season);
 		}
 		else{
