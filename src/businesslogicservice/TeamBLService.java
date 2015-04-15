@@ -7,7 +7,7 @@ import vo.TeamBasicInfoVO;
 import vo.TeamVO;
 
 public interface TeamBLService {
-	public ArrayList<TeamVO> getTeams(String subArea);
+	public ArrayList<TeamVO> getTeams(String season,String subArea);
 	
 	public TeamBasicInfoVO getOneTeam(String name);
 	

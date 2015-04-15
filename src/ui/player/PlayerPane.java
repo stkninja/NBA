@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -58,10 +59,12 @@ public class PlayerPane extends JPanel implements ActionListener {
 	private JLabel label2;
 	private JLabel label3;
 	private JLabel label4;
+	private JLabel label5;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
+	private JTextField season;
 	//--------------------------------------------------------------
 	public PlayerPane() {
 		this.setOpaque(false);
@@ -82,7 +85,10 @@ public class PlayerPane extends JPanel implements ActionListener {
 		label4 = new JLabel("位置：");
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
-		
+		label5 = new JLabel("赛季：");
+		season = new JTextField("13-14",5);
+		pane.add(label5);
+		pane.add(season);
 		pane.add(label1);
 		pane.add(mode);
 		pane.add(label2);
@@ -97,7 +103,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		bl = new PlayerBL();
-		this.setData(bl.getAllPlayers());
+		this.setData(bl.getSeasonPlayers(season.getText()));
 		//监听
 		mode.addActionListener(this);
 		region.addActionListener(new ActionListener() {
@@ -120,7 +126,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		team.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED)
-					PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+					PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 			}
 		});
 		position.addActionListener(this);
@@ -129,7 +135,11 @@ public class PlayerPane extends JPanel implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
+=======
+		PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
+>>>>>>> branch 'master' of https://github.com/stkninja/NBA.git
 	}
 	/**
 	 * 设置表格数据

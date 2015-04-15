@@ -1,7 +1,6 @@
 package ui.player;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -114,7 +113,7 @@ public class PlayerFrame extends JDialog{
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 11 / 16;
+		int frameHeight = screenSize.height * 12 / 16;
 		int frameWidth = frameHeight * 21 / 16;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景图片
@@ -166,12 +165,10 @@ public class PlayerFrame extends JDialog{
 		//基本数据panel----------------------------------------
 	
 		subpanel1 = new JPanel();
-//		subpanel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		subpanel1.setLayout(new GridLayout(4,2,0,0));
 		subpanel1.setOpaque(false);
 		
 		subpanel2 = new JPanel();
-//		subpanel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		subpanel2.setLayout(new GridLayout(4,2,0,0));
 		subpanel2.setOpaque(false);
 		
@@ -245,6 +242,7 @@ public class PlayerFrame extends JDialog{
 		panel2 = new JPanel();
 		panel2.setOpaque(false);
 		panel2.setLayout(new BorderLayout());
+		panel2.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 		subpanel4 = new JPanel();
 		subpanel4.setOpaque(false);
 		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -254,35 +252,33 @@ public class PlayerFrame extends JDialog{
 		table = new JTable();
 		sp = new JScrollPane(table);
 		sp.setOpaque(false);
-		
 		this.setData(vo.name);
-		table.setBackground(Color.YELLOW);
-
-		panel2.add(sp ,BorderLayout.CENTER);
-		panel2.add(subpanel4,BorderLayout.NORTH);
 		
-		//panel3
-		panel3 = new JPanel();
-		panel3.setLayout(new BorderLayout());
-		panel3.setOpaque(false);
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 		subpanel3.setOpaque(false);
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		type = new JLabel("数据类型:");
-		historytable = new JTable();
-		hsp = new JScrollPane(historytable);
-		hsp.setOpaque(false);
-		this.setHistoryData();
-		historytable.setBackground(Color.YELLOW);
-		
 		historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
-		subpanel3.add(historyTitle);
+        subpanel3.add(historyTitle);
 		subpanel3.add(type);
 		subpanel3.add(mode);
 		
-		panel3.add(subpanel3,BorderLayout.NORTH);
+		panel2.add(sp ,BorderLayout.CENTER);
+		panel2.add(subpanel4,BorderLayout.NORTH);
+		panel2.add(subpanel3,BorderLayout.SOUTH);
+		//panel3
+		panel3 = new JPanel();
+		panel3.setLayout(new BorderLayout());
+		panel3.setOpaque(false);
+        panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+		
+		historytable = new JTable();
+		hsp = new JScrollPane();
+		hsp.setViewportView(historytable);
+		this.setHistoryData();
+		
 		panel3.add(hsp,BorderLayout.CENTER);
 		
 		//数据panel--------------------------------------------------
@@ -300,6 +296,7 @@ public class PlayerFrame extends JDialog{
 		
 		panelA1 = new JPanel();
 		panelA1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panelA1.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
 		panelA2 = new JPanel();
 		panelA2.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelA2.setOpaque(false);
@@ -325,7 +322,6 @@ public class PlayerFrame extends JDialog{
 		panel.setLayout(new BorderLayout());
 		panel.add(panelB,BorderLayout.CENTER);
 		panel.add(panelA,BorderLayout.NORTH);
-		//panel.add(panelC,BorderLayout.SOUTH);
 		
 		this.setContentPane(panel);
 		panel.setOpaque(false);
@@ -377,8 +373,8 @@ public class PlayerFrame extends JDialog{
 		ArrayList<MatchVO> list = bl.getLastFiveMatches(name);
 		Object[][] data = new Object[5][15];
 		for (int i = 0; i < 5; i++) {
-		     data[i][0] = list.get(i).date;
-		     data[i][1] = list.get(i).team1.abbName+list.get(i).team2.abbName;
+		     data[i][0] = list.get(i).season+"·"+list.get(i).date;
+		     data[i][1] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;
 		     data[i][2] = "常规赛";
 		     for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
 		    	 if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
@@ -388,19 +384,19 @@ public class PlayerFrame extends JDialog{
 		    		 else{
 		    			 data[i][3] = "否";
 		    		 }
-				     data[i][4] = list.get(i).team1.teamPlayers.get(m).minute;
-				     data[i][5] = list.get(i).team1.teamPlayers.get(m).shootmade+"-"+list.get(i).team1.teamPlayers.get(m).shoot;
-				     data[i][6] = list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+list.get(i).team1.teamPlayers.get(m).threepoint;
-				     data[i][7] = list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+list.get(i).team1.teamPlayers.get(m).freethrow;
-				     data[i][8] = list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
-				    		 +list.get(i).team1.teamPlayers.get(m).defensiveRebounds+"-"
-				    		 +(list.get(i).team1.teamPlayers.get(m).defensiveRebounds+list.get(i).team1.teamPlayers.get(m).offensiveRebounds);
-				     data[i][9] = list.get(i).team1.teamPlayers.get(m).assist;
-				     data[i][10] = list.get(i).team1.teamPlayers.get(m).steal;
-				     data[i][11] = list.get(i).team1.teamPlayers.get(m).block;
-				     data[i][12] = list.get(i).team1.teamPlayers.get(m).error;
-				     data[i][13] = list.get(i).team1.teamPlayers.get(m).foul;
-				     data[i][14] = list.get(i).team1.teamPlayers.get(m).point;
+				     data[i][4] = Math.ceil(list.get(i).team1.teamPlayers.get(m).minute * 100) / 100;
+				     data[i][5] = (int)list.get(i).team1.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).shoot;
+				     data[i][6] = (int)list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).threepoint;
+				     data[i][7] = (int)list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).freethrow;
+				     data[i][8] = (int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
+				    		 +(int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+"-"
+				    		 +((int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds);
+				     data[i][9] =(int)list.get(i).team1.teamPlayers.get(m).assist;
+				     data[i][10] = (int)list.get(i).team1.teamPlayers.get(m).steal;
+				     data[i][11] = (int)list.get(i).team1.teamPlayers.get(m).block;
+				     data[i][12] = (int)list.get(i).team1.teamPlayers.get(m).error;
+				     data[i][13] = (int)list.get(i).team1.teamPlayers.get(m).foul;
+				     data[i][14] = (int)list.get(i).team1.teamPlayers.get(m).point;
 		    	 }
 		     }
 		     for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
@@ -411,19 +407,19 @@ public class PlayerFrame extends JDialog{
 		    		 else{
 		    			 data[i][3] = "否";
 		    		 }
-				     data[i][4] = list.get(i).team2.teamPlayers.get(m).minute;
-				     data[i][5] = list.get(i).team2.teamPlayers.get(m).shootmade+"-"+list.get(i).team2.teamPlayers.get(m).shoot;
-				     data[i][6] = list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+list.get(i).team2.teamPlayers.get(m).threepoint;
-				     data[i][7] = list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+list.get(i).team2.teamPlayers.get(m).freethrow;
-				     data[i][8] = list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
-				    		 +list.get(i).team2.teamPlayers.get(m).defensiveRebounds+"-"
-				    		 +(list.get(i).team2.teamPlayers.get(m).defensiveRebounds+list.get(i).team2.teamPlayers.get(m).offensiveRebounds);
-				     data[i][9] = list.get(i).team2.teamPlayers.get(m).assist;
-				     data[i][10] = list.get(i).team2.teamPlayers.get(m).steal;
-				     data[i][11] = list.get(i).team2.teamPlayers.get(m).block;
-				     data[i][12] = list.get(i).team2.teamPlayers.get(m).error;
-				     data[i][13] = list.get(i).team2.teamPlayers.get(m).foul;
-				     data[i][14] = list.get(i).team2.teamPlayers.get(m).point;
+				     data[i][4] = Math.ceil(list.get(i).team2.teamPlayers.get(m).minute * 100) / 100;
+				     data[i][5] = (int)list.get(i).team2.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).shoot;
+				     data[i][6] = (int)list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).threepoint;
+				     data[i][7] = (int)list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).freethrow;
+				     data[i][8] = (int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
+				    		 +(int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+"-"
+				    		 +((int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds);
+				     data[i][9] = (int)list.get(i).team2.teamPlayers.get(m).assist;
+				     data[i][10] = (int)list.get(i).team2.teamPlayers.get(m).steal;
+				     data[i][11] = (int)list.get(i).team2.teamPlayers.get(m).block;
+				     data[i][12] = (int)list.get(i).team2.teamPlayers.get(m).error;
+				     data[i][13] = (int)list.get(i).team2.teamPlayers.get(m).foul;
+				     data[i][14] = (int)list.get(i).team2.teamPlayers.get(m).point;
 		    	 }
 		     }
 		}
@@ -455,7 +451,7 @@ public class PlayerFrame extends JDialog{
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		//近比赛表格
-		String[] subTitle = {"日期", "比赛", "位置", "首发","时间",//0-4
+		String[] subTitle = {"赛季·日期", "比赛", "类型", "首发","时间(M)",//0-4
 					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
 					"失误","犯规","得分"//12-14
 					};
@@ -474,14 +470,13 @@ public class PlayerFrame extends JDialog{
         table.getTableHeader().setResizingAllowed(false);
 			
 		sp.setViewportView(table);
-		sp.setBorder(BorderFactory.createEmptyBorder(5, 20, 25, 20));
 		revalidate();
 	}
 	
 	private void showHistoryTable(Object[][] data) {
 		this.remove(historytable);
 		//生涯比赛表格
-		String[] subTitle = {"赛季", "球队", "出场", "首发","时间",//0-4
+		String[] subTitle = {"赛季", "球队", "出场数", "首发场数","时间",//0-4
 					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
 					"失误","犯规","得分"//12-14
 					};
@@ -500,7 +495,6 @@ public class PlayerFrame extends JDialog{
 		historytable.getTableHeader().setResizingAllowed(false);
 			
 		hsp.setViewportView(historytable);
-		hsp.setBorder(BorderFactory.createEmptyBorder(5, 20, 20, 20));
 		revalidate();
 	}
 	

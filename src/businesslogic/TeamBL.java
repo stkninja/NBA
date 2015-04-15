@@ -24,19 +24,26 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		matchdata = new GetMatchInfo();
 	}
 	
-	public ArrayList<TeamVO> getTeams(String subArea) {
+	public ArrayList<TeamVO> getTeams(String season,String subArea) {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
 		if(subArea.equals("All")){
-			return getAllTeams();
+			return getSeasonTeams(season);
 		}
 		else{
-			for(TeamVO vo : getAllTeams()){
+			for(TeamVO vo : getSeasonTeams(season)){
 				if(vo.subArea.equals(subArea)){
 					list.add(vo);
 				}
 			}
 		}
-		
+		return list;
+	}
+	
+	public ArrayList<TeamVO> getSeasonTeams(String season){
+		ArrayList<TeamVO> list = new ArrayList<TeamVO>(); 
+		for(TSeasonDataPO po : teamdata.getAllTSeasonData(season)){
+			list.add(potovo(po));
+		}
 		return list;
 	}
 
@@ -54,14 +61,6 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		return vo;
 	}
 
-	public ArrayList<TeamVO> getAllTeams() {
-		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		for(TSeasonDataPO po : teamdata.getAllTSeasonData("13-14")){
-			list.add(potovo(po));
-		}
-		return list;
-	}
-	
 	public TeamVO potovo(TSeasonDataPO po){
 		TeamVO vo = new TeamVO();
 		vo.fullName = po.getFullName();

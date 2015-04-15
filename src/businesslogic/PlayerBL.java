@@ -1,6 +1,8 @@
 package businesslogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import po.MatchPO;
 import po.MatchPlayerDataPO;
@@ -26,16 +28,16 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		matchdata = new GetMatchInfo();
 	}
 	
-	public ArrayList<PlayerVO> getPlayers(String subArea, String position,
+	public ArrayList<PlayerVO> getPlayers(String season,String subArea, String position,
 			String team) {
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		if(subArea.equals("All")){
 			if(position.equals("All")){
 				if(team.equals("All")){
-					return getAllPlayers();
+					return getSeasonPlayers(season);
 				}
 				else{
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.team.equals(team)){
 							list.add(vo);
 						}
@@ -44,14 +46,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			}
 			else{
 				if(team.equals("All")){
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.position.indexOf(position) >= 0){
 							list.add(vo);
 						}
 					}
 				}
 				else{
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.team.equals(team) && vo.position.indexOf(position) >= 0){
 							list.add(vo);
 						}
@@ -62,14 +64,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		else{
 			if(position.equals("All")){
 				if(team.equals("All")){
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
 					}
 				}
 				else{
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.team.equals(team) && vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
@@ -78,14 +80,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			}
 			else{
 				if(team.equals("All")){
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.position.indexOf(position) >= 0 && vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
 					}
 				}
 				else{
-					for(PlayerVO vo : getAllPlayers()){
+					for(PlayerVO vo : getSeasonPlayers(season)){
 						if(vo.team.equals(team) && vo.position.indexOf(position) >= 0 && vo.subArea.equals(subArea)){
 							list.add(vo);
 						}
@@ -113,14 +115,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return vo;
 	}
 
-	public ArrayList<PlayerVO> getAllPlayers() {
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		for(PSeasonDataPO po : playerdata.getAllPSeasonData("13-14")){
-			list.add(potovo(po));
-		}
-		return list;
-	}
-	
 	private PlayerVO potovo(PSeasonDataPO po){
 		PlayerVO vo = new PlayerVO();
 		vo.name = po.getName();
@@ -490,4 +484,188 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		list = sortPromotion(templist,filter);
 		return list;
 	}
+	
+	public double getAttribute(PlayerVO vo,String filter){
+		double res = 0;
+		switch (filter){
+		case "参赛场数":
+			res = vo.gameplay;
+			break;
+		case "先发场数":
+			res = vo.gamestart;
+		    break;
+		case "篮板数":
+			res = vo.allrebound;
+			break;
+		case "助攻数":
+			res = vo.allassist;
+			break;
+		case "在场时间":
+			res = vo.allminute;
+			break;
+		case "投篮命中率":
+			res = vo.allfieldgoalpercent;
+			break;
+		case "三分命中率":
+			res = vo.allthreepointpercent;
+			break;
+		case "罚球命中率":
+			res = vo.allfreethrowpercent;
+			break;
+		case "进攻数":
+			res = vo.alloffense;
+			break;
+		case "防守数":
+			res = vo.alldefence;
+			break;
+		case "抢断数":
+			res = vo.allsteal;
+			break;
+		case "盖帽数":
+			res = vo.allblock;
+			break;
+		case "失误数":
+			res = vo.allerror;
+			break;
+		case "犯规数":
+			res = vo.allfoul;
+			break;
+		case "得分":
+			res = vo.allpoint;
+			break;
+		case "效率":
+			res = vo.allefficiency;
+			break;
+		case "GmSc效率值":
+			res = vo.allgmsc;
+			break;
+		case "真实命中率":
+			res = vo.allrealshootpercent;
+			break;
+		case "投篮效率":
+			res = vo.allshootefficiency;
+			break;
+		case "篮板率":
+			res = vo.allreboundrate;
+			break;
+		case "进攻篮板率":
+			res = vo.alloffensivereboundrate;
+			break;
+		case "防守篮板率":
+			res = vo.alldefensivereboundrate;
+			break;
+		case "助攻率":
+			res = vo.allassistrate;
+			break;
+		case "抢断率":
+			res = vo.allstealrate;
+			break;
+		case "盖帽率":
+			res = vo.allblockrate;
+			break;
+		case "失误率":
+			res = vo.allerrorrate;
+			break;
+		case "使用率":
+			res = vo.allusage;
+			break;
+		case "得分/篮板/助攻":
+			res = vo.allpointReboundAssist;
+			break;
+		case "场均场均篮板数":
+			res = vo.rebound;
+			break;
+		case "场均助攻数":
+			res = vo.assist;
+			break;
+		case "场均在场时间":
+			res = vo.minute;
+			break;
+		case "场均投篮命中率":
+			res = vo.fieldgoalpercent;
+			break;
+		case "场均三分命中率":
+			res = vo.threepointpercent;
+			break;
+		case "场均罚球命中率":
+			res = vo.freethrowpercent;
+			break;
+		case "场均进攻数":
+			res = vo.offense;
+			break;
+		case "场均防守数":
+			res = vo.defence;
+			break;
+		case "场均抢断数":
+			res = vo.steal;
+			break;
+		case "场均盖帽数":
+			res = vo.block;
+			break;
+		case "场均失误数":
+			res = vo.error;
+			break;
+		case "场均犯规数":
+			res = vo.foul;
+			break;
+		case "场均得分":
+			res = vo.point;
+			break;
+		case "场均效率":
+			res = vo.efficiency;
+			break;
+		case "场均GmSc效率值":
+			res = vo.gmsc;
+			break;
+		case "场均真实命中率":
+			res = vo.realshootpercent;
+			break;
+		case "场均投篮效率":
+			res = vo.shootefficiency;
+			break;
+		case "场均篮板率":
+			res = vo.reboundrate;
+			break;
+		case "场均进攻篮板率":
+			res = vo.offensivereboundrate;
+			break;
+		case "场均防守篮板率":
+			res = vo.defensivereboundrate;
+			break;
+		case "场均助攻率":
+			res = vo.assistrate;
+			break;
+		case "场均抢断率":
+			res = vo.stealrate;
+			break;
+		case "场均盖帽率":
+			res = vo.blockrate;
+			break;
+		case "场均失误率":
+			res = vo.errorrate;
+			break;
+		case "场均使用率":
+			res = vo.usage;
+			break;
+		case "场均得分/篮板/助攻":
+			res = vo.pointReboundAssist;
+			break;
+		case "两双":
+			res = vo.doubledouble;
+			break;
+		}
+		return res;		
+	}
+	
+	public ArrayList<PlayerVO> sort(ArrayList<PlayerVO> list,ArrayList<String> filter){
+		Comparator<PlayerVO> comparator = new Comparator<PlayerVO>(){
+			public int compare(PlayerVO vo1, PlayerVO vo2) {
+				
+				return 0;
+			}
+			
+		};
+		return list;
+	}
+	
 }
