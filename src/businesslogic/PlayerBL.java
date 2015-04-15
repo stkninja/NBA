@@ -115,14 +115,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return vo;
 	}
 
-/*	public ArrayList<PlayerVO> getSeasonPlayers(String season) {
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		for(PSeasonDataPO po : playerdata.getAllPSeasonData(season)){
-			list.add(potovo(po));
-		}
-		return list;
-	}*/
-	
 	private PlayerVO potovo(PSeasonDataPO po){
 		PlayerVO vo = new PlayerVO();
 		vo.name = po.getName();
