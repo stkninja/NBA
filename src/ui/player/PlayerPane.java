@@ -23,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -38,7 +37,9 @@ import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
 import vo.PlayerVO;
+import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
+import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 
 /**
@@ -49,7 +50,8 @@ import businesslogicservice.PlayerBLService;
  */
 @SuppressWarnings("serial")
 public class PlayerPane extends JPanel implements ActionListener {
-	private PlayerBLService bl;
+	private PlayerBLService playerBL;
+	private MatchBLService matchBL;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
@@ -61,12 +63,14 @@ public class PlayerPane extends JPanel implements ActionListener {
 	private JLabel label4;
 	private JLabel label5;
 	private JComboBox<String> mode;
+	private JComboBox<String> season;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
-	private JTextField season;
 	//--------------------------------------------------------------
 	public PlayerPane() {
+		playerBL = new PlayerBL();
+		matchBL = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
@@ -86,11 +90,12 @@ public class PlayerPane extends JPanel implements ActionListener {
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
 		label5 = new JLabel("赛季：");
-		season = new JTextField("13-14",5);
-		pane.add(label5);
-		pane.add(season);
+		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
+		
 		pane.add(label1);
 		pane.add(mode);
+		pane.add(label5);
+		pane.add(season);
 		pane.add(label2);
 		pane.add(region);
 		pane.add(label3);
@@ -102,10 +107,10 @@ public class PlayerPane extends JPanel implements ActionListener {
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
-		bl = new PlayerBL();
-		this.setData(bl.getSeasonPlayers(season.getText()));
+		this.setData(playerBL.getSeasonPlayers((String)season.getSelectedItem()));
 		//监听
 		mode.addActionListener(this);
+		season.addActionListener(this);
 		region.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (region.getSelectedItem().equals("All")) {
@@ -126,7 +131,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		team.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED)
-					PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+					PlayerPane.this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 			}
 		});
 		position.addActionListener(this);
@@ -135,11 +140,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-		this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
-=======
-		PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
->>>>>>> branch 'master' of https://github.com/stkninja/NBA.git
+		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 	}
 	/**
 	 * 设置表格数据
@@ -410,7 +411,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 						public void run() {
 							try {
 								JFrame.setDefaultLookAndFeelDecorated(true);
-								PlayerFrame frame = new PlayerFrame(bl.getOnePlayer(str));
+								PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str));
 								com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 								com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 							} catch (IOException e) {

@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -51,8 +50,8 @@ import businesslogicservice.TeamBLService;
  */
 @SuppressWarnings("serial")
 public class TeamPane extends JPanel implements ActionListener{
-	private TeamBLService bl;
-	private MatchBLService mbl;
+	private TeamBLService teamBL;
+	private MatchBLService matchBL;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
@@ -66,6 +65,8 @@ public class TeamPane extends JPanel implements ActionListener{
 	private JComboBox<String> season;
 	//--------------------------------------------------------------
 	public TeamPane() {
+		teamBL = new TeamBL();
+		matchBL = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
@@ -78,13 +79,12 @@ public class TeamPane extends JPanel implements ActionListener{
 		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.getRegion());
 		label3 = new JLabel("赛季：");
-		mbl = new MatchBL();
-		season = new JComboBox<String>("13-14",5);
+		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		
-		pane.add(label3);
-		pane.add(season);
 		pane.add(label1);
 		pane.add(mode);
+		pane.add(label3);
+		pane.add(season);
 		pane.add(label2);
 		pane.add(region);
 		this.add(pane, BorderLayout.NORTH);
@@ -92,18 +92,17 @@ public class TeamPane extends JPanel implements ActionListener{
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
-		
-		bl = new TeamBL();
-		this.setData(bl.getTeams(season.getText(),(String)region.getSelectedItem()));
+		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
 		//监听
 		mode.addActionListener(this);
+		season.addActionListener(this);
 		region.addActionListener(this);
 	}
 	/**
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.setData(bl.getTeams(season.getText(),(String)region.getSelectedItem()));
+		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
 	}
 	/**
 	 * 设置表格数据
@@ -345,7 +344,7 @@ public class TeamPane extends JPanel implements ActionListener{
 						public void run() {
 							try {
 								JFrame.setDefaultLookAndFeelDecorated(true);
-								TeamFrame frame = new TeamFrame(bl.getOneTeam(str));
+								TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
 								com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 								com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 							} catch (IOException | TranscoderException e) {
