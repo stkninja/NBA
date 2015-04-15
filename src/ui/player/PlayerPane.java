@@ -103,7 +103,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		bl = new PlayerBL();
-		this.setData(bl.getAllPlayers());
+		this.setData(bl.getSeasonPlayers(season.getText()));
 		//监听
 		mode.addActionListener(this);
 		region.addActionListener(new ActionListener() {
@@ -126,7 +126,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		team.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED)
-					PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+					PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 			}
 		});
 		position.addActionListener(this);
@@ -135,7 +135,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		PlayerPane.this.setData(bl.getPlayers((String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
+		PlayerPane.this.setData(bl.getPlayers(season.getText(),(String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));		
 	}
 	/**
 	 * 设置表格数据

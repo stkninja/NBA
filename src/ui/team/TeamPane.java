@@ -38,7 +38,9 @@ import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
 import vo.TeamVO;
+import businesslogic.MatchBL;
 import businesslogic.TeamBL;
+import businesslogicservice.MatchBLService;
 import businesslogicservice.TeamBLService;
 
 /**
@@ -50,6 +52,7 @@ import businesslogicservice.TeamBLService;
 @SuppressWarnings("serial")
 public class TeamPane extends JPanel implements ActionListener{
 	private TeamBLService bl;
+	private MatchBLService mbl;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
@@ -60,7 +63,7 @@ public class TeamPane extends JPanel implements ActionListener{
 	private JLabel label3;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
-	private JTextField season;
+	private JComboBox<String> season;
 	//--------------------------------------------------------------
 	public TeamPane() {
 		this.setOpaque(false);
@@ -75,7 +78,9 @@ public class TeamPane extends JPanel implements ActionListener{
 		label2 = new JLabel("地区：");
 		region = new JComboBox<String>(Region.getRegion());
 		label3 = new JLabel("赛季：");
-		season = new JTextField("13-14",5);
+		mbl = new MatchBL();
+		season = new JComboBox<String>("13-14",5);
+		
 		pane.add(label3);
 		pane.add(season);
 		pane.add(label1);
@@ -89,7 +94,7 @@ public class TeamPane extends JPanel implements ActionListener{
 		this.add(sp, BorderLayout.CENTER);
 		
 		bl = new TeamBL();
-		this.setData(bl.getTeams((String)region.getSelectedItem()));
+		this.setData(bl.getTeams(season.getText(),(String)region.getSelectedItem()));
 		//监听
 		mode.addActionListener(this);
 		region.addActionListener(this);
@@ -98,7 +103,7 @@ public class TeamPane extends JPanel implements ActionListener{
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.setData(bl.getTeams((String)region.getSelectedItem()));
+		this.setData(bl.getTeams(season.getText(),(String)region.getSelectedItem()));
 	}
 	/**
 	 * 设置表格数据
