@@ -13,6 +13,8 @@ public interface TeamBLService {
 	
 	public TeamVO getSeasonTeams(String season,String name);
 	
+	public ArrayList<TeamVO> getAllSeasonTeam(String name);
+	
 	public ArrayList<TeamVO> getSeasonEachMatch(String season,String name);
 	
 	public ArrayList<MatchVO> getSeasonMatches(String season,String name);
@@ -20,6 +22,9 @@ public interface TeamBLService {
 	public ArrayList<MatchVO> getLastFiveMatchesSpecific(String name);
 	
 	public ArrayList<TeamVO> getLastFiveMatches(String name);
+	
+	public ArrayList<TeamVO> sortTeam(ArrayList<TeamVO> list,ArrayList<String> filter,String sortOrder);
+	//排序算法，filter为排序属性，sortOrder的值为"升序"或"降序"
 	
 	public ArrayList<TeamVO> getSeasonTopFiveTeams(String season,String filter);
 	

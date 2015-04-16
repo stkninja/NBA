@@ -127,4 +127,12 @@ public class MatchTeamDataVO {
 		}
 		return total;
 	}
+	
+	public boolean existPlayer(String name){
+		for(MatchPlayerDataVO matchPlayerDataVO : teamPlayers)
+			if(matchPlayerDataVO.name.equals(name))
+				return true;
+		
+		return false;
+	}
 }

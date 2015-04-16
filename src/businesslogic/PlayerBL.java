@@ -6,11 +6,9 @@ import java.util.Comparator;
 
 import po.MatchPO;
 import po.MatchPlayerDataPO;
-import po.MatchTeamDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
 import vo.MatchPlayerDataVO;
-import vo.MatchTeamDataVO;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -22,10 +20,12 @@ import dataservice.PlayerService;
 public class PlayerBL implements businesslogicservice.PlayerBLService{
 	private PlayerService playerdata = null;
 	private MatchService matchdata = null;
+	private MatchBL matchbl = null;
 	
 	public PlayerBL(){
 		playerdata = new GetPlayerInfo();
 		matchdata = new GetMatchInfo();
+		matchbl = new MatchBL();
 	}
 	
 	public ArrayList<PlayerVO> getPlayers(String season,String subArea, String position,
@@ -193,6 +193,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	    vo.errorrate = po.getErrorrate();
 	    vo.allusage = po.getAllusage();
 	    vo.usage = po.getUsage();
+	    vo.pointpromotion = po.getPointpromotion();
+	    vo.reboundpromotion = po.getReboundpromotion();
+	    vo.assistpromotion = po.getAssistpromotion();
 	    
 	    return vo;
 	}
@@ -200,7 +203,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public ArrayList<MatchVO> getLastFiveMatches(String name) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getLastFiveMatchesAboutPlayer(name)){
-			list.add(potovo(po));
+			list.add(matchbl.potovo(po));
 		}
 		return list;
 	}
@@ -277,55 +280,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			list.add(potovo(po));
 		}
 		return list;
-	}
-	
-	public MatchVO potovo(MatchPO po){
-		MatchVO vo = new MatchVO();
-		vo.season = po.getSeason();
-		vo.date = po.getDate();
-		vo.team1 = potovo(po.getTeam1());
-		vo.team2 = potovo(po.getTeam2());
-		
-		return vo;
-	}
-
-	public MatchTeamDataVO potovo(MatchTeamDataPO po){
-		MatchTeamDataVO vo = new MatchTeamDataVO();
-		vo.abbName = po.getAbbName();
-		vo.scores = po.getScores();
-		vo.qt1Scores = po.getQt1Scores();
-		vo.qt2Scores = po.getQt2Scores();
-		vo.qt3Scores = po.getQt3Scores();
-		vo.qt4Scores = po.getQt4Scores();
-		vo.qtPlusScores = po.getQtPlusScores();
-		for(MatchPlayerDataPO mp : po.getTeamPlayers()){
-			vo.teamPlayers.add(potovo(mp));
-		}
-		
-		return vo;
-	}
-	
-	public MatchPlayerDataVO potovo(MatchPlayerDataPO po){
-		MatchPlayerDataVO vo = new MatchPlayerDataVO();
-		vo.name = po.getName();
-		vo.offensiveRebounds = po.getOffensiveRebounds();
-		vo.defensiveRebounds = po.getDefensiveRebounds();
-		vo.assist = po.getAssist();
-		vo.minute = po.getMinute();
-		vo.steal = po.getSteal();
-		vo.block = po.getBlock();
-		vo.error = po.getError();
-		vo.foul = po.getFoul();
-		vo.point = po.getPoint();
-		vo.shoot = po.getShoot();
-		vo.shootmade = po.getShootmade();
-		vo.threepoint = po.getThreepoint();
-		vo.threepointmade = po.getThreepointmade();
-		vo.freethrow = po.getFreethrow();
-		vo.freethrowmade = po.getFreethrowmade();
-		vo.gameStart = po.getGameStart();
-		
-		return vo;
 	}
 	
 	private PlayerVO findMax(ArrayList<PlayerVO> templist,String filter){
@@ -709,8 +663,41 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public ArrayList<PlayerVO> getAllSeasonPlayer(String name) {
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		for(String season : matchdata.getExistedSeasons()){
+/*			ArrayList<MatchVO> temp =  matchbl.getAllMatchesAboutTeamSeasonDatePlayer("All", season, "All", name);
+			int i = 0;
+			for(i = 0;i < temp.size() - 1;i ++){
+				if(!getTeamOfPlayer(temp.get(i),name).equals(getTeamOfPlayer(temp.get(i + 1),name))){
+					break;
+				}
+			}
+			if(i != temp.size() - 1){
+				for()
+			}*/
 			list.add(getPlayerPast(season,name));
 		}
 		return list;
 	}
+	
+	public String getTeamOfPlayer(MatchVO vo,String player){
+		String s = "";
+		for(MatchPlayerDataVO vo1 : vo.team1.teamPlayers){
+			if(vo1.name.equals(player)){
+				s = vo.team1.abbName;
+			}
+		}
+		for(MatchPlayerDataVO vo2 : vo.team2.teamPlayers){
+			if(vo2.name.equals(player)){
+				s = vo.team2.abbName;
+			}
+		}
+		return s;
+	}
+	
+/*	public ArrayList<PlayerVO> getFilterPlayers(String position,String league,String age){
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		if(league.equals("West")){
+			for()
+		}
+	}*/
+	
 }

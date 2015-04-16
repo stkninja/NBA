@@ -17,12 +17,12 @@ import dataservice.TeamService;
 
 public class TeamBL implements businesslogicservice.TeamBLService{
 	private TeamService teamdata = null;
-	private PlayerBL playerbl = null;
+	private MatchBL matchbl = null;
 	private MatchService matchdata = null;
 	
 	public TeamBL(){
 		teamdata = new GetTeamInfo();
-		playerbl = new PlayerBL();
+		matchbl = new MatchBL();
 		matchdata = new GetMatchInfo();
 	}
 	
@@ -139,7 +139,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	public ArrayList<MatchVO> getSeasonMatches(String season, String name) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getAllMatchesAboutTeam(name, season)){
-			list.add(playerbl.potovo(po));
+			list.add(matchbl.potovo(po));
 		}
 		return list;
 	}
@@ -147,7 +147,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	public ArrayList<MatchVO> getLastFiveMatchesSpecific(String name) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getLastFiveMatchesAboutTeam(name)){
-			list.add(playerbl.potovo(po));
+			list.add(matchbl.potovo(po));
 		}
 		return list;
 	}
@@ -548,5 +548,13 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			}
 			return reslist;
 		}
+	}
+
+	public ArrayList<TeamVO> getAllSeasonTeam(String name) {
+		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
+		for(String season : matchdata.getExistedSeasons()){
+			list.add(getSeasonTeams(season,name));
+		}
+		return list;
 	}
 }

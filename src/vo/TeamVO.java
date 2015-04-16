@@ -1,26 +1,14 @@
 package vo;
 
-import java.io.File;
 
 
 public class TeamVO {
 	/**球队基本信息*/
-	//球队标志
-	public File teamLogo;
-	//球队全名
 	public String fullName;
-	//球队缩写
+	
 	public String abbName;
-	//所在地
-	public String location;
-	//赛区
-	public String competionArea;
 	//分区
 	public String subArea;
-	//主场
-	public String homeGround;
-	//建立时间
-	public String setupTime;
 	
 	/**球队比赛信息*/
 	//赛季

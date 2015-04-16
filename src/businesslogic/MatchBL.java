@@ -3,23 +3,25 @@ package businesslogic;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import po.MatchPlayerDataPO;
+import po.MatchTeamDataPO;
+import vo.MatchPlayerDataVO;
+import vo.MatchTeamDataVO;
 import vo.MatchVO;
 import data.GetMatchInfo;
 import dataservice.MatchService;
 
 public class MatchBL implements businesslogicservice.MatchBLService{
-	private PlayerBL playerbl = null;
 	private MatchService matchdata = null;
 	
 	public MatchBL(){
-		playerbl = new PlayerBL();
 		matchdata = new GetMatchInfo();
 	}
 
 	public ArrayList<MatchVO> getMatches(String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getAllMatchesAtSeason(season)){
-			list.add(playerbl.potovo(po));
+			list.add(potovo(po));
 		}
 		return list;
 	}
@@ -28,7 +30,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 			String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getMatchesAboutTwoTeams(team1, team2, season)){
-			list.add(playerbl.potovo(po));
+			list.add(potovo(po));
 		}
 		return list;
 	}
@@ -36,7 +38,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getAllMatchesAboutTeam(team, season)){
-			list.add(playerbl.potovo(po));
+			list.add(potovo(po));
 		}
 		return list;
 	}
@@ -45,7 +47,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(String s : matchdata.getExistedSeasons()){
 			for(MatchPO po : matchdata.getAllMatchesAtSeason(s)){
-				list.add(playerbl.potovo(po));
+				list.add(potovo(po));
 			}
 		}
 		return list;
@@ -55,7 +57,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(String s : matchdata.getExistedSeasons()){
 			for(MatchPO po : matchdata.getAllMatchesAboutPlayer(name, s)){
-				list.add(playerbl.potovo(po));
+				list.add(potovo(po));
 			}
 		}
 		return list;
@@ -84,7 +86,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getMatchesAboutPlayer(String season,String player){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getAllMatchesAboutPlayer(player, season)){
-			list.add(playerbl.potovo(po));
+			list.add(potovo(po));
 		}
 		return list;
 	}
@@ -257,6 +259,55 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 				}
 			}
 		}
+	}
+	
+	public MatchVO potovo(MatchPO po){
+		MatchVO vo = new MatchVO();
+		vo.season = po.getSeason();
+		vo.date = po.getDate();
+		vo.team1 = potovo(po.getTeam1());
+		vo.team2 = potovo(po.getTeam2());
+		
+		return vo;
+	}
+
+	public MatchTeamDataVO potovo(MatchTeamDataPO po){
+		MatchTeamDataVO vo = new MatchTeamDataVO();
+		vo.abbName = po.getAbbName();
+		vo.scores = po.getScores();
+		vo.qt1Scores = po.getQt1Scores();
+		vo.qt2Scores = po.getQt2Scores();
+		vo.qt3Scores = po.getQt3Scores();
+		vo.qt4Scores = po.getQt4Scores();
+		vo.qtPlusScores = po.getQtPlusScores();
+		for(MatchPlayerDataPO mp : po.getTeamPlayers()){
+			vo.teamPlayers.add(potovo(mp));
+		}
+		
+		return vo;
+	}
+	
+	public MatchPlayerDataVO potovo(MatchPlayerDataPO po){
+		MatchPlayerDataVO vo = new MatchPlayerDataVO();
+		vo.name = po.getName();
+		vo.offensiveRebounds = po.getOffensiveRebounds();
+		vo.defensiveRebounds = po.getDefensiveRebounds();
+		vo.assist = po.getAssist();
+		vo.minute = po.getMinute();
+		vo.steal = po.getSteal();
+		vo.block = po.getBlock();
+		vo.error = po.getError();
+		vo.foul = po.getFoul();
+		vo.point = po.getPoint();
+		vo.shoot = po.getShoot();
+		vo.shootmade = po.getShootmade();
+		vo.threepoint = po.getThreepoint();
+		vo.threepointmade = po.getThreepointmade();
+		vo.freethrow = po.getFreethrow();
+		vo.freethrowmade = po.getFreethrowmade();
+		vo.gameStart = po.getGameStart();
+		
+		return vo;
 	}
 
 	public ArrayList<String> getAllSeasons() {
