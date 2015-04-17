@@ -200,6 +200,7 @@ public class MainFrame extends JFrame{
 		button.setContentAreaFilled(false);//填充
 		button.setBorderPainted(false);//无边框
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
+		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 	}
 	/**
 	 * 设置界面可拖动

@@ -3,10 +3,14 @@ package ui.match;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -63,11 +67,17 @@ public class MatchPane extends JPanel implements ActionListener{
 		pane.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
 		label1 = new JLabel("时间：");
+		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		label2 = new JLabel("赛季");
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
 		label3 = new JLabel("月");
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		label4 = new JLabel("日");
+		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		label5 = new JLabel("球员：");
+		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		label6 = new JLabel("球队缩写：");
+		label6.setFont(new Font("黑体", Font.PLAIN, 14));
 		comboBox1 = new JComboBox<String>((String[])bl.getAllSeasons().toArray(new String[bl.getAllSeasons().size()]));
 		comboBox2 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
 		comboBox3 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
@@ -158,6 +168,33 @@ public class MatchPane extends JPanel implements ActionListener{
 	    }
 	    tcr.setHorizontalAlignment(JLabel.CENTER);
 	    table.setDefaultRenderer(Object.class, tcr);//内容居中
+	    //表格监听
+	    table.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
+	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
+	    		String team = (String)table.getValueAt(table.getSelectedRow(), 2);
+	    		//TODO
+//	    		SwingUtilities.invokeLater(new Runnable() {
+//					@SuppressWarnings("restriction")
+//					public void run() {
+//						try {
+//							JFrame.setDefaultLookAndFeelDecorated(true);
+//							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
+//							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+//							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+//						} catch (IOException | TranscoderException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//			    });
+	    	}
+	    });
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	public void mouseMoved(MouseEvent e) {
+	    		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		    }
+	    });
 		sp.setViewportView(table);
 		revalidate();
 	}

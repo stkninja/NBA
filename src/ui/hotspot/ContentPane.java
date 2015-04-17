@@ -1,8 +1,11 @@
 package ui.hotspot;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -49,12 +52,10 @@ public class ContentPane extends JPanel {
 	private String filter;
 	private JPanel top;
 	private JLabel label1;
-	private JPanel title;
-	private JLabel label2;
 	private JPanel pane;
 	private JButton[] label;
 	private JButton[] button;
-	private JLabel label3;
+	private JLabel label2;
 	private JComboBox<String> comboBox;
 	//---------------------------------------------------------
 	/**
@@ -73,6 +74,7 @@ public class ContentPane extends JPanel {
 		top = new JPanel(new FlowLayout());
 		top.setOpaque(false);
 		label1 = new JLabel("筛选条件：");
+		label1.setFont(new Font("黑体", Font.BOLD, 15));
 		top.add(label1);
 		button = new JButton[condition.length - 1];
 		for (int i = 1; i < condition.length; i++) {
@@ -80,25 +82,22 @@ public class ContentPane extends JPanel {
 			button[i - 1].setContentAreaFilled(false);
 			button[i - 1].setBorderPainted(false);
 			button[i - 1].setMargin(new Insets(0, 0, 0, 0));
+			button[i - 1].setFont(new Font("楷体", Font.PLAIN, 15));
+			button[i - 1].setForeground(Color.BLUE);
+			button[i - 1].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 			top.add(button[i - 1]);
 		}
 		if (type.equals("赛季热点球员") || type.equals("赛季热点球队")) {
 			this.setComboBox();
 		}
 		this.add(top, BorderLayout.NORTH);
-		//设置标题
-		title = new JPanel();
-		title.setOpaque(false);
-		label2 = new JLabel(type, JLabel.CENTER);
-		title.add(label2);
-		this.add(title, BorderLayout.CENTER);
 		//球员面板
 		pane = new JPanel();
 		pane.setOpaque(false);
 		label = new JButton[5];
 		this.setData();
 		
-		this.add(pane, BorderLayout.SOUTH);
+		this.add(pane, BorderLayout.CENTER);
 		//监听
 		for (int i = 0; i < button.length; i++) {
 			button[i].addActionListener(new ButtonListener());
@@ -110,6 +109,7 @@ public class ContentPane extends JPanel {
 	private void setData() {
 		switch(type) {
 		case "当天热点球员" : {
+			//TODO
 //			ArrayList<PlayerVO> playerList = playerBL.getTodayTopFivePlayers(filter);
 			for (int i = 0; i < 5; i++) {
 //				try {
@@ -134,7 +134,7 @@ public class ContentPane extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/exit1.png");
+					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/no"+ (i+1) +".png");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -153,7 +153,7 @@ public class ContentPane extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 170));
 					label[i].setPreferredSize(new Dimension(150, 170));
-					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/exit1.png");
+					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/no"+ (i+1) +".png");
 				} catch (IOException | TranscoderException e) {
 					e.printStackTrace();
 				}
@@ -170,7 +170,7 @@ public class ContentPane extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/exit1.png");
+					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/no"+ (i+1) +".png");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -188,10 +188,13 @@ public class ContentPane extends JPanel {
 	 * 添加赛季选项
 	 */
 	private void setComboBox() {
-		label3 = new JLabel("选择赛季：");
+		label2 = new JLabel("选择赛季：");
+		label2.setFont(new Font("黑体", Font.BOLD, 15));
 		comboBox = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		top.add(label3);
+		top.add(label2);
 		top.add(comboBox);
+		//监听
+		comboBox.addActionListener(new ComboBoxListener());
 	}
 	/**
 	 * 设置图标
@@ -212,6 +215,20 @@ public class ContentPane extends JPanel {
 		button.setContentAreaFilled(false);//填充
 		button.setBorderPainted(false);//无边框
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
+		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
+	}
+	/**
+	 * 多选框监听内部类
+	 * @author stk
+	 *
+	 */
+	private class ComboBoxListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			for (int i = 0; i < 5; i++) {
+				pane.remove(label[i]);
+			}
+			ContentPane.this.setData();
+		}
 	}
 	/**
 	 * 按钮监听内部类

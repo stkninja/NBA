@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -79,17 +80,23 @@ public class PlayerPane extends JPanel implements ActionListener {
 		pane.setOpaque(false);
 		
 		label1 = new JLabel("数据类型：");
+		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		mode.setFont(new Font("楷体", Font.PLAIN, 14));
 		label2 = new JLabel("地区：");
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
 		region = new JComboBox<String>(Region.getRegion());
 		label3 = new JLabel("球队：");
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		team = new JComboBox<String>();
 		team.addItem("All");
 		team.setEnabled(false);
 		label4 = new JLabel("位置：");
+		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
 		label5 = new JLabel("赛季：");
+		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		
 		pane.add(label1);
@@ -318,6 +325,7 @@ public class PlayerPane extends JPanel implements ActionListener {
         fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);
         fixedTable.getTableHeader().setReorderingAllowed(false); 
         fixedTable.getTableHeader().setResizingAllowed(false);
+        fixedTable.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 12));
         Dimension fixedSize = fixedTable.getPreferredSize();
         
 		table = new JTable();
@@ -325,6 +333,7 @@ public class PlayerPane extends JPanel implements ActionListener {
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
         table.setShowVerticalLines(false);
+        table.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 14));
         
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 

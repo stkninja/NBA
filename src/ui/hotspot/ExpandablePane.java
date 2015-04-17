@@ -1,6 +1,7 @@
 package ui.hotspot;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -26,6 +27,7 @@ public class ExpandablePane extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
 		header = new HeaderPane(path1, path2);
+		header.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//÷∏’Î±‰ ÷
 		content = new ContentPane(condition);
 		content.setVisible(false);
 		this.add(header, BorderLayout.NORTH);

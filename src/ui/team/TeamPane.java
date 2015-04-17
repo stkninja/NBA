@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -75,10 +76,14 @@ public class TeamPane extends JPanel implements ActionListener{
 		pane.setOpaque(false);
 		
 		label1 = new JLabel("数据类型：");
+		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		mode.setFont(new Font("楷体", Font.PLAIN, 14));
 		label2 = new JLabel("地区：");
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
 		region = new JComboBox<String>(Region.getRegion());
 		label3 = new JLabel("赛季：");
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		
 		pane.add(label1);
@@ -261,6 +266,7 @@ public class TeamPane extends JPanel implements ActionListener{
         fixedTable.getColumnModel().getColumn(0).setMaxWidth(35);
         fixedTable.getTableHeader().setReorderingAllowed(false); 
         fixedTable.getTableHeader().setResizingAllowed(false);
+        fixedTable.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 12));
         Dimension fixedSize = fixedTable.getPreferredSize();
         
 		table = new JTable();
@@ -269,6 +275,8 @@ public class TeamPane extends JPanel implements ActionListener{
         table.setModel(dm);
         table.setShowVerticalLines(false);
         table.setOpaque(false);
+        table.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 14));
+        
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);  
         table.setRowSorter(sorter); 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

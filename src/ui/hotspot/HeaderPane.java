@@ -2,6 +2,7 @@ package ui.hotspot;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -44,10 +45,12 @@ public class HeaderPane extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (isShow) {
-			background = new ImageIcon(path1);
-		} else {
 			background = new ImageIcon(path2);
+		} else {
+			background = new ImageIcon(path1);
 		}
-		g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
+		Image bg = background.getImage();
+		double scale = (double)bg.getWidth(null) / (double)bg.getHeight(null);
+		g.drawImage(bg, 0, 0, (int)(getHeight() * scale), getHeight(), background.getImageObserver());
 	}
 }
