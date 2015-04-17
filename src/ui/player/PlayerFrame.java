@@ -39,6 +39,7 @@ import businesslogic.PlayerBL;
 import businesslogicservice.PlayerBLService;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
+import vo.PlayerVO;
 
 public class PlayerFrame extends JDialog{
 	/**
@@ -257,7 +258,13 @@ public class PlayerFrame extends JDialog{
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 		subpanel3.setOpaque(false);
-		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		mode = new JComboBox<String>(new String[]{"场均","总数" });
+		mode.addActionListener(
+				new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					setHistoryData(vo.name);
+				}
+				});
 		type = new JLabel("数据类型:");
 		historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
@@ -277,7 +284,7 @@ public class PlayerFrame extends JDialog{
 		historytable = new JTable();
 		hsp = new JScrollPane();
 		hsp.setViewportView(historytable);
-		this.setHistoryData();
+		this.setHistoryData(vo.name);
 		
 		panel3.add(hsp,BorderLayout.CENTER);
 		
@@ -426,25 +433,48 @@ public class PlayerFrame extends JDialog{
 		this.showTable(data);
 	}
 	
-	private void setHistoryData() {
-		Object[][] data = new Object[20][15];
-		for (int i = 0; i < 5; i++) {
-		     data[i][0] = "14-15";
-		     data[i][1] = "DAL";
-		     data[i][2] = "82";
-		     data[i][3] = "82";
-		     data[i][4] = "30:09";
-		     data[i][5] = "50%";
-		     data[i][6] = "30%";
-		     data[i][7] = "85%";
-		     data[i][8] = "20-15-45";
-		     data[i][9] = "8.6";
-		     data[i][10] = "2";
-		     data[i][11] = "0.2";
-		     data[i][12] = "4";
-		     data[i][13] = "2.7";
-		     data[i][14] = "27";
+	private void setHistoryData(String name) {
+		ArrayList<PlayerVO> list = bl.getAllSeasonPlayer(name);
+		Object[][] data = new Object[list.size()][15];
+		if(mode.getSelectedItem() == "总数"){
+			for (int i = 0; i < data.length; i++) {
+		     data[i][0] = list.get(i).season;
+		     data[i][1] = list.get(i).team;
+		     data[i][2] = list.get(i).gameplay;
+		     data[i][3] = list.get(i).gamestart;
+		     data[i][4] = list.get(i).allminute;
+		     data[i][5] = (int)(list.get(i).allshootefficiency*100) + "%";
+		     data[i][6] = (int)(list.get(i).allthreepointpercent*100) + "%";
+		     data[i][7] = (int)(list.get(i).allfreethrowpercent*100) + "%";
+		     data[i][8] = (int)list.get(i).alloffensiverebound+"-"+(int)list.get(i).alldefensiverebound+"-"+(int)list.get(i).allrebound;
+		     data[i][9] = (int)list.get(i).allassist;
+		     data[i][10] = (int)list.get(i).allsteal;
+		     data[i][11] = (int)list.get(i).allblock;
+		     data[i][12] = (int)list.get(i).allerror;
+		     data[i][13] = (int)list.get(i).allfoul;
+		     data[i][14] = (int)list.get(i).allpoint;
 		}
+		}
+		else{
+			for (int i = 0; i < data.length; i++) {
+			     data[i][0] = list.get(i).season;
+			     data[i][1] = list.get(i).team;
+			     data[i][2] = list.get(i).gameplay;
+			     data[i][3] = list.get(i).gamestart;
+			     data[i][4] = list.get(i).minute;
+			     data[i][5] = list.get(i).shootefficiency;
+			     data[i][6] = list.get(i).threepointpercent;
+			     data[i][7] = list.get(i).freethrowpercent;
+			     data[i][8] = list.get(i).offensiverebound+"-"+list.get(i).defensiverebound+"-"+list.get(i).rebound;
+			     data[i][9] = list.get(i).assist;
+			     data[i][10] = list.get(i).steal;
+			     data[i][11] = list.get(i).block;
+			     data[i][12] = list.get(i).error;
+			     data[i][13] = list.get(i).foul;
+			     data[i][14] = list.get(i).point;
+			}
+		}
+		
 		this.showHistoryTable(data);
 	}
 	
@@ -476,7 +506,7 @@ public class PlayerFrame extends JDialog{
 	private void showHistoryTable(Object[][] data) {
 		this.remove(historytable);
 		//生涯比赛表格
-		String[] subTitle = {"赛季", "球队", "出场数", "首发场数","时间",//0-4
+		String[] subTitle = {"赛季", "球队", "出场数", "首发场数","时间(M)",//0-4
 					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
 					"失误","犯规","得分"//12-14
 					};
@@ -499,7 +529,6 @@ public class PlayerFrame extends JDialog{
 	}
 	
 //------------------------------------------------------------
-	
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			dispose();

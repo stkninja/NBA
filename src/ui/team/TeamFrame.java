@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.imageio.ImageIO;
@@ -33,7 +34,10 @@ import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import businesslogic.TeamBL;
+import businesslogicservice.TeamBLService;
 import ui.SvgUtil;
+import vo.MatchVO;
 import vo.TeamBasicInfoVO;
 
 public class TeamFrame extends JDialog{
@@ -91,7 +95,9 @@ public class TeamFrame extends JDialog{
 	Point loc = null;
 	Point tmp = null;
 	boolean isDragged = false;
+	TeamBLService bl;
 	public TeamFrame (TeamBasicInfoVO vo) throws IOException, TranscoderException{	
+		bl = new TeamBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -196,13 +202,19 @@ public class TeamFrame extends JDialog{
 		subpanel4.add(recentTitle);
 		table = new JTable();
 		sp = new JScrollPane(table);
-		this.setData();
+		this.setData(vo.abbName);
 		table.setBackground(Color.YELLOW);
 		
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 		subpanel3.setOpaque(false);
-		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		mode = new JComboBox<String>(new String[]{"场均", "总数"});
+		mode.addActionListener(
+				new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					setHistoryData(vo.abbName);
+				}
+				});
 		type = new JLabel("数据类型:");
         historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
@@ -221,7 +233,7 @@ public class TeamFrame extends JDialog{
 		
 		historytable = new JTable();
 		hsp = new JScrollPane(historytable);
-		this.setHistoryData();
+		this.setHistoryData(vo.abbName);
 		historytable.setBackground(Color.YELLOW);
 		panel3.add(hsp,BorderLayout.CENTER);
 		//数据panel---------------------------------------------
@@ -304,23 +316,34 @@ public class TeamFrame extends JDialog{
         });
 	}
 	
-	private void setData() {
+	private void setData(String name) {
+		ArrayList<MatchVO> list = bl.getLastFiveMatchesSpecific(name);
+		
 		Object[][] data = new Object[5][9];
 		for (int i = 0; i < 5; i++) {
-		     data[i][0] = "13-14";
-		     data[i][1] = "4.12";
-		     data[i][2] = "DAL-WAS";
-		     data[i][3] = "25-55";
-		     data[i][4] = "30-20";
-		     data[i][5] = "18-18";
-		     data[i][6] = "18-18";
-		     data[i][7] = "12-12,12-12,12-12";
-		     data[i][8] = "98-99";
+		     data[i][0] = list.get(i).season;
+		     data[i][1] = list.get(i).date;
+		     data[i][2] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;
+		     data[i][3] = (int)list.get(i).team1.qt1Scores+"-"+(int)list.get(i).team2.qt1Scores;
+		     data[i][4] = (int)list.get(i).team1.qt2Scores+"-"+(int)list.get(i).team2.qt2Scores;
+		     data[i][5] = (int)list.get(i).team1.qt3Scores+"-"+(int)list.get(i).team2.qt3Scores;
+		     data[i][6] = (int)list.get(i).team1.qt4Scores+"-"+(int)list.get(i).team2.qt4Scores;
+		     if(list.get(i).team1.qtPlusScores.isEmpty()){
+		    	 data[i][7] = "未加时";
+		     }
+		     else{
+		    	 data[i][7] = "";
+			     for(int m = 0;m < list.get(i).team1.qtPlusScores.size()-1;m++){
+			    	  data[i][7] = data[i][7]+((int)(double)list.get(i).team1.qtPlusScores.get(m)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(m)+",");
+			     }
+			     data[i][7] = data[i][7] + ((int)(double)list.get(i).team1.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1));
+		     }		    
+		     data[i][8] = (int)list.get(i).team1.scores+"-"+(int)list.get(i).team2.scores;
 		}
 		this.showTable(data);
 	}
 	
-	private void setHistoryData() {
+	private void setHistoryData(String name) {
 		Object[][] data = new Object[20][14];
 		for (int i = 0; i < 5; i++) {
 		     data[i][0] = "14-15";
