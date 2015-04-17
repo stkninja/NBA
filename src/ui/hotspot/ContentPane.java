@@ -112,31 +112,34 @@ public class ContentPane extends JPanel {
 			//TODO
 //			ArrayList<PlayerVO> playerList = playerBL.getTodayTopFivePlayers(filter);
 			for (int i = 0; i < 5; i++) {
+				label[i] = new JButton();
+//				label[i].setText(playerList.get(i).name);
+				label[i].setHorizontalTextPosition(JButton.CENTER);
+				label[i].setVerticalTextPosition(JButton.BOTTOM);
+				label[i].setSize(new Dimension(150, 150));
+				label[i].setPreferredSize(new Dimension(150, 150));
 //				try {
-//					label[i] = new JButton();
-//					label[i].setSize(new Dimension(150, 150));
-//					label[i].setPreferredSize(new Dimension(150, 150));
 //					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/exit1.png");
 //				} catch (IOException e) {
-//					e.printStackTrace();
+//					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
 //				}
-				label[i] = new JButton(i +"");
+				this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
 			}
 			break;
 		}
 		case "赛季热点球员" : {
 			ArrayList<PlayerVO> playerList = playerBL.getSeasonTopFivePlayers((String)comboBox.getSelectedItem(), filter);
 			for (int i = 0; i < 5; i++) {
+				label[i] = new JButton();
+				label[i].setText(playerList.get(i).name);
+				label[i].setHorizontalTextPosition(JButton.CENTER);
+				label[i].setVerticalTextPosition(JButton.BOTTOM);
+				label[i].setSize(new Dimension(150, 150));
+				label[i].setPreferredSize(new Dimension(150, 150));
 				try {
-					label[i] = new JButton();
-					label[i].setText(playerList.get(i).name);
-					label[i].setHorizontalTextPosition(JButton.CENTER);
-					label[i].setVerticalTextPosition(JButton.BOTTOM);
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/no"+ (i+1) +".png");
+					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException e) {
-					e.printStackTrace();
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			}
 			break;
@@ -144,18 +147,18 @@ public class ContentPane extends JPanel {
 		case "赛季热点球队" : {
 			ArrayList<TeamVO> teamList = teamBL.getSeasonTopFiveTeams((String)comboBox.getSelectedItem(), filter);
 			for (int i = 0; i < 5; i++) {
+				label[i] = new JButton();
+				label[i].setText(teamList.get(i).abbName);
+				label[i].setHorizontalTextPosition(JButton.CENTER);
+				label[i].setVerticalTextPosition(JButton.BOTTOM);
+				label[i].setSize(new Dimension(150, 170));
+				label[i].setPreferredSize(new Dimension(150, 170));
 				File logofile = new File("logofile");
 				try {
 					SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
-					label[i] = new JButton();
-					label[i].setText(teamList.get(i).abbName);
-					label[i].setHorizontalTextPosition(JButton.CENTER);
-					label[i].setVerticalTextPosition(JButton.BOTTOM);
-					label[i].setSize(new Dimension(150, 170));
-					label[i].setPreferredSize(new Dimension(150, 170));
-					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/no"+ (i+1) +".png");
+					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException | TranscoderException e) {
-					e.printStackTrace();
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			}
 			break;
@@ -163,16 +166,16 @@ public class ContentPane extends JPanel {
 		case "进步最快球员" : {
 			ArrayList<PlayerVO> playerList = playerBL.getPromotionPlayers(filter);
 			for (int i = 0; i < 5; i++) {
+				label[i] = new JButton();
+				label[i].setText(playerList.get(i).name);
+				label[i].setHorizontalTextPosition(JButton.CENTER);
+				label[i].setVerticalTextPosition(JButton.BOTTOM);
+				label[i].setSize(new Dimension(150, 150));
+				label[i].setPreferredSize(new Dimension(150, 150));
 				try {
-					label[i] = new JButton();
-					label[i].setText(playerList.get(i).name);
-					label[i].setHorizontalTextPosition(JButton.CENTER);
-					label[i].setVerticalTextPosition(JButton.BOTTOM);
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/no"+ (i+1) +".png");
+					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException e) {
-					e.printStackTrace();
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			}
 			break;

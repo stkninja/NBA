@@ -64,7 +64,7 @@ public class MatchPane extends JPanel implements ActionListener{
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//搜索界面
 		pane = new JPanel();
-		pane.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		pane.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
 		pane.setOpaque(false);
 		label1 = new JLabel("时间：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -88,7 +88,9 @@ public class MatchPane extends JPanel implements ActionListener{
 		text2 = new JTextField();
 		text2.setPreferredSize(new Dimension(50, 20));
 		search = new JButton("搜索");
+		search.setFont(new Font("楷体", Font.PLAIN, 14));
 		reset = new JButton("重置");
+		reset.setFont(new Font("楷体", Font.PLAIN, 14));
 		
 		pane.add(label1);
 		pane.add(comboBox1);
@@ -151,6 +153,7 @@ public class MatchPane extends JPanel implements ActionListener{
 		};
 		table = new JTable(dm);
         table.setShowVerticalLines(false);
+        table.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 14));
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);
         table.setRowSorter(sorter);
 		//列色
