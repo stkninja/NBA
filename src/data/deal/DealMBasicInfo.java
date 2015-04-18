@@ -212,6 +212,7 @@ public class DealMBasicInfo {
 		playerDataPO.setName(data[0]);
 		if(!(data[1].equals("")))
 			playerDataPO.setGameStart(1.0);
+		playerDataPO.setPosition(data[1]);
 		playerDataPO.setMinute(Double.parseDouble(data[2].split(":")[0]) + Double.parseDouble(data[2].split(":")[1]) / 60);
 		playerDataPO.setAssist(Double.parseDouble(data[12]));		//Öú¹¥Êý
 		playerDataPO.setSteal(Double.parseDouble(data[13]));         //ÇÀ¶ÏÊý

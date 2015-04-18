@@ -7,6 +7,7 @@ public class MatchPlayerDataPO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String name = new String();
+	private String position = new String();
 	private double offensiveRebounds;	//进攻篮板数
 	private double defensiveRebounds;	//防守篮板数
 	private double assist;        //助攻数
@@ -159,6 +160,14 @@ public class MatchPlayerDataPO implements Serializable{
 	
 	public void setGameStart(double gameStart) {
 		this.gameStart = gameStart;
+	}
+	
+	public String getPosition() {
+		return position;
+	}
+	
+	public void setPosition(String position) {
+		this.position = position;
 	}
 	
 	/**总篮板数*/
