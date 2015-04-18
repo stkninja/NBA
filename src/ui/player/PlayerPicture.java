@@ -25,7 +25,7 @@ public class PlayerPicture extends JFrame{
 		this.setBounds(dialog.getX()-frameWidth , dialog.getY(), frameWidth, frameHeight);
 		
 		//±³¾°Í¼Æ¬
-		bg = new ImageIcon("data/pic/Yellow.jpg");
+		bg = new ImageIcon("data/pic/playerframe.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));

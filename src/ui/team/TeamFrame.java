@@ -13,6 +13,9 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,21 +27,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import businesslogic.MatchBL;
 import businesslogic.TeamBL;
+import businesslogicservice.MatchBLService;
 import businesslogicservice.TeamBLService;
 import ui.SvgUtil;
+import ui.match.MatchFrame;
 import vo.MatchVO;
 import vo.TeamBasicInfoVO;
+import vo.TeamVO;
 
 public class TeamFrame extends JDialog{
 
@@ -95,18 +105,21 @@ public class TeamFrame extends JDialog{
 	Point loc = null;
 	Point tmp = null;
 	boolean isDragged = false;
+	
 	TeamBLService bl;
+	MatchBLService mbl;
 	public TeamFrame (TeamBasicInfoVO vo) throws IOException, TranscoderException{	
 		bl = new TeamBL();
+		mbl = new MatchBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 11 / 16;
-		int frameWidth = frameHeight * 21 / 16;
+		int frameHeight = screenSize.height * 34 / 48;
+		int frameWidth = frameHeight * 39 / 32;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		//背景图片
-		bg = new ImageIcon("data/pic/Yellow.jpg");
+		bg = new ImageIcon("data/pic/teamframe.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
@@ -163,7 +176,12 @@ public class TeamFrame extends JDialog{
 		getlocation = new JLabel(vo.location,JLabel.LEFT);
 		getcompetionArea = new JLabel(vo.competionArea,JLabel.LEFT);
 		getsubArea = new JLabel(vo.subArea,JLabel.LEFT);
-		gethomeGround = new JLabel(vo.homeGround,JLabel.LEFT);
+		if(vo.homeGround.length() > 11){
+			gethomeGround = new JLabel("<html>"+vo.homeGround.substring(0, 11)+"-"+"<br>"+vo.homeGround.substring(11, vo.homeGround.length())+"<html>", JLabel.CENTER);
+		}
+		else{
+			gethomeGround = new JLabel(vo.homeGround, JLabel.LEFT);
+		}
 		getsetupTime = new JLabel(vo.setupTime,JLabel.LEFT);
 
 		getabbName.setFont(f2);
@@ -199,11 +217,38 @@ public class TeamFrame extends JDialog{
 		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
 		recentTitle = new JLabel("最近5场比赛统计:");
 		recentTitle.setFont(new Font("宋体",Font.BOLD,15));
+		recentTitle.setForeground(Color.ORANGE);
 		subpanel4.add(recentTitle);
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.setData(vo.abbName);
-		table.setBackground(Color.YELLOW);
+		 //表格监听
+	    table.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
+	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
+	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 2)).substring(0, 3);
+	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
+	    		SwingUtilities.invokeLater(new Runnable() {
+					@SuppressWarnings("restriction")
+					public void run() {
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							MatchFrame frame = new MatchFrame(list.get(0));
+							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+						} catch (IOException | TranscoderException e) {
+							e.printStackTrace();
+						}
+					}
+			    });
+	    	}
+	    });
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	public void mouseMoved(MouseEvent e) {
+	    		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		    }
+	    });
 		
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -215,9 +260,11 @@ public class TeamFrame extends JDialog{
 					setHistoryData(vo.abbName);
 				}
 				});
-		type = new JLabel("数据类型:");
+		type = new JLabel("    数据类型:");
+		type.setForeground(Color.BLACK);;
         historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
+		historyTitle.setForeground(Color.ORANGE);
 		subpanel3.add(historyTitle);
 		subpanel3.add(type);
 		subpanel3.add(mode);
@@ -260,6 +307,7 @@ public class TeamFrame extends JDialog{
 		Font f = new Font("宋体",Font.BOLD,22);
 		fullName = new JLabel(vo.fullName);
 		fullName.setFont(f);
+		fullName.setForeground(Color.ORANGE);
 		panelA1.add(fullName);
 		exit = new JButton();
 		exit.setFocusPainted(false);
@@ -344,22 +392,43 @@ public class TeamFrame extends JDialog{
 	}
 	
 	private void setHistoryData(String name) {
-		Object[][] data = new Object[20][14];
-		for (int i = 0; i < 5; i++) {
-		     data[i][0] = "14-15";
-		     data[i][1] = "50%";
-		     data[i][2] = "30%";
-		     data[i][3] = "82%";
-		     data[i][4] = "11-10-21";
-		     data[i][5] = "4";
-		     data[i][6] = "4";
-		     data[i][7] = "4";
-		     data[i][8] = "4";
-		     data[i][9] = "4";
-		     data[i][10] = "80";
-		     data[i][11] = "4";
-		     data[i][12] = "4";
-		     data[i][13] = "80";
+		ArrayList<TeamVO> list = bl.getAllSeasonTeam(name);
+		Object[][] data = new Object[list.size()][14];
+		if(mode.getSelectedItem() == "总数"){
+			for (int i = 0; i < list.size(); i++) {
+		     data[i][0] = list.get(i).season;
+		     data[i][4] = list.get(i).allshootingHitRate*100+"%";
+		     data[i][5] = list.get(i).allthreePointHitRate*100+"%";
+		     data[i][6] = list.get(i).allfreeThrowHitRate*100+"%";
+		     data[i][7] = (int)list.get(i).alloffensiveRebounds+"-"+(int)list.get(i).alldefensiveRebounds+"-"+(int)list.get(i).allrebounds;
+		     data[i][8] = (int)list.get(i).allassists;
+		     data[i][9] = (int)list.get(i).allsteal;
+		     data[i][10] = (int)list.get(i).allcaps;
+		     data[i][11] = (int)list.get(i).allturnovers;
+		     data[i][12] = (int)list.get(i).allfouls;
+		     data[i][13] = (int)list.get(i).allscores;
+		     data[i][1] = (int)list.get(i).winsNum;
+		     data[i][2] = (int)list.get(i).gamesNum;
+		     data[i][3] = list.get(i).winsRate*100+"%";
+		}
+		}
+		else{
+			for (int i = 0; i < list.size(); i++) {
+			     data[i][0] = list.get(i).season;
+			     data[i][4] = list.get(i).shootingHitRate*100+"%";
+			     data[i][5] = list.get(i).threePointHitRate*100+"%";
+			     data[i][6] = list.get(i).freeThrowHitRate*100+"%";
+			     data[i][7] = list.get(i).offensiveRebounds+"-"+list.get(i).defensiveRebounds+"-"+list.get(i).rebounds;
+			     data[i][8] = list.get(i).assists;
+			     data[i][9] = list.get(i).steal;
+			     data[i][10] = list.get(i).caps;
+			     data[i][11] = list.get(i).turnovers;
+			     data[i][12] = list.get(i).fouls;
+			     data[i][13] = list.get(i).scores;
+			     data[i][1] = (int)list.get(i).winsNum;
+			     data[i][2] = (int)list.get(i).gamesNum;
+			     data[i][3] = list.get(i).winsRate*100+"%";
+			}
 		}
 		this.showHistoryTable(data);
 	}
@@ -401,8 +470,12 @@ public class TeamFrame extends JDialog{
 				return false;
 			}
 		};
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+		r.setHorizontalAlignment(JLabel.CENTER);   
+		historytable = new JTable(dm);
 		historytable = new JTable(dm);
 		historytable.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
+		historytable.setDefaultRenderer(Object.class,   r);//居中显示
 		historytable.setFont(new Font("宋体",0,12));
 		FitTableColumns(historytable);
 		historytable.getTableHeader().setReorderingAllowed(false); 

@@ -1,6 +1,7 @@
 package ui.match;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -32,6 +33,8 @@ import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import businesslogic.TeamBL;
+import businesslogicservice.TeamBLService;
 import ui.SvgUtil;
 import vo.MatchVO;
 
@@ -102,12 +105,15 @@ public class MatchFrame extends JFrame{
     JTable table2;  //客队数据表格
     JScrollPane sp2;
     Object[][] data2;
+    
+    TeamBLService bl;
 	
 	Point loc = null;
 	Point tmp = null;
 	boolean isDragged = false;
 	
 	public MatchFrame(MatchVO vo) throws IOException, TranscoderException{
+		bl = new TeamBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -116,7 +122,7 @@ public class MatchFrame extends JFrame{
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
 		//背景图片
-		bg = new ImageIcon("data/pic/Yellow.jpg");
+		bg = new ImageIcon("data/pic/matchframe.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
@@ -136,10 +142,12 @@ public class MatchFrame extends JFrame{
 		panel1.add(panel1A);
 		panel1.add(panel1B);
 		Font f = new Font("宋体",Font.BOLD,20);
-		season = new JLabel("13-14赛季");
+		season = new JLabel(vo.season+"赛季");
 		season.setFont(f);
-		date = new JLabel("   01-01");
+		season.setForeground(Color.WHITE);
+		date = new JLabel("   "+vo.date);
 		date.setFont(f);
+		date.setForeground(Color.WHITE);
 		panel1A.add(season);
 		panel1A.add(date);
 		exit = new JButton();
@@ -157,17 +165,18 @@ public class MatchFrame extends JFrame{
 		
 		logofile1 = new File("logofile");
 		logofile1.createNewFile();
-		temp = new File("HOU.svg");
-		SvgUtil.convertSvgFile2Png(temp, logofile1);
+		
+		SvgUtil.convertSvgFile2Png(bl.getOneTeam(vo.team1.abbName).teamLogo, logofile1);
 		logo1 = ImageIO.read(logofile1);
 		logoicon1 = new ImageIcon(logo1);
 		logoicon1.setImage(logoicon1.getImage().getScaledInstance(120,120,Image.SCALE_DEFAULT));		
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logoicon1);
-		score1 = new JLabel("91");
-		score1.setFont(new Font("宋体",Font.BOLD,30));		
+		score1 = new JLabel(String.valueOf((int)vo.team1.scores));
+		score1.setFont(new Font("宋体",Font.BOLD,29));	
+		score1.setForeground(Color.RED);
 		subpanelA1 = new JPanel();
-		subpanelA1.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		subpanelA1.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		subpanelA1.setOpaque(false);
 		subpanelA1.add(Pic1);
 		subpanelA1.add(score1);
@@ -175,7 +184,7 @@ public class MatchFrame extends JFrame{
 		subpanelA3 = new JPanel();
 		subpanelA3.setOpaque(false);
 		subpanelA3.setLayout(new GridLayout(3,5));
-		subpanelA3.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 5));
+		subpanelA3.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 		Font f1 = new Font("宋体",Font.BOLD,15);
 		first = new JLabel("第一节",JLabel.CENTER);
 		second = new JLabel("第二节",JLabel.CENTER);
@@ -187,17 +196,43 @@ public class MatchFrame extends JFrame{
 		third.setFont(f1);
 		forth.setFont(f1);
 		plus.setFont(f1);
+		first.setForeground(Color.ORANGE);
+		second.setForeground(Color.ORANGE);
+		third.setForeground(Color.ORANGE);
+		forth.setForeground(Color.ORANGE);
+		plus.setForeground(Color.ORANGE);
 		Font f2 = new Font("宋体",Font.BOLD,12);
-		h1 = new JLabel("25",JLabel.CENTER);
-		h2 = new JLabel("25",JLabel.CENTER);
-		h3 = new JLabel("25",JLabel.CENTER);
-		h4 = new JLabel("25",JLabel.CENTER);
-		hp = new JLabel("25,25,25",JLabel.CENTER);
-		c1 = new JLabel("25",JLabel.CENTER);
-		c2 = new JLabel("25",JLabel.CENTER);
-		c3 = new JLabel("25",JLabel.CENTER);
-		c4 = new JLabel("25",JLabel.CENTER);
-		cp = new JLabel("25,25,25",JLabel.CENTER);
+		h1 = new JLabel(String.valueOf((int)vo.team1.qt1Scores),JLabel.CENTER);
+		h2 = new JLabel(String.valueOf((int)vo.team1.qt2Scores),JLabel.CENTER);
+		h3 = new JLabel(String.valueOf((int)vo.team1.qt3Scores),JLabel.CENTER);
+		h4 = new JLabel(String.valueOf((int)vo.team1.qt4Scores),JLabel.CENTER);
+		if(vo.team1.qtPlusScores.isEmpty()){
+			hp = new JLabel("无",JLabel.CENTER);
+		}
+		else{
+			String temp = "";
+			for(int n = 0;n < vo.team1.qtPlusScores.size()-1;n++){
+				temp = temp + vo.team1.qtPlusScores.get(n)+",";
+			}
+			temp = temp + vo.team1.qtPlusScores.get(vo.team1.qtPlusScores.size()-1);
+			hp = new JLabel(temp,JLabel.CENTER);
+		}
+		
+		c1 = new JLabel(String.valueOf((int)vo.team2.qt1Scores),JLabel.CENTER);
+		c2 = new JLabel(String.valueOf((int)vo.team2.qt2Scores),JLabel.CENTER);
+		c3 = new JLabel(String.valueOf((int)vo.team2.qt3Scores),JLabel.CENTER);
+		c4 = new JLabel(String.valueOf((int)vo.team2.qt4Scores),JLabel.CENTER);
+		if(vo.team2.qtPlusScores.isEmpty()){
+			cp = new JLabel("无",JLabel.CENTER);
+		}
+		else{
+			String temp = "";
+			for(int n = 0;n < vo.team2.qtPlusScores.size()-1;n++){
+				temp = temp + vo.team2.qtPlusScores.get(n)+",";
+			}
+			temp = temp + vo.team2.qtPlusScores.get(vo.team2.qtPlusScores.size()-1);
+			cp = new JLabel(temp,JLabel.CENTER);
+		}
 		h1.setFont(f2);
 		h2.setFont(f2);
 		h3.setFont(f2);
@@ -208,6 +243,16 @@ public class MatchFrame extends JFrame{
 		c3.setFont(f2);
 		c4.setFont(f2);
 		cp.setFont(f2);
+		h1.setForeground(Color.MAGENTA);
+		h2.setForeground(Color.MAGENTA);
+		h3.setForeground(Color.MAGENTA);
+		h4.setForeground(Color.MAGENTA);
+		hp.setForeground(Color.MAGENTA);
+		c1.setForeground(Color.MAGENTA);
+		c2.setForeground(Color.MAGENTA);
+		c3.setForeground(Color.MAGENTA);
+		c4.setForeground(Color.MAGENTA);
+		cp.setForeground(Color.MAGENTA);
 		subpanelA3.add(first);
 		subpanelA3.add(second);
 		subpanelA3.add(third);
@@ -227,17 +272,18 @@ public class MatchFrame extends JFrame{
 		
 		logofile2 = new File("logofile");
 		logofile2.createNewFile();
-		temp = new File("HOU.svg");
-		SvgUtil.convertSvgFile2Png(temp, logofile1);
+		
+		SvgUtil.convertSvgFile2Png(bl.getOneTeam(vo.team2.abbName).teamLogo, logofile2);
 		logo2 = ImageIO.read(logofile2);
 		logoicon2 = new ImageIcon(logo2);
 		logoicon2.setImage(logoicon2.getImage().getScaledInstance(120,120,Image.SCALE_DEFAULT));		
 		JLabel Pic2 = new JLabel();
-		Pic2.setIcon(logoicon1);
-		score2 = new JLabel("92");
-		score2.setFont(new Font("宋体",Font.BOLD,30));
+		Pic2.setIcon(logoicon2);
+		score2 = new JLabel(String.valueOf((int)vo.team2.scores));
+		score2.setFont(new Font("宋体",Font.BOLD,29));
+		score2.setForeground(Color.RED);
 		subpanelA2 = new JPanel();
-		subpanelA2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));;
+		subpanelA2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));;
 		subpanelA2.setOpaque(false);
 		subpanelA2.add(score2);
 		subpanelA2.add(Pic2);
@@ -256,29 +302,56 @@ public class MatchFrame extends JFrame{
 		panelB.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		subpanelB1 = new JPanel();
 		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team1 = new JLabel("HOU"+"技术统计:");
+		team1 = new JLabel(vo.team1.abbName+"技术统计:");
 		team1.setFont(new Font("宋体",Font.BOLD,15));
+		team1.setForeground(Color.ORANGE);
 		subpanelB1.add(team1);
 		
 
 		table1 = new JTable();
 		sp1 = new JScrollPane(table1);
-		data1 = new Object[12][14];
-		for(int n = 0; n < 12;n++){
-			data1[n][0] = "LLLLLLL詹姆斯";
-			data1[n][1] = "是";
-			data1[n][2] = "F";
-			data1[n][3] = "35";
-			data1[n][4] = "10-10";
-			data1[n][5] = "2-3";
-			data1[n][6] = "5-5";
-			data1[n][7] = "5-6-11";
-			data1[n][8] = "5";//assist
-			data1[n][9] = "2";//steal
-			data1[n][10] = "1";//block
-			data1[n][11] = "6";//error
-			data1[n][12] = "3";//f
-			data1[n][13] = "40";
+		data1 = new Object[vo.team1.teamPlayers.size()+1][14];
+		for(int n = 0; n < vo.team1.teamPlayers.size()+1;n++){
+			if(n == vo.team1.teamPlayers.size()){
+				data1[n][0] = "总计";
+	    	    data1[n][1] = "";
+				data1[n][2] = "";
+				data1[n][3] = "240";
+				data1[n][4] = (int)vo.team1.getShootingHit()+"-"+(int)vo.team1.getShooting();
+				data1[n][5] = (int)vo.team1.getThreePointHits()+"-"+(int)vo.team1.getThreePoint();
+				data1[n][6] = (int)vo.team1.getFreeThrowHit()+"-"+(int)vo.team1.getThreePoint();
+				data1[n][7] = (int)vo.team1.getOffensiveRebounds()+"-"+(int)vo.team1.getDefensiveRebounds()+"-"
+				+((int)vo.team1.getOffensiveRebounds()+(int)vo.team1.getDefensiveRebounds());
+				data1[n][8] = (int)vo.team1.getAssists();//assist
+				data1[n][9] = (int)vo.team1.getSteals();//steal
+				data1[n][10] = (int)vo.team1.getCaps();//block
+				data1[n][11] = (int)vo.team1.getTurnovers();//error
+				data1[n][12] = (int)vo.team1.getFouls();//f
+				data1[n][13] = (int)vo.team1.scores;
+			}
+			else{
+				data1[n][0] = vo.team1.teamPlayers.get(n).name;
+				if(vo.team1.teamPlayers.get(n).gameStart==1){
+	    			 data1[n][1] = "是";
+	    		}
+	    		else{
+	    			 data1[n][1] = "否";
+	    		}
+				data1[n][2] = "F";
+				data1[n][3] = Math.ceil(vo.team1.teamPlayers.get(n).minute * 100)/100;
+				data1[n][4] = (int)vo.team1.teamPlayers.get(n).shootmade+"-"+(int)vo.team1.teamPlayers.get(n).shoot;
+				data1[n][5] = (int)vo.team1.teamPlayers.get(n).threepointmade+"-"+(int)vo.team1.teamPlayers.get(n).threepoint;
+				data1[n][6] = (int)vo.team1.teamPlayers.get(n).freethrowmade+"-"+(int)vo.team1.teamPlayers.get(n).freethrow;
+				data1[n][7] = (int)vo.team1.teamPlayers.get(n).offensiveRebounds+"-"+(int)vo.team1.teamPlayers.get(n).defensiveRebounds+"-"
+				+((int)vo.team1.teamPlayers.get(n).offensiveRebounds+(int)vo.team1.teamPlayers.get(n).defensiveRebounds);
+				data1[n][8] = (int)vo.team1.teamPlayers.get(n).assist;//assist
+				data1[n][9] = (int)vo.team1.teamPlayers.get(n).steal;//steal
+				data1[n][10] = (int)vo.team1.teamPlayers.get(n).block;//block
+				data1[n][11] = (int)vo.team1.teamPlayers.get(n).error;//error
+				data1[n][12] = (int)vo.team1.teamPlayers.get(n).foul;//f
+				data1[n][13] = (int)vo.team1.teamPlayers.get(n).point;
+			}
+			
 		}
 		this.showTable1(data1);
 		panelB.add(team1,BorderLayout.NORTH);
@@ -291,29 +364,56 @@ public class MatchFrame extends JFrame{
 		panelC.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
 		subpanelC1 = new JPanel();
 		subpanelC1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team2 = new JLabel("HOU"+"技术统计:");
+		team2 = new JLabel(vo.team2.abbName+"技术统计:");
 		team2.setFont(new Font("宋体",Font.BOLD,15));
+		team2.setForeground(Color.ORANGE);
 		subpanelC1.add(team2);
 		
 
 		table2 = new JTable();
 		sp2 = new JScrollPane(table2);
-		data2 = new Object[12][14];
-		for(int n = 0; n < 12;n++){
-			data2[n][0] = "LLLLLLL詹姆斯";
-			data2[n][1] = "是";
-			data2[n][2] = "F";
-			data2[n][3] = "35";
-			data2[n][4] = "10-10";
-			data2[n][5] = "2-3";
-			data2[n][6] = "5-5";
-			data2[n][7] = "5-6-11";
-			data2[n][8] = "5";//assist
-			data2[n][9] = "2";//steal
-			data2[n][10] = "1";//block
-			data2[n][11] = "6";//error
-			data2[n][12] = "3";//f
-			data2[n][13] = "40";
+		data2 = new Object[vo.team2.teamPlayers.size()+1][14];
+		for(int n = 0; n < vo.team2.teamPlayers.size()+1;n++){
+			if(n == vo.team2.teamPlayers.size()){
+				data2[n][0] = "总计";
+	    	    data2[n][1] = "";
+				data2[n][2] = "";
+				data2[n][3] = "240";
+				data2[n][4] = (int)vo.team2.getShootingHit()+"-"+(int)vo.team2.getShooting();
+				data2[n][5] = (int)vo.team2.getThreePointHits()+"-"+(int)vo.team2.getThreePoint();
+				data2[n][6] = (int)vo.team2.getFreeThrowHit()+"-"+(int)vo.team2.getThreePoint();
+				data2[n][7] = (int)vo.team2.getOffensiveRebounds()+"-"+(int)vo.team2.getDefensiveRebounds()+"-"
+				+((int)vo.team2.getOffensiveRebounds()+(int)vo.team2.getDefensiveRebounds());
+				data2[n][8] = (int)vo.team2.getAssists();//assist
+				data2[n][9] = (int)vo.team2.getSteals();//steal
+				data2[n][10] = (int)vo.team2.getCaps();//block
+				data2[n][11] = (int)vo.team2.getTurnovers();//error
+				data2[n][12] = (int)vo.team2.getFouls();//f
+				data2[n][13] = (int)vo.team2.scores;
+			}
+			else{
+				data2[n][0] = vo.team2.teamPlayers.get(n).name;
+				if(vo.team2.teamPlayers.get(n).gameStart==1){
+	    			 data2[n][1] = "是";
+	    		}
+	    		else{
+	    			 data2[n][1] = "否";
+	    		}
+				data2[n][2] = "F";
+				data2[n][3] =  Math.ceil(vo.team2.teamPlayers.get(n).minute * 100)/100;
+				data2[n][4] = (int)vo.team2.teamPlayers.get(n).shootmade+"-"+(int)vo.team2.teamPlayers.get(n).shoot;
+				data2[n][5] = (int)vo.team2.teamPlayers.get(n).threepointmade+"-"+(int)vo.team2.teamPlayers.get(n).threepoint;
+				data2[n][6] = (int)vo.team2.teamPlayers.get(n).freethrowmade+"-"+(int)vo.team2.teamPlayers.get(n).freethrow;
+				data2[n][7] = (int)vo.team2.teamPlayers.get(n).offensiveRebounds+"-"+(int)vo.team2.teamPlayers.get(n).defensiveRebounds+"-"
+				+((int)vo.team2.teamPlayers.get(n).offensiveRebounds+(int)vo.team2.teamPlayers.get(n).defensiveRebounds);
+				data2[n][8] = (int)vo.team2.teamPlayers.get(n).assist;//assist
+				data2[n][9] = (int)vo.team2.teamPlayers.get(n).steal;//steal
+				data2[n][10] = (int)vo.team2.teamPlayers.get(n).block;//block
+				data2[n][11] = (int)vo.team2.teamPlayers.get(n).error;//error
+				data2[n][12] = (int)vo.team2.teamPlayers.get(n).foul;//f
+				data2[n][13] = (int)vo.team2.teamPlayers.get(n).point;
+			}
+			
 		}
 		this.showTable2(data2);
 		panelC.add(team2,BorderLayout.NORTH);
@@ -380,8 +480,8 @@ public class MatchFrame extends JFrame{
 	}
 	private void showTable1(Object[][] data) {
 		this.remove(table1);
-		String[] subTitle = {"球员","首发","位置","时间(M)","投篮","三分","罚球",
-				"篮板(前-后-总)","助攻","抢断","盖帽","失误","犯规","得分"};
+		String[] subTitle = {"球员","首发","位置","时间","投篮","三分","罚球",
+				"篮板","助攻","抢断","盖帽","失误","犯规","得分"};
 		//------------------------------------------------------
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
@@ -391,7 +491,7 @@ public class MatchFrame extends JFrame{
 		DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
 		r.setHorizontalAlignment(JLabel.CENTER);   
 		table1 = new JTable(dm);
-		table1.setDefaultRenderer(Object.class,   r);
+		table1.setDefaultRenderer(Object.class,   r);//居中显示
 		table1.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table1.setFont(new Font("宋体",0,12));
 		this.FitTableColumns(table1);
@@ -404,8 +504,8 @@ public class MatchFrame extends JFrame{
 	
 	private void showTable2(Object[][] data) {
 		this.remove(table2);
-		String[] subTitle = {"球员","首发","位置","时间(M)","投篮","三分","罚球",
-				"篮板(前-后-总)","助攻","抢断","盖帽","失误","犯规","得分"};
+		String[] subTitle = {"球员","首发","位置","时间","投篮","三分","罚球",
+				"篮板","助攻","抢断","盖帽","失误","犯规","得分"};
 		//------------------------------------------------------
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
@@ -424,10 +524,6 @@ public class MatchFrame extends JFrame{
 			
 		sp2.setViewportView(table2);
 		revalidate();
-	}
-	
-	public static void main(String[] args) throws IOException, TranscoderException{
-		new MatchFrame(new MatchVO());
 	}
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {

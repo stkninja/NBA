@@ -31,12 +31,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+import org.apache.batik.transcoder.TranscoderException;
+
+import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
+import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
+import ui.match.MatchFrame;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -47,6 +53,7 @@ public class PlayerFrame extends JDialog{
 	 */
 	private static final long serialVersionUID = 1L;
 	PlayerBLService bl;
+	MatchBLService mbl;
 	JPanel panel;   //背景panel
 	JPanel panelA;  //按钮panel
 	JPanel panelA1;
@@ -88,6 +95,11 @@ public class PlayerFrame extends JDialog{
     JLabel historyTitle;
     JLabel type;
     
+    JLabel promotion;
+    JLabel scorep;
+    JLabel assistp;
+    JLabel reboundp;
+    
     JComboBox<String> mode;
     
     JTable table;
@@ -111,6 +123,7 @@ public class PlayerFrame extends JDialog{
     
 	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
 		bl = new PlayerBL();
+		mbl = new MatchBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -118,7 +131,7 @@ public class PlayerFrame extends JDialog{
 		int frameWidth = frameHeight * 21 / 16;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景图片
-		bg = new ImageIcon("data/pic/Yellow.jpg");
+		bg = new ImageIcon("data/pic/playerframe.jpg");
 		lab = new JLabel(bg);
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
@@ -249,11 +262,48 @@ public class PlayerFrame extends JDialog{
 		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
 		recentTitle = new JLabel("最近5场比赛统计:");
 		recentTitle.setFont(new Font("宋体",Font.BOLD,15));
+		promotion = new JLabel("       提升率->");
+		promotion.setFont(new Font("宋体",Font.BOLD,12));
+		scorep = new JLabel(bl.getPlayerVO(vo.name).pointpromotion+"(场均得分)； ");
+		assistp = new JLabel(bl.getPlayerVO(vo.name).assistpromotion+"(场均助攻)；");
+		reboundp = new JLabel(bl.getPlayerVO(vo.name).reboundpromotion+"(场均篮板)");
 		subpanel4.add(recentTitle);
+		subpanel4.add(promotion);
+		subpanel4.add(scorep);
+		subpanel4.add(assistp);
+		subpanel4.add(reboundp);
 		table = new JTable();
 		sp = new JScrollPane(table);
+		sp.setBorder(BorderFactory.createEmptyBorder(3, 0, 11, 0));
 		sp.setOpaque(false);
 		this.setData(vo.name);
+		 //表格监听
+	    table.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		String season = ((String)table.getValueAt(table.getSelectedRow(), 0)).substring(0, 5);
+	    		String date = ((String)table.getValueAt(table.getSelectedRow(), 0)).substring(6);
+	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 1)).substring(0, 3);
+	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
+	    		SwingUtilities.invokeLater(new Runnable() {
+					@SuppressWarnings("restriction")
+					public void run() {
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							MatchFrame frame = new MatchFrame(list.get(0));
+							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+						} catch (IOException | TranscoderException e) {
+							e.printStackTrace();
+						}
+					}
+			    });
+	    	}
+	    });
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	public void mouseMoved(MouseEvent e) {
+	    		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		    }
+	    });
 		
 		subpanel3 = new JPanel();
 		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -265,7 +315,7 @@ public class PlayerFrame extends JDialog{
 					setHistoryData(vo.name);
 				}
 				});
-		type = new JLabel("数据类型:");
+		type = new JLabel("   数据类型: ");
 		historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
         subpanel3.add(historyTitle);
@@ -435,43 +485,82 @@ public class PlayerFrame extends JDialog{
 	
 	private void setHistoryData(String name) {
 		ArrayList<PlayerVO> list = bl.getAllSeasonPlayer(name);
-		Object[][] data = new Object[list.size()][15];
+		PlayerVO playervo = bl.getPlayerPast(name);
+		Object[][] data = new Object[list.size()+1][15];
 		if(mode.getSelectedItem() == "总数"){
-			for (int i = 0; i < data.length; i++) {
-		     data[i][0] = list.get(i).season;
-		     data[i][1] = list.get(i).team;
-		     data[i][2] = list.get(i).gameplay;
-		     data[i][3] = list.get(i).gamestart;
-		     data[i][4] = list.get(i).allminute;
-		     data[i][5] = (int)(list.get(i).allshootefficiency*100) + "%";
-		     data[i][6] = (int)(list.get(i).allthreepointpercent*100) + "%";
-		     data[i][7] = (int)(list.get(i).allfreethrowpercent*100) + "%";
-		     data[i][8] = (int)list.get(i).alloffensiverebound+"-"+(int)list.get(i).alldefensiverebound+"-"+(int)list.get(i).allrebound;
-		     data[i][9] = (int)list.get(i).allassist;
-		     data[i][10] = (int)list.get(i).allsteal;
-		     data[i][11] = (int)list.get(i).allblock;
-		     data[i][12] = (int)list.get(i).allerror;
-		     data[i][13] = (int)list.get(i).allfoul;
-		     data[i][14] = (int)list.get(i).allpoint;
+			for (int i = 0; i < list.size()+1; i++) {
+				if(i == list.size()){
+					 data[i][0] = "生涯总计";
+				     data[i][1] = "";
+				     data[i][2] = (int)playervo.gameplay;
+				     data[i][3] = (int)playervo.gamestart;
+				     data[i][4] = (int)playervo.allminute;
+				     data[i][5] = (int)(playervo.allshootefficiency*100) + "%";
+				     data[i][6] = (int)(playervo.allthreepointpercent*100) + "%";
+				     data[i][7] = (int)(playervo.allfreethrowpercent*100) + "%";
+				     data[i][8] = (int)playervo.alloffensiverebound+"-"+(int)playervo.alldefensiverebound+"-"+(int)playervo.allrebound;
+				     data[i][9] = (int)playervo.allassist;
+				     data[i][10] = (int)playervo.allsteal;
+				     data[i][11] = (int)playervo.allblock;
+				     data[i][12] = (int)playervo.allerror;
+				     data[i][13] = (int)playervo.allfoul;
+				     data[i][14] = (int)playervo.allpoint;
+				}
+				else{
+					 data[i][0] = list.get(i).season;
+				     data[i][1] = list.get(i).team;
+				     data[i][2] = list.get(i).gameplay;
+				     data[i][3] = list.get(i).gamestart;
+				     data[i][4] = list.get(i).allminute;
+				     data[i][5] = (int)(list.get(i).allshootefficiency*100) + "%";
+				     data[i][6] = (int)(list.get(i).allthreepointpercent*100) + "%";
+				     data[i][7] = (int)(list.get(i).allfreethrowpercent*100) + "%";
+				     data[i][8] = (int)list.get(i).alloffensiverebound+"-"+(int)list.get(i).alldefensiverebound+"-"+(int)list.get(i).allrebound;
+				     data[i][9] = (int)list.get(i).allassist;
+				     data[i][10] = (int)list.get(i).allsteal;
+				     data[i][11] = (int)list.get(i).allblock;
+				     data[i][12] = (int)list.get(i).allerror;
+				     data[i][13] = (int)list.get(i).allfoul;
+				     data[i][14] = (int)list.get(i).allpoint;
+				}
 		}
 		}
 		else{
-			for (int i = 0; i < data.length; i++) {
-			     data[i][0] = list.get(i).season;
-			     data[i][1] = list.get(i).team;
-			     data[i][2] = list.get(i).gameplay;
-			     data[i][3] = list.get(i).gamestart;
-			     data[i][4] = list.get(i).minute;
-			     data[i][5] = list.get(i).shootefficiency;
-			     data[i][6] = list.get(i).threepointpercent;
-			     data[i][7] = list.get(i).freethrowpercent;
-			     data[i][8] = list.get(i).offensiverebound+"-"+list.get(i).defensiverebound+"-"+list.get(i).rebound;
-			     data[i][9] = list.get(i).assist;
-			     data[i][10] = list.get(i).steal;
-			     data[i][11] = list.get(i).block;
-			     data[i][12] = list.get(i).error;
-			     data[i][13] = list.get(i).foul;
-			     data[i][14] = list.get(i).point;
+			for (int i = 0; i < list.size()+1; i++) {
+				if(i == list.size()){
+					 data[i][0] = "生涯总计";
+				     data[i][1] = "";
+				     data[i][2] = playervo.gameplay;
+				     data[i][3] = playervo.gamestart;
+				     data[i][4] = playervo.minute;
+				     data[i][5] = (int)(playervo.shootefficiency*100) + "%";
+				     data[i][6] = (int)(playervo.threepointpercent*100) + "%";
+				     data[i][7] = (int)(playervo.freethrowpercent*100) + "%";
+				     data[i][8] = playervo.offensiverebound+"-"+playervo.defensiverebound+"-"+playervo.rebound;
+				     data[i][9] = playervo.assist;
+				     data[i][10] = playervo.steal;
+				     data[i][11] = playervo.block;
+				     data[i][12] = playervo.error;
+				     data[i][13] = playervo.foul;
+				     data[i][14] = playervo.point;
+				}
+				else{
+					 data[i][0] = list.get(i).season;
+				     data[i][1] = list.get(i).team;
+				     data[i][2] = list.get(i).gameplay;
+				     data[i][3] = list.get(i).gamestart;
+				     data[i][4] = list.get(i).minute;
+				     data[i][5] = (int)(list.get(i).shootefficiency*100)+"%";
+				     data[i][6] = (int)(list.get(i).threepointpercent*100)+"%";
+				     data[i][7] = (int)(list.get(i).freethrowpercent*100)+"%";
+				     data[i][8] = list.get(i).offensiverebound+"-"+list.get(i).defensiverebound+"-"+list.get(i).rebound;
+				     data[i][9] = list.get(i).assist;
+				     data[i][10] = list.get(i).steal;
+				     data[i][11] = list.get(i).block;
+				     data[i][12] = list.get(i).error;
+				     data[i][13] = list.get(i).foul;
+				     data[i][14] = list.get(i).point;		
+				}
 			}
 		}
 		
@@ -492,9 +581,12 @@ public class PlayerFrame extends JDialog{
 				return false;
 			}
 		};
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+		r.setHorizontalAlignment(JLabel.CENTER);   
 		table = new JTable(dm);
 		table.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table.setFont(new Font("宋体",0,12));
+		table.setDefaultRenderer(Object.class,   r);//居中显示
 		FitTableColumns(table);
         table.getTableHeader().setReorderingAllowed(false); 
         table.getTableHeader().setResizingAllowed(false);
@@ -517,8 +609,11 @@ public class PlayerFrame extends JDialog{
 				return false;
 			}
 		};
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+		r.setHorizontalAlignment(JLabel.CENTER);   
 		historytable = new JTable(dm);
 		historytable.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
+		historytable.setDefaultRenderer(Object.class,   r);//居中显示
 		historytable.setFont(new Font("宋体",0,12));
 		FitTableColumns(historytable);
 		historytable.getTableHeader().setReorderingAllowed(false); 
