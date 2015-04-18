@@ -38,7 +38,7 @@ public class GetPlayerInfo implements PlayerService{
 			if(po.getName().equals(name))
 				return po;
 		
-		return new PBasicInfoPO();
+		return null;
 	}
 
 	public PSeasonDataPO getOnePSeasonDataPO(String name, String season) {
@@ -47,7 +47,7 @@ public class GetPlayerInfo implements PlayerService{
 			if(po.getName().equals(name))
 				return po;
 		
-		return new PSeasonDataPO();
+		return null;
 	}
 	
 }
