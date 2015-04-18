@@ -68,6 +68,23 @@ public class MatchFrame extends JFrame{
 	JLabel team1;
 	JLabel team2;
 	
+	JLabel first;
+	JLabel second;
+	JLabel third;
+	JLabel forth;
+	JLabel plus;
+	JLabel h1;
+	JLabel h2;
+	JLabel h3;
+	JLabel h4;
+	JLabel hp;
+	JLabel c1;
+	JLabel c2;
+	JLabel c3;
+	JLabel c4;
+	JLabel cp;
+	
+	
 	ImageIcon bg;  //背景图
     JLabel lab;  //背景
     Image logo1;  //主队队标
@@ -85,10 +102,6 @@ public class MatchFrame extends JFrame{
     JTable table2;  //客队数据表格
     JScrollPane sp2;
     Object[][] data2;
-    
-    JTable table3;
-    JScrollPane sp3;//比分表格
-    Object[][] data3;
 	
 	Point loc = null;
 	Point tmp = null;
@@ -139,7 +152,7 @@ public class MatchFrame extends JFrame{
 		
 		//比分panelA------------------------------
 		panelA = new JPanel();
-		panelA.setLayout(new GridLayout(1,3));
+		panelA.setLayout(new BorderLayout());
 		panelA.setOpaque(false);
 		
 		logofile1 = new File("logofile");
@@ -154,27 +167,63 @@ public class MatchFrame extends JFrame{
 		score1 = new JLabel("91");
 		score1.setFont(new Font("宋体",Font.BOLD,30));		
 		subpanelA1 = new JPanel();
+		subpanelA1.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		subpanelA1.setOpaque(false);
 		subpanelA1.add(Pic1);
 		subpanelA1.add(score1);
-
-		table3 = new JTable();
-		sp3 = new JScrollPane(table3);
-		sp3.setPreferredSize(new Dimension(500,50));
+		
 		subpanelA3 = new JPanel();
 		subpanelA3.setOpaque(false);
-		subpanelA3.setBorder(BorderFactory.createEmptyBorder(40, 0, 34, 0));
-		subpanelA3.setLayout(new BorderLayout());
-		subpanelA3.add(sp3,BorderLayout.CENTER);
-		data3 = new Object[2][5];
-		for(int n = 0;n < 2;n++){
-			data3[n][0] = "25";
-			data3[n][1] = "25";
-			data3[n][2] = "25";
-			data3[n][3] = "25";
-			data3[n][4] = "25,25,25";
-		}
-		this.showTable3(data3);
+		subpanelA3.setLayout(new GridLayout(3,5));
+		subpanelA3.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 5));
+		Font f1 = new Font("宋体",Font.BOLD,15);
+		first = new JLabel("第一节",JLabel.CENTER);
+		second = new JLabel("第二节",JLabel.CENTER);
+		third = new JLabel("第三节",JLabel.CENTER);
+		forth = new JLabel("第四节",JLabel.CENTER);
+		plus = new JLabel("加时",JLabel.CENTER);
+		first.setFont(f1);
+		second.setFont(f1);
+		third.setFont(f1);
+		forth.setFont(f1);
+		plus.setFont(f1);
+		Font f2 = new Font("宋体",Font.BOLD,12);
+		h1 = new JLabel("25",JLabel.CENTER);
+		h2 = new JLabel("25",JLabel.CENTER);
+		h3 = new JLabel("25",JLabel.CENTER);
+		h4 = new JLabel("25",JLabel.CENTER);
+		hp = new JLabel("25,25,25",JLabel.CENTER);
+		c1 = new JLabel("25",JLabel.CENTER);
+		c2 = new JLabel("25",JLabel.CENTER);
+		c3 = new JLabel("25",JLabel.CENTER);
+		c4 = new JLabel("25",JLabel.CENTER);
+		cp = new JLabel("25,25,25",JLabel.CENTER);
+		h1.setFont(f2);
+		h2.setFont(f2);
+		h3.setFont(f2);
+		h4.setFont(f2);
+		hp.setFont(f2);
+		c1.setFont(f2);
+		c2.setFont(f2);
+		c3.setFont(f2);
+		c4.setFont(f2);
+		cp.setFont(f2);
+		subpanelA3.add(first);
+		subpanelA3.add(second);
+		subpanelA3.add(third);
+		subpanelA3.add(forth);
+		subpanelA3.add(plus);
+		subpanelA3.add(h1);
+		subpanelA3.add(h2);
+		subpanelA3.add(h3);
+		subpanelA3.add(h4);
+		subpanelA3.add(hp);
+		subpanelA3.add(c1);
+		subpanelA3.add(c2);
+		subpanelA3.add(c3);
+		subpanelA3.add(c4);
+		subpanelA3.add(cp);
+		
 		
 		logofile2 = new File("logofile");
 		logofile2.createNewFile();
@@ -188,30 +237,15 @@ public class MatchFrame extends JFrame{
 		score2 = new JLabel("92");
 		score2.setFont(new Font("宋体",Font.BOLD,30));
 		subpanelA2 = new JPanel();
+		subpanelA2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));;
 		subpanelA2.setOpaque(false);
 		subpanelA2.add(score2);
 		subpanelA2.add(Pic2);
 		
 		
-//		for(int n = 0;n < 2;n++){
-//			data3[n][0] = vo.team1.qt1Scores;
-//			data3[n][1] = vo.team1.qt2Scores;
-//			data3[n][2] = vo.team1.qt3Scores;
-//			data3[n][3] = vo.team1.qt4Scores;
-//			if(vo.team1.qtPlusScores.isEmpty()){
-//				data3[n][4] = "无";
-//			}
-//			else{
-//				data3[n][4] = "";
-//				for(int m = 0;m < vo.team1.qtPlusScores.size()-1;m++){
-//					data3[n][4] = data3[n][4] + ((int)(double)vo.team1.qtPlusScores.get(m) + ",");
-//				}
-//				data3[n][4] = data3[n][4] + ((int)(double)vo.team1.qtPlusScores.get(vo.team1.qtPlusScores.size()-1) + "");
-//			}
-//		}
-		panelA.add(subpanelA1);
-		panelA.add(subpanelA3);
-		panelA.add(subpanelA2);
+		panelA.add(subpanelA1,BorderLayout.WEST);
+		panelA.add(subpanelA3,BorderLayout.CENTER);
+		panelA.add(subpanelA2,BorderLayout.EAST);
 		
 		
 		
@@ -343,27 +377,6 @@ public class MatchFrame extends JFrame{
                }
             }
         });
-	}
-	private void showTable3(Object[][] data) {
-		this.remove(table3);
-		//生涯比赛表格
-		String[] subTitle = {"第一节","第二节","第三节","第四节","加时"
-					};
-		//------------------------------------------------------
-		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		table3 = new JTable(dm);
-		table3.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
-		table3.setFont(new Font("宋体",0,12));
-		this.FitTableColumns(table3);
-		table3.getTableHeader().setReorderingAllowed(false); 
-		table3.getTableHeader().setResizingAllowed(false);
-			
-		sp3.setViewportView(table3);
-		revalidate();
 	}
 	private void showTable1(Object[][] data) {
 		this.remove(table1);
