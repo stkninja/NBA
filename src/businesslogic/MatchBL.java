@@ -290,6 +290,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public MatchPlayerDataVO potovo(MatchPlayerDataPO po){
 		MatchPlayerDataVO vo = new MatchPlayerDataVO();
 		vo.name = po.getName();
+		vo.position = po.getPosition();
 		vo.offensiveRebounds = po.getOffensiveRebounds();
 		vo.defensiveRebounds = po.getDefensiveRebounds();
 		vo.assist = po.getAssist();

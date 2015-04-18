@@ -8,7 +8,6 @@ import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
-import vo.MatchPlayerDataVO;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -101,6 +100,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public PlayerBasicInfoVO getOnePlayer(String name) {
 		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
 		PBasicInfoPO pp = playerdata.getSinglePBasicInfo(name);
+		if(pp == null){
+			return null;
+		}
 		vo.name = pp.getName();
 		vo.number = pp.getNumber();
 		vo.height = pp.getHeight();
@@ -208,9 +210,13 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return list;
 	}
 
-	public PlayerVO getPlayerPast(String season, String name) {
+	public PlayerVO getPlayerPast(String name) {
 		PlayerVO vo = new PlayerVO();
-		vo = potovo(playerdata.getOnePSeasonDataPO(name, season));
+		for(PSeasonDataPO po : playerdata.getAllPSeasonData("all")){
+			if(po.getName().equals(name)){
+				vo = potovo(po);
+			}
+		}
 		return vo;
 	}
 
@@ -660,135 +666,223 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		}
 	}
 
-	public ArrayList<PlayerVO> getAllSeasonPlayer(String name) {
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		for(String season : matchdata.getExistedSeasons()){
-/*			ArrayList<MatchVO> temp =  matchbl.getAllMatchesAboutTeamSeasonDatePlayer("All", season, "All", name);
-			int i = 0;
-			for(i = 0;i < temp.size() - 1;i ++){
-				if(!getTeamOfPlayer(temp.get(i),name).equals(getTeamOfPlayer(temp.get(i + 1),name))){
-					break;
-				}
-			}
-			if(i != temp.size() - 1){
-				for()
-			}*/
-			list.add(getPlayerPast(season,name));
-		}
-		return list;
-	}
-	
-	public String getTeamOfPlayer(MatchVO vo,String player){
-		String s = "";
-		for(MatchPlayerDataVO vo1 : vo.team1.teamPlayers){
-			if(vo1.name.equals(player)){
-				s = vo.team1.abbName;
-			}
-		}
-		for(MatchPlayerDataVO vo2 : vo.team2.teamPlayers){
-			if(vo2.name.equals(player)){
-				s = vo.team2.abbName;
-			}
-		}
-		return s;
-	}
-	
-	public ArrayList<PlayerVO> getAllSeasonData(){
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		for(String name : playerdata.getAllPlayersName()){
-			PlayerVO vo = new PlayerVO();
-			for(String season : matchdata.getExistedSeasons()){
-				PSeasonDataPO po = playerdata.getOnePSeasonDataPO(name, season);
-				vo.name = po.getName();
-				vo.position = po.getPosition();
-				vo.subArea = po.getSubArea();
-				vo.gameplay += po.getGameplay();
-				vo.gamestart += po.getGamestart();
-				vo.allrebound += po.getAllrebound();
-				vo.alloffensiverebound += po.getAlloffensiverebound();
-				vo.alldefensiverebound += po.getAlldefensiverebound();
-				vo.allassist += po.getAllassist();
-				vo.allminute += po.getAllminute();
-				vo.alloffense += po.getAlloffense();
-				vo.alldefence += po.getAlldefence();
-				vo.allsteal += po.getAllsteal();
-				vo.allblock += po.getAllblock();
-				vo.allerror += po.getAllerror();
-				vo.allfoul += po.getAllfoul();
-				vo.allpoint += po.getAllpoint();
-				vo.allshoot += po.getAllshoot();
-				vo.allshootmade += po.getAllshootmade();
-				vo.allthreepoint += po.getAllthreepoint();
-				vo.allthreepointmade += po.getAllthreepointmade();
-				vo.allfreethrow += po.getAllfreethrow();
-			    vo.allfreethrowmade += po.getAllfreethrowmade();
-			    vo.doubledouble += po.getDoubledouble();
-			    vo.allpointReboundAssist += po.getAllpointReboundAssist();
-			    vo.allfieldgoalpercent = po.getAllfieldgoalpercent();
-			    vo.allthreepointpercent = po.getAllthreepointpercent();
-			    vo.allfreethrowpercent = po.getAllfreethrowpercent();
-			    vo.allefficiency = po.getAllefficiency();
-			    vo.allgmsc = po.getAllgmsc();
-			    vo.allrealshootpercent = po.getAllrealshootpercent();
-			    vo.allshootefficiency = po.getAllshootefficiency();
-			    vo.allreboundrate = po.getAllreboundrate();
-			    vo.alloffensivereboundrate = po.getAlloffensivereboundrate();
-			    vo.alldefensivereboundrate = po.getAlldefensivereboundrate();
-			    vo.allassistrate = po.getAllassistrate();
-			    vo.allstealrate = po.getAllstealrate();
-			    vo.allblockrate = po.getAllblockrate();
-			    vo.allerrorrate = po.getAllerrorrate();
-			    vo.allusage = po.getAllusage();
-			    
-			    vo.pointpromotion = po.getPointpromotion();
-			    vo.reboundpromotion = po.getReboundpromotion();
-			    vo.assistpromotion = po.getAssistpromotion();
-			}
-			vo.rebound = Math.ceil(vo.allrebound / vo.gameplay * 100) / 100;
-			vo.offensiverebound = Math.ceil(vo.alloffensiverebound / vo.gameplay * 100) / 100;
-			vo.defensiverebound = vo.alldefensiverebound / vo.gameplay;
-			vo.assist = vo.allassist / vo.gameplay;
-			vo.minute = vo.allminute / vo.gameplay;
-			vo.offense = vo.alloffense / vo.gameplay;
-			vo.defence = vo.alldefence / vo.gameplay;
-			vo.steal = vo.allsteal / vo.gameplay;
-			vo.block = vo.allblock / vo.gameplay;
-			vo.error = vo.allerror / vo.gameplay;
-			vo.foul = vo.allfoul / vo.gameplay;
-			vo.point = vo.allpoint / vo.gameplay;
-			vo.shoot = vo.allshoot / vo.gameplay;
-			vo.shootmade = vo.allshootmade / vo.gameplay;
-			vo.threepoint = vo.allthreepoint / vo.gameplay;
-			vo.threepointmade = vo.allthreepointmade / vo.gameplay;
-			vo.freethrow = vo.allfreethrow / vo.gameplay;
-			vo.freethrowmade = vo.allfreethrowmade / vo.gameplay;
-			vo.pointReboundAssist = vo.allpointReboundAssist / vo.gameplay;
-			vo.allfieldgoalpercent = vo.allshootmade / vo.allshoot;
-			vo.allthreepointpercent = vo.allthreepointmade / vo.allthreepoint;
-			vo.allfreethrowpercent = vo.allfreethrowmade / vo.allfreethrow;
-			vo.allefficiency = (vo.allpoint + vo.allrebound + vo.allassist + vo.allsteal + vo.allblock) - (vo.allshoot - vo.allshootmade) - (vo.allfreethrow - vo.allfreethrowmade) - vo.allerror;
-			vo.allgmsc = vo.allpoint + 0.4 * vo.allshootmade - 0.7 * vo.allshoot - 0.4 * (vo.allfreethrow - vo.allfreethrowmade) + 0.7 * vo.alloffensiverebound + 0.3 * vo.alldefensiverebound + vo.allsteal + 0.7 * vo.allassist + 0.7 * vo.allblock - 0.4 * vo.allfoul - vo.allerror;
-			if(vo.allshoot + 0.44 * vo.allfreethrow == 0){
-				vo.allrealshootpercent = 0;
-			}
-			else{
-				vo.allrealshootpercent = vo.allpoint / 2 * (vo.allshoot + 0.44 * vo.allfreethrow);
-			}
-			
-		}
-		return list;
-	}
-
 	public PlayerVO getPlayerVO(String name) {
 		PlayerVO vo = new PlayerVO();
 		vo = potovo(playerdata.getOnePSeasonDataPO(name, matchdata.getLastSeason()));
 		return vo;
 	}
+
+	public ArrayList<PlayerVO> getAllSeasonPlayer(String name) {
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(String season : matchdata.getExistedSeasons()){
+			list.add(potovo(playerdata.getOnePSeasonDataPO(name,season)));
+		}
+		return list;
+	}
 	
-/*	public ArrayList<PlayerVO> getFilterPlayers(String position,String league,String age){
+	public ArrayList<PlayerVO> getAllSeasonPlayer(){
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(PSeasonDataPO po : playerdata.getAllPSeasonData("all")){
+			list.add(potovo(po));
+		}
+		return list;
+	}
+	
+	public int age(PlayerVO vo){
+		return Integer.parseInt(getOnePlayer(vo.name).age);
+	}
+	
+	public ArrayList<PlayerVO> getFilterPlayers(String position,String league,String age){
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		if(league.equals("West")){
-			for()
+			if(age.equals("All")){
+				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
+					list.add(vo1);
+				}
+				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
+					list.add(vo2);
+				}
+				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
+					list.add(vo3);
+				}
+			}
+			else if(age.equals("<=22")){
+				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
+					if(age(vo1) <= 22){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
+					if(age(vo2) <= 22){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
+					if(age(vo3) <= 22){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals("22< X <=25")){
+				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
+					if(age(vo1) > 22 && age(vo1) <= 25){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
+					if(age(vo2) > 22 && age(vo2) <= 25){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
+					if(age(vo3) > 22 && age(vo3) <= 25){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals("25< X <=30")){
+				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
+					if(age(vo1) > 25 && age(vo1) <= 30){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
+					if(age(vo2) > 25 && age(vo2) <= 30){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
+					if(age(vo3) > 25 && age(vo3) <= 30){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals(">30")){
+				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
+					if(age(vo1) > 30){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
+					if(age(vo2) > 30){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
+					if(age(vo3) > 30){
+						list.add(vo3);
+					}
+				}
+			}
 		}
-	}*/
+		else if(league.equals("East")){
+			if(age.equals("All")){
+				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
+					list.add(vo1);
+				}
+				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
+					list.add(vo2);
+				}
+				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
+					list.add(vo3);
+				}
+			}
+			else if(age.equals("<=22")){
+				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
+					if(age(vo1) <= 22){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
+					if(age(vo2) <= 22){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
+					if(age(vo3) <= 22){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals("22< X <=25")){
+				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
+					if(age(vo1) > 22 && age(vo1) <= 25){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
+					if(age(vo2) > 22 && age(vo2) <= 25){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
+					if(age(vo3) > 22 && age(vo3) <= 25){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals("25< X <=30")){
+				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
+					if(age(vo1) > 25 && age(vo1) <= 30){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
+					if(age(vo2) > 25 && age(vo2) <= 30){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
+					if(age(vo3) > 25 && age(vo3) <= 30){
+						list.add(vo3);
+					}
+				}
+			}
+			else if(age.equals(">30")){
+				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
+					if(age(vo1) > 30){
+						list.add(vo1);
+					}
+				}
+				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
+					if(age(vo2) > 30){
+						list.add(vo2);
+					}
+				}
+				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
+					if(age(vo3) > 30){
+						list.add(vo3);
+					}
+				}
+			}
+		}
+		else if(league.equals("All")){
+			for(PlayerVO vo : getPlayers("all","All",position,"All")){
+				if(age.equals("All")){
+					list.add(vo);
+				}
+				else if(age.equals("<=22")){
+					if(age(vo) <= 22){
+						list.add(vo);
+					}
+				}
+				else if(age.equals("22< X <=25")){
+					if(age(vo) > 22 && age(vo) <= 25){
+						list.add(vo);
+					}
+				}
+				else if(age.equals("25< X <=30")){
+					if(age(vo) > 25 && age(vo) <= 30){
+						list.add(vo);
+					}
+				}
+				else if(age.equals(">30")){
+					if(age(vo) > 30){
+						list.add(vo);
+					}
+				}
+			}
+		}
+		return list;
+	}
 }

@@ -2,6 +2,7 @@ package vo;
 
 public class MatchPlayerDataVO {
 	public String name = new String();
+	public String position;
 	public double offensiveRebounds;	//½ø¹¥Àº°åÊı
 	public double defensiveRebounds;	//·ÀÊØÀº°åÊı
 	public double assist;        //Öú¹¥Êı

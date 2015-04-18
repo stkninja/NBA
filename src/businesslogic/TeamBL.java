@@ -52,6 +52,9 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	public TeamBasicInfoVO getOneTeam(String name) {
 		TeamBasicInfoVO vo = new TeamBasicInfoVO();
 		TBasicInfoPO po = teamdata.getSingleTBasicInfo(name);
+		if(po == null){
+			return null;
+		}
 		vo.teamLogo = po.getTeamLogo();
 		vo.fullName = po.getFullName();
 		vo.abbName = po.getAbbName();
