@@ -1,7 +1,9 @@
 package data;
 
 import data.savePOs.SaveMBasicPO;
+import data.savePOs.SavePAllMatchDataPO;
 import data.savePOs.SavePBasicPO;
+import data.savePOs.SaveTAllMatchDataPO;
 import data.savePOs.SaveTBasicPO;
 
 public class Pretreatment {
@@ -22,5 +24,7 @@ public class Pretreatment {
 	
 	public static void redoMBasic(){
 		SaveMBasicPO.saveAll();
+		SavePAllMatchDataPO.savePAllMatchDataPO();
+		SaveTAllMatchDataPO.saveTAllMatchDataPO();
 	}
 }

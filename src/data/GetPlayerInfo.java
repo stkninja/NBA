@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
+import data.readPOs.ReadPAllMatchDataPO;
 import data.readPOs.ReadPBasicPO;
 import data.readPOs.ReadPSeasonDataPO;
 import dataservice.PlayerService;
@@ -24,6 +25,9 @@ public class GetPlayerInfo implements PlayerService{
 	}
 	
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season) {
+		if(season.equals("all"))
+			return ReadPAllMatchDataPO.readPAllMatchDataPO();
+		
 		return ReadPSeasonDataPO.readPSeasonDataPO(season);
 	}
 
