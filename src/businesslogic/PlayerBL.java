@@ -693,6 +693,98 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return s;
 	}
 	
+	public ArrayList<PlayerVO> getAllSeasonData(){
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		for(String name : playerdata.getAllPlayersName()){
+			PlayerVO vo = new PlayerVO();
+			for(String season : matchdata.getExistedSeasons()){
+				PSeasonDataPO po = playerdata.getOnePSeasonDataPO(name, season);
+				vo.name = po.getName();
+				vo.position = po.getPosition();
+				vo.subArea = po.getSubArea();
+				vo.gameplay += po.getGameplay();
+				vo.gamestart += po.getGamestart();
+				vo.allrebound += po.getAllrebound();
+				vo.alloffensiverebound += po.getAlloffensiverebound();
+				vo.alldefensiverebound += po.getAlldefensiverebound();
+				vo.allassist += po.getAllassist();
+				vo.allminute += po.getAllminute();
+				vo.alloffense += po.getAlloffense();
+				vo.alldefence += po.getAlldefence();
+				vo.allsteal += po.getAllsteal();
+				vo.allblock += po.getAllblock();
+				vo.allerror += po.getAllerror();
+				vo.allfoul += po.getAllfoul();
+				vo.allpoint += po.getAllpoint();
+				vo.allshoot += po.getAllshoot();
+				vo.allshootmade += po.getAllshootmade();
+				vo.allthreepoint += po.getAllthreepoint();
+				vo.allthreepointmade += po.getAllthreepointmade();
+				vo.allfreethrow += po.getAllfreethrow();
+			    vo.allfreethrowmade += po.getAllfreethrowmade();
+			    vo.doubledouble += po.getDoubledouble();
+			    vo.allpointReboundAssist += po.getAllpointReboundAssist();
+			    vo.allfieldgoalpercent = po.getAllfieldgoalpercent();
+			    vo.allthreepointpercent = po.getAllthreepointpercent();
+			    vo.allfreethrowpercent = po.getAllfreethrowpercent();
+			    vo.allefficiency = po.getAllefficiency();
+			    vo.allgmsc = po.getAllgmsc();
+			    vo.allrealshootpercent = po.getAllrealshootpercent();
+			    vo.allshootefficiency = po.getAllshootefficiency();
+			    vo.allreboundrate = po.getAllreboundrate();
+			    vo.alloffensivereboundrate = po.getAlloffensivereboundrate();
+			    vo.alldefensivereboundrate = po.getAlldefensivereboundrate();
+			    vo.allassistrate = po.getAllassistrate();
+			    vo.allstealrate = po.getAllstealrate();
+			    vo.allblockrate = po.getAllblockrate();
+			    vo.allerrorrate = po.getAllerrorrate();
+			    vo.allusage = po.getAllusage();
+			    
+			    vo.pointpromotion = po.getPointpromotion();
+			    vo.reboundpromotion = po.getReboundpromotion();
+			    vo.assistpromotion = po.getAssistpromotion();
+			}
+			vo.rebound = Math.ceil(vo.allrebound / vo.gameplay * 100) / 100;
+			vo.offensiverebound = Math.ceil(vo.alloffensiverebound / vo.gameplay * 100) / 100;
+			vo.defensiverebound = vo.alldefensiverebound / vo.gameplay;
+			vo.assist = vo.allassist / vo.gameplay;
+			vo.minute = vo.allminute / vo.gameplay;
+			vo.offense = vo.alloffense / vo.gameplay;
+			vo.defence = vo.alldefence / vo.gameplay;
+			vo.steal = vo.allsteal / vo.gameplay;
+			vo.block = vo.allblock / vo.gameplay;
+			vo.error = vo.allerror / vo.gameplay;
+			vo.foul = vo.allfoul / vo.gameplay;
+			vo.point = vo.allpoint / vo.gameplay;
+			vo.shoot = vo.allshoot / vo.gameplay;
+			vo.shootmade = vo.allshootmade / vo.gameplay;
+			vo.threepoint = vo.allthreepoint / vo.gameplay;
+			vo.threepointmade = vo.allthreepointmade / vo.gameplay;
+			vo.freethrow = vo.allfreethrow / vo.gameplay;
+			vo.freethrowmade = vo.allfreethrowmade / vo.gameplay;
+			vo.pointReboundAssist = vo.allpointReboundAssist / vo.gameplay;
+			vo.allfieldgoalpercent = vo.allshootmade / vo.allshoot;
+			vo.allthreepointpercent = vo.allthreepointmade / vo.allthreepoint;
+			vo.allfreethrowpercent = vo.allfreethrowmade / vo.allfreethrow;
+			vo.allefficiency = (vo.allpoint + vo.allrebound + vo.allassist + vo.allsteal + vo.allblock) - (vo.allshoot - vo.allshootmade) - (vo.allfreethrow - vo.allfreethrowmade) - vo.allerror;
+			vo.allgmsc = vo.allpoint + 0.4 * vo.allshootmade - 0.7 * vo.allshoot - 0.4 * (vo.allfreethrow - vo.allfreethrowmade) + 0.7 * vo.alloffensiverebound + 0.3 * vo.alldefensiverebound + vo.allsteal + 0.7 * vo.allassist + 0.7 * vo.allblock - 0.4 * vo.allfoul - vo.allerror;
+			if(vo.allshoot + 0.44 * vo.allfreethrow == 0){
+				vo.allrealshootpercent = 0;
+			}
+			else{
+				vo.allrealshootpercent = vo.allpoint / 2 * (vo.allshoot + 0.44 * vo.allfreethrow);
+			}
+			
+		}
+		return list;
+	}
+
+	public PlayerVO getPlayerVO(String name) {
+		PlayerVO vo = new PlayerVO();
+		vo = potovo(playerdata.getOnePSeasonDataPO(name, matchdata.getLastSeason()));
+		return vo;
+	}
+	
 /*	public ArrayList<PlayerVO> getFilterPlayers(String position,String league,String age){
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		if(league.equals("West")){
