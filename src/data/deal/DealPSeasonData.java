@@ -241,9 +241,35 @@ public class DealPSeasonData {
 				double fivebeforerebound = (po.getAllrebound() - fiverebound) / (po.getGameplay() - 5);
 				double fivebeforeassist = (po.getAllassist() - fiveassist) / (po.getGameplay() - 5);
 			
-				po.setPointpromotion(Math.ceil((fivepoint / 5 - fivebeforepoint) / fivebeforepoint * 100) / 100);
-				po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
-				po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
+				if(fivebeforepoint != 0){
+					po.setPointpromotion(Math.ceil((fivepoint / 5 - fivebeforepoint) / fivebeforepoint * 100) / 100);
+				}
+				else if(fivepoint == 0){
+					po.setPointpromotion(0);
+				}
+				else{
+					po.setPointpromotion(1);
+				}
+				
+				if(fivebeforerebound != 0){
+					po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
+				}
+				else if(fiverebound == 0){
+					po.setReboundpromotion(0);
+				}
+				else{
+					po.setReboundpromotion(1);
+				}
+				
+				if(fivebeforeassist != 0){
+					po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
+				}
+				else if(fiveassist == 0){
+					po.setAssistpromotion(0);
+				}
+				else{
+					po.setAssistpromotion(1);
+				}
 			}
 			list.add(po);
 		}

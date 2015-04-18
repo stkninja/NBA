@@ -791,5 +791,4 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			for()
 		}
 	}*/
-	
 }
