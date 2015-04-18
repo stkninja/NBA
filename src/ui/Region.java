@@ -1,9 +1,8 @@
 package ui;
 
 /**
- * 
- * @author stk
  * 球队地区枚举
+ * @author stk
  *
  */
 public enum Region {
@@ -45,12 +44,12 @@ public enum Region {
 	};
 	//--------------------------------------
 	/**
-	 * 
+	 * 获得分区的球队
 	 * @return 球队名
 	 */
 	public abstract String[] getTeam();
 	/**
-	 * 
+	 * 获得分区
 	 * @return 分区名
 	 */
 	public static String[] getRegion() {

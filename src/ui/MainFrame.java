@@ -35,9 +35,8 @@ import event.DataUpdEventSource;
 import event.DataUpdListener;
 
 /**
- * 
- * @author stk
  * NBA查询平台主界面
+ * @author stk
  *
  */
 @SuppressWarnings("serial")

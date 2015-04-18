@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -21,9 +23,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -37,6 +41,7 @@ import ui.Region;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
+import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
@@ -44,9 +49,8 @@ import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 
 /**
- * 
- * @author stk
  * 球员面板
+ * @author stk
  *
  */
 @SuppressWarnings("serial")
@@ -63,11 +67,13 @@ public class PlayerPane extends JPanel implements ActionListener {
 	private JLabel label3;
 	private JLabel label4;
 	private JLabel label5;
+	private JLabel label6;
 	private JComboBox<String> mode;
 	private JComboBox<String> season;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
+	private JTextField text;
 	//--------------------------------------------------------------
 	public PlayerPane() {
 		playerBL = new PlayerBL();
@@ -76,7 +82,7 @@ public class PlayerPane extends JPanel implements ActionListener {
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//搜索界面
-		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 		pane.setOpaque(false);
 		
 		label1 = new JLabel("数据类型：");
@@ -98,6 +104,10 @@ public class PlayerPane extends JPanel implements ActionListener {
 		label5 = new JLabel("赛季：");
 		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
+		label6 = new JLabel("球员名称：");
+		label6.setFont(new Font("黑体", Font.PLAIN, 14));
+		text = new JTextField();
+		text.setPreferredSize(new Dimension(80, 20));
 		
 		pane.add(label1);
 		pane.add(mode);
@@ -109,6 +119,8 @@ public class PlayerPane extends JPanel implements ActionListener {
 		pane.add(team);
 		pane.add(label4);
 		pane.add(position);
+		pane.add(label6);
+		pane.add(text);
 		this.add(pane, BorderLayout.NORTH);
 		//表格
 		table = new JTable();
@@ -116,6 +128,30 @@ public class PlayerPane extends JPanel implements ActionListener {
 		this.add(sp, BorderLayout.CENTER);
 		this.setData(playerBL.getSeasonPlayers((String)season.getSelectedItem()));
 		//监听
+		text.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					PlayerBasicInfoVO vo = playerBL.getOnePlayer(text.getText());
+					if (vo != null) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@SuppressWarnings("restriction")
+							public void run() {
+								try {
+									JFrame.setDefaultLookAndFeelDecorated(true);
+									PlayerFrame frame = new PlayerFrame(vo);
+									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+					    });
+					} else {
+						JOptionPane.showMessageDialog(null, "提示", "查无此人！", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 		mode.addActionListener(this);
 		season.addActionListener(this);
 		region.addActionListener(new ActionListener() {

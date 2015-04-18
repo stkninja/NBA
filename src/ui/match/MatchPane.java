@@ -43,7 +43,7 @@ import businesslogicservice.MatchBLService;
  *
  */
 @SuppressWarnings("serial")
-public class MatchPane extends JPanel implements ActionListener{
+public class MatchPane extends JPanel implements ActionListener {
 	private MatchBLService bl;
 	private JTable table;
 	private JScrollPane sp;

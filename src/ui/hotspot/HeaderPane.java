@@ -8,13 +8,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
- * 
- * @author stk
  * 热点分类标题面板
+ * @author stk
  *
  */
 @SuppressWarnings("serial")
-public class HeaderPane extends JPanel{
+public class HeaderPane extends JPanel {
 	private boolean isShow;//是否被展示
 	private ImageIcon background;//背景图片
 	private String path1;//图片路径1

@@ -10,9 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * 
- * @author stk
  * 热点界面
+ * @author stk
  *
  */
 @SuppressWarnings("serial")

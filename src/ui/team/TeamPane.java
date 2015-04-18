@@ -9,6 +9,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -19,9 +21,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
@@ -37,6 +41,7 @@ import ui.Region;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
+import vo.TeamBasicInfoVO;
 import vo.TeamVO;
 import businesslogic.MatchBL;
 import businesslogic.TeamBL;
@@ -44,13 +49,12 @@ import businesslogicservice.MatchBLService;
 import businesslogicservice.TeamBLService;
 
 /**
- * 
- * @author stk
  * 球队面板
+ * @author stk
  *
  */
 @SuppressWarnings("serial")
-public class TeamPane extends JPanel implements ActionListener{
+public class TeamPane extends JPanel implements ActionListener {
 	private TeamBLService teamBL;
 	private MatchBLService matchBL;
 	private JTable table;
@@ -61,9 +65,11 @@ public class TeamPane extends JPanel implements ActionListener{
 	private JLabel label1;
 	private JLabel label2;
 	private JLabel label3;
+	private JLabel label4;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> season;
+	private JTextField text;
 	//--------------------------------------------------------------
 	public TeamPane() {
 		teamBL = new TeamBL();
@@ -85,6 +91,10 @@ public class TeamPane extends JPanel implements ActionListener{
 		label3 = new JLabel("赛季：");
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
+		label4 = new JLabel("球队名称：");
+		label4.setFont(new Font("黑体", Font.PLAIN, 14));
+		text = new JTextField();
+		text.setPreferredSize(new Dimension(100, 20));
 		
 		pane.add(label1);
 		pane.add(mode);
@@ -92,6 +102,8 @@ public class TeamPane extends JPanel implements ActionListener{
 		pane.add(season);
 		pane.add(label2);
 		pane.add(region);
+		pane.add(label4);
+		pane.add(text);
 		this.add(pane, BorderLayout.NORTH);
 		//表格
 		table = new JTable();
@@ -99,6 +111,30 @@ public class TeamPane extends JPanel implements ActionListener{
 		this.add(sp, BorderLayout.CENTER);
 		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
 		//监听
+		text.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					TeamBasicInfoVO vo = teamBL.getOneTeam(text.getText());
+					if (vo != null) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@SuppressWarnings("restriction")
+							public void run() {
+								try {
+									JFrame.setDefaultLookAndFeelDecorated(true);
+									TeamFrame frame = new TeamFrame(vo);
+									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+								} catch (IOException | TranscoderException e) {
+									e.printStackTrace();
+								}
+							}
+					    });
+					} else {
+						JOptionPane.showMessageDialog(null, "提示", "查无此队！", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 		mode.addActionListener(this);
 		season.addActionListener(this);
 		region.addActionListener(this);

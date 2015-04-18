@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class ExpandablePane extends JPanel{
+public class ExpandablePane extends JPanel {
 	private HeaderPane header;//标题面板
 	private ContentPane content;//内容面板
 	//-----------------------------------------------
