@@ -11,21 +11,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import org.apache.batik.transcoder.TranscoderException;
 
 import vo.MatchVO;
 import businesslogic.MatchBL;
@@ -177,20 +183,20 @@ public class MatchPane extends JPanel implements ActionListener{
 	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
 	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
 	    		String team = (String)table.getValueAt(table.getSelectedRow(), 2);
-	    		//TODO
-//	    		SwingUtilities.invokeLater(new Runnable() {
-//					@SuppressWarnings("restriction")
-//					public void run() {
-//						try {
-//							JFrame.setDefaultLookAndFeelDecorated(true);
-//							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
-//							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-//							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-//						} catch (IOException | TranscoderException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//			    });
+	    		ArrayList<MatchVO> list = bl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
+	    		SwingUtilities.invokeLater(new Runnable() {
+					@SuppressWarnings("restriction")
+					public void run() {
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							MatchFrame frame = new MatchFrame(list.get(0));
+							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+						} catch (IOException | TranscoderException e) {
+							e.printStackTrace();
+						}
+					}
+			    });
 	    	}
 	    });
 	    table.addMouseMotionListener(new MouseAdapter() {

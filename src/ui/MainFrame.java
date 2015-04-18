@@ -41,12 +41,12 @@ import event.DataUpdListener;
  *
  */
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
 	private JPanel contentPane;//总panel
 	private JPanel pane;//内容panel
 	private CardLayout cardLayout;//卡片式布局
 	private ImageIcon background;//背景图片
-	//退出、最大最小化按钮
+	//退出、最小化按钮
 	private JPanel top;
 	private JButton exit;
 	private JButton mini;
@@ -167,8 +167,6 @@ public class MainFrame extends JFrame{
 			}
 		});
 		//------------------------------------------------------------------
-		this.setTitle("NBA查询平台");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
@@ -229,8 +227,8 @@ public class MainFrame extends JFrame{
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		Pretreatment.pretreatment();//预处理
 		
+		Pretreatment.pretreatment();//预处理
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("restriction")
