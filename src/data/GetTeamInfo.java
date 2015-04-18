@@ -28,7 +28,7 @@ public class GetTeamInfo implements TeamService{
 			if(po.getAbbName().equals(abbName))
 				return po;
 		
-		return new TBasicInfoPO();
+		return null;
 	}
 
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
@@ -37,7 +37,7 @@ public class GetTeamInfo implements TeamService{
 			if(po.getAbbName().equals(abbName))
 				return po;
 		
-		return new TSeasonDataPO();
+		return null;
 	}
 	
 }
