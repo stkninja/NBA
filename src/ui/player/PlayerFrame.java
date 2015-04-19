@@ -142,12 +142,13 @@ public class PlayerFrame extends JDialog{
 		panel1.setOpaque(false);
 		try{
 			portrait=ImageIO.read(vo.portrait);
+			portraiticon=new ImageIcon(portrait);
 		}
 		catch (Exception ex){
-			
+			portraiticon=new ImageIcon("data/pic/error.jpg");
 		}
 		
-		portraiticon=new ImageIcon(portrait);
+		
 		JLabel Pic = new JLabel();
 		Pic.setIcon(portraiticon);
 		panel1.add(Pic);
