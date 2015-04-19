@@ -128,11 +128,17 @@ public class TeamFrame extends JDialog{
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(1,3,0,20));
 		panel1.setOpaque(false);
-		logofile = new File("logofile");
-		logofile.createNewFile();
-		SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
-		logo = ImageIO.read(logofile);
-		logoicon = new ImageIcon(logo);
+		try{
+			logofile = new File("logofile");
+		    logofile.createNewFile();
+		    SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
+		    logo = ImageIO.read(logofile);
+		    logoicon = new ImageIcon(logo);
+		}
+		catch(Exception ex){
+			logoicon = new ImageIcon("data/pic/NotFound.jpg");
+		}
+		
 		logoicon.setImage(logoicon.getImage().getScaledInstance(220,180,Image.SCALE_DEFAULT));
 		
 		JLabel Pic1 = new JLabel();
@@ -281,7 +287,6 @@ public class TeamFrame extends JDialog{
 		historytable = new JTable();
 		hsp = new JScrollPane(historytable);
 		this.setHistoryData(vo.abbName);
-		historytable.setBackground(Color.YELLOW);
 		panel3.add(hsp,BorderLayout.CENTER);
 		//Êý¾Ýpanel---------------------------------------------
 		panelB = new JPanel();
