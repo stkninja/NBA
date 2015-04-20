@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,7 +41,7 @@ import businesslogicservice.TeamBLService;
  *
  */
 @SuppressWarnings("serial")
-public class TeamSearchPane extends JFrame implements ActionListener {
+public class TeamSearchPane extends JInternalFrame implements ActionListener {
 	private TeamPane father;
 	private TeamBLService teamBL;
 	private MatchBLService matchBL;
@@ -135,16 +136,16 @@ public class TeamSearchPane extends JFrame implements ActionListener {
 			}
 		});
 		//-----------------------------------------------------------------
-		this.setAlwaysOnTop(true);
 		this.setDragable();
-		this.setUndecorated(true);
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		this.setVisible(true);
 	}
 	/**
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.main.getX(), father.main.getY(), father.main.getWidth() / 5, father.main.getHeight() / 2);
+		this.setBounds(father.getX(), father.getY(), father.getWidth() / 5, father.getHeight() / 2);
 	}
 	/**
 	 * 监听
@@ -162,6 +163,7 @@ public class TeamSearchPane extends JFrame implements ActionListener {
 	 * 设置表格数据
 	 */
 	public void setData(ArrayList<TeamVO> list) {
+		this.list = list;
 		Object[][] data = new Object[list.size()][31];
 		if (mode.getSelectedItem() == "总数") {
 			for (int i = 0; i < data.length; i++) {

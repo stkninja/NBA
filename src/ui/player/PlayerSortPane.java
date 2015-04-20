@@ -1,4 +1,4 @@
-package ui.team;
+package ui.player;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -19,19 +19,19 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import vo.TeamVO;
-import businesslogic.TeamBL;
-import businesslogicservice.TeamBLService;
+import vo.PlayerVO;
+import businesslogic.PlayerBL;
+import businesslogicservice.PlayerBLService;
 
 /**
- * «Ú∂”≈≈–Ú√Ê∞Â
+ * «Ú‘±≈≈–Ú√Ê∞Â
  * @author stk
  *
  */
 @SuppressWarnings("serial")
-public class TeamSortPane extends JInternalFrame implements ActionListener {
-	private TeamPane father;
-	private TeamBLService teamBL;
+public class PlayerSortPane extends JInternalFrame implements ActionListener {
+	private PlayerPane father;
+	private PlayerBLService playerBL;
 	private JPanel contentPane;//◊‹panel
 	private ImageIcon background;//±≥æ∞Õº∆¨
 	private JPanel pane;
@@ -48,10 +48,10 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//-----------------------------------------------
-	public TeamSortPane(TeamPane father) {
+	//--------------------------------------------------
+	public PlayerSortPane(PlayerPane father) {
 		this.father = father;
-		teamBL = new TeamBL();
+		playerBL = new PlayerBL();
 		this.setPlace();
 		//±≥æ∞
 		background = new ImageIcon("data/pic/background.jpg");
@@ -77,11 +77,11 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		label4.setFont(new Font("∫⁄ÃÂ", Font.PLAIN, 14));
 		box1 = new JComboBox<String>(new String[]{"…˝–Ú", "Ωµ–Ú"});
 		box1.setFont(new Font("ø¨ÃÂ", Font.PLAIN, 14));
-		box2 = new JComboBox<String>((String[])teamBL.getFilters().toArray(new String[teamBL.getFilters().size()]));
+		box2 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box2.setFont(new Font("ø¨ÃÂ", Font.PLAIN, 14));
-		box3 = new JComboBox<String>((String[])teamBL.getFilters().toArray(new String[teamBL.getFilters().size()]));
+		box3 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box3.setFont(new Font("ø¨ÃÂ", Font.PLAIN, 14));
-		box4 = new JComboBox<String>((String[])teamBL.getFilters().toArray(new String[teamBL.getFilters().size()]));
+		box4 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box4.setFont(new Font("ø¨ÃÂ", Font.PLAIN, 14));
 		confirm = new JButton("»∑∂®");
 		
@@ -115,12 +115,12 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 	 * º‡Ã˝
 	 */
 	public void actionPerformed(ActionEvent e) {
-		ArrayList<TeamVO> list = this.father.getSearchPane().getList();
+		ArrayList<PlayerVO> list = this.father.getSearchPane().getList();
 		ArrayList<String> filter = new ArrayList<String>();
 		filter.add((String)box2.getSelectedItem());
 		filter.add((String)box3.getSelectedItem());
 		filter.add((String)box4.getSelectedItem());
-		ArrayList<TeamVO> data = teamBL.sortTeam(list, filter, (String)box1.getSelectedItem());
+		ArrayList<PlayerVO> data = playerBL.sortPlayer(list, filter, (String)box1.getSelectedItem());
 		this.father.getSearchPane().setData(data);
 	}
 	/**
@@ -136,20 +136,20 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent e) {
                isDragged = false;
-               TeamSortPane.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+               PlayerSortPane.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
             public void mousePressed(java.awt.event.MouseEvent e) {
                tmp = new Point(e.getX(), e.getY());
                isDragged = true;
-               TeamSortPane.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+               PlayerSortPane.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
             }
         });
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent e) {
                if(isDragged) {
-                   loc = new Point(TeamSortPane.this.getLocation().x + e.getX() - tmp.x,
-                		   TeamSortPane.this.getLocation().y + e.getY() - tmp.y);
-                   TeamSortPane.this.setLocation(loc);
+                   loc = new Point(PlayerSortPane.this.getLocation().x + e.getX() - tmp.x,
+                		   PlayerSortPane.this.getLocation().y + e.getY() - tmp.y);
+                   PlayerSortPane.this.setLocation(loc);
                }
             }
         });

@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,7 +43,7 @@ import businesslogicservice.TeamBLService;
  *
  */
 @SuppressWarnings("serial")
-public class TeamPane extends JPanel {
+public class TeamPane extends JDesktopPane {
 	public MainFrame main;
 	private TeamBLService teamBL;
 	private JTable table;
@@ -64,19 +65,19 @@ public class TeamPane extends JPanel {
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
 		search = new JButton("ËÑË÷");
+		search.setFont(new Font("¿¬Ìå", Font.PLAIN, 14));
 		sort = new JButton("ÅÅÐò");
+		sort.setFont(new Font("¿¬Ìå", Font.PLAIN, 14));
 		pane.add(search);
 		pane.add(sort);
 		this.add(pane, BorderLayout.NORTH);
 		//³õÊ¼ËÑË÷ÅÅÐòÃæ°å
 		searchPane = new TeamSearchPane(this);
-		searchPane.setOpacity(0.9f);
-		searchPane.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, searchPane.getWidth(), searchPane.getHeight(), 26.0D, 26.0D));
 		searchPane.setVisible(false);
 		sortPane = new TeamSortPane(this);
-		sortPane.setOpacity(0.9f);
-		sortPane.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, sortPane.getWidth(), sortPane.getHeight(), 26.0D, 26.0D));
 		sortPane.setVisible(false);
+		this.add(searchPane);
+		this.add(sortPane);
 		//±í¸ñ
 		table = new JTable();
 		sp = new JScrollPane(table);

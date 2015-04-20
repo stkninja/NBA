@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,7 +42,7 @@ import businesslogicservice.PlayerBLService;
  *
  */
 @SuppressWarnings("serial")
-public class PlayerPane extends JPanel {
+public class PlayerPane extends JDesktopPane {
 	public MainFrame main;
 	private PlayerBLService playerBL;
 	private JTable table;
@@ -49,8 +50,10 @@ public class PlayerPane extends JPanel {
 	private JScrollPane sp;
 	//搜索界面
 	private JPanel pane;
+	private JButton search;
 	private JButton sort;
-	private PlayerSearchPane playerSearchPane;
+	private PlayerSearchPane searchPane;
+	private PlayerSortPane sortPane;
 	//--------------------------------------------------------------
 	public PlayerPane(MainFrame main) {
 		this.main = main;
@@ -59,29 +62,44 @@ public class PlayerPane extends JPanel {
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//搜索界面
-		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
-		
-		sort = new JButton("高级排序");
-		
+		search = new JButton("搜索");
+		search.setFont(new Font("楷体", Font.PLAIN, 14));
+		sort = new JButton("排序");
+		sort.setFont(new Font("楷体", Font.PLAIN, 14));
+		pane.add(search);
 		pane.add(sort);
 		this.add(pane, BorderLayout.NORTH);
 		//
-		playerSearchPane = new PlayerSearchPane(this);
-		playerSearchPane.setVisible(false);
+		searchPane = new PlayerSearchPane(this);
+		searchPane.setVisible(false);
+		sortPane = new PlayerSortPane(this);
+		sortPane.setVisible(false);
+		this.add(searchPane);
+		this.add(sortPane);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
-		playerSearchPane.getAll();
+		searchPane.getAll();
 		//监听
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (searchPane.isVisible())
+					searchPane.setVisible(false);
+				else
+					searchPane.setVisible(true);
+				searchPane.setPlace();
+			}
+		});
 		sort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (playerSearchPane.isVisible())
-					playerSearchPane.setVisible(false);
+				if (sortPane.isVisible())
+					sortPane.setVisible(false);
 				else
-					playerSearchPane.setVisible(true);
-				playerSearchPane.setPlace();
+					sortPane.setVisible(true);
+				sortPane.setPlace();
 			}
 		});
 	}
@@ -278,5 +296,12 @@ public class PlayerPane extends JPanel {
         sp.setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
         sp.setRowHeaderView(viewport);
 		revalidate();
+	}
+	/**
+	 * 获得搜索面板
+	 * @return 搜索面板
+	 */
+	public PlayerSearchPane getSearchPane() {
+		return searchPane;
 	}
 }

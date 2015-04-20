@@ -21,6 +21,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -41,10 +42,11 @@ import businesslogicservice.PlayerBLService;
  *
  */
 @SuppressWarnings("serial")
-public class PlayerSearchPane extends JFrame implements ActionListener {
+public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	private PlayerPane father;
 	private PlayerBLService playerBL;
 	private MatchBLService matchBL;
+	private ArrayList<PlayerVO> list;
 	private JPanel contentPane;//总panel
 	private ImageIcon background;//背景图片
 	private JPanel pane;
@@ -83,7 +85,7 @@ public class PlayerSearchPane extends JFrame implements ActionListener {
 		pane = new JPanel();
 		pane.setOpaque(false);
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		pane.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+		pane.setBorder(BorderFactory.createEmptyBorder(6, 30, 6, 30));
 		
 		label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -109,27 +111,27 @@ public class PlayerSearchPane extends JFrame implements ActionListener {
 		text = new JTextField();
 		
 		pane.add(label1);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(mode);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(label2);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(region);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(label3);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(team);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(label4);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(position);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(label5);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(season);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(label6);
-		pane.add(Box.createVerticalStrut(4));
+		pane.add(Box.createVerticalStrut(3));
 		pane.add(text);
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
@@ -184,16 +186,16 @@ public class PlayerSearchPane extends JFrame implements ActionListener {
 			}
 		});
 		//-------------------------------------------------
-		this.setAlwaysOnTop(true);
 		this.setDragable();
-		this.setUndecorated(true);
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		this.setVisible(true);
 	}
 	/**
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.main.getX(), father.main.getY(), father.main.getWidth() / 5, father.main.getHeight() / 2);
+		this.setBounds(father.getX(), father.getY(), father.getWidth() / 5, father.getHeight() / 2);
 	}
 	/**
 	 * 监听
@@ -211,7 +213,8 @@ public class PlayerSearchPane extends JFrame implements ActionListener {
 	 * 设置表格数据
 	 * @param list 队员VO列表
 	 */
-	private void setData(ArrayList<PlayerVO> list) {
+	public void setData(ArrayList<PlayerVO> list) {
+		this.list = list;
 		Object[][] data = new Object[list.size()][41];
 		if (mode.getSelectedItem() == "总数") {
 			for (int i = 0; i < data.length; i++) {
@@ -315,6 +318,13 @@ public class PlayerSearchPane extends JFrame implements ActionListener {
 			}
 		}
 		father.showTable(data);
+	}
+	/**
+	 * 获得球员数据
+	 * @return 球员数据
+	 */
+	public ArrayList<PlayerVO> getList() {
+		return list;
 	}
 	/**
 	 * 设置界面可拖动
