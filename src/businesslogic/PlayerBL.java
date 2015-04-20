@@ -934,35 +934,4 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return list;
 	}
-	
-	public static void main(String[] args){
-		PlayerBL bl = new PlayerBL();
-		PlayerVO vo1 = new PlayerVO();
-		PlayerVO vo2 = new PlayerVO();
-		PlayerVO vo3 = new PlayerVO();
-		PlayerVO vo4 = new PlayerVO();
-		PlayerVO vo5 = new PlayerVO();
-		vo1.name = "a";
-		vo2.name = "d";
-		vo3.name = "c";
-		vo4.name = "b";
-		vo5.name = "e";
-		vo1.rebound = 1;
-		vo2.rebound = 3;
-		vo3.rebound = 2;
-		vo4.rebound = 3;
-		vo5.rebound = 5;
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		list.add(vo2);
-		list.add(vo3);
-		list.add(vo4);
-		list.add(vo1);
-		list.add(vo5);
-		ArrayList<String> str = new ArrayList<String>();
-		str.add("场均篮板数");
-		str.add("无");
-		for(PlayerVO vo : bl.sortPlayer(list,str,"升序")){
-			System.out.println(vo.name);
-		}
-	}
 }
