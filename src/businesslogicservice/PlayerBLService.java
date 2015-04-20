@@ -22,6 +22,9 @@ public interface PlayerBLService {
 	public ArrayList<PlayerVO> sortPlayer(ArrayList<PlayerVO> list,ArrayList<String> filter,String sortOrder);
 	//排序算法，filter为排序属性，sortOrder的值为"升序"或"降序"
 	
+    public ArrayList<String> getFilters();
+    //返回所有排序条件
+	
 	public ArrayList<PlayerVO> getTodayTopFivePlayers(String filter);//依据筛选条件从当天筛选前5名
 	
 	public ArrayList<PlayerVO> getSeasonTopFivePlayers(String season,String filter);//依据筛选条件从赛季筛选前5名
