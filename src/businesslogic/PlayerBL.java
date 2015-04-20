@@ -622,6 +622,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			public int compare(PlayerVO vo1, PlayerVO vo2) {
 				int res = 0;
 				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("无")){
+						break;
+					}
 					if(filter.get(i).equals("球员名称")){
 						if(!vo1.name.equals(vo2.name)){
 							res = vo1.name.compareTo(vo2.name);
@@ -930,5 +933,36 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		list.add("两双");
 		
 		return list;
+	}
+	
+	public static void main(String[] args){
+		PlayerBL bl = new PlayerBL();
+		PlayerVO vo1 = new PlayerVO();
+		PlayerVO vo2 = new PlayerVO();
+		PlayerVO vo3 = new PlayerVO();
+		PlayerVO vo4 = new PlayerVO();
+		PlayerVO vo5 = new PlayerVO();
+		vo1.name = "a";
+		vo2.name = "d";
+		vo3.name = "c";
+		vo4.name = "b";
+		vo5.name = "e";
+		vo1.rebound = 1;
+		vo2.rebound = 3;
+		vo3.rebound = 2;
+		vo4.rebound = 3;
+		vo5.rebound = 5;
+		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
+		list.add(vo2);
+		list.add(vo3);
+		list.add(vo4);
+		list.add(vo1);
+		list.add(vo5);
+		ArrayList<String> str = new ArrayList<String>();
+		str.add("场均篮板数");
+		str.add("无");
+		for(PlayerVO vo : bl.sortPlayer(list,str,"升序")){
+			System.out.println(vo.name);
+		}
 	}
 }

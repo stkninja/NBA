@@ -509,6 +509,9 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			public int compare(TeamVO vo1, TeamVO vo2) {
 				int res = 0;
 				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("ÎÞ")){
+						break;
+					}
 					if(filter.get(i).equals("Çò¶ÓÃû³Æ")){
 						if(!vo1.fullName.equals(vo2.fullName)){
 							res = vo1.fullName.compareTo(vo2.fullName);
