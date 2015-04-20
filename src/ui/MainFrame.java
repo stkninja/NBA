@@ -173,6 +173,8 @@ public class MainFrame extends JFrame {
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
 			public void dataUpdated(DataUpdEvent e){
+				//更新数据库数据
+				Pretreatment.redoMBasic();
 				//刷新
 				System.out.println("有新数据，是否刷新");
 			} 

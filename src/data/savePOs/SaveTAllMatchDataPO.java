@@ -1,5 +1,6 @@
 package data.savePOs;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,6 +12,10 @@ public class SaveTAllMatchDataPO {
 		ObjectOutputStream oos = null;
 		try {
 			String path = "data\\统计球队历年数据";
+			
+			File f = new File(path);
+			if(f.exists())
+				f.delete();
 			
 			oos = new ObjectOutputStream(new FileOutputStream(path));
 			DealTAllMatchData dealTAllMatchData = new DealTAllMatchData();

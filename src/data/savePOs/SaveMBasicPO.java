@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import po.MatchPO;
 import data.deal.DealMBasicInfo;
-import data.readPOs.ReadMBasicPO;
 
 public class SaveMBasicPO {
 
@@ -28,9 +27,6 @@ public class SaveMBasicPO {
 		for(int i = 0; i < seasonMatches.size(); i++){
 			/**判断文件是否已存在*/
 			String season = seasonMatches.get(i).get(0).getSeason();
-			File f2 = new File(rootPath + "\\" + season);
-			if(f2.exists())
-				seasonMatches.get(i).addAll(ReadMBasicPO.readMBasicPO(season));
 			/**保存本赛季比赛*/
 			saveMBasicInfo(season, i);
 			
