@@ -21,7 +21,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -130,8 +129,8 @@ public class MainFrame extends JFrame {
 		pane.setOpaque(false);
 		
 		pane.add(new HotspotPane(), "Hotspot");
-		pane.add(new TeamPane(), "Team");
-		pane.add(new PlayerPane(), "Player");
+		pane.add(new TeamPane(this), "Team");
+		pane.add(new PlayerPane(this), "Player");
 		pane.add(new MatchPane(), "Match");
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
@@ -226,16 +225,10 @@ public class MainFrame extends JFrame {
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		
 		Pretreatment.pretreatment();//预处理
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
-		SwingUtilities.invokeLater(new Runnable() {
-			@SuppressWarnings("restriction")
-			public void run() {
-				MainFrame frame = new MainFrame();
-				com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-				com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-			}
-	    });
+		MainFrame frame = new MainFrame();
+		frame.setOpacity(0.9f);
+		frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 	}
 }

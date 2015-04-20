@@ -22,7 +22,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import org.apache.batik.transcoder.TranscoderException;
 
@@ -139,7 +138,7 @@ public class ContentPane extends JPanel {
 				try {
 					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
 				}
 			}
 			break;
@@ -158,7 +157,7 @@ public class ContentPane extends JPanel {
 					SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
 					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException | TranscoderException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
 				}
 			}
 			break;
@@ -175,7 +174,7 @@ public class ContentPane extends JPanel {
 				try {
 					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 				} catch (IOException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
 				}
 			}
 			break;
@@ -262,25 +261,20 @@ public class ContentPane extends JPanel {
 			for (int i = 0; i < 5; i++) {
 				if (e.getSource() == label[i]) {
 					String str = label[i].getText();
-					SwingUtilities.invokeLater(new Runnable() {
-						@SuppressWarnings("restriction")
-						public void run() {
-							try {
-								JFrame.setDefaultLookAndFeelDecorated(true);
-								if (str.length() <= 3) {
-									TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
-									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-								} else {
-									PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str));
-									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-								}
-							} catch (IOException | TranscoderException e) {
-								e.printStackTrace();
-							}
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						if (str.length() <= 3) {
+							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
+							frame.setOpacity(0.9f);
+							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+						} else {
+							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str));
+							frame.setOpacity(0.9f);
+							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						}
-				    });
+					} catch (IOException | TranscoderException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}

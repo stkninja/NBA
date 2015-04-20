@@ -9,26 +9,19 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -37,15 +30,10 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.batik.transcoder.TranscoderException;
 
-import ui.Region;
+import ui.MainFrame;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
-import vo.TeamBasicInfoVO;
-import vo.TeamVO;
-import businesslogic.MatchBL;
-import businesslogic.TeamBL;
-import businesslogicservice.MatchBLService;
 import businesslogicservice.TeamBLService;
 
 /**
@@ -54,192 +42,71 @@ import businesslogicservice.TeamBLService;
  *
  */
 @SuppressWarnings("serial")
-public class TeamPane extends JPanel implements ActionListener {
+public class TeamPane extends JPanel {
+	public MainFrame main;
 	private TeamBLService teamBL;
-	private MatchBLService matchBL;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
 	//搜索界面
 	private JPanel pane;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JLabel label4;
-	private JComboBox<String> mode;
-	private JComboBox<String> region;
-	private JComboBox<String> season;
-	private JTextField text;
+	private JButton search;
+	private JButton sort;
+	private TeamSearchPane searchPane;
+	private TeamSortPane sortPane;
 	//--------------------------------------------------------------
-	public TeamPane() {
-		teamBL = new TeamBL();
-		matchBL = new MatchBL();
+	public TeamPane(MainFrame main) {
+		this.main = main;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
 		//搜索界面
 		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
 		pane.setOpaque(false);
-		
-		label1 = new JLabel("数据类型：");
-		label1.setFont(new Font("黑体", Font.PLAIN, 14));
-		mode = new JComboBox<String>(new String[]{"总数", "场均"});
-		mode.setFont(new Font("楷体", Font.PLAIN, 14));
-		label2 = new JLabel("地区：");
-		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		region = new JComboBox<String>(Region.getRegion());
-		label3 = new JLabel("赛季：");
-		label3.setFont(new Font("黑体", Font.PLAIN, 14));
-		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		label4 = new JLabel("球队名称：");
-		label4.setFont(new Font("黑体", Font.PLAIN, 14));
-		text = new JTextField();
-		text.setPreferredSize(new Dimension(100, 20));
-		
-		pane.add(label1);
-		pane.add(mode);
-		pane.add(label3);
-		pane.add(season);
-		pane.add(label2);
-		pane.add(region);
-		pane.add(label4);
-		pane.add(text);
+		search = new JButton("搜索");
+		sort = new JButton("排序");
+		pane.add(search);
+		pane.add(sort);
 		this.add(pane, BorderLayout.NORTH);
+		//初始搜索排序面板
+		searchPane = new TeamSearchPane(this);
+		searchPane.setOpacity(0.9f);
+		searchPane.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, searchPane.getWidth(), searchPane.getHeight(), 26.0D, 26.0D));
+		searchPane.setVisible(false);
+		sortPane = new TeamSortPane(this);
+		sortPane.setOpacity(0.9f);
+		sortPane.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, sortPane.getWidth(), sortPane.getHeight(), 26.0D, 26.0D));
+		sortPane.setVisible(false);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
-		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
+		searchPane.getAll();;
 		//监听
-		text.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					TeamBasicInfoVO vo = teamBL.getOneTeam(text.getText());
-					if (vo != null) {
-						SwingUtilities.invokeLater(new Runnable() {
-							@SuppressWarnings("restriction")
-							public void run() {
-								try {
-									JFrame.setDefaultLookAndFeelDecorated(true);
-									TeamFrame frame = new TeamFrame(vo);
-									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-								} catch (IOException | TranscoderException e) {
-									e.printStackTrace();
-								}
-							}
-					    });
-					} else {
-						JOptionPane.showMessageDialog(null, "提示", "查无此队！", JOptionPane.ERROR_MESSAGE);
-					}
-				}
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (searchPane.isVisible())
+					searchPane.setVisible(false);
+				else
+					searchPane.setVisible(true);
+				searchPane.setPlace();
 			}
 		});
-		mode.addActionListener(this);
-		season.addActionListener(this);
-		region.addActionListener(this);
-	}
-	/**
-	 * 监听
-	 */
-	public void actionPerformed(ActionEvent e) {
-		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
-	}
-	/**
-	 * 设置表格数据
-	 * @param list 球队VO列表
-	 */
-	private void setData(ArrayList<TeamVO> list) {
-		Object[][] data = new Object[list.size()][31];
-		if (mode.getSelectedItem() == "总数") {
-			for (int i = 0; i < data.length; i++) {
-				data[i][0] = i + 1;
-				data[i][1] = list.get(i).fullName;
-				data[i][2] = list.get(i).abbName;
-				data[i][3] = list.get(i).winsNum;
-				data[i][4] = list.get(i).gamesNum;
-				data[i][5] = list.get(i).winsRate;
-				
-				data[i][6] = list.get(i).allshootingHit;
-				data[i][7] = list.get(i).allshooting;
-				data[i][8] = list.get(i).allshootingHitRate;
-				
-				data[i][9] = list.get(i).allthreePointHits;
-				data[i][10] = list.get(i).allthreePoint;
-				data[i][11] = list.get(i).allthreePointHitRate;
-				
-				data[i][12] = list.get(i).allfreeThrowHit;
-				data[i][13] = list.get(i).allfreeThrow;
-				data[i][14] = list.get(i).allfreeThrowHitRate;
-				
-				data[i][15] = list.get(i).alloffensiveRebounds;
-				data[i][16] = list.get(i).alldefensiveRebounds;
-				data[i][17] = list.get(i).allrebounds;
-				
-				data[i][18] = list.get(i).allassists;
-				data[i][19] = list.get(i).allsteal;
-				data[i][20] = list.get(i).allcaps;
-				data[i][21] = list.get(i).allturnovers;
-				data[i][22] = list.get(i).allfouls;
-				data[i][23] = list.get(i).allscores;
-				data[i][24] = list.get(i).allattackRound;
-				
-				data[i][25] = list.get(i).allattackEfficiency;
-				data[i][26] = list.get(i).alldefenceEfficiency;
-				data[i][27] = list.get(i).alloffensivereboundsEfficiency;
-				data[i][28] = list.get(i).alldefensivereboundsEfficiency;
-				data[i][29] = list.get(i).allstealEfficiency;
-				data[i][30] = list.get(i).allassistEfficiency;
+		sort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (sortPane.isVisible())
+					sortPane.setVisible(false);
+				else
+					sortPane.setVisible(true);
+				sortPane.setPlace();
 			}
-		} else {
-			for (int i = 0; i < data.length; i++) {
-				data[i][0] = i + 1;
-				data[i][1] = list.get(i).fullName;
-				data[i][2] = list.get(i).abbName;
-				data[i][3] = list.get(i).winsNum;
-				data[i][4] = list.get(i).gamesNum;
-				data[i][5] = list.get(i).winsRate;
-				
-				data[i][6] = list.get(i).shootingHit;
-				data[i][7] = list.get(i).shooting;
-				data[i][8] = list.get(i).shootingHitRate;
-				
-				data[i][9] = list.get(i).threePointHits;
-				data[i][10] = list.get(i).threePoint;
-				data[i][11] = list.get(i).threePointHitRate;
-				
-				data[i][12] = list.get(i).freeThrowHit;
-				data[i][13] = list.get(i).freeThrow;
-				data[i][14] = list.get(i).threePointHitRate;
-				
-				data[i][15] = list.get(i).offensiveRebounds;
-				data[i][16] = list.get(i).defensiveRebounds;
-				data[i][17] = list.get(i).rebounds;
-				
-				data[i][18] = list.get(i).assists;
-				data[i][19] = list.get(i).steal;
-				data[i][20] = list.get(i).caps;
-				data[i][21] = list.get(i).turnovers;
-				data[i][22] = list.get(i).fouls;
-				data[i][23] = list.get(i).scores;
-				data[i][24] = list.get(i).attackRound;
-				
-				data[i][25] = list.get(i).attackEfficiency;
-				data[i][26] = list.get(i).defenceEfficiency;
-				data[i][27] = list.get(i).offensivereboundsEfficiency;
-				data[i][28] = list.get(i).defensivereboundsEfficiency;
-				data[i][29] = list.get(i).stealEfficiency;
-				data[i][30] = list.get(i).assistEfficiency;
-			}
-			
-		}
-		this.showTable(data);
+		});
 	}
 	/**
 	 * 显示表格
 	 * @param data 表格数据
 	 */
-	private void showTable(Object[][] data) {
+	public void showTable(Object[][] data) {
 		this.remove(table);
 		String[] subTitle = {"编号", "球队名称", "队名缩写",
 							 "胜利场数", "比赛场数", "胜率",
@@ -383,19 +250,14 @@ public class TeamPane extends JPanel implements ActionListener {
 			public void mouseClicked(MouseEvent e) {
 				if (table.getSelectedColumn() == 0) {
 					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
-					SwingUtilities.invokeLater(new Runnable() {
-						@SuppressWarnings("restriction")
-						public void run() {
-							try {
-								JFrame.setDefaultLookAndFeelDecorated(true);
-								TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
-								com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-								com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-							} catch (IOException | TranscoderException e) {
-								e.printStackTrace();
-							}
-						}
-				    });
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
+						frame.setOpacity(0.9f);
+						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+					} catch (IOException | TranscoderException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -424,5 +286,12 @@ public class TeamPane extends JPanel implements ActionListener {
         sp.setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
         sp.setRowHeaderView(viewport);
 		revalidate();
+	}
+	/**
+	 * 获得搜索面板
+	 * @return 搜索面板
+	 */
+	public TeamSearchPane getSearchPane() {
+		return searchPane;
 	}
 }

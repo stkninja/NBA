@@ -118,7 +118,7 @@ public class Login extends JFrame {
 	public void setIcon(JButton button, String file1, String file2) {  
         Image icon1 = (new ImageIcon(file1)).getImage();
         int scale = icon1.getWidth(null) / icon1.getHeight(null);
-		Image temp1 = icon1.getScaledInstance(button.getHeight() * scale, button.getHeight(), Image.SCALE_DEFAULT);
+		Image temp1 = icon1.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
 		ImageIcon icon2 = new ImageIcon(file2);
 		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
         button.setIcon(new ImageIcon(temp1));
