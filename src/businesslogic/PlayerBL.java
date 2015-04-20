@@ -885,4 +885,50 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		}
 		return list;
 	}
+
+	public ArrayList<String> getFilters() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("球员名称");
+		list.add("所属球队");
+		list.add("参赛场数");
+		list.add("先发场数");
+		list.add("篮板数");
+		list.add("助攻数");
+		list.add("在场时间");
+		list.add("投篮命中率");
+		list.add("三分命中率");
+		list.add("罚球命中率");
+		list.add("进攻数");
+		list.add("防守数");
+		list.add("抢断数");
+		list.add("盖帽数");
+		list.add("失误数");
+		list.add("犯规数");
+		list.add("得分");
+		list.add("效率");
+		list.add("GmSc效率值");
+		list.add("真实命中率");
+		list.add("投篮效率");
+		list.add("篮板率");
+		list.add("进攻篮板率");
+		list.add("防守篮板率");
+		list.add("助攻率");
+		list.add("抢断率");
+		list.add("盖帽率");
+		list.add("失误率");
+		list.add("使用率");
+		list.add("场均得分");
+		list.add("场均篮板数");
+		list.add("场均助攻数");
+		list.add("场均在场时间");
+		list.add("场均抢断数");
+		list.add("场均盖帽数");
+		list.add("场均失误数");
+		list.add("场均犯规数");
+		list.add("场均得分/篮板/助攻");
+		list.add("得分/篮板/助攻");
+		list.add("两双");
+		
+		return list;
+	}
 }

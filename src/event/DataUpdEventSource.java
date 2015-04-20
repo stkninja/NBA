@@ -3,8 +3,6 @@ package event;
 import java.io.File;
 import java.util.ArrayList;
 
-import data.Pretreatment;
-
 
 public class DataUpdEventSource implements Runnable{
 	
@@ -21,10 +19,7 @@ public class DataUpdEventSource implements Runnable{
 		this.listener.add(dul);
 	}
 	
-	private void notifies(){  
-		//更新数据库数据
-		Pretreatment.redoMBasic();
-		
+	private void notifies(){  		
 		//告知
         for(DataUpdListener dul : listener)
         	dul.dataUpdated(new DataUpdEvent(this));

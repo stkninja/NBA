@@ -26,6 +26,9 @@ public interface TeamBLService {
 	public ArrayList<TeamVO> sortTeam(ArrayList<TeamVO> list,ArrayList<String> filter,String sortOrder);
 	//排序算法，filter为排序属性，sortOrder的值为"升序"或"降序"
 	
+	public ArrayList<String> getFilters();
+    //返回所有排序条件
+	
 	public ArrayList<TeamVO> getSeasonTopFiveTeams(String season,String filter);
 	
 }

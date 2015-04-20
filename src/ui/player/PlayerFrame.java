@@ -145,7 +145,7 @@ public class PlayerFrame extends JDialog{
 			portraiticon=new ImageIcon(portrait);
 		}
 		catch (Exception ex){
-			portraiticon=new ImageIcon("data/pic/error.jpg");
+			portraiticon=new ImageIcon("data/pic/NotFound.jpg");
 		}
 		
 		
