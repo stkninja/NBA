@@ -566,6 +566,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 
 	public ArrayList<String> getFilters() {
 		ArrayList<String> list = new ArrayList<String>();
+		list.add("无");
 		list.add("球队名称");
 		list.add("队名缩写");
 		list.add("比赛场数");
@@ -601,6 +602,32 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	public static void main(String[] args){
 		TeamBL bl = new TeamBL();
-		System.out.println(bl.getOneTeam("ATL").competionArea);
+		TeamVO vo1 = new TeamVO();
+		TeamVO vo2 = new TeamVO();
+		TeamVO vo3 = new TeamVO();
+		TeamVO vo4 = new TeamVO();
+		TeamVO vo5 = new TeamVO();
+		vo1.abbName = "a";
+		vo2.abbName = "d";
+		vo3.abbName = "c";
+		vo4.abbName = "b";
+		vo5.abbName = "e";
+		vo1.winsRate = 1;
+		vo2.winsRate = 3;
+		vo3.winsRate = 2;
+		vo4.winsRate = 3;
+		vo5.winsRate = 5;
+		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
+		list.add(vo2);
+		list.add(vo3);
+		list.add(vo4);
+		list.add(vo1);
+		list.add(vo5);
+		ArrayList<String> str = new ArrayList<String>();
+		str.add("胜率");
+//		str.add("队名缩写");
+		for(TeamVO vo : bl.sortTeam(list,str,"降序")){
+			System.out.println(vo.abbName);
+	    }
 	}
 }

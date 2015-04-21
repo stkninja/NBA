@@ -290,6 +290,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	
 	private PlayerVO findMax(ArrayList<PlayerVO> templist,String filter){
 		PlayerVO max = new PlayerVO();
+		if(templist.size() == 0){
+			return max;
+		}
 		max = templist.get(0);
 		for(int i = 0;i < templist.size();i ++){
 			if(filter.equals("得分")){
@@ -891,6 +894,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 
 	public ArrayList<String> getFilters() {
 		ArrayList<String> list = new ArrayList<String>();
+		list.add("无");
 		list.add("球员名称");
 		list.add("所属球队");
 		list.add("参赛场数");
