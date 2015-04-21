@@ -291,7 +291,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	private PlayerVO findMax(ArrayList<PlayerVO> templist,String filter){
 		PlayerVO max = new PlayerVO();
 		if(templist.size() == 0){
-			return max;
+			return null;
 		}
 		max = templist.get(0);
 		for(int i = 0;i < templist.size();i ++){
@@ -342,6 +342,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	private ArrayList<PlayerVO> sort(ArrayList<PlayerVO> templist,String filter){
 		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
 		PlayerVO vo1 = findMax(templist,filter);
+		if(vo1 == null){
+			return list;
+		}
 		list.add(vo1);
 		templist.remove(vo1);
 		if(templist.size() == 0){
