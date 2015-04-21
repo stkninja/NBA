@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +45,7 @@ public class CareerData extends JFrame{
 		
 		list = bl.getAllSeasonPlayer(name);
 		
-		int frameHeight = 400;
+		int frameHeight = 450;
 		int frameWidth = 400;
 		this.setBounds(dialog.getX()-frameWidth , dialog.getY(), frameWidth, frameHeight);
 		
@@ -60,6 +61,7 @@ public class CareerData extends JFrame{
 		icon2 = new ImageIcon("2.jpg");
 		label1 = new JLabel();
 		label2 = new JLabel();
+		label2.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		label1.setIcon(icon1);
 		label2.setIcon(icon2);
 		

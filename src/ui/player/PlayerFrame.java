@@ -24,7 +24,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,7 +46,7 @@ import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 
-public class PlayerFrame extends JDialog{
+public class PlayerFrame extends JFrame{
 	/**
 	 * 
 	 */
@@ -130,7 +129,7 @@ public class PlayerFrame extends JDialog{
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 12 / 16;
 		int frameWidth = frameHeight * 21 / 16;
-		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
+		this.setBounds((screenSize.width - frameWidth)* 2 / 3, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//±³¾°Í¼Æ¬
 		bg = new ImageIcon("data/pic/playerframe.jpg");
 		lab = new JLabel(bg);
