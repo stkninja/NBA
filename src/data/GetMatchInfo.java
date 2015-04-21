@@ -28,12 +28,16 @@ public class GetMatchInfo implements MatchService{
 		else 
 			season = year + "-" + (Integer.parseInt(year) - 1);
 		
-		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
+		ArrayList<String> seasons = this.getExistedSeasons();
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		for(MatchPO po : pos)
-			if(po.getDate().equals(date))
-				res.add(po);
-		
+		for(String s : seasons){
+			if(s.equals(season)){
+				ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
+				for(MatchPO po : pos)
+					if(po.getDate().equals(date))
+						res.add(po);
+			}
+		}
 		return res;
 	}
 
