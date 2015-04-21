@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -43,7 +42,6 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 	private JComboBox<String> box2;
 	private JComboBox<String> box3;
 	private JComboBox<String> box4;
-	private JButton confirm;
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
@@ -66,7 +64,7 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		pane = new JPanel();
 		pane.setOpaque(false);
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		pane.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+		pane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 		label1 = new JLabel("排序类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		label2 = new JLabel("第一排序依据：");
@@ -83,7 +81,6 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		box3.setFont(new Font("楷体", Font.PLAIN, 14));
 		box4 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box4.setFont(new Font("楷体", Font.PLAIN, 14));
-		confirm = new JButton("确定");
 		
 		pane.add(label1);
 		pane.add(Box.createVerticalStrut(5));
@@ -100,11 +97,12 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		pane.add(label4);
 		pane.add(Box.createVerticalStrut(5));
 		pane.add(box4);
-		pane.add(Box.createVerticalStrut(15));
-		pane.add(confirm);
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
-		confirm.addActionListener(this);
+		box1.addActionListener(this);
+		box2.addActionListener(this);
+		box3.addActionListener(this);
+		box4.addActionListener(this);
 		//-----------------------------------------------------------------
 		this.setDragable();
 		this.setBorder(BorderFactory.createEmptyBorder());

@@ -164,24 +164,19 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					PlayerBasicInfoVO vo = playerBL.getOnePlayer(text.getText());
-					if (vo != null) {
-						SwingUtilities.invokeLater(new Runnable() {
-							@SuppressWarnings("restriction")
-							public void run() {
-								try {
-									JFrame.setDefaultLookAndFeelDecorated(true);
-									PlayerFrame frame = new PlayerFrame(vo);
-									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-					    });
-					} else {
-						JOptionPane.showMessageDialog(null, "查无此人！", "提示", JOptionPane.ERROR_MESSAGE);
-					}
+//					PlayerBasicInfoVO vo = playerBL.getPlayersInfo(text.getText());
+//					if (vo != null) {
+//								try {
+//									JFrame.setDefaultLookAndFeelDecorated(true);
+//									PlayerFrame frame = new PlayerFrame(vo);
+//									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+//									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+//								} catch (IOException e) {
+//									e.printStackTrace();
+//								}
+//					} else {
+//						JOptionPane.showMessageDialog(null, "查无此人！", "提示", JOptionPane.ERROR_MESSAGE);
+//					}
 				}
 			}
 		});

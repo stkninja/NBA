@@ -131,7 +131,7 @@ public class MainFrame extends JFrame {
 		pane.add(new HotspotPane(), "Hotspot");
 		pane.add(new TeamPane(this), "Team");
 		pane.add(new PlayerPane(this), "Player");
-		pane.add(new MatchPane(), "Match");
+		pane.add(new MatchPane(this), "Match");
 		contentPane.add(pane, BorderLayout.CENTER);
 		//¼àÌý
 		exit.addActionListener(new ActionListener() {

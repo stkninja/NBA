@@ -35,6 +35,7 @@ import ui.MainFrame;
 import ui.tableheader.ColumnGroup;
 import ui.tableheader.GroupableTableColumnModel;
 import ui.tableheader.GroupableTableHeader;
+import businesslogic.TeamBL;
 import businesslogicservice.TeamBLService;
 
 /**
@@ -53,11 +54,13 @@ public class TeamPane extends JDesktopPane {
 	private JPanel pane;
 	private JButton search;
 	private JButton sort;
+	//×Ó´°¿Ú
 	private TeamSearchPane searchPane;
 	private TeamSortPane sortPane;
 	//--------------------------------------------------------------
 	public TeamPane(MainFrame main) {
 		this.main = main;
+		teamBL = new TeamBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(0, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));

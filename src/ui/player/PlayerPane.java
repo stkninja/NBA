@@ -52,6 +52,7 @@ public class PlayerPane extends JDesktopPane {
 	private JPanel pane;
 	private JButton search;
 	private JButton sort;
+	//×Ó´°¿Ú
 	private PlayerSearchPane searchPane;
 	private PlayerSortPane sortPane;
 	//--------------------------------------------------------------
