@@ -536,6 +536,10 @@ public class TeamFrame extends JDialog{
          column.setWidth(width+myTable.getIntercellSpacing().width);
      }
     }
+	public static void main(String[] args) throws IOException, TranscoderException{
+		TeamBL tbl = new TeamBL();
+		new TeamFrame(tbl.getOneTeam("HOU"));
+	}
 
 
 }
