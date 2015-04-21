@@ -59,7 +59,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 			for(MatchPO po : matchdata.getAllMatchesAtSeason(s)){
 				for(MatchPlayerDataPO player : po.getTeam1().getTeamPlayers()){
 					if(player.getName().indexOf(name) >= 0){
-						if(list.get(list.size() - 1) == potovo(po)){
+						if(list.size() != 0 && list.get(list.size() - 1) == potovo(po)){
 							break;
 						}
 						list.add(potovo(po));
@@ -67,7 +67,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 				}
 				for(MatchPlayerDataPO player : po.getTeam2().getTeamPlayers()){
 					if(player.getName().indexOf(name) >= 0){
-						if(list.get(list.size() - 1) == potovo(po)){
+						if(list.size() != 0 && list.get(list.size() - 1) == potovo(po)){
 							break;
 						}
 						list.add(potovo(po));
@@ -103,7 +103,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		for(MatchPO po : matchdata.getAllMatchesAtSeason(season)){
 			for(MatchPlayerDataPO name : po.getTeam1().getTeamPlayers()){
 				if(name.getName().indexOf(player) >= 0){
-					if(list.get(list.size() - 1) == potovo(po)){
+					if(list.size() != 0 && list.get(list.size() - 1) == potovo(po)){
 						break;
 					}
 					list.add(potovo(po));
@@ -111,7 +111,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 			}
 			for(MatchPlayerDataPO name : po.getTeam2().getTeamPlayers()){
 				if(name.getName().indexOf(player) >= 0){
-					if(list.get(list.size() - 1) == potovo(po)){
+					if(list.size() != 0 && list.get(list.size() - 1) == potovo(po)){
 						break;
 					}
 					list.add(potovo(po));
