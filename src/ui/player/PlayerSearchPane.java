@@ -11,8 +11,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -20,16 +18,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import ui.Region;
-import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
@@ -164,19 +159,12 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-//					PlayerBasicInfoVO vo = playerBL.getPlayersInfo(text.getText());
-//					if (vo != null) {
-//								try {
-//									JFrame.setDefaultLookAndFeelDecorated(true);
-//									PlayerFrame frame = new PlayerFrame(vo);
-//									com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-//									com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-//								} catch (IOException e) {
-//									e.printStackTrace();
-//								}
-//					} else {
-//						JOptionPane.showMessageDialog(null, "查无此人！", "提示", JOptionPane.ERROR_MESSAGE);
-//					}
+					ArrayList<PlayerVO> vo = playerBL.getPlayersInfo((String)season.getSelectedItem(), text.getText());
+					if (vo != null) {
+						PlayerSearchPane.this.setData(vo);
+					} else {
+						JOptionPane.showMessageDialog(null, "查无此人！", "提示", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});

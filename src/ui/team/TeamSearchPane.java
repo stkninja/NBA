@@ -92,7 +92,7 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		label3 = new JLabel("赛季：");
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		label4 = new JLabel("球队名称：");
+		label4 = new JLabel("球队缩写：");
 		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		text = new JTextField();
 		

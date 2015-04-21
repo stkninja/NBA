@@ -108,81 +108,139 @@ public class ContentPane extends JPanel {
 	private void setData() {
 		switch(type) {
 		case "当天热点球员" : {
-			//TODO
-//			ArrayList<PlayerVO> playerList = playerBL.getTodayTopFivePlayers(filter);
-			for (int i = 0; i < 5; i++) {
-				label[i] = new JButton();
-//				label[i].setText(playerList.get(i).name);
-				label[i].setHorizontalTextPosition(JButton.CENTER);
-				label[i].setVerticalTextPosition(JButton.BOTTOM);
-				label[i].setSize(new Dimension(150, 150));
-				label[i].setPreferredSize(new Dimension(150, 150));
-//				try {
-//					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/exit1.png");
-//				} catch (IOException e) {
-//					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
-//				}
-				this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+			ArrayList<PlayerVO> playerList = playerBL.getTodayTopFivePlayers(filter);
+			if (playerList.size() != 0) {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setText(playerList.get(i).name);
+					label[i].setHorizontalTextPosition(JButton.CENTER);
+					label[i].setVerticalTextPosition(JButton.BOTTOM);
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					try {
+						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+					} catch (IOException e) {
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					}
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
+					label[i].addActionListener(new LabelListener());
+				}
+			} else {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
+				}
 			}
 			break;
 		}
 		case "赛季热点球员" : {
 			ArrayList<PlayerVO> playerList = playerBL.getSeasonTopFivePlayers((String)comboBox.getSelectedItem(), filter);
-			for (int i = 0; i < 5; i++) {
-				label[i] = new JButton();
-				label[i].setText(playerList.get(i).name);
-				label[i].setHorizontalTextPosition(JButton.CENTER);
-				label[i].setVerticalTextPosition(JButton.BOTTOM);
-				label[i].setSize(new Dimension(150, 150));
-				label[i].setPreferredSize(new Dimension(150, 150));
-				try {
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
-				} catch (IOException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
+			if (playerList.size() != 0) {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setText(playerList.get(i).name);
+					label[i].setHorizontalTextPosition(JButton.CENTER);
+					label[i].setVerticalTextPosition(JButton.BOTTOM);
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					try {
+						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+					} catch (IOException e) {
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					}
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
+					label[i].addActionListener(new LabelListener());
+				}
+			} else {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
 				}
 			}
 			break;
 		}
 		case "赛季热点球队" : {
 			ArrayList<TeamVO> teamList = teamBL.getSeasonTopFiveTeams((String)comboBox.getSelectedItem(), filter);
-			for (int i = 0; i < 5; i++) {
-				label[i] = new JButton();
-				label[i].setText(teamList.get(i).abbName);
-				label[i].setHorizontalTextPosition(JButton.CENTER);
-				label[i].setVerticalTextPosition(JButton.BOTTOM);
-				label[i].setSize(new Dimension(150, 170));
-				label[i].setPreferredSize(new Dimension(150, 170));
-				File logofile = new File("logofile");
-				try {
-					SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
-					this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
-				} catch (IOException | TranscoderException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
+			if (teamList.size() != 0) {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setText(teamList.get(i).abbName);
+					label[i].setHorizontalTextPosition(JButton.CENTER);
+					label[i].setVerticalTextPosition(JButton.BOTTOM);
+					label[i].setSize(new Dimension(150, 170));
+					label[i].setPreferredSize(new Dimension(150, 170));
+					File logofile = new File("logofile");
+					try {
+						SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
+						this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
+					} catch (IOException | TranscoderException e) {
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					}
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
+					label[i].addActionListener(new LabelListener());
+				}
+			} else {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
 				}
 			}
 			break;
 		}
 		case "进步最快球员" : {
 			ArrayList<PlayerVO> playerList = playerBL.getPromotionPlayers(filter);
-			for (int i = 0; i < 5; i++) {
-				label[i] = new JButton();
-				label[i].setText(playerList.get(i).name);
-				label[i].setHorizontalTextPosition(JButton.CENTER);
-				label[i].setVerticalTextPosition(JButton.BOTTOM);
-				label[i].setSize(new Dimension(150, 150));
-				label[i].setPreferredSize(new Dimension(150, 150));
-				try {
-					this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
-				} catch (IOException e) {
-					this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/NotFound.jpg");
+			if (playerList.size() != 0) {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setText(playerList.get(i).name);
+					label[i].setHorizontalTextPosition(JButton.CENTER);
+					label[i].setVerticalTextPosition(JButton.BOTTOM);
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					try {
+						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+					} catch (IOException e) {
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+					}
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
+					label[i].addActionListener(new LabelListener());
+				}
+			} else {
+				for (int i = 0; i < 5; i++) {
+					label[i] = new JButton();
+					label[i].setSize(new Dimension(150, 150));
+					label[i].setPreferredSize(new Dimension(150, 150));
+					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+				}
+				for (int i = 0; i < 5; i++) {
+					pane.add(label[i]);
 				}
 			}
 			break;
 		}
-		}
-		for (int i = 0; i < 5; i++) {
-			pane.add(label[i]);
-			label[i].addActionListener(new LabelListener());
 		}
 		revalidate();
 	}
@@ -199,16 +257,33 @@ public class ContentPane extends JPanel {
 		comboBox.addActionListener(new ComboBoxListener());
 	}
 	/**
+	 * 设置图片异常图标
+	 * @param button 按钮
+	 * @param file 图标路径
+	 */
+	public void setNOTFOUND(JButton button, String file) {
+		Image icon = (new ImageIcon(file)).getImage();
+		double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
+		Image temp = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale), Image.SCALE_DEFAULT);
+		button.setIcon(new ImageIcon(temp));
+		button.setFocusPainted(false);//无选择效果
+        button.setOpaque(false);//透明
+		button.setContentAreaFilled(false);//填充
+		button.setBorderPainted(false);//无边框
+		button.setMargin(new Insets(0, 0, 0, 0));//无边距
+	}
+	/**
 	 * 设置图标
 	 * @param button 按钮
 	 * @param icon 默认图标路径
 	 * @param file 翻转图标路径
 	 */
 	public void setIcon(JButton button, Image icon, String file) {
-		double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
-		Image temp1 = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale), Image.SCALE_DEFAULT);
-		ImageIcon icon2 = new ImageIcon(file);
-		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
+		double scale1 = (double)icon.getWidth(null) / (double)icon.getHeight(null);
+		Image temp1 = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale1), Image.SCALE_DEFAULT);
+		Image icon2 = (new ImageIcon(file)).getImage();
+		double scale2 = (double)icon2.getWidth(null) / (double)icon2.getHeight(null);
+		Image temp2 = icon2.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale2), Image.SCALE_DEFAULT);
         button.setIcon(new ImageIcon(temp1));
 		button.setRolloverIcon(new ImageIcon(temp2));
 		button.setPressedIcon(new ImageIcon(temp2));
