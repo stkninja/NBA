@@ -115,7 +115,8 @@ public class PlayerFrame extends JDialog{
 	ImageIcon actionicon;
 	ImageIcon actionicon1;
 	JFrame playeraction;
-	
+	CareerData careerdata;
+	RecentMatch recentmatch;
 	
 	Point loc = null;
 	Point tmp = null;
@@ -162,11 +163,8 @@ public class PlayerFrame extends JDialog{
 		Pic.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent e){
 				SwingUtilities.invokeLater(new Runnable() {
-					@SuppressWarnings("restriction")
 					public void run() {
 						playeraction = new PlayerPicture(actionicon,PlayerFrame.this);
-						com.sun.awt.AWTUtilities.setWindowOpacity(playeraction, 0.9f);//设置透明度
-						com.sun.awt.AWTUtilities.setWindowShape(playeraction, new RoundRectangle2D.Double(0.0D, 0.0D, playeraction.getWidth(), playeraction.getHeight(), 26.0D, 26.0D));//设置圆角
 					}
 			    });
 				
@@ -263,6 +261,23 @@ public class PlayerFrame extends JDialog{
 		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
 		recentTitle = new JLabel("最近5场比赛统计:");
 		recentTitle.setFont(new Font("宋体",Font.BOLD,15));
+		recentTitle.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent e){
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							recentmatch = new RecentMatch(vo.name,PlayerFrame.this);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+			    });
+				
+			}
+			public void mouseExited(MouseEvent e){
+				recentmatch.dispose();
+			}
+		});
 		promotion = new JLabel("       提升率->");
 		promotion.setFont(new Font("宋体",Font.BOLD,12));
 		scorep = new JLabel(bl.getPlayerVO(vo.name).pointpromotion+"(场均得分)； ");
@@ -319,6 +334,22 @@ public class PlayerFrame extends JDialog{
 		type = new JLabel("   数据类型: ");
 		historyTitle = new JLabel("生涯统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
+		historyTitle.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent e){
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							careerdata= new CareerData(vo.name,PlayerFrame.this);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+			    });		
+			}
+			public void mouseExited(MouseEvent e){
+				careerdata.dispose();
+			}
+		});
         subpanel3.add(historyTitle);
 		subpanel3.add(type);
 		subpanel3.add(mode);
