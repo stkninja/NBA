@@ -10,6 +10,8 @@ public interface PlayerBLService {
 	public ArrayList<PlayerVO> getPlayers(String season,String subArea,String position,String team);
 	
 	public PlayerBasicInfoVO getOnePlayer(String name);
+	
+	public ArrayList<PlayerBasicInfoVO> getPlayersInfo(String name);
 
 	public ArrayList<MatchVO> getLastFiveMatches(String name);
 	

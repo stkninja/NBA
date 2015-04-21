@@ -56,8 +56,23 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getAllMatchesAboutPlayer(String name){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(String s : matchdata.getExistedSeasons()){
-			for(MatchPO po : matchdata.getAllMatchesAboutPlayer(name, s)){
-				list.add(potovo(po));
+			for(MatchPO po : matchdata.getAllMatchesAtSeason(s)){
+				for(MatchPlayerDataPO player : po.getTeam1().getTeamPlayers()){
+					if(player.getName().indexOf(name) >= 0){
+						if(list.get(list.size() - 1) == potovo(po)){
+							break;
+						}
+						list.add(potovo(po));
+					}
+				}
+				for(MatchPlayerDataPO player : po.getTeam2().getTeamPlayers()){
+					if(player.getName().indexOf(name) >= 0){
+						if(list.get(list.size() - 1) == potovo(po)){
+							break;
+						}
+						list.add(potovo(po));
+					}
+				}
 			}
 		}
 		return list;
@@ -85,8 +100,23 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	
 	public ArrayList<MatchVO> getMatchesAboutPlayer(String season,String player){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
-		for(MatchPO po : matchdata.getAllMatchesAboutPlayer(player, season)){
-			list.add(potovo(po));
+		for(MatchPO po : matchdata.getAllMatchesAtSeason(season)){
+			for(MatchPlayerDataPO name : po.getTeam1().getTeamPlayers()){
+				if(name.getName().indexOf(player) >= 0){
+					if(list.get(list.size() - 1) == potovo(po)){
+						break;
+					}
+					list.add(potovo(po));
+				}
+			}
+			for(MatchPlayerDataPO name : po.getTeam2().getTeamPlayers()){
+				if(name.getName().indexOf(player) >= 0){
+					if(list.get(list.size() - 1) == potovo(po)){
+						break;
+					}
+					list.add(potovo(po));
+				}
+			}
 		}
 		return list;
 	}

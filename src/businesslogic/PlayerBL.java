@@ -934,4 +934,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return list;
 	}
+
+	public ArrayList<PlayerBasicInfoVO> getPlayersInfo(String name) {
+		ArrayList<PlayerBasicInfoVO> list = new ArrayList<PlayerBasicInfoVO>();
+		for(String playername : playerdata.getAllPlayersName()){
+			if(playername.indexOf(name) >= 0){
+				list.add(getOnePlayer(playername));
+			}
+		}
+		return list;
+	}
 }

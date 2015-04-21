@@ -598,4 +598,9 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		
 		return list;
 	}
+	
+	public static void main(String[] args){
+		TeamBL bl = new TeamBL();
+		System.out.println(bl.getOneTeam("ATL").competionArea);
+	}
 }
