@@ -299,7 +299,7 @@ public class MatchFrame extends JFrame{
 		panelB = new JPanel();
 		panelB.setLayout(new BorderLayout());
 		panelB.setOpaque(false);
-		panelB.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
+		panelB.setBorder(BorderFactory.createEmptyBorder(0, 15, 10, 15));
 		subpanelB1 = new JPanel();
 		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		team1 = new JLabel(vo.team1.abbName+"技术统计:");
@@ -361,7 +361,7 @@ public class MatchFrame extends JFrame{
 		panelC = new JPanel();
 		panelC.setLayout(new BorderLayout());
 		panelC.setOpaque(false);
-		panelC.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+		panelC.setBorder(BorderFactory.createEmptyBorder(0, 15, 20, 15));
 		subpanelC1 = new JPanel();
 		subpanelC1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		team2 = new JLabel(vo.team2.abbName+"技术统计:");

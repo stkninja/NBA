@@ -233,7 +233,7 @@ public class TeamFrame extends JDialog{
 	    	public void mouseClicked(MouseEvent e) {
 	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
 	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
-	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 2)).substring(0, 3);
+	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 3));
 	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
 	    		SwingUtilities.invokeLater(new Runnable() {
 					@SuppressWarnings("restriction")
@@ -268,7 +268,7 @@ public class TeamFrame extends JDialog{
 				});
 		type = new JLabel("    数据类型:");
 		type.setForeground(Color.BLACK);;
-        historyTitle = new JLabel("生涯统计:");
+        historyTitle = new JLabel("历史统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
 		historyTitle.setForeground(Color.ORANGE);
 		subpanel3.add(historyTitle);
@@ -372,26 +372,48 @@ public class TeamFrame extends JDialog{
 	private void setData(String name) {
 		ArrayList<MatchVO> list = bl.getLastFiveMatchesSpecific(name);
 		
-		Object[][] data = new Object[5][9];
+		Object[][] data = new Object[5][10];
 		for (int i = 0; i < 5; i++) {
 		     data[i][0] = list.get(i).season;
 		     data[i][1] = list.get(i).date;
-		     data[i][2] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;
-		     data[i][3] = (int)list.get(i).team1.qt1Scores+"-"+(int)list.get(i).team2.qt1Scores;
-		     data[i][4] = (int)list.get(i).team1.qt2Scores+"-"+(int)list.get(i).team2.qt2Scores;
-		     data[i][5] = (int)list.get(i).team1.qt3Scores+"-"+(int)list.get(i).team2.qt3Scores;
-		     data[i][6] = (int)list.get(i).team1.qt4Scores+"-"+(int)list.get(i).team2.qt4Scores;
-		     if(list.get(i).team1.qtPlusScores.isEmpty()){
-		    	 data[i][7] = "未加时";
+		     if(list.get(i).team1.abbName.equals(name)){
+		    	 data[i][2] = "主场";
+		    	 data[i][3] = list.get(i).team2.abbName;
+		    	 data[i][4] = (int)list.get(i).team1.qt1Scores+"-"+(int)list.get(i).team2.qt1Scores;
+			     data[i][5] = (int)list.get(i).team1.qt2Scores+"-"+(int)list.get(i).team2.qt2Scores;
+			     data[i][6] = (int)list.get(i).team1.qt3Scores+"-"+(int)list.get(i).team2.qt3Scores;
+			     data[i][7] = (int)list.get(i).team1.qt4Scores+"-"+(int)list.get(i).team2.qt4Scores;
+			     data[i][9] = (int)list.get(i).team1.scores+"-"+(int)list.get(i).team2.scores;
+			     if(list.get(i).team1.qtPlusScores.isEmpty()){
+			    	 data[i][8] = "未加时";
+			     }
+			     else{
+			    	 data[i][8] = "";
+				     for(int m = 0;m < list.get(i).team1.qtPlusScores.size()-1;m++){
+				    	  data[i][8] = data[i][8]+((int)(double)list.get(i).team1.qtPlusScores.get(m)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(m)+",");
+				     }
+				     data[i][8] = data[i][8] + ((int)(double)list.get(i).team1.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1));
+			     }		    
 		     }
 		     else{
-		    	 data[i][7] = "";
-			     for(int m = 0;m < list.get(i).team1.qtPlusScores.size()-1;m++){
-			    	  data[i][7] = data[i][7]+((int)(double)list.get(i).team1.qtPlusScores.get(m)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(m)+",");
+		    	 data[i][2] = "客场";
+		    	 data[i][3] = list.get(i).team1.abbName;
+		    	 data[i][4] = (int)list.get(i).team2.qt1Scores+"-"+(int)list.get(i).team1.qt1Scores;
+			     data[i][5] = (int)list.get(i).team2.qt2Scores+"-"+(int)list.get(i).team1.qt2Scores;
+			     data[i][6] = (int)list.get(i).team2.qt3Scores+"-"+(int)list.get(i).team1.qt3Scores;
+			     data[i][7] = (int)list.get(i).team2.qt4Scores+"-"+(int)list.get(i).team1.qt4Scores;
+			     data[i][9] = (int)list.get(i).team2.scores+"-"+(int)list.get(i).team1.scores;
+			     if(list.get(i).team1.qtPlusScores.isEmpty()){
+			    	 data[i][8] = "未加时";
 			     }
-			     data[i][7] = data[i][7] + ((int)(double)list.get(i).team1.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1)+"-"+(int)(double)list.get(i).team2.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1));
-		     }		    
-		     data[i][8] = (int)list.get(i).team1.scores+"-"+(int)list.get(i).team2.scores;
+			     else{
+			    	 data[i][8] = "";
+				     for(int m = 0;m < list.get(i).team1.qtPlusScores.size()-1;m++){
+				    	  data[i][8] = data[i][8]+((int)(double)list.get(i).team2.qtPlusScores.get(m)+"-"+(int)(double)list.get(i).team1.qtPlusScores.get(m)+",");
+				     }
+				     data[i][8] = data[i][8] + ((int)(double)list.get(i).team2.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1)+"-"+(int)(double)list.get(i).team1.qtPlusScores.get(list.get(i).team1.qtPlusScores.size()-1));
+			     }		    
+		     }
 		}
 		this.showTable(data);
 	}
@@ -441,8 +463,8 @@ public class TeamFrame extends JDialog{
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		//近比赛表格
-		String[] subTitle = {"赛季", "日期","比赛",//0-2
-					"第一节","第二节","第三节","第四节","加时",//3-7
+		String[] subTitle = {"赛季", "日期","主客场","对手",//0-3
+					"第一节","第二节","第三节","第四节","加时",//4-8
 					"比分"//8
 					};
 		//------------------------------------------------------
