@@ -16,11 +16,17 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
 
 import vo.PlayerVO;
 import businesslogic.PlayerBL;
@@ -74,6 +80,7 @@ public class CareerData extends JFrame{
 		this.setVisible(true);
 		
 	}
+	@SuppressWarnings("deprecation")
 	public void chart1() throws IOException {  
         CategoryDataset ds = this.getDataSet1();  
         JFreeChart chart = ChartFactory.createBarChart3D(  
@@ -86,11 +93,11 @@ public class CareerData extends JFrame{
                 false, //是否生成提示工具  
                 false);         //是否生成url链接  
   
-        CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();  
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();  
   
-        NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();  
+        NumberAxis numberaxis = (NumberAxis) plot.getRangeAxis();  
   
-        CategoryAxis domainAxis = categoryplot.getDomainAxis();  
+        CategoryAxis domainAxis = plot.getDomainAxis();  
   
         /*------设置X轴坐标上的文字-----------*/  
         domainAxis.setTickLabelFont(new Font("sans-serif", Font.PLAIN, 11));  
@@ -108,7 +115,19 @@ public class CareerData extends JFrame{
         chart.getLegend().setItemFont(new Font("宋体", Font.PLAIN, 12));  
   
         /*******这句代码解决了标题汉字乱码的问题********/  
-        chart.getTitle().setFont(new Font("宋体", Font.PLAIN, 12));  
+        chart.getTitle().setFont(new Font("宋体", Font.BOLD, 13));
+        
+        BarRenderer3D customBarRenderer = (BarRenderer3D) plot.getRenderer(); 
+        numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits()); //横线
+        numberaxis.setUpperMargin(0.14999999999999999D); //顶端
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); 
+        customBarRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值 
+        customBarRenderer.setBaseItemLabelsVisible(true); 
+        //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题 
+        customBarRenderer.setBasePositiveItemLabelPosition(new ItemLabelPosition( 
+        ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER)); 
+        customBarRenderer.setItemLabelAnchorOffset(10D);// 设置柱形图上的文字偏离值 
+        customBarRenderer.setItemLabelsVisible(true); 
   
         FileOutputStream out = null;  
         try {  
@@ -122,6 +141,7 @@ public class CareerData extends JFrame{
             }  
         }  
     }
+	@SuppressWarnings("deprecation")
 	public void chart2() throws IOException {  
         CategoryDataset ds = this.getDataSet2();  
         JFreeChart chart = ChartFactory.createBarChart3D(  
@@ -134,11 +154,11 @@ public class CareerData extends JFrame{
                 false, //是否生成提示工具  
                 false);         //是否生成url链接  
   
-        CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();  
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();  
   
-        NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();  
+        NumberAxis numberaxis = (NumberAxis) plot.getRangeAxis();  
   
-        CategoryAxis domainAxis = categoryplot.getDomainAxis();  
+        CategoryAxis domainAxis = plot.getDomainAxis();  
   
         /*------设置X轴坐标上的文字-----------*/  
         domainAxis.setTickLabelFont(new Font("sans-serif", Font.PLAIN, 11));  
@@ -156,7 +176,19 @@ public class CareerData extends JFrame{
         chart.getLegend().setItemFont(new Font("宋体", Font.PLAIN, 12));  
   
         /*******这句代码解决了标题汉字乱码的问题********/  
-        chart.getTitle().setFont(new Font("宋体", Font.PLAIN, 12));  
+        chart.getTitle().setFont(new Font("宋体", Font.BOLD, 13)); 
+        
+        BarRenderer3D customBarRenderer = (BarRenderer3D) plot.getRenderer(); 
+        numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits()); //横线
+        numberaxis.setUpperMargin(0.14999999999999999D); //顶端
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); 
+        customBarRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值 
+        customBarRenderer.setBaseItemLabelsVisible(true); 
+        //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题 
+        customBarRenderer.setBasePositiveItemLabelPosition(new ItemLabelPosition( 
+        ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER)); 
+        customBarRenderer.setItemLabelAnchorOffset(10D);// 设置柱形图上的文字偏离值 
+        customBarRenderer.setItemLabelsVisible(true);
   
         FileOutputStream out = null;  
         try {  
