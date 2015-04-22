@@ -186,10 +186,12 @@ public class MainFrame extends JFrame {
 	 * @param file2 ·­×ªÍ¼±êÂ·¾¶
 	 */
 	public void setIcon(JButton button, String file1, String file2) {  
-        ImageIcon icon1 = new ImageIcon(file1);
-		Image temp1 = icon1.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
-		ImageIcon icon2 = new ImageIcon(file2);
-		Image temp2 = icon2.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_DEFAULT);
+        Image icon1 = (new ImageIcon(file1)).getImage();
+        double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
+		Image temp1 = icon1.getScaledInstance((int)(button.getHeight() * scale1), button.getHeight(), Image.SCALE_DEFAULT);
+		Image icon2 = (new ImageIcon(file2)).getImage();
+		double scale2 = (double)icon2.getWidth(null) / (double)icon2.getHeight(null);
+		Image temp2 = icon2.getScaledInstance((int)(button.getHeight() * scale2), button.getHeight(), Image.SCALE_DEFAULT);
         button.setIcon(new ImageIcon(temp1));
 		button.setRolloverIcon(new ImageIcon(temp2));
 		button.setPressedIcon(new ImageIcon(temp2));
