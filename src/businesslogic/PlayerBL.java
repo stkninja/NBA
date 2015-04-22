@@ -101,7 +101,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		PlayerBasicInfoVO vo = new PlayerBasicInfoVO();
 		PBasicInfoPO pp = playerdata.getSinglePBasicInfo(name);
 		if(pp == null){
-			return null;
+			return vo;
 		}
 		vo.name = pp.getName();
 		vo.number = pp.getNumber();
