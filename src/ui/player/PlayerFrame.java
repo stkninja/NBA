@@ -42,7 +42,6 @@ import businesslogic.PlayerBL;
 import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 import ui.match.MatchFrame;
-import ui.match.MatchPane;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -397,8 +396,16 @@ public class PlayerFrame extends JFrame{
 		//表格监听
 		historytable.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	    		String season = ((String)historytable.getValueAt(historytable.getSelectedRow(), 0)).substring(0, 5);
+	    		String season = ((String)historytable.getValueAt(historytable.getSelectedRow(), 0));
+	    		if(season.equals("生涯总计")){
+	    			pp.main.matchPane.getSearchPane().getPlayerMatch("All", vo.name);
+	    		}
+	    		else{
+	    			pp.main.matchPane.getSearchPane().getPlayerMatch(season, vo.name);
+	    		}
 	    		
+	    		pp.main.toFront();
+	    		pp.main.cardLayout.show(pp.main.pane, "Match");
 	    		
 	    	}
 	    });

@@ -263,7 +263,7 @@ public class TeamPane extends JDesktopPane {
 					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
-						TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
+						TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str),TeamPane.this);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 					} catch (IOException | TranscoderException e1) {

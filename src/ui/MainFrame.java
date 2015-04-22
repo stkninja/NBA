@@ -41,8 +41,8 @@ import event.DataUpdListener;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	public JPanel contentPane;//总panel
-	private JPanel pane;//内容panel
-	private CardLayout cardLayout;//卡片式布局
+	public JPanel pane;//内容panel
+	public CardLayout cardLayout;//卡片式布局
 	private ImageIcon background;//背景图片
 	public HotspotPane hotspotPane;
 	public PlayerPane playerPane;
