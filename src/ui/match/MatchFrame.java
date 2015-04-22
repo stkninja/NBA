@@ -212,9 +212,9 @@ public class MatchFrame extends JFrame{
 		else{
 			String temp = "";
 			for(int n = 0;n < vo.team1.qtPlusScores.size()-1;n++){
-				temp = temp + vo.team1.qtPlusScores.get(n)+",";
+				temp = temp + ((int)(double)vo.team1.qtPlusScores.get(n))+",";
 			}
-			temp = temp + vo.team1.qtPlusScores.get(vo.team1.qtPlusScores.size()-1);
+			temp = temp + (int)(double)vo.team1.qtPlusScores.get(vo.team1.qtPlusScores.size()-1);
 			hp = new JLabel(temp,JLabel.CENTER);
 		}
 		
@@ -228,9 +228,9 @@ public class MatchFrame extends JFrame{
 		else{
 			String temp = "";
 			for(int n = 0;n < vo.team2.qtPlusScores.size()-1;n++){
-				temp = temp + vo.team2.qtPlusScores.get(n)+",";
+				temp = temp + (int)(double)vo.team2.qtPlusScores.get(n)+",";
 			}
-			temp = temp + vo.team2.qtPlusScores.get(vo.team2.qtPlusScores.size()-1);
+			temp = temp + (int)(double)vo.team2.qtPlusScores.get(vo.team2.qtPlusScores.size()-1);
 			cp = new JLabel(temp,JLabel.CENTER);
 		}
 		h1.setFont(f2);
