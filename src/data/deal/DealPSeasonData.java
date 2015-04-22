@@ -166,7 +166,8 @@ public class DealPSeasonData {
 			po.setErrorrate(po.getAllerrorrate());
 			po.setUsage(po.getAllusage());
 			
-			double fivepoint = 0,fiverebound = 0,fiveassist = 0;
+
+		    double fivepoint = 0,fiverebound = 0,fiveassist = 0;
 			for(MatchPO matchpo : match.getLastFiveMatchesAboutPlayer(po.getName())){
 				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
 					if(playerpo.getName().equals(po.getName())){

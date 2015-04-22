@@ -29,7 +29,7 @@ public class DealTAllMatchData {
 		teams = ReadTBasicPO.readTBasicPO();
 		
 		ArrayList<TSeasonDataPO> list = new ArrayList<TSeasonDataPO>();
-		for(String name : getAllTeamsAbbName()){
+		for(String name : getAllTeamsAbbName(season)){
 			getMatchesAboutTeam(name);
 			TSeasonDataPO po = new TSeasonDataPO();
 			TBasicInfoPO teambasic = new TBasicInfoPO();
@@ -136,10 +136,13 @@ public class DealTAllMatchData {
 	/**
 	 * 获得球队所有abbName
 	 */
-	private ArrayList<String> getAllTeamsAbbName() {
+	private ArrayList<String> getAllTeamsAbbName(String season) {
 		ArrayList<String> names = new ArrayList<String>();
-		for(TBasicInfoPO po : teams)
+		for(TBasicInfoPO po : teams){
+			if(po.getAbbName().equals("NOH") && season.compareTo("12-13") <= 0)
+				po.setAbbName("NOP");
 			names.add(po.getAbbName());
+		}
 		
 		return names;
 	}
