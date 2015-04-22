@@ -270,7 +270,7 @@ public class PlayerPane extends JDesktopPane {
 					String str = (String)table.getValueAt(table.getSelectedRow(), 0);
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
-						PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str));
+						PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str),PlayerPane.this);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 					} catch (IOException e1) {

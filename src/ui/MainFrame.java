@@ -44,6 +44,10 @@ public class MainFrame extends JFrame {
 	private JPanel pane;//内容panel
 	private CardLayout cardLayout;//卡片式布局
 	private ImageIcon background;//背景图片
+	public HotspotPane hotspotPane;
+	public PlayerPane playerPane;
+	public TeamPane teamPane;
+	public MatchPane matchPane;
 	//退出、最小化按钮
 	private JPanel top;
 	private JButton exit;
@@ -60,6 +64,10 @@ public class MainFrame extends JFrame {
 	private boolean isDragged = false;
 	//--------------------------------------------------------
 	public MainFrame() {
+		hotspotPane = new HotspotPane();
+		playerPane = new PlayerPane(this);
+		teamPane = new TeamPane(this);
+		matchPane = new MatchPane(this);
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -128,10 +136,10 @@ public class MainFrame extends JFrame {
 		pane.setLayout(cardLayout);
 		pane.setOpaque(false);
 		
-		pane.add(new HotspotPane(), "Hotspot");
-		pane.add(new TeamPane(this), "Team");
-		pane.add(new PlayerPane(this), "Player");
-		pane.add(new MatchPane(this), "Match");
+		pane.add(hotspotPane, "Hotspot");
+		pane.add(teamPane, "Team");
+		pane.add(playerPane, "Player");
+		pane.add(matchPane, "Match");
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
 		exit.addActionListener(new ActionListener() {
