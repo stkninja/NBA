@@ -52,7 +52,7 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		teamBL = new TeamBL();
 		this.setPlace();
 		//±³¾°
-		background = new ImageIcon("data/pic/background.jpg");
+		background = new ImageIcon("data/pic/PanelBG.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);

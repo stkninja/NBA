@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import ui.MainFrame;
+
 /**
  * 可折叠面板
  * @author stk
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ExpandablePane extends JPanel {
+	public MainFrame main;
 	private HeaderPane header;//标题面板
 	private ContentPane content;//内容面板
 	//-----------------------------------------------
@@ -23,12 +26,13 @@ public class ExpandablePane extends JPanel {
 	 * @param path2 背景路径2
 	 * @param condition 筛选条件
 	 */
-	public ExpandablePane(String path1, String path2, String[] condition) {
+	public ExpandablePane(MainFrame main, String path1, String path2, String[] condition) {
+		this.main = main;
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
 		header = new HeaderPane(path1, path2);
 		header.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
-		content = new ContentPane(condition);
+		content = new ContentPane(main, condition);
 		content.setVisible(false);
 		this.add(header, BorderLayout.NORTH);
 		this.add(content, BorderLayout.CENTER);

@@ -64,7 +64,7 @@ public class MainFrame extends JFrame {
 	private boolean isDragged = false;
 	//--------------------------------------------------------
 	public MainFrame() {
-		hotspotPane = new HotspotPane();
+		hotspotPane = new HotspotPane(this);
 		playerPane = new PlayerPane(this);
 		teamPane = new TeamPane(this);
 		matchPane = new MatchPane(this);

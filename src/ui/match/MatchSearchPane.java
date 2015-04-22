@@ -62,7 +62,7 @@ public class MatchSearchPane extends JInternalFrame {
 		bl = new MatchBL();
 		this.setPlace();
 		//±³¾°
-		background = new ImageIcon("data/pic/background.jpg");
+		background = new ImageIcon("data/pic/PanelBG.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);

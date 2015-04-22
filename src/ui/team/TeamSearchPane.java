@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -18,17 +16,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.batik.transcoder.TranscoderException;
-
 import ui.Region;
-import vo.TeamBasicInfoVO;
 import vo.TeamVO;
 import businesslogic.MatchBL;
 import businesslogic.TeamBL;
@@ -68,7 +62,7 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		matchBL = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/background.jpg");
+		background = new ImageIcon("data/pic/PanelBG.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -119,16 +113,9 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					TeamBasicInfoVO vo = teamBL.getOneTeam(text.getText());
+					ArrayList<TeamVO> vo = teamBL.getTeamsInfo((String)season.getSelectedItem(), text.getText());
 					if (vo != null) {
-						try {
-							JFrame.setDefaultLookAndFeelDecorated(true);
-							TeamFrame frame = new TeamFrame(vo);
-							frame.setOpacity(0.9f);
-							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
-						} catch (IOException | TranscoderException e1) {
-							e1.printStackTrace();
-						}
+						TeamSearchPane.this.setData(vo);
 					} else {
 						JOptionPane.showMessageDialog(null, "查无此队！", "提示", JOptionPane.ERROR_MESSAGE);
 					}

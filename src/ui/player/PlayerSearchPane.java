@@ -68,7 +68,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		matchBL = new MatchBL();
 		this.setPlace();
 		//±³¾°
-		background = new ImageIcon("data/pic/background.jpg");
+		background = new ImageIcon("data/pic/PanelBG.jpg");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);

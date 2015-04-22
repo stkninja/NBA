@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import ui.MainFrame;
 import ui.SvgUtil;
 import ui.player.PlayerFrame;
 import ui.team.TeamFrame;
@@ -44,6 +45,7 @@ import businesslogicservice.TeamBLService;
  */
 @SuppressWarnings("serial")
 public class ContentPane extends JPanel {
+	public MainFrame main;
 	private TeamBLService teamBL;
 	private PlayerBLService playerBL;
 	private MatchBLService matchBL;
@@ -61,7 +63,8 @@ public class ContentPane extends JPanel {
 	 * 
 	 * @param condition É¸Ñ¡Ìõ¼þ
 	 */
-	public ContentPane(String[] condition) {
+	public ContentPane(MainFrame main, String[] condition) {
+		this.main = main;
 		playerBL = new PlayerBL();
 		teamBL = new TeamBL();
 		matchBL = new MatchBL();
