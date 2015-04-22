@@ -171,14 +171,14 @@ public class PlayerFrame extends JFrame{
 			public void mouseExited(MouseEvent e){
 				playeraction.dispose();
 			}
-			public void mouseClicked(MouseEvent e){
-				if(e.getClickCount()==2){
-					playeraction.dispose();
-				}
-				else{
-					playeraction.dispose();
-				}
-			}
+//			public void mouseClicked(MouseEvent e){
+//				if(e.getClickCount()==2){
+//					playeraction.dispose();
+//				}
+//				else{
+//					playeraction.dispose();
+//				}
+//			}
 		});
 		
 		
@@ -830,55 +830,57 @@ public class PlayerFrame extends JFrame{
 	
 	private void setData(String name) {
 		ArrayList<MatchVO> list = bl.getLastFiveMatches(name);
-		Object[][] data = new Object[5][15];
-		for (int i = 0; i < 5; i++) {
+		Object[][] data = new Object[list.size()][16];
+		for (int i = 0; i < list.size(); i++) {
 		     data[i][0] = list.get(i).season+"·"+list.get(i).date;
 		     data[i][1] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;
-		     data[i][2] = "常规赛";
+		     data[i][3] = "常规赛";
 		     for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
 		    	 if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
+		    		 data[i][2] = list.get(i).team1.abbName;
 		    		 if(list.get(i).team1.teamPlayers.get(m).gameStart==1){
-		    			 data[i][3] = "是";
+		    			 data[i][4] = "是";
 		    		 }
 		    		 else{
-		    			 data[i][3] = "否";
+		    			 data[i][4] = "否";
 		    		 }
-				     data[i][4] = Math.ceil(list.get(i).team1.teamPlayers.get(m).minute * 100) / 100;
-				     data[i][5] = (int)list.get(i).team1.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).shoot;
-				     data[i][6] = (int)list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).threepoint;
-				     data[i][7] = (int)list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).freethrow;
-				     data[i][8] = (int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
+				     data[i][5] = Math.ceil(list.get(i).team1.teamPlayers.get(m).minute * 100) / 100;
+				     data[i][6] = (int)list.get(i).team1.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).shoot;
+				     data[i][7] = (int)list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).threepoint;
+				     data[i][8] = (int)list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).freethrow;
+				     data[i][9] = (int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
 				    		 +(int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+"-"
 				    		 +((int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds);
-				     data[i][9] =(int)list.get(i).team1.teamPlayers.get(m).assist;
-				     data[i][10] = (int)list.get(i).team1.teamPlayers.get(m).steal;
-				     data[i][11] = (int)list.get(i).team1.teamPlayers.get(m).block;
-				     data[i][12] = (int)list.get(i).team1.teamPlayers.get(m).error;
-				     data[i][13] = (int)list.get(i).team1.teamPlayers.get(m).foul;
-				     data[i][14] = (int)list.get(i).team1.teamPlayers.get(m).point;
+				     data[i][10] =(int)list.get(i).team1.teamPlayers.get(m).assist;
+				     data[i][11] = (int)list.get(i).team1.teamPlayers.get(m).steal;
+				     data[i][12] = (int)list.get(i).team1.teamPlayers.get(m).block;
+				     data[i][13] = (int)list.get(i).team1.teamPlayers.get(m).error;
+				     data[i][14] = (int)list.get(i).team1.teamPlayers.get(m).foul;
+				     data[i][15] = (int)list.get(i).team1.teamPlayers.get(m).point;
 		    	 }
 		     }
 		     for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
 		    	 if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
+		    		 data[i][2] = list.get(i).team2.abbName;
 		    		 if(list.get(i).team2.teamPlayers.get(m).gameStart==1){
-		    			 data[i][3] = "是";
+		    			 data[i][4] = "是";
 		    		 }
 		    		 else{
-		    			 data[i][3] = "否";
+		    			 data[i][4] = "否";
 		    		 }
-				     data[i][4] = Math.ceil(list.get(i).team2.teamPlayers.get(m).minute * 100) / 100;
-				     data[i][5] = (int)list.get(i).team2.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).shoot;
-				     data[i][6] = (int)list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).threepoint;
-				     data[i][7] = (int)list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).freethrow;
-				     data[i][8] = (int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
+				     data[i][5] = Math.ceil(list.get(i).team2.teamPlayers.get(m).minute * 100) / 100;
+				     data[i][6] = (int)list.get(i).team2.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).shoot;
+				     data[i][7] = (int)list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).threepoint;
+				     data[i][8] = (int)list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).freethrow;
+				     data[i][9] = (int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
 				    		 +(int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+"-"
 				    		 +((int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds);
-				     data[i][9] = (int)list.get(i).team2.teamPlayers.get(m).assist;
-				     data[i][10] = (int)list.get(i).team2.teamPlayers.get(m).steal;
-				     data[i][11] = (int)list.get(i).team2.teamPlayers.get(m).block;
-				     data[i][12] = (int)list.get(i).team2.teamPlayers.get(m).error;
-				     data[i][13] = (int)list.get(i).team2.teamPlayers.get(m).foul;
-				     data[i][14] = (int)list.get(i).team2.teamPlayers.get(m).point;
+				     data[i][10] = (int)list.get(i).team2.teamPlayers.get(m).assist;
+				     data[i][11] = (int)list.get(i).team2.teamPlayers.get(m).steal;
+				     data[i][12] = (int)list.get(i).team2.teamPlayers.get(m).block;
+				     data[i][13] = (int)list.get(i).team2.teamPlayers.get(m).error;
+				     data[i][14] = (int)list.get(i).team2.teamPlayers.get(m).foul;
+				     data[i][15] = (int)list.get(i).team2.teamPlayers.get(m).point;
 		    	 }
 		     }
 		}
@@ -972,9 +974,9 @@ public class PlayerFrame extends JFrame{
 	private void showTable(Object[][] data) {
 		this.remove(table);
 		//近比赛表格
-		String[] subTitle = {"赛季·日期", "比赛", "类型", "首发","时间(M)",//0-4
-					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//5-11
-					"失误","犯规","得分"//12-14
+		String[] subTitle = {"赛季·日期", "比赛","球队", "类型", "首发","时间",//0-5
+					"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//6-12
+					"失误","犯规","得分"//13-15
 					};
 		//------------------------------------------------------
 		@SuppressWarnings("serial")
