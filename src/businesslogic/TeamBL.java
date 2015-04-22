@@ -599,4 +599,22 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		
 		return list;
 	}
+	
+	public ArrayList<String> getAllTeamsName(String season){
+		ArrayList<String> list = new ArrayList<String>();
+		for(TSeasonDataPO po : teamdata.getAllTSeasonData(season)){
+			list.add(po.getAbbName());
+		}
+		return list;
+	}
+
+	public ArrayList<TeamVO> getTeamsInfo(String season, String name) {
+		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
+		for(String teamname : getAllTeamsName(season)){
+			if(teamname.indexOf(name) >= 0){
+				list.add(potovo(teamdata.getOneTSeasonDataPO(teamname, season)));
+			}
+		}
+		return list;
+	}
 }

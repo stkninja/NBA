@@ -5,17 +5,22 @@ import java.util.ArrayList;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
+import po.TSeasonDataPO;
 import vo.MatchPlayerDataVO;
 import vo.MatchTeamDataVO;
 import vo.MatchVO;
 import data.GetMatchInfo;
+import data.GetTeamInfo;
 import dataservice.MatchService;
+import dataservice.TeamService;
 
 public class MatchBL implements businesslogicservice.MatchBLService{
 	private MatchService matchdata = null;
+	private TeamService teamdata = null;
 	
 	public MatchBL(){
 		matchdata = new GetMatchInfo();
+		teamdata = new GetTeamInfo();
 	}
 
 	public ArrayList<MatchVO> getMatches(String season) {
@@ -34,12 +39,25 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		}
 		return list;
 	}
+	
+	public ArrayList<String> getAllTeamsName(String season){
+		ArrayList<String> list = new ArrayList<String>();
+		for(TSeasonDataPO po : teamdata.getAllTSeasonData(season)){
+			list.add(po.getAbbName());
+		}
+		return list;
+	}
 
 	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
-		for(MatchPO po : matchdata.getAllMatchesAboutTeam(team, season)){
-			list.add(potovo(po));
+		for(String teamname : getAllTeamsName(season)){
+			if(teamname.indexOf(team) >= 0){
+				for(MatchPO po : matchdata.getAllMatchesAboutTeam(teamname, season)){
+					list.add(potovo(po));
+				}
+			}
 		}
+		
 		return list;
 	}
 
@@ -144,7 +162,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getAllMatchesAboutTeam(String team){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>(); 
 		for(MatchVO vo : getAllMatches()){
-			if(vo.team1.abbName.equals(team) || vo.team2.abbName.equals(team)){
+			if(vo.team1.abbName.indexOf(team) >= 0 || vo.team2.abbName.indexOf(team) >= 0){
 				list.add(vo);
 			}
 		}
@@ -154,7 +172,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getMatchesAboutTeamPlayer(String team,String player){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>(); 
 		for(MatchVO vo : getAllMatchesAboutPlayer(player)){
-			if(vo.team1.abbName.equals(team) || vo.team2.abbName.equals(team)){
+			if(vo.team1.abbName.indexOf(team) >= 0 || vo.team2.abbName.indexOf(team) >= 0){
 				list.add(vo);
 			}
 		}
