@@ -120,6 +120,8 @@ public class PlayerFrame extends JFrame{
 	Point loc = null;
 	Point tmp = null;
 	boolean isDragged = false;
+	
+	Object[][] data;
     
 	public PlayerFrame (PlayerBasicInfoVO vo,PlayerPane pp) throws IOException{
 		bl = new PlayerBL();
@@ -164,12 +166,15 @@ public class PlayerFrame extends JFrame{
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						playeraction = new PlayerPicture(actionicon,PlayerFrame.this);
+						
 					}
 			    });
 				
 			}
 			public void mouseExited(MouseEvent e){
-				playeraction.dispose();
+				if(playeraction!=null){
+					playeraction.dispose();
+				}			
 			}
 //			public void mouseClicked(MouseEvent e){
 //				if(e.getClickCount()==2){
@@ -273,7 +278,7 @@ public class PlayerFrame extends JFrame{
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							recentmatch = new RecentMatch(vo.name,PlayerFrame.this);
+							recentmatch = new RecentMatch(data,PlayerFrame.this);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -282,16 +287,9 @@ public class PlayerFrame extends JFrame{
 				
 			}
 			public void mouseExited(MouseEvent e){
-				recentmatch.dispose();
-			}
-			public void mouseClicked(MouseEvent e){
-				if(e.getClickCount()==2){
+				if(recentmatch!=null){
 					recentmatch.dispose();
-				}
-				else{
-					recentmatch.dispose();
-				}
-				
+				}	
 			}
 		});
 		promotion = new JLabel("       ÌáÉýÂÊ->");
@@ -363,16 +361,9 @@ public class PlayerFrame extends JFrame{
 			    });		
 			}
 			public void mouseExited(MouseEvent e){
-				careerdata.dispose();
-			}
-			public void mouseClicked(MouseEvent e){
-				if(e.getClickCount()==2){
+				if(careerdata!=null){
 					careerdata.dispose();
-				}
-				else{
-					careerdata.dispose();
-				}
-				
+				}	
 			}
 		});
         subpanel3.add(historyTitle);
@@ -508,7 +499,7 @@ public class PlayerFrame extends JFrame{
 	
 	private void setData(String name) {
 		ArrayList<MatchVO> list = bl.getLastFiveMatches(name);
-		Object[][] data = new Object[list.size()][16];
+		data = new Object[list.size()][16];
 		for (int i = 0; i < list.size(); i++) {
 		     data[i][0] = list.get(i).season+"¡¤"+list.get(i).date;
 		     data[i][1] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;

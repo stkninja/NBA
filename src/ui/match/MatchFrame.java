@@ -215,7 +215,12 @@ public class MatchFrame extends JFrame{
 				temp = temp + ((int)(double)vo.team1.qtPlusScores.get(n))+",";
 			}
 			temp = temp + (int)(double)vo.team1.qtPlusScores.get(vo.team1.qtPlusScores.size()-1);
-			hp = new JLabel(temp,JLabel.CENTER);
+			if(temp.length() > 8){
+				hp = new JLabel("<html>"+temp.substring(0, 8)+"-"+"<br>"+temp.substring(8, temp.length())+"<html>", JLabel.CENTER);
+			}
+			else{
+				hp = new JLabel(temp, JLabel.CENTER);
+			}
 		}
 		
 		c1 = new JLabel(String.valueOf((int)vo.team2.qt1Scores),JLabel.CENTER);
@@ -304,7 +309,7 @@ public class MatchFrame extends JFrame{
 		panelB = new JPanel();
 		panelB.setLayout(new BorderLayout());
 		panelB.setOpaque(false);
-		panelB.setBorder(BorderFactory.createEmptyBorder(0, 15, 10, 15));
+		panelB.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
 		subpanelB1 = new JPanel();
 		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		team1 = new JLabel(vo.team1.abbName+"技术统计:");
@@ -342,7 +347,7 @@ public class MatchFrame extends JFrame{
 	    		else{
 	    			 data1[n][1] = "否";
 	    		}
-				data1[n][2] = "F";
+				data1[n][2] = vo.team1.teamPlayers.get(n).position;
 				data1[n][3] = Math.ceil(vo.team1.teamPlayers.get(n).minute * 100)/100;
 				data1[n][4] = (int)vo.team1.teamPlayers.get(n).shootmade+"-"+(int)vo.team1.teamPlayers.get(n).shoot;
 				data1[n][5] = (int)vo.team1.teamPlayers.get(n).threepointmade+"-"+(int)vo.team1.teamPlayers.get(n).threepoint;
@@ -366,7 +371,7 @@ public class MatchFrame extends JFrame{
 		panelC = new JPanel();
 		panelC.setLayout(new BorderLayout());
 		panelC.setOpaque(false);
-		panelC.setBorder(BorderFactory.createEmptyBorder(0, 15, 20, 15));
+		panelC.setBorder(BorderFactory.createEmptyBorder(0, 12, 20, 12));
 		subpanelC1 = new JPanel();
 		subpanelC1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		team2 = new JLabel(vo.team2.abbName+"技术统计:");
@@ -404,7 +409,7 @@ public class MatchFrame extends JFrame{
 	    		else{
 	    			 data2[n][1] = "否";
 	    		}
-				data2[n][2] = "F";
+				data2[n][2] = vo.team2.teamPlayers.get(n).position;
 				data2[n][3] =  Math.ceil(vo.team2.teamPlayers.get(n).minute * 100)/100;
 				data2[n][4] = (int)vo.team2.teamPlayers.get(n).shootmade+"-"+(int)vo.team2.teamPlayers.get(n).shoot;
 				data2[n][5] = (int)vo.team2.teamPlayers.get(n).threepointmade+"-"+(int)vo.team2.teamPlayers.get(n).threepoint;
@@ -493,10 +498,11 @@ public class MatchFrame extends JFrame{
 				return false;
 			}
 		};
-		DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer(); 
 		r.setHorizontalAlignment(JLabel.CENTER);   
 		table1 = new JTable(dm);
 		table1.setDefaultRenderer(Object.class,   r);//居中显示
+		((DefaultTableCellRenderer)table1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		table1.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table1.setFont(new Font("宋体",0,12));
 		this.FitTableColumns(table1);
@@ -521,6 +527,7 @@ public class MatchFrame extends JFrame{
 		r.setHorizontalAlignment(JLabel.CENTER);   
 		table2 = new JTable(dm);
 		table2.setDefaultRenderer(Object.class,   r);
+		((DefaultTableCellRenderer)table2.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		table2.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table2.setFont(new Font("宋体",0,12));
 		this.FitTableColumns(table2);

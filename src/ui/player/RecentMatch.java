@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,7 +28,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 
-import vo.MatchVO;
 import businesslogic.PlayerBL;
 import businesslogicservice.PlayerBLService;
  
@@ -37,7 +35,6 @@ import businesslogicservice.PlayerBLService;
 @SuppressWarnings("serial")
 public class RecentMatch extends JFrame{
 	PlayerBLService bl; 
-	private ArrayList<MatchVO> list;
 	ImageIcon icon1;
 	ImageIcon icon2;
 	JPanel panel;
@@ -45,11 +42,10 @@ public class RecentMatch extends JFrame{
 	JLabel label2;
 	ImageIcon bg;
 	JLabel lab;
-	String name;
-	public RecentMatch(String name,PlayerFrame dialog) throws IOException{
-		this.name = name;
+	Object[][] data;
+	public RecentMatch(Object[][] data,PlayerFrame dialog) throws IOException{
+		this.data = data;
 		bl = new PlayerBL();
-		list = bl.getLastFiveMatches(name);
 		
 		int frameHeight = 450;
 		int frameWidth = 400;
@@ -206,33 +202,40 @@ public class RecentMatch extends JFrame{
     }
 	 private CategoryDataset getDataSet1() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();  
-		    for (int i = 0; i < list.size(); i++) {
-		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
-		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
-		    			ds.addValue((int)list.get(i).team1.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
-		    		}
-		    	}
-		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
-		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
-		    			ds.addValue((int)list.get(i).team2.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
-		    		}
-		    	}
+//		    for (int i = 0; i < list.size(); i++) {
+//		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
+//		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
+//		    			ds.addValue((int)list.get(i).team1.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
+//		    		}
+//		    	}
+//		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
+//		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
+//		    			ds.addValue((int)list.get(i).team2.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
+//		    		}
+//		    	}
+//		    }
+		    
+		    for(int i = 0; i < data.length; i++){
+		    	ds.addValue((int)data[i][15], "得分", "第"+(i+1)+"场");
 		    }
 	        return ds;  
 	    }
 	 private CategoryDataset getDataSet2() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();
-		    for (int i = 0; i < list.size(); i++) {
-		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
-		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
-		    			ds.addValue((list.get(i).team1.teamPlayers.get(m).shootmade/list.get(i).team1.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
-		    		}
-		    	}
-		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
-		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
-		    			ds.addValue((list.get(i).team2.teamPlayers.get(m).shootmade/list.get(i).team2.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
-		    		}
-		    	}
+//		    for (int i = 0; i < list.size(); i++) {
+//		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
+//		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
+//		    			ds.addValue((list.get(i).team1.teamPlayers.get(m).shootmade/list.get(i).team1.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
+//		    		}
+//		    	}
+//		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
+//		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
+//		    			ds.addValue((list.get(i).team2.teamPlayers.get(m).shootmade/list.get(i).team2.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
+//		    		}
+//		    	}
+//		    }
+		    for(int i = 0; i < data.length; i++){
+		    	ds.addValue(Integer.parseInt(data[i][6].toString().split("-")[0])/Integer.parseInt(data[i][6].toString().split("-")[1])*100, "命中率(%)", "第"+(i+1)+"场");
 		    }
 	        return ds;  
 	    } 
