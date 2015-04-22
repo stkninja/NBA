@@ -171,6 +171,9 @@ public class PlayerFrame extends JFrame{
 			public void mouseExited(MouseEvent e){
 				playeraction.dispose();
 			}
+			public void mouseClicked(MouseEvent e){
+				playeraction.dispose();
+			}
 		});
 		
 		
@@ -276,6 +279,9 @@ public class PlayerFrame extends JFrame{
 			public void mouseExited(MouseEvent e){
 				recentmatch.dispose();
 			}
+			public void mouseClicked(MouseEvent e){
+				recentmatch.dispose();
+			}
 		});
 		promotion = new JLabel("       ÌáÉıÂÊ->");
 		promotion.setFont(new Font("ËÎÌå",Font.BOLD,12));
@@ -346,6 +352,9 @@ public class PlayerFrame extends JFrame{
 			    });		
 			}
 			public void mouseExited(MouseEvent e){
+				careerdata.dispose();
+			}
+			public void mouseClicked(MouseEvent e){
 				careerdata.dispose();
 			}
 		});
