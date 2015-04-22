@@ -42,6 +42,7 @@ import businesslogic.PlayerBL;
 import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 import ui.match.MatchFrame;
+import ui.match.MatchPane;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -121,7 +122,7 @@ public class PlayerFrame extends JFrame{
 	Point tmp = null;
 	boolean isDragged = false;
     
-	public PlayerFrame (PlayerBasicInfoVO vo) throws IOException{
+	public PlayerFrame (PlayerBasicInfoVO vo,MatchPane mp) throws IOException{
 		bl = new PlayerBL();
 		mbl = new MatchBL();
 		//定义界面大小
