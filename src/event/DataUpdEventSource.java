@@ -3,13 +3,17 @@ package event;
 import java.io.File;
 import java.util.ArrayList;
 
+import ui.MainFrame;
+
 
 public class DataUpdEventSource implements Runnable{
 	
 	private File f = new File("data\\matches");
 	private ArrayList<DataUpdListener> listener = new ArrayList<DataUpdListener>();
+	private MainFrame mf = null;
 	
-	public DataUpdEventSource(){
+	public DataUpdEventSource(MainFrame mf){
+		this.mf = mf;
 		//轮询事件是否触发
 		Thread t = new Thread(this);
 		t.start();
@@ -20,9 +24,11 @@ public class DataUpdEventSource implements Runnable{
 	}
 	
 	private void notifies(){  		
-		//告知
-        for(DataUpdListener dul : listener)
+		//listener所有方法
+        for(DataUpdListener dul : listener){
         	dul.dataUpdated(new DataUpdEvent(this));
+        	mf = dul.refresh(mf);
+        }
     }
 
 	//判断事件是否触发
@@ -48,8 +54,8 @@ public class DataUpdEventSource implements Runnable{
 				this.notifies();
 				
 				try {
-					//完成更新 休眠20s
-					Thread.sleep(20000);
+					//完成更新 休眠10s
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

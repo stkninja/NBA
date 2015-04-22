@@ -57,13 +57,14 @@ public class Pretreatment {
 			File f2 = new File(path2);
 			if(f2.exists()){
 				if(f.list().length != ReadMBasicPO.readMBasicPO(season).size()){
-					SaveMBasicPO.saveAll();
+					SaveMBasicPO.saveAll(season);
 					SavePAllMatchDataPO.savePAllMatchDataPO();
 					SaveTAllMatchDataPO.saveTAllMatchDataPO();
+
 				}				
 			}
 			else{
-				SaveMBasicPO.saveAll();
+				SaveMBasicPO.saveAll(season);
 				SavePAllMatchDataPO.savePAllMatchDataPO();
 				SaveTAllMatchDataPO.saveTAllMatchDataPO();
 			}

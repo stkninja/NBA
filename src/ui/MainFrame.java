@@ -12,10 +12,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,7 +19,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -31,7 +26,6 @@ import ui.hotspot.HotspotPane;
 import ui.match.MatchPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
-import event.DataUpdEvent;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
 
@@ -229,27 +223,13 @@ public class MainFrame extends JFrame {
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		MainFrame frame = null;
-		ExecutorService pool = Executors.newCachedThreadPool();
-		Future<MainFrame> future = pool.submit(new StartThread(frame));
-		try {
-			frame = future.get();
-		} catch (InterruptedException | ExecutionException e1) {
-			e1.printStackTrace();
-		}
+		Thread t = new Thread(new UpdateThread());
+		new ProgressBar(t, "正在加载数据,请稍候……");
+		//显示界面
+		MainFrame mf = new MainFrame();
 		
-//		new ProgressBar(new StartThread(frame), "正在加载数据,请稍候……");
-		//启动线程
-//		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
-//		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
-//			public void dataUpdated(DataUpdEvent e){
-//				if (JOptionPane.showConfirmDialog(null, "是否需要更新数据？", "提示", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-//					new ProgressBar(new UpdateThread(frame), "正在更新数据,请稍候……");
-//					if (JOptionPane.showConfirmDialog(null, "更新完成！", "提示",  JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-//						new ProgressBar(new StartThread(frame), "正在加载数据,请稍候……");
-//					}
-//				}
-//			} 
-//		});
+		//启动线程,实时刷新
+		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource(mf);
+		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){});
 	}
 }

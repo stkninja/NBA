@@ -1,5 +1,6 @@
 package data.savePOs;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -13,8 +14,11 @@ public class SavePBasicPO {
 	public static void savePBasicPO() {
 		ObjectOutputStream oos = null;
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream(path));
+			File f = new File(path);
+			if(f.exists())
+				f.delete();
 			
+			oos = new ObjectOutputStream(new FileOutputStream(path));
 			DealPBasicInfo dealPBasicInfo = new DealPBasicInfo();
 			oos.writeObject(dealPBasicInfo.dealPBasicInfo());
 		} catch (IOException e) {

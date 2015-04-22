@@ -14,33 +14,10 @@ public class DealMBasicInfo {
 	/**to deal*/
 	private static ArrayList<MatchPO> matchesInfo = new ArrayList<MatchPO>();
 	
-	/**按赛季分比赛*/
-	public ArrayList<ArrayList<MatchPO>> dealMBasicInfo() {
+	public ArrayList<MatchPO> dealMBasicInfo(String season) {
+		matchesInfo = new ArrayList<MatchPO>();
 		ArrayList<MatchPO> allMatches = getAllMatches();
-		ArrayList<ArrayList<MatchPO>> seasonMatches = new ArrayList<ArrayList<MatchPO>>();
-		
-		if(allMatches.size() != 0){
-			ArrayList<MatchPO> newSeason = new ArrayList<MatchPO>();
-			newSeason.add(allMatches.get(0));
-			seasonMatches.add(newSeason);
-			
-			for(int i = 1; i < allMatches.size(); i++){
-				for(int j = 0; j < seasonMatches.size(); j++){
-					if(allMatches.get(i).getSeason().equals(seasonMatches.get(j).get(0).getSeason())){
-						seasonMatches.get(j).add(allMatches.get(i));
-						break;
-					}
-					else if(j == seasonMatches.size() - 1){
-						newSeason = new ArrayList<MatchPO>();
-						newSeason.add(allMatches.get(i));
-						seasonMatches.add(newSeason);
-						break;
-					}
-				}
-			}
-		}
-	
-		return seasonMatches;
+		return allMatches;
 	}
 	
 	private static ArrayList<MatchPO> getAllMatches(){
@@ -50,7 +27,7 @@ public class DealMBasicInfo {
 		if(f.isDirectory()){
 			list = f.list();
 		}
-		
+
 		/**比赛信息统计*/
 		if(list != null)
 			initMatchesInfo(list);
