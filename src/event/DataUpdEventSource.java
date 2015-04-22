@@ -45,7 +45,6 @@ public class DataUpdEventSource implements Runnable{
 			}
 			else if(preSize == curSize && curSize != oriSize){
 				//´¥·¢
-				System.out.println("pppp");
 				this.notifies();
 				
 				try {
