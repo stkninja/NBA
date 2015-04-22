@@ -172,7 +172,12 @@ public class PlayerFrame extends JFrame{
 				playeraction.dispose();
 			}
 			public void mouseClicked(MouseEvent e){
-				playeraction.dispose();
+				if(e.getClickCount()==2){
+					playeraction.dispose();
+				}
+				else{
+					playeraction.dispose();
+				}
 			}
 		});
 		
@@ -280,7 +285,13 @@ public class PlayerFrame extends JFrame{
 				recentmatch.dispose();
 			}
 			public void mouseClicked(MouseEvent e){
-				recentmatch.dispose();
+				if(e.getClickCount()==2){
+					recentmatch.dispose();
+				}
+				else{
+					recentmatch.dispose();
+				}
+				
 			}
 		});
 		promotion = new JLabel("       ÌáÉýÂÊ->");
@@ -355,7 +366,13 @@ public class PlayerFrame extends JFrame{
 				careerdata.dispose();
 			}
 			public void mouseClicked(MouseEvent e){
-				careerdata.dispose();
+				if(e.getClickCount()==2){
+					careerdata.dispose();
+				}
+				else{
+					careerdata.dispose();
+				}
+				
 			}
 		});
         subpanel3.add(historyTitle);
