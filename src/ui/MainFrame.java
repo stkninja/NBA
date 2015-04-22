@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -236,10 +237,12 @@ public class MainFrame extends JFrame {
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
 			public void dataUpdated(DataUpdEvent e){
+				ProgressBar pb = new ProgressBar();
 				//更新数据库数据
 				Pretreatment.redoMBasic();
 				//刷新
-				System.out.println("有新数据，是否刷新");
+				pb.dispose();
+				JOptionPane.showMessageDialog(null, "更新完成", "提示", JOptionPane.INFORMATION_MESSAGE);
 				frame.dispose();
 				MainFrame frame = new MainFrame();
 				frame.setOpacity(0.9f);
