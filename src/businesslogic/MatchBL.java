@@ -51,6 +51,9 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(String teamname : getAllTeamsName(season)){
+			if(teamname.equals("NOH")){
+				teamname = "NOP";
+			}
 			if(teamname.indexOf(team) >= 0){
 				for(MatchPO po : matchdata.getAllMatchesAboutTeam(teamname, season)){
 					list.add(potovo(po));

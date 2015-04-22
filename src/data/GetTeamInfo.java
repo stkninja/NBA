@@ -22,6 +22,9 @@ public class GetTeamInfo implements TeamService{
 	}
 
 	public TBasicInfoPO getSingleTBasicInfo(String abbName) {
+		if(abbName.equals("NOH"))
+			abbName = "NOP";
+		
 		ArrayList<TBasicInfoPO> pos = ReadTBasicPO.readTBasicPO();
 		
 		for(TBasicInfoPO po : pos)
@@ -32,6 +35,9 @@ public class GetTeamInfo implements TeamService{
 	}
 
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
+		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
+			abbName = "NOH";
+		
 		ArrayList<TSeasonDataPO> pos = ReadTSeasonDataPO.readTSeasonDataPO(season);
 		for(TSeasonDataPO po :pos)
 			if(po.getAbbName().equals(abbName))

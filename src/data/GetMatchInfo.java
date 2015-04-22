@@ -61,6 +61,9 @@ public class GetMatchInfo implements MatchService{
 
 	public ArrayList<MatchPO> getAllMatchesAboutTeam(String abbName,
 			String season) {
+		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
+			abbName = "NOH";
+		
 		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
 		for(MatchPO po : pos){
@@ -73,6 +76,9 @@ public class GetMatchInfo implements MatchService{
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutTeam(String abbName) {
 		String season = this.getLastSeason();
+		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
+			abbName = "NOH";
+		
 		ArrayList<MatchPO> pos = this.getAllMatchesAboutTeam(abbName, season);
 		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
 		
