@@ -228,7 +228,12 @@ public class MainFrame extends JFrame {
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		Pretreatment.pretreatment();//预处理
+		Thread thread = new Thread() {
+			public void run() {
+				Pretreatment.pretreatment();//预处理
+			}
+		};
+		new ProgressBar(thread);
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
 		MainFrame frame = new MainFrame();
 		frame.setOpacity(0.9f);
@@ -237,11 +242,12 @@ public class MainFrame extends JFrame {
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
 			public void dataUpdated(DataUpdEvent e){
-				ProgressBar pb = new ProgressBar();
-				//更新数据库数据
-				Pretreatment.redoMBasic();
-				//刷新
-				pb.dispose();
+				Thread thread = new Thread() {
+					public void run() {
+						Pretreatment.redoMBasic();//更新数据库数据
+					}
+				};
+				new ProgressBar(thread);
 				JOptionPane.showMessageDialog(null, "更新完成", "提示", JOptionPane.INFORMATION_MESSAGE);
 				frame.dispose();
 				MainFrame frame = new MainFrame();
