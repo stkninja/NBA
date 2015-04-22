@@ -121,14 +121,13 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
-						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
+							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+						else
+							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
 						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
-					label[i].addActionListener(new LabelListener());
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
@@ -136,9 +135,6 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
 				}
 			}
 			break;
@@ -154,14 +150,13 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
-						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
+							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+						else
+							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
 						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
-					label[i].addActionListener(new LabelListener());
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
@@ -169,9 +164,6 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
 				}
 			}
 			break;
@@ -194,19 +186,12 @@ public class ContentPane extends JPanel {
 						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
 				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
-					label[i].addActionListener(new LabelListener());
-				}
 			} else {
 				for (int i = 0; i < 5; i++) {
 					label[i] = new JButton();
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
 				}
 			}
 			break;
@@ -222,14 +207,13 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
-						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
+						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
+							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+						else
+							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
 						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
-					label[i].addActionListener(new LabelListener());
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
@@ -237,9 +221,6 @@ public class ContentPane extends JPanel {
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
-				}
-				for (int i = 0; i < 5; i++) {
-					pane.add(label[i]);
 				}
 			}
 			break;
@@ -274,6 +255,7 @@ public class ContentPane extends JPanel {
 		button.setContentAreaFilled(false);//填充
 		button.setBorderPainted(false);//无边框
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
+		pane.add(button);
 	}
 	/**
 	 * 设置图标
@@ -296,6 +278,8 @@ public class ContentPane extends JPanel {
 		button.setBorderPainted(false);//无边框
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
 		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
+		pane.add(button);
+		button.addActionListener(new LabelListener());
 	}
 	/**
 	 * 多选框监听内部类
