@@ -150,6 +150,13 @@ public class MatchPane extends JDesktopPane {
 		revalidate();
 	}
 	/**
+	 * 获得搜索面板
+	 * @return 搜索面板
+	 */
+	public MatchSearchPane getSearchPane() {
+		return searchPane;
+	}
+	/**
 	 * 设置图标
 	 * @param button 图标
 	 * @param file1 默认图标路径
