@@ -15,10 +15,8 @@ public class ReadPBasicPO {
 	public static ArrayList<PBasicInfoPO> readPBasicPO() {
 		ObjectInputStream ois = null;
 		try {
-			
 			ois = new ObjectInputStream(new FileInputStream(path));
 			return (ArrayList<PBasicInfoPO>)ois.readObject();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -30,8 +28,6 @@ public class ReadPBasicPO {
 				e.printStackTrace();
 			}
 		}
-		
 		return new ArrayList<PBasicInfoPO>();
 	}
-
 }

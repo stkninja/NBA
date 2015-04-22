@@ -14,11 +14,9 @@ public class ReadTBasicPO {
 	@SuppressWarnings("unchecked")
 	public static ArrayList<TBasicInfoPO> readTBasicPO() {
 		ObjectInputStream ois = null;
-		try {
-			
+		try {			
 			ois = new ObjectInputStream(new FileInputStream(path));
-			return (ArrayList<TBasicInfoPO>)ois.readObject();
-			
+			return (ArrayList<TBasicInfoPO>)ois.readObject();				
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -29,9 +27,8 @@ public class ReadTBasicPO {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		return new ArrayList<TBasicInfoPO>();
+		}	
+		return new ArrayList<TBasicInfoPO>();			
 	}
 
 }

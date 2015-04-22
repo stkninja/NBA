@@ -80,9 +80,6 @@ public class DealMBasicInfo {
 			matchPO.setTeam1(dataPOs.get(0));
 			matchPO.setTeam2(dataPOs.get(1));
 			matchesInfo.add(matchPO);
-			/**读取完数据删除文件*/
-			File f = new File(absolutePath);
-			f.delete();
 		}
 	}
 	

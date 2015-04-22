@@ -27,30 +27,25 @@ public class DataUpdEventSource implements Runnable{
 
 	//ÅÐ¶ÏÊÂ¼þÊÇ·ñ´¥·¢
 	public void run() {
-		int preSize = 0;
+		String[] list = f.list();
+		int oriSize = list.length;
+		int preSize = list.length;
 		int curSize;
 		while(true){
-			String[] list = f.list();
+			list = f.list();
 			curSize = list.length;
-			if(preSize == 0 && curSize == 0){
+			if(preSize != curSize || (preSize == curSize && curSize == oriSize)){
 				try {
-					//ÐÝÃß10s
-					Thread.sleep(10000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			else if(preSize != curSize){
-				try {
-					//ÐÝÃß10s
-					Thread.sleep(10000);
+					//ÐÝÃß1s
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				preSize = curSize;
 			}
-			else if(preSize == curSize && curSize != 0){
+			else if(preSize == curSize && curSize != oriSize){
 				//´¥·¢
+				System.out.println("pppp");
 				this.notifies();
 				
 				try {
@@ -59,7 +54,8 @@ public class DataUpdEventSource implements Runnable{
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				preSize = 0;
+				oriSize = curSize;
+				preSize = curSize;
 			}
 		}
 	}  

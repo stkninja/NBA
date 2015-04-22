@@ -24,17 +24,15 @@ public class ReadPSeasonDataPO {
 			return new ArrayList<PSeasonDataPO>();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			return new ArrayList<PSeasonDataPO>();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			return new ArrayList<PSeasonDataPO>();
 		} finally{
 			try {
 				ois.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		return new ArrayList<PSeasonDataPO>();
+		}		
 	}
 }

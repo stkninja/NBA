@@ -24,9 +24,9 @@ public class ReadPAllMatchDataPO {
 			return new ArrayList<PSeasonDataPO>();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			return new ArrayList<PSeasonDataPO>();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			return new ArrayList<PSeasonDataPO>();
 		} finally{
 			try {
 				ois.close();
@@ -34,7 +34,5 @@ public class ReadPAllMatchDataPO {
 				e.printStackTrace();
 			}
 		}
-		
-		return new ArrayList<PSeasonDataPO>();
 	}
 }

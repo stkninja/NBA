@@ -107,20 +107,30 @@ public class GetMatchInfo implements MatchService{
 	//最近赛季
 	public String getLastSeason(){
 		File f = new File("data\\统计赛季比赛数据");
-		String[] seasons = f.list();
-		return seasons[seasons.length - 1];
+		if(f.exists()){
+			String[] seasons = f.list();
+			return seasons[seasons.length - 1];
+		}
+		else
+			return "";
 	}
 	
 	//获得数据库中已存在的赛季列表
 	public ArrayList<String> getExistedSeasons() {
-		File f = new File("data\\统计赛季比赛数据");
-		String[] seasons = f.list();
+		File f = new File("data\\matches");
+		String[] fileNames = f.list();
 		
-		ArrayList<String> array = new ArrayList<String>();
-		for(int i = 0; i < seasons.length; i++){
-			array.add(seasons[i]);
+		ArrayList<String> seasons = new ArrayList<String>();
+		seasons.add(fileNames[0].split("_")[0]);
+		for(int i = 1; i < fileNames.length; i++){
+			for(int j = 0; j < seasons.size(); j++){
+				if(seasons.get(j).equals(fileNames[i].split("_")[0]))
+					break;
+				else if(j == seasons.size() - 1)
+					seasons.add(fileNames[i].split("_")[0]);
+			}
 		}
-		return array;
+		return seasons;
 	}
 	
 	//最近比赛日期

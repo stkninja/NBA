@@ -24,17 +24,15 @@ public class ReadTAllMatchDataPO {
 			return new ArrayList<TSeasonDataPO>();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			return new ArrayList<TSeasonDataPO>();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			return new ArrayList<TSeasonDataPO>();
 		} finally{
 			try {
 				ois.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		return new ArrayList<TSeasonDataPO>();
+		}		
 	}
 }
