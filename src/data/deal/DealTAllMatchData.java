@@ -42,13 +42,11 @@ public class DealTAllMatchData {
 			po.setWinsNum(getwinNum());
 			double allopponentscores = 0;
 			double allopponentattackround = 0;
-			double shootingHitRatesum = 0,threePointHitRatesum = 0,freeThrowHitRatesum = 0,attackEfficiencysum = 0,defenceEfficiencysum = 0,offensivereboundsEfficiencysum = 0,
-					defensivereboundsEfficiencysum = 0,stealEfficiencysum = 0,assistEfficiencysum = 0;
 			
 			for(MatchPO match : matchesAbout){
 				MatchTeamDataPO mp1 = match.getTeam1();
 				MatchTeamDataPO mp2 = match.getTeam2();
-				double team1attackround = calculateAttackround(mp1.getShooting(),mp1.getFreeThrow(),mp1.getOffensiveRebounds(),mp2.getDefensiveRebounds(),mp1.getShootingHit(),mp1.getTurnovers());
+//				double team1attackround = calculateAttackround(mp1.getShooting(),mp1.getFreeThrow(),mp1.getOffensiveRebounds(),mp2.getDefensiveRebounds(),mp1.getShootingHit(),mp1.getTurnovers());
 				double team2attackround = calculateAttackround(mp2.getShooting(),mp2.getFreeThrow(),mp2.getOffensiveRebounds(),mp1.getDefensiveRebounds(),mp2.getShootingHit(),mp2.getTurnovers());
 				po.setAllshooting(po.getAllshooting() + mp1.getShooting());
 				po.setAllshootingHit(po.getAllshootingHit() + mp1.getShootingHit());
@@ -68,15 +66,6 @@ public class DealTAllMatchData {
 				po.setAllscores(po.getAllscores() + mp1.getScores());
 				allopponentscores = allopponentscores + mp2.getScores();
 				allopponentattackround = allopponentattackround + team2attackround;
-				shootingHitRatesum += mp1.getShootingHit() / mp1.getShooting();
-				threePointHitRatesum += mp1.getThreePointHits() / mp1.getThreePoint();
-				freeThrowHitRatesum += mp1.getFreeThrowHit() / mp1.getFreeThrow();
-				attackEfficiencysum += 100 * mp1.getScores() / team1attackround;
-				defenceEfficiencysum += 100 * mp2.getScores() / team2attackround;
-				offensivereboundsEfficiencysum += mp1.getOffensiveRebounds() / (mp1.getOffensiveRebounds() + mp2.getDefensiveRebounds());
-				defensivereboundsEfficiencysum += mp1.getDefensiveRebounds() / (mp1.getDefensiveRebounds() + mp2.getOffensiveRebounds());
-				stealEfficiencysum += 100 * mp1.getSteals() / team2attackround;
-				assistEfficiencysum += 100 * mp1.getAssists() / team1attackround;
 			}
 			
 			po.setAllrebounds(po.getAlloffensiveRebounds() + po.getAlldefensiveRebounds());
@@ -108,15 +97,15 @@ public class DealTAllMatchData {
 			po.setTurnovers(Math.ceil(po.getAllturnovers() / po.getGamesNum() * 100)/ 100);
 			po.setFouls(Math.ceil(po.getAllfouls() / po.getGamesNum() * 100)/ 100);
 			po.setScores(Math.ceil(po.getAllscores() / po.getGamesNum() * 100)/ 100);
-			po.setShootingHitRate(Math.ceil(shootingHitRatesum / po.getGamesNum() * 100)/ 100);
-			po.setThreePointHitRate(Math.ceil(threePointHitRatesum / po.getGamesNum() * 100)/ 100);
-			po.setFreeThrowHitRate(Math.ceil(freeThrowHitRatesum / po.getGamesNum() * 100)/ 100);
-			po.setAttackEfficiency(Math.ceil(attackEfficiencysum / po.getGamesNum() * 100)/ 100);
-			po.setDefenceEfficiency(Math.ceil(defenceEfficiencysum / po.getGamesNum() * 100)/ 100);
-			po.setOffensivereboundsEfficiency(Math.ceil(offensivereboundsEfficiencysum / po.getGamesNum() * 100)/ 100);
-			po.setDefensivereboundsEfficiency(Math.ceil(defensivereboundsEfficiencysum / po.getGamesNum() * 100)/ 100);
-			po.setStealEfficiency(Math.ceil(stealEfficiencysum / po.getGamesNum() * 100)/ 100);
-			po.setAssistEfficiency(Math.ceil(assistEfficiencysum / po.getGamesNum() * 100)/ 100);
+			po.setShootingHitRate(po.getAllshootingHitRate());
+			po.setThreePointHitRate(po.getAllthreePointHitRate());
+			po.setFreeThrowHitRate(po.getAllfreeThrowHitRate());
+			po.setAttackEfficiency(po.getAllattackEfficiency());
+			po.setDefenceEfficiency(po.getAlldefenceEfficiency());
+			po.setOffensivereboundsEfficiency(po.getAlloffensivereboundsEfficiency());
+			po.setDefensivereboundsEfficiency(po.getAlldefensivereboundsEfficiency());
+			po.setStealEfficiency(po.getAllstealEfficiency());
+			po.setAssistEfficiency(po.getAllassistEfficiency());
 			
 			list.add(po);
 		}
