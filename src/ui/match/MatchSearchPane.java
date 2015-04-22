@@ -2,17 +2,17 @@ package ui.match;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -62,7 +62,7 @@ public class MatchSearchPane extends JInternalFrame {
 		bl = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.jpg");
+		background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -71,10 +71,9 @@ public class MatchSearchPane extends JInternalFrame {
 		};
 		this.setContentPane(contentPane);
 		//搜索界面
-		pane = new JPanel();
+		pane = new JPanel(new GridLayout(9, 1, 0, 2));
 		pane.setOpaque(false);
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		pane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		pane.setBorder(BorderFactory.createEmptyBorder(5, 20, 20, 20));
 		label1 = new JLabel("赛季：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		label2 = new JLabel("日期：");
@@ -101,6 +100,7 @@ public class MatchSearchPane extends JInternalFrame {
 		date.add(label5);
 		date.add(comboBox3);
 		date.add(label6);
+		date.setPreferredSize(new Dimension(100, 25));
 		
 		bottom = new JPanel(new FlowLayout());
 		bottom.setOpaque(false);
@@ -110,23 +110,16 @@ public class MatchSearchPane extends JInternalFrame {
 		reset.setFont(new Font("楷体", Font.PLAIN, 14));
 		bottom.add(search);
 		bottom.add(reset);
+		bottom.setPreferredSize(new Dimension(100, 30));
 		
 		pane.add(label1);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(comboBox1);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(label2);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(date);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(label3);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(text1);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(label4);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(text2);
-		pane.add(Box.createVerticalStrut(10));
 		pane.add(bottom);
 		contentPane.add(pane, BorderLayout.NORTH);
 		//监听

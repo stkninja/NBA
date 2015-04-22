@@ -72,10 +72,10 @@ public class MainFrame extends JFrame {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int frameHeight = screenSize.height * 3 / 4;
-		int frameWidth = frameHeight * 9 / 5;
+		int frameWidth = frameHeight * 16 / 9;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//±³¾°
-		background = new ImageIcon("data/pic/background.jpg");
+		background = new ImageIcon("data/pic/background.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);

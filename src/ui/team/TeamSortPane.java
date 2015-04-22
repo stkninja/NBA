@@ -4,14 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -52,7 +51,7 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		teamBL = new TeamBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.jpg");
+		background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -61,9 +60,8 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		};
 		this.setContentPane(contentPane);
 		//搜索界面
-		pane = new JPanel();
+		pane = new JPanel(new GridLayout(8, 1, 0, 6));
 		pane.setOpaque(false);
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		pane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 		label1 = new JLabel("排序类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -83,19 +81,12 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		box4.setFont(new Font("楷体", Font.PLAIN, 14));
 		
 		pane.add(label1);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(box1);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(label2);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(box2);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(label3);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(box3);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(label4);
-		pane.add(Box.createVerticalStrut(5));
 		pane.add(box4);
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听

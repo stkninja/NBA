@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,8 +15,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -68,7 +67,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		matchBL = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.jpg");
+		background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -77,10 +76,9 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		};
 		this.setContentPane(contentPane);
 		//搜索界面
-		pane = new JPanel();
+		pane = new JPanel(new GridLayout(12, 1, 0, 1));
 		pane.setOpaque(false);
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		pane.setBorder(BorderFactory.createEmptyBorder(6, 30, 6, 30));
+		pane.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
 		
 		label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -106,27 +104,16 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		text = new JTextField();
 		
 		pane.add(label1);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(mode);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(label2);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(region);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(label3);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(team);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(label4);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(position);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(label5);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(season);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(label6);
-		pane.add(Box.createVerticalStrut(3));
 		pane.add(text);
 		contentPane.add(pane, BorderLayout.CENTER);
 		//监听
