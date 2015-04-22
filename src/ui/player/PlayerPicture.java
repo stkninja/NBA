@@ -1,5 +1,6 @@
 package ui.player;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,6 +18,7 @@ public class PlayerPicture extends JFrame{
 	JLabel label;
 	ImageIcon bg;
 	JLabel lab;
+	JPanel contentPane;
 	public PlayerPicture(ImageIcon ii,PlayerFrame dialog){
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -25,10 +27,14 @@ public class PlayerPicture extends JFrame{
 		this.setBounds(dialog.getX()-frameWidth , dialog.getY(), frameWidth, frameHeight);
 		
 		//±³¾°Í¼Æ¬
-		bg = new ImageIcon("data/pic/playerframe.jpg");
-		lab = new JLabel(bg);
-		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
-		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
+		bg = new ImageIcon("data/pic/playerbg.jpg");
+		contentPane = new JPanel(new BorderLayout()) {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(bg.getImage(), 0, 0, getWidth(), getHeight(), bg.getImageObserver());
+			}
+		};
+		this.setContentPane(contentPane);
 		
 		i = ii;
 		panel = new JPanel(){
@@ -39,7 +45,7 @@ public class PlayerPicture extends JFrame{
 			}
 		};
 		panel.setOpaque(false);
-		this.setContentPane(panel);
+		contentPane.add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
 		this.setVisible(true);

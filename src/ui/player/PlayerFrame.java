@@ -1,6 +1,7 @@
 package ui.player;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -152,6 +153,7 @@ public class PlayerFrame extends JFrame{
 		
 		
 		JLabel Pic = new JLabel();
+		Pic.setBounds(0, 0, portraiticon.getIconWidth(),portraiticon.getIconHeight());
 		Pic.setIcon(portraiticon);
 		Pic.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 0));
 		panel1.add(Pic);
@@ -292,11 +294,14 @@ public class PlayerFrame extends JFrame{
 				}	
 			}
 		});
-		promotion = new JLabel("       提升率->");
+		promotion = new JLabel("       提升率->   ");
 		promotion.setFont(new Font("宋体",Font.BOLD,12));
 		scorep = new JLabel(bl.getPlayerVO(vo.name).pointpromotion+"(场均得分)； ");
 		assistp = new JLabel(bl.getPlayerVO(vo.name).assistpromotion+"(场均助攻)；");
 		reboundp = new JLabel(bl.getPlayerVO(vo.name).reboundpromotion+"(场均篮板)");
+		scorep.setForeground(Color.RED);
+		assistp.setForeground(Color.RED);
+		reboundp.setForeground(Color.RED);
 		subpanel4.add(recentTitle);
 		subpanel4.add(promotion);
 		subpanel4.add(scorep);
