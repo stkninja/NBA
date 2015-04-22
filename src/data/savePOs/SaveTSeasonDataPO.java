@@ -18,10 +18,6 @@ public class SaveTSeasonDataPO {
 				f.mkdir();
 			
 			String path = rootPath + "\\" + season;
-			File f2 = new File(path);
-			if(f2.exists())
-				f2.delete();
-			
 			oos = new ObjectOutputStream(new FileOutputStream(path));
 			DealTSeasonData dealTSeasonData = new DealTSeasonData();
 			oos.writeObject(dealTSeasonData.dealTSeasonData(season));

@@ -14,7 +14,6 @@ public class SaveTBasicPO {
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(path));
-			
 			DealTBasicInfo dealTBasicInfo = new DealTBasicInfo();
 			oos.writeObject(dealTBasicInfo.dealTBasicInfo());
 		} catch (IOException e) {

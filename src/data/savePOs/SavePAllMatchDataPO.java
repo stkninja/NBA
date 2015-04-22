@@ -11,7 +11,6 @@ public class SavePAllMatchDataPO {
 		ObjectOutputStream oos = null;
 		try {
 			String path = "data\\统计球员历年数据";
-			
 			oos = new ObjectOutputStream(new FileOutputStream(path));
 			DealPAllMatchData dealPAllMatchData = new DealPAllMatchData();
 			oos.writeObject(dealPAllMatchData.dealPAllMatchData("all"));

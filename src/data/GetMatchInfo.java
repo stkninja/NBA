@@ -47,15 +47,32 @@ public class GetMatchInfo implements MatchService{
 			return pos;
 		
 		//找到最近五场
-		for(int i = 0; i < 5; i++){
-			String date = this.getLastData(pos);
-			int index;
-			for(index = 0; index < pos.size(); index++)
-				if(pos.get(index).getDate().equals(date))
-					break;
-			res.add(pos.get(index));
-			pos.remove(index);
+		int lastedIndex = 0;
+		if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0){
+			for(int i = 0; i < 5; i++)
+				res.add(pos.get(pos.size() - 1 - i));
 		}
+		else{
+			for(; lastedIndex < pos.size(); lastedIndex++){	
+				if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0)
+					break;
+			}
+			lastedIndex--;
+			
+			if(lastedIndex >= 4){
+				for(int i = 0; i < 5; i++){
+					res.add(pos.get(lastedIndex - i));
+				}				
+			}
+			else{
+				for(int i = 0; i <= lastedIndex; i++)
+					res.add(pos.get(i));
+				for(int i = 0; i < 5 - res.size(); i++){
+					res.add(pos.get(pos.size() - 1 - i));
+				}
+			}
+		}
+		
 		return res;
 	}
 
@@ -86,15 +103,32 @@ public class GetMatchInfo implements MatchService{
 			return pos;
 		
 		//找到最近五场
-		for(int i = 0; i < 5; i++){
-			String date = this.getLastData(pos);
-			int index;
-			for(index = 0; index < pos.size(); index++)
-				if(pos.get(index).getDate().equals(date))
-					break;
-			res.add(pos.get(index));
-			pos.remove(index);
+		int lastedIndex = 0;
+		if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0){
+			for(int i = 0; i < 5; i++)
+				res.add(pos.get(pos.size() - 1 - i));
 		}
+		else{
+			for(; lastedIndex < pos.size(); lastedIndex++){	
+				if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0)
+					break;
+			}
+			lastedIndex--;
+			
+			if(lastedIndex >= 4){
+				for(int i = 0; i < 5; i++){
+					res.add(pos.get(lastedIndex - i));
+				}				
+			}
+			else{
+				for(int i = 0; i <= lastedIndex; i++)
+					res.add(pos.get(i));
+				for(int i = 0; i < 5 - res.size(); i++){
+					res.add(pos.get(pos.size() - 1 - i));
+				}
+			}
+		}
+		
 		return res;
 	}
 
