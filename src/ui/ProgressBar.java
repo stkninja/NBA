@@ -51,19 +51,14 @@ public class ProgressBar extends JDialog{
         this.startThread();
     	this.setVisible(true);
     }
-    /**
-     * Æô¶¯Ïß³Ì
-     */
     private void startThread() {
     	new Thread() {
     		public void run() {
+    			thread.start();
     			try {
-        			thread.start();
 					thread.join();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				} finally {
-					ProgressBar.this.dispose();
 				}
     		}
     	}.start();
