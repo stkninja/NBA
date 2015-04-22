@@ -235,7 +235,13 @@ public class RecentMatch extends JFrame{
 //		    	}
 //		    }
 		    for(int i = 0; i < data.length; i++){
-		    	ds.addValue(Integer.parseInt(data[i][6].toString().split("-")[0])/Integer.parseInt(data[i][6].toString().split("-")[1])*100, "命中率(%)", "第"+(i+1)+"场");
+		    	if(data[i][6].toString().split("-")[1].equals("0")){
+		    		ds.addValue(0, "命中率(%)", "第"+(i+1)+"场");
+		    	}
+		    	else{
+		    		ds.addValue(Integer.parseInt(data[i][6].toString().split("-")[0])*100/Integer.parseInt(data[i][6].toString().split("-")[1]), "命中率(%)", "第"+(i+1)+"场");
+		    	}
+		    	
 		    }
 	        return ds;  
 	    } 

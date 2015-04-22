@@ -153,6 +153,7 @@ public class PlayerFrame extends JFrame{
 		
 		JLabel Pic = new JLabel();
 		Pic.setIcon(portraiticon);
+		Pic.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 0));
 		panel1.add(Pic);
 		try{
 			action = ImageIO.read(vo.action);
@@ -176,6 +177,7 @@ public class PlayerFrame extends JFrame{
 					playeraction.dispose();
 				}			
 			}
+			
 //			public void mouseClicked(MouseEvent e){
 //				if(e.getClickCount()==2){
 //					playeraction.dispose();
@@ -274,17 +276,15 @@ public class PlayerFrame extends JFrame{
 		recentTitle = new JLabel("最近5场比赛统计:");
 		recentTitle.setFont(new Font("宋体",Font.BOLD,15));
 		recentTitle.addMouseListener(new MouseAdapter(){
-			public void mouseEntered(MouseEvent e){
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							recentmatch = new RecentMatch(data,PlayerFrame.this);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-			    });
-				
+			public void mouseEntered(MouseEvent e) {
+				recentTitle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+			}
+			public void mouseClicked(MouseEvent e){
+				try {
+					recentmatch = new RecentMatch(data,PlayerFrame.this);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}				
 			}
 			public void mouseExited(MouseEvent e){
 				if(recentmatch!=null){
@@ -350,21 +350,21 @@ public class PlayerFrame extends JFrame{
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
 		historyTitle.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent e){
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							careerdata= new CareerData(vo.name,PlayerFrame.this);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-			    });		
+				historyTitle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+			}
+			public void mouseClicked(MouseEvent e){
+				try {
+					careerdata= new CareerData(vo.name,PlayerFrame.this);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}		
 			}
 			public void mouseExited(MouseEvent e){
 				if(careerdata!=null){
 					careerdata.dispose();
 				}	
 			}
+			
 		});
         subpanel3.add(historyTitle);
 		subpanel3.add(type);
