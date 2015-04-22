@@ -342,11 +342,11 @@ public class ContentPane extends JPanel {
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
 						if (str.length() <= 3) {
-							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str));
+							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str), main.teamPane);
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						} else {
-							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str));
+							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main.playerPane);
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						}

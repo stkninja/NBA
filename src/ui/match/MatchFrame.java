@@ -231,7 +231,12 @@ public class MatchFrame extends JFrame{
 				temp = temp + (int)(double)vo.team2.qtPlusScores.get(n)+",";
 			}
 			temp = temp + (int)(double)vo.team2.qtPlusScores.get(vo.team2.qtPlusScores.size()-1);
-			cp = new JLabel(temp,JLabel.CENTER);
+			if(temp.length() > 8){
+				cp = new JLabel("<html>"+temp.substring(0, 8)+"-"+"<br>"+temp.substring(8, temp.length())+"<html>", JLabel.CENTER);
+			}
+			else{
+				cp = new JLabel(temp, JLabel.CENTER);
+			}
 		}
 		h1.setFont(f2);
 		h2.setFont(f2);
