@@ -27,7 +27,7 @@ public enum Region {
 	Southwest {
 		public String[] getTeam() {
 //			return new String[]{"Dallas Mavericks", "Houston Rockets", "Memphis Grizzlies", "New Orleans Pelicans", "San Antonio Spurs"};
-			return new String[]{"DAL", "HOU", "MEM", "NOP", "SAS"};
+			return new String[]{"DAL", "HOU", "MEM", "NOC", "SAS"};
 		}
 	},
 	Northwest {

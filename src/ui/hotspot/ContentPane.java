@@ -120,7 +120,7 @@ public class ContentPane extends JPanel {
 					try {
 						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
 				}
 				for (int i = 0; i < 5; i++) {
@@ -132,7 +132,7 @@ public class ContentPane extends JPanel {
 					label[i] = new JButton();
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 				for (int i = 0; i < 5; i++) {
 					pane.add(label[i]);
@@ -153,7 +153,7 @@ public class ContentPane extends JPanel {
 					try {
 						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
 				}
 				for (int i = 0; i < 5; i++) {
@@ -165,7 +165,7 @@ public class ContentPane extends JPanel {
 					label[i] = new JButton();
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 				for (int i = 0; i < 5; i++) {
 					pane.add(label[i]);
@@ -188,7 +188,7 @@ public class ContentPane extends JPanel {
 						SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
 						this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException | TranscoderException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
 				}
 				for (int i = 0; i < 5; i++) {
@@ -200,7 +200,7 @@ public class ContentPane extends JPanel {
 					label[i] = new JButton();
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 				for (int i = 0; i < 5; i++) {
 					pane.add(label[i]);
@@ -221,7 +221,7 @@ public class ContentPane extends JPanel {
 					try {
 						this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.jpg")).getImage(), "data/pic/No"+ (i+1) +".png");
+						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
 					}
 				}
 				for (int i = 0; i < 5; i++) {
@@ -233,7 +233,7 @@ public class ContentPane extends JPanel {
 					label[i] = new JButton();
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					this.setNOTFOUND(label[i], "data/pic/NotFound.jpg");
+					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 				for (int i = 0; i < 5; i++) {
 					pane.add(label[i]);
