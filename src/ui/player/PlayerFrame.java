@@ -143,19 +143,26 @@ public class PlayerFrame extends JFrame{
 		panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(1,3,0,20));
 		panel1.setOpaque(false);
-		try{
-			portrait=ImageIO.read(vo.portrait);
-			portraiticon=new ImageIcon(portrait);
-		}
-		catch (Exception ex){
-			portraiticon=new ImageIcon("data/pic/NotFound.png");
-		}
 		
 		
 		JLabel Pic = new JLabel();
-		Pic.setBounds(0, 0, portraiticon.getIconWidth(),portraiticon.getIconHeight());
-		Pic.setIcon(portraiticon);
-		Pic.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 0));
+		Pic.setSize(new Dimension(180, 180));
+		Pic.setPreferredSize(new Dimension(180, 180));
+		try{
+			portrait=ImageIO.read(vo.portrait);
+			double scale = (double)portrait.getWidth(null) / (double)portrait.getHeight(null);
+	        Image temp = portrait.getScaledInstance((int)(Pic.getHeight() * scale), Pic.getHeight(), Image.SCALE_DEFAULT);
+			portraiticon=new ImageIcon(temp);
+			Pic.setIcon(portraiticon);
+		}
+		catch (Exception ex){
+			Image icon = (new ImageIcon("data/pic/NotFound.png")).getImage();
+	        double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
+	        Image temp = icon.getScaledInstance((int)(Pic.getHeight() * scale), Pic.getHeight(), Image.SCALE_DEFAULT);
+	        Pic.setIcon(new ImageIcon(temp));
+		}
+		Pic.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 0));
+		
 		panel1.add(Pic);
 		try{
 			action = ImageIO.read(vo.action);
