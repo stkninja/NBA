@@ -69,7 +69,7 @@ public class MatchPane extends JDesktopPane {
 		search = new JButton();
 		search.setSize(new Dimension(25, 25));
 		search.setSize(new Dimension(25, 25));
-		this.setIcon(search, "data/pic/search.png", "data/pic/search.png");
+		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
 		pane.add(search);
 		this.add(pane, BorderLayout.NORTH);
 		//³õÊ¼ËÑË÷Ãæ°å

@@ -73,11 +73,11 @@ public class TeamPane extends JDesktopPane {
 		search = new JButton();
 		search.setSize(new Dimension(25, 25));
 		search.setSize(new Dimension(25, 25));
-		this.setIcon(search, "data/pic/search.png", "data/pic/search.png");
+		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
 		sort = new JButton();
 		sort.setSize(new Dimension(25, 25));
 		sort.setSize(new Dimension(25, 25));
-		this.setIcon(sort, "data/pic/sort.png", "data/pic/sort.png");
+		this.setIcon(sort, "data/pic/sort1.png", "data/pic/sort2.png");
 		pane.add(search);
 		pane.add(sort);
 		this.add(pane, BorderLayout.NORTH);
