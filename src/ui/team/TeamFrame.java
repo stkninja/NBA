@@ -297,6 +297,11 @@ public class TeamFrame extends JDialog{
 	    		
 	    	}
 	    });
+		historytable.addMouseMotionListener(new MouseAdapter() {
+	    	public void mouseMoved(MouseEvent e) {
+	    		historytable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		    }
+	    });
 		panel3.add(hsp,BorderLayout.CENTER);
 		//数据panel---------------------------------------------
 		panelB = new JPanel();
