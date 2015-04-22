@@ -27,12 +27,12 @@ public class ProgressBar extends JDialog{
 	private Point tmp = null;
 	private boolean isDragged = false;
     //------------------------------------------
-    public ProgressBar(Thread thread) {
+    public ProgressBar(Thread thread, String msg) {
     	this.thread = thread;
     	this.setModal(true);
     	pane = new JPanel();
     	progressBar = new JProgressBar();
-    	label = new JLabel("正在加载数据,请稍候……");
+    	label = new JLabel(msg);
     	progressBar.setIndeterminate(true);
     	pane.add(progressBar);
     	pane.add(label);

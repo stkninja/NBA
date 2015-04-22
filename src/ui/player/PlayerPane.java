@@ -89,8 +89,8 @@ public class PlayerPane extends JDesktopPane {
 		//±í¸ñ
 		table = new JTable();
 		sp = new JScrollPane(table);
-		this.add(sp, BorderLayout.CENTER);
 		searchPane.getAll();
+		this.add(sp, BorderLayout.CENTER);
 		//¼àÌý
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

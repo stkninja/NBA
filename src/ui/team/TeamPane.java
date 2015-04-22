@@ -91,8 +91,8 @@ public class TeamPane extends JDesktopPane {
 		//±í¸ñ
 		table = new JTable();
 		sp = new JScrollPane(table);
+		searchPane.getAll();
 		this.add(sp, BorderLayout.CENTER);
-		searchPane.getAll();;
 		//¼àÌý
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

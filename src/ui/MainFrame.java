@@ -12,7 +12,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,14 +21,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import ui.hotspot.HotspotPane;
 import ui.match.MatchPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
-import data.Pretreatment;
 import event.DataUpdEvent;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
@@ -228,31 +225,18 @@ public class MainFrame extends JFrame {
 	}
 	//------------------------------------------------------------
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		Thread thread = new Thread() {
-			public void run() {
-				Pretreatment.pretreatment();//预处理
-			}
-		};
-		new ProgressBar(thread);
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//系统外观
-		MainFrame frame = new MainFrame();
-		frame.setOpacity(0.9f);
-		frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+		MainFrame frame = null;
+		new ProgressBar(new StartThread(frame), "正在加载数据,请稍候……");
 		//启动线程
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
 			public void dataUpdated(DataUpdEvent e){
-				Thread thread = new Thread() {
-					public void run() {
-						Pretreatment.redoMBasic();//更新数据库数据
+				if (JOptionPane.showConfirmDialog(null, "是否需要更新数据？", "提示", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+					new ProgressBar(new UpdateThread(frame), "正在更新数据,请稍候……");
+					if (JOptionPane.showConfirmDialog(null, "更新完成！", "提示",  JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+						new ProgressBar(new StartThread(frame), "正在加载数据,请稍候……");
 					}
-				};
-				new ProgressBar(thread);
-				JOptionPane.showMessageDialog(null, "更新完成", "提示", JOptionPane.INFORMATION_MESSAGE);
-				frame.dispose();
-				MainFrame frame = new MainFrame();
-				frame.setOpacity(0.9f);
-				frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+				}
 			} 
 		});
 	}
