@@ -176,16 +176,6 @@ public class MainFrame extends JFrame {
 		this.setDragable();
 		this.setUndecorated(true);
 		this.setVisible(true);
-		//启动线程
-		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
-		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
-			public void dataUpdated(DataUpdEvent e){
-				//更新数据库数据
-				Pretreatment.redoMBasic();
-				//刷新
-				System.out.println("有新数据，是否刷新");
-			} 
-		});
 	}
 	/**
 	 * 设置图标
@@ -242,5 +232,19 @@ public class MainFrame extends JFrame {
 		MainFrame frame = new MainFrame();
 		frame.setOpacity(0.9f);
 		frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+		//启动线程
+		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource();
+		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){
+			public void dataUpdated(DataUpdEvent e){
+				//更新数据库数据
+				Pretreatment.redoMBasic();
+				//刷新
+				System.out.println("有新数据，是否刷新");
+				frame.dispose();
+				MainFrame frame = new MainFrame();
+				frame.setOpacity(0.9f);
+				frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+			} 
+		});
 	}
 }
