@@ -13,6 +13,9 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -33,9 +36,12 @@ import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import businesslogic.PlayerBL;
 import businesslogic.TeamBL;
+import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
 import ui.SvgUtil;
+import ui.player.PlayerFrame;
 import vo.MatchVO;
 
 @SuppressWarnings("serial")
@@ -107,13 +113,16 @@ public class MatchFrame extends JFrame{
     Object[][] data2;
     
     TeamBLService bl;
+    PlayerBLService pbl;
 	
 	Point loc = null;
 	Point tmp = null;
 	boolean isDragged = false;
 	
-	public MatchFrame(MatchVO vo) throws IOException, TranscoderException{
+	
+	public MatchFrame(MatchVO vo, MatchPane mp) throws IOException, TranscoderException{
 		bl = new TeamBL();
+		pbl = new PlayerBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
@@ -364,6 +373,32 @@ public class MatchFrame extends JFrame{
 			
 		}
 		this.showTable1(data1);
+		//表格监听
+		table1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (table1.getSelectedColumn() == 0 && table1.getSelectedRow() != (table1.getRowCount()-1)) {
+					String str = (String)table1.getValueAt(table1.getSelectedRow(), 0);
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
+						frame.setOpacity(0.9f);
+						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		table1.addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {  
+				int row = table1.rowAtPoint(e.getPoint()); 
+		        int col = table1.columnAtPoint(e.getPoint());  
+		        if (col == 0 && row != (table1.getRowCount()-1))
+		        	table1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		        else
+		        	table1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
+		    }  
+		});
 		panelB.add(team1,BorderLayout.NORTH);
 		panelB.add(sp1,BorderLayout.CENTER);
 		
@@ -426,6 +461,32 @@ public class MatchFrame extends JFrame{
 			
 		}
 		this.showTable2(data2);
+		//表格监听
+		table2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (table2.getSelectedColumn() == 0 && table2.getSelectedRow() != (table2.getRowCount()-1)) {
+					String str = (String)table2.getValueAt(table2.getSelectedRow(), 0);
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
+						frame.setOpacity(0.9f);
+						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		table2.addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {  
+				int row = table2.rowAtPoint(e.getPoint()); 
+		        int col = table2.columnAtPoint(e.getPoint());  
+		        if (col == 0 && row != (table2.getRowCount()-1))
+		        	table2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		        else
+		        	table2.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
+		    }  
+		});
 		panelC.add(team2,BorderLayout.NORTH);
 		panelC.add(sp2,BorderLayout.CENTER);
 		

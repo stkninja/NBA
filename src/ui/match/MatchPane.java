@@ -124,6 +124,7 @@ public class MatchPane extends JDesktopPane {
 	    }
 	    tcr.setHorizontalAlignment(JLabel.CENTER);
 	    table.setDefaultRenderer(Object.class, tcr);//内容居中
+	    ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 	    //表格监听
 	    table.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
@@ -133,7 +134,7 @@ public class MatchPane extends JDesktopPane {
 	    		ArrayList<MatchVO> list = bl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
 	    		try {
 					JFrame.setDefaultLookAndFeelDecorated(true);
-					MatchFrame frame = new MatchFrame(list.get(0));
+					MatchFrame frame = new MatchFrame(list.get(0),MatchPane.this);
 					frame.setOpacity(0.9f);
 					frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 				} catch (IOException | TranscoderException e1) {

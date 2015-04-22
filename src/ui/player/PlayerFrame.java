@@ -324,7 +324,7 @@ public class PlayerFrame extends JFrame{
 					public void run() {
 						try {
 							JFrame.setDefaultLookAndFeelDecorated(true);
-							MatchFrame frame = new MatchFrame(list.get(0));
+							MatchFrame frame = new MatchFrame(list.get(0),pp.main.matchPane);
 							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 						} catch (IOException | TranscoderException e) {
