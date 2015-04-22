@@ -532,7 +532,13 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 					}
 					else{
 						if(getAttribute(vo1,filter.get(i)) != getAttribute(vo2,filter.get(i))){
-							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
+							if(getAttribute(vo1,filter.get(i)) > getAttribute(vo2,filter.get(i))){
+								res = 1;
+							}
+							else{
+								res = -1;
+							}
+//							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
 							break;
 						}
 						else{
