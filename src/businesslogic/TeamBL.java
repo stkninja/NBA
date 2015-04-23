@@ -618,7 +618,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		ArrayList<TeamVO> res = new ArrayList<TeamVO>();
 		for(TeamVO vo : list){
 			if(vo.abbName.indexOf(name) >= 0){
-				list.add(vo);
+				res.add(vo);
 			}
 		}
 		return res;
