@@ -614,13 +614,13 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		return list;
 	}
 
-	public ArrayList<TeamVO> getTeamsInfo(String season, String name) {
-		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		for(String teamname : getAllTeamsName(season)){
-			if(teamname.indexOf(name) >= 0){
-				list.add(potovo(teamdata.getOneTSeasonDataPO(teamname, season)));
+	public ArrayList<TeamVO> getTeamsInfo(ArrayList<TeamVO> list,String season, String name) {
+		ArrayList<TeamVO> res = new ArrayList<TeamVO>();
+		for(TeamVO vo : list){
+			if(vo.abbName.indexOf(name) >= 0){
+				list.add(vo);
 			}
 		}
-		return list;
+		return res;
 	}
 }

@@ -947,14 +947,14 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		
 		return list;
 	}
-
-	public ArrayList<PlayerVO> getPlayersInfo(String season,String name) {
-		ArrayList<PlayerVO> list = new ArrayList<PlayerVO>();
-		for(String playername : playerdata.getAllPlayersName()){
-			if(playername.indexOf(name) >= 0){
-				list.add(potovo(playerdata.getOnePSeasonDataPO(playername, season)));
+	
+	public ArrayList<PlayerVO> getPlayersInfo(ArrayList<PlayerVO> list,String season,String name) {
+		ArrayList<PlayerVO> res = new ArrayList<PlayerVO>();
+		for(PlayerVO vo : list){
+			if(vo.name.indexOf(name) >= 0){
+				res.add(vo);
 			}
 		}
-		return list;
+		return res;
 	}
 }

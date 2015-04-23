@@ -11,7 +11,7 @@ public interface TeamBLService {
 	
 	public TeamBasicInfoVO getOneTeam(String name);
 	
-	public ArrayList<TeamVO> getTeamsInfo(String season,String name);
+	public ArrayList<TeamVO> getTeamsInfo(ArrayList<TeamVO> list,String season,String name);
 	 
 	public TeamVO getSeasonTeams(String season,String name);
 	
