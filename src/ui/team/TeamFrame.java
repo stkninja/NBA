@@ -388,8 +388,8 @@ public class TeamFrame extends JDialog{
 	private void setData(String name) {
 		ArrayList<MatchVO> list = bl.getLastFiveMatchesSpecific(name);
 		
-		Object[][] data = new Object[5][10];
-		for (int i = 0; i < 5; i++) {
+		Object[][] data = new Object[list.size()][10];
+		for (int i = 0; i < list.size(); i++) {
 		     data[i][0] = list.get(i).season;
 		     data[i][1] = list.get(i).date;
 		     if(list.get(i).team1.abbName.equals(name)){
