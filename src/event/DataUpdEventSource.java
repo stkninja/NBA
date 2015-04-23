@@ -26,40 +26,36 @@ public class DataUpdEventSource implements Runnable{
 	private void notifies(){  		
 		//listener所有方法
         for(DataUpdListener dul : listener){
-        	dul.dataUpdated(new DataUpdEvent(this));
-        	mf = dul.refresh(mf);
+        	mf = dul.refresh(mf, new DataUpdEvent(this));
         }
     }
 
 	//判断事件是否触发
 	public void run() {
 		String[] list = f.list();
-		int oriSize = list.length;
 		int preSize = list.length;
 		int curSize;
 		while(true){
 			list = f.list();
 			curSize = list.length;
-			if(preSize != curSize || (preSize == curSize && curSize == oriSize)){
+			if(preSize == curSize) {
 				try {
 					//休眠1s
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				preSize = curSize;
 			}
-			else if(preSize == curSize && curSize != oriSize){
+			else {
 				//触发
 				this.notifies();
 				
 				try {
-					//完成更新 休眠10s
-					Thread.sleep(10000);
+					//完成更新 休眠1s
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				oriSize = curSize;
 				preSize = curSize;
 			}
 		}
