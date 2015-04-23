@@ -75,10 +75,26 @@ public class DealTAllMatchData {
 			po.setWinsRate(Math.ceil(po.getWinsNum() / po.getGamesNum() * 100)/ 100);
 			po.setAllattackRound(Math.ceil(calculateAttackround(po.getAllshooting(),po.getAllfreeThrow(),po.getAlloffensiveRebounds(),po.getAllopponentDefensiveRebounds(),po.getAllshootingHit(),po.getAllturnovers()) * 100)/ 100);
 			po.setAllattackEfficiency(Math.ceil(100 * po.getAllscores() / po.getAllattackRound() * 100)/ 100);
-	        po.setAlldefenceEfficiency(Math.ceil(100 * allopponentscores / allopponentattackround * 100)/ 100);
+			if(allopponentattackround == 0){
+				po.setAlldefenceEfficiency(0);
+			}
+			else{
+				po.setAlldefenceEfficiency(Math.ceil(100 * allopponentscores / allopponentattackround * 100)/ 100);
+			}
+			if(Double.isNaN(po.getAlldefenceEfficiency())){
+				po.setAlldefenceEfficiency(0);
+			}
 			po.setAlloffensivereboundsEfficiency(Math.ceil(po.getAlloffensiveRebounds() / (po.getAlloffensiveRebounds() + po.getAllopponentDefensiveRebounds()) * 100)/ 100);
 			po.setAlldefensivereboundsEfficiency(Math.ceil(po.getAlldefensiveRebounds() / (po.getAlldefensiveRebounds() + po.getAllopponentOffensiveRebounds()) * 100)/ 100);
-			po.setAllstealEfficiency(Math.ceil(100 * po.getAllsteal() / allopponentattackround * 100)/ 100);
+			if(allopponentattackround == 0){
+				po.setAllstealEfficiency(0);
+			}
+			else{
+				po.setAllstealEfficiency(Math.ceil(100 * po.getAllsteal() / allopponentattackround * 100)/ 100);
+			}
+			if(Double.isNaN(po.getAllstealEfficiency())){
+				po.setAllstealEfficiency(0);
+			}
 			po.setAllassistEfficiency(Math.ceil(100 * po.getAllassists() / po.getAllattackRound() * 100)/ 100);
 			
 			po.setShooting(Math.ceil(po.getAllshooting() / po.getGamesNum() * 100)/ 100);
