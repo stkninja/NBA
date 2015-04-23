@@ -53,10 +53,10 @@ public class ProgressBar extends JDialog{
     }
     
     private void startThread() {
-    	t.start();
     	new Thread() {
     		public void run() {
     			try {
+    				t.start();
 					t.join();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
