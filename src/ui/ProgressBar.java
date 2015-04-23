@@ -18,7 +18,7 @@ import javax.swing.JProgressBar;
  */
 @SuppressWarnings("serial")
 public class ProgressBar extends JDialog{
-	private Thread t;
+	private Thread thread;
     private JPanel pane;
     private JProgressBar progressBar;
     private JLabel label;
@@ -27,8 +27,8 @@ public class ProgressBar extends JDialog{
 	private Point tmp = null;
 	private boolean isDragged = false;
     //------------------------------------------
-    public ProgressBar(Thread t, String msg) {
-    	this.t = t;
+    public ProgressBar(Thread thread, String msg) {
+    	this.thread = thread;
     	this.setModal(true);
     	pane = new JPanel();
     	progressBar = new JProgressBar();
@@ -53,14 +53,14 @@ public class ProgressBar extends JDialog{
     }
     
     private void startThread() {
-    	t.start();
     	new Thread() {
     		public void run() {
     			try {
-					t.join();
+    		    	thread.start();
+					thread.join();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				} finally{
+				} finally {
 					ProgressBar.this.dispose();
 				}
     		}

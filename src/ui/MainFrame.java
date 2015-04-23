@@ -12,6 +12,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,12 +21,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import ui.hotspot.HotspotPane;
 import ui.match.MatchPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
+import data.Pretreatment;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
 
@@ -197,6 +200,21 @@ public class MainFrame extends JFrame {
 		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 	}
 	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		pane.removeAll();
+		hotspotPane = new HotspotPane(this);
+		playerPane = new PlayerPane(this);
+		teamPane = new TeamPane(this);
+		matchPane = new MatchPane(this);
+		pane.add(hotspotPane, "Hotspot");
+		pane.add(teamPane, "Team");
+		pane.add(playerPane, "Player");
+		pane.add(matchPane, "Match");
+		revalidate();
+	}
+	/**
 	 * 设置界面可拖动
 	 */
 	private void setDragable() {
@@ -221,13 +239,24 @@ public class MainFrame extends JFrame {
             }
         });
 	}
-	//------------------------------------------------------------
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		Thread t = new Thread(new UpdateThread());
-		new ProgressBar(t, "正在加载数据,请稍候……");
-		//显示界面
+	//--------------------------------------------------------
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		Thread thread = new Thread() {
+			public void run() {
+				Pretreatment.pretreatment();
+			}
+		};
+		new ProgressBar(thread, "正在加载数据,请稍候……");
 		MainFrame mf = new MainFrame();
-		
+		mf.setOpacity(0.9f);
+		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));
 		//启动线程,实时刷新
 		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource(mf);
 		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){});
