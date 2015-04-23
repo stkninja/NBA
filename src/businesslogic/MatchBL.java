@@ -31,14 +31,14 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		return list;
 	}
 
-	public ArrayList<MatchVO> getOneMatch(String team1, String team2,
+/*	public ArrayList<MatchVO> getOneMatch(String team1, String team2,
 			String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getMatchesAboutTwoTeams(team1, team2, season)){
 			list.add(potovo(po));
 		}
 		return list;
-	}
+	}*/
 	
 	public ArrayList<String> getAllTeamsName(String season){
 		ArrayList<String> list = new ArrayList<String>();

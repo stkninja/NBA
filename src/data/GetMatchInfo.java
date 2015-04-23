@@ -4,31 +4,38 @@ import java.io.File;
 import java.util.ArrayList;
 
 import po.MatchPO;
-import data.readPOs.ReadMBasicPO;
+import data.predo.MatchBasic;
 import dataservice.MatchService;
 
 public class GetMatchInfo implements MatchService{
+	
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season) {
-		return ReadMBasicPO.readMBasicPO(season);
+		return new MatchBasic().matchBasic(season);
 	}
 
 	public ArrayList<MatchPO> getTodayAllMatches() {
 		String season = new String();
 		season = this.getLastSeason();
-		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
-		String date = new String();
-		date = this.getLastData(pos);
-		
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		for(MatchPO po : pos)
-			if(po.getDate().equals(date))
-				res.add(po);
+		
+		if(season.equals(""))
+			return res;
+		else{
+			ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
+			
+			String date = new String();
+			date = this.getLastData(pos);
+			
+			for(MatchPO po : pos)
+				if(po.getDate().equals(date))
+					res.add(po);
+		}
 		return res;
 	}
 
 	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
 			String season) {
-		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
+		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
 		for(MatchPO po : pos){
 			if(po.getTeam1().existPlayer(name) || po.getTeam2().existPlayer(name))
@@ -81,7 +88,7 @@ public class GetMatchInfo implements MatchService{
 		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
 			abbName = "NOH";
 		
-		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
+		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
 		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
 		for(MatchPO po : pos){
 			if(po.getTeam1().getAbbName().equals(abbName) || po.getTeam2().getAbbName().equals(abbName))
@@ -132,21 +139,21 @@ public class GetMatchInfo implements MatchService{
 		return res;
 	}
 
-	public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1,
-			String abbName2, String season) {
-		ArrayList<MatchPO> pos = ReadMBasicPO.readMBasicPO(season);
-		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		
-		for(MatchPO po : pos)
-			if((po.getTeam1().getAbbName().equals(abbName1) && po.getTeam2().getAbbName().equals(abbName2)) ||
-					(po.getTeam1().getAbbName().equals(abbName2) && po.getTeam2().getAbbName().equals(abbName1)))
-				res.add(po);
-		return res;
-	}
+//	public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1,
+//			String abbName2, String season) {
+//		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
+//		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
+//		
+//		for(MatchPO po : pos)
+//			if((po.getTeam1().getAbbName().equals(abbName1) && po.getTeam2().getAbbName().equals(abbName2)) ||
+//					(po.getTeam1().getAbbName().equals(abbName2) && po.getTeam2().getAbbName().equals(abbName1)))
+//				res.add(po);
+//		return res;
+//	}
 	
 	//最近赛季
 	public String getLastSeason(){
-		File f = new File("data\\统计赛季比赛数据");
+		File f = new File("data\\matches");
 		if(f.exists()){
 			String[] seasons = f.list();
 			return seasons[seasons.length - 1];

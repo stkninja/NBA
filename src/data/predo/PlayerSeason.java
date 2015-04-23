@@ -1,4 +1,4 @@
-package data.deal;
+package data.predo;
 
 import java.util.ArrayList;
 
@@ -7,31 +7,18 @@ import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
 import po.TBasicInfoPO;
-import data.GetMatchInfo;
-import data.readPOs.ReadMBasicPO;
-import data.readPOs.ReadPBasicPO;
-import data.readPOs.ReadTBasicPO;
 
-public class DealPAllMatchData {
+public class PlayerSeason {
 	private static ArrayList<MatchPO> matches;
 	private static ArrayList<PBasicInfoPO> players;
 	private static ArrayList<TBasicInfoPO> teams;
 	private static ArrayList<MatchPO> matchesAbout;
-	private GetMatchInfo match;
 	
-	public DealPAllMatchData(){
-		match = new GetMatchInfo();
-		matches = new ArrayList<MatchPO>();
-		ArrayList<String> seasons = match.getExistedSeasons();
-		for(String season : seasons)
-			matches.addAll(ReadMBasicPO.readMBasicPO(season));
-	}
-	
-	public ArrayList<PSeasonDataPO> dealPAllMatchData(String season) {
-		players = ReadPBasicPO.readPBasicPO();
-		teams = ReadTBasicPO.readTBasicPO();
-		
-		
+	@SuppressWarnings("static-access")
+	public ArrayList<PSeasonDataPO> playerSeason(ArrayList<MatchPO> matches, ArrayList<PBasicInfoPO> players, ArrayList<TBasicInfoPO> teams, String season) {
+		this.matches = matches;
+		this.players = players;
+		this.teams = teams;
 		ArrayList<PSeasonDataPO> list = new ArrayList<PSeasonDataPO>();
 		
 		for(String name : getAllPlayersName()){
@@ -52,7 +39,6 @@ public class DealPAllMatchData {
 		    }
 		    
 		    double time = 0;
-		    
 		    for(MatchPO match : matchesAbout){
 		    	double plustime = match.getTeam1().getQtPlusNum() * 5;
 		    	time += plustime;
@@ -180,11 +166,70 @@ public class DealPAllMatchData {
 			po.setErrorrate(po.getAllerrorrate());
 			po.setUsage(po.getAllusage());
 			
+
+		    double fivepoint = 0,fiverebound = 0,fiveassist = 0;
+			for(MatchPO matchpo : this.getLastFiveMatchesAboutPlayer(po.getName())){
+				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
+					if(playerpo.getName().equals(po.getName())){
+						fivepoint += playerpo.getPoint();
+						fiverebound += playerpo.getRebound();
+						fiveassist += playerpo.getAssist();
+					}
+				}
+				for(MatchPlayerDataPO playerpo : matchpo.getTeam2().getTeamPlayers()){
+					if(playerpo.getName().equals(po.getName())){
+						fivepoint += playerpo.getPoint();
+						fiverebound += playerpo.getRebound();
+						fiveassist += playerpo.getAssist();
+					}
+				}
+			}
+			
+			if(po.getGameplay() <= 5){
+				po.setPointpromotion(0);
+				po.setReboundpromotion(0);
+				po.setAssistpromotion(0);
+			}
+			else{
+				double fivebeforepoint = (po.getAllpoint() - fivepoint) / (po.getGameplay() - 5);
+				double fivebeforerebound = (po.getAllrebound() - fiverebound) / (po.getGameplay() - 5);
+				double fivebeforeassist = (po.getAllassist() - fiveassist) / (po.getGameplay() - 5);
+			
+				if(fivebeforepoint != 0){
+					po.setPointpromotion(Math.ceil((fivepoint / 5 - fivebeforepoint) / fivebeforepoint * 100) / 100);
+				}
+				else if(fivepoint == 0){
+					po.setPointpromotion(0);
+				}
+				else{
+					po.setPointpromotion(0);
+				}
+				
+				if(fivebeforerebound != 0){
+					po.setReboundpromotion(Math.ceil((fiverebound / 5 - fivebeforerebound) / fivebeforerebound * 100) / 100);
+				}
+				else if(fiverebound == 0){
+					po.setReboundpromotion(0);
+				}
+				else{
+					po.setReboundpromotion(0);
+				}
+				
+				if(fivebeforeassist != 0){
+					po.setAssistpromotion(Math.ceil((fiveassist / 5 - fivebeforeassist) / fivebeforeassist * 100) / 100);
+				}
+				else if(fiveassist == 0){
+					po.setAssistpromotion(0);
+				}
+				else{
+					po.setAssistpromotion(0);
+				}
+			}
 			list.add(po);
 		}
 		return list;
 	}
-	
+
 	private ArrayList<Double> getTeamData(){
 		ArrayList<Double> list = new ArrayList<Double>();
 		double alloffensiveRebounds = 0,alldefensiveRebounds = 0,allrebounds = 0,allshootingHit = 0,allopponentOffensiveRebounds = 0,
@@ -294,10 +339,47 @@ public class DealPAllMatchData {
 	
 	/**获得分区*/
 	private String getSubArea(String abbName) {		
-			/**找到球队分区*/
-			for(TBasicInfoPO po : teams)
-				if(po.getAbbName().equals(abbName))
-					return po.getSubArea();
+		/**找到球队分区*/
+		for(TBasicInfoPO po : teams)
+			if(po.getAbbName().equals(abbName))
+				return po.getSubArea();
 		return "";
+	}
+	
+	/**球员最近五场比赛*/
+	private ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
+		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
+		
+		if(matchesAbout.size() <= 5)
+			return matchesAbout;
+		
+		//找到最近五场
+		int lastedIndex = 0;
+		if(matchesAbout.get(lastedIndex).getDate().compareTo("06-01") > 0){
+			for(int i = 0; i < 5; i++)
+				res.add(matchesAbout.get(matchesAbout.size() - 1 - i));
+		}
+		else{
+			for(; lastedIndex < matchesAbout.size(); lastedIndex++){	
+				if(matchesAbout.get(lastedIndex).getDate().compareTo("06-01") > 0)
+					break;
+			}
+			lastedIndex--;
+			
+			if(lastedIndex >= 4){
+				for(int i = 0; i < 5; i++){
+					res.add(matchesAbout.get(lastedIndex - i));
+				}				
+			}
+			else{
+				for(int i = 0; i <= lastedIndex; i++)
+					res.add(matchesAbout.get(i));
+				for(int i = 0; i < 5 - res.size(); i++){
+					res.add(matchesAbout.get(matchesAbout.size() - 1 - i));
+				}
+			}
+		}
+		
+		return res;
 	}
 }

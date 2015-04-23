@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 
 import ui.MainFrame;
 import ui.ProgressBar;
-import data.Pretreatment;
 
 public class DataUpdListener implements EventListener{	
 	public void dataUpdated(DataUpdEvent e){}
@@ -15,7 +14,6 @@ public class DataUpdListener implements EventListener{
 		if (JOptionPane.showConfirmDialog(null, "是否需要更新数据？", "提示", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION){
 			Thread t = new Thread() {
 				public void run() {
-					Pretreatment.pretreatment();
 				}
 			};
 			new ProgressBar(t, "正在更新数据,请稍候……");

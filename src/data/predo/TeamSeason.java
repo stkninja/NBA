@@ -1,4 +1,4 @@
-package data.deal;
+package data.predo;
 
 import java.util.ArrayList;
 
@@ -6,27 +6,18 @@ import po.MatchPO;
 import po.MatchTeamDataPO;
 import po.TBasicInfoPO;
 import po.TSeasonDataPO;
-import data.GetMatchInfo;
-import data.readPOs.ReadMBasicPO;
-import data.readPOs.ReadTBasicPO;
 
-public class DealTAllMatchData {
+public class TeamSeason {
 
 	private static ArrayList<MatchPO> matches;
 	private static ArrayList<TBasicInfoPO> teams;
 	private static ArrayList<MatchPO> matchesAbout;
-	private GetMatchInfo match;
-
-	public DealTAllMatchData(){
-		match = new GetMatchInfo();
-		matches = new ArrayList<MatchPO>();
-		ArrayList<String> seasons = match.getExistedSeasons();
-		for(String season : seasons)
-			matches.addAll(ReadMBasicPO.readMBasicPO(season));
-	}
 	
-	public ArrayList<TSeasonDataPO> dealTAllMatchData(String season) {
-		teams = ReadTBasicPO.readTBasicPO();
+	@SuppressWarnings("static-access")
+	public ArrayList<TSeasonDataPO> teamSeason(ArrayList<MatchPO> matches, ArrayList<TBasicInfoPO> teams, String season) {
+		this.matches = matches;
+		this.teams = teams;
+		
 		
 		ArrayList<TSeasonDataPO> list = new ArrayList<TSeasonDataPO>();
 		for(String name : getAllTeamsAbbName(season)){
@@ -136,7 +127,7 @@ public class DealTAllMatchData {
 	 * 有关team的所有season比赛
 	 * 该球队在team1
 	 */
-	private void getMatchesAboutTeam(String name) {		
+	private void getMatchesAboutTeam(String name) {
 		matchesAbout = new ArrayList<MatchPO>();
 		for(MatchPO matchPO : matches){
 			/**找到与该球队有关的比赛*/
@@ -155,8 +146,8 @@ public class DealTAllMatchData {
 	private ArrayList<String> getAllTeamsAbbName(String season) {
 		ArrayList<String> names = new ArrayList<String>();
 		for(TBasicInfoPO po : teams){
-			if(po.getAbbName().equals("NOH") && season.compareTo("12-13") <= 0)
-				po.setAbbName("NOP");
+			if(po.getAbbName().equals("NOP") && season.compareTo("12-13") <= 0)
+				po.setAbbName("NOH");
 			names.add(po.getAbbName());
 		}
 		

@@ -1,4 +1,4 @@
-package data.readOriFiles;
+package data.io;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ReadMBasicInfo {
+public class ReadMatch {
 
 	public static ArrayList<String> readMBasicInfo(String addr) {
 		ArrayList<String> data = new ArrayList<String>();

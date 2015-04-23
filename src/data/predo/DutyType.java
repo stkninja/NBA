@@ -1,4 +1,4 @@
-package data.deal;
+package data.predo;
 
 public enum DutyType {
 	/**时间为0，且数据必为0*/

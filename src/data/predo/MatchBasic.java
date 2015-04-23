@@ -1,4 +1,4 @@
-package data.deal;
+package data.predo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,58 +6,53 @@ import java.util.ArrayList;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
-import data.readOriFiles.ReadMBasicInfo;
+import data.io.ReadMatch;
 
-public class DealMBasicInfo {
+public class MatchBasic {
 	/**比赛根目录*/
 	private static final String rootDirectory = "data\\matches"; 
-	/**to deal*/
-	private static ArrayList<MatchPO> matchesInfo = new ArrayList<MatchPO>();
 	
-	public ArrayList<MatchPO> dealMBasicInfo(String season) {
-		matchesInfo = new ArrayList<MatchPO>();
-		ArrayList<MatchPO> allMatches = getAllMatches();
-		return allMatches;
-	}
-	
-	private static ArrayList<MatchPO> getAllMatches(){
-		/**遍历文件夹下所有文件*/
+	public ArrayList<MatchPO> matchBasic(String season) {
+		/**所有文件名*/
 		File f = new File(rootDirectory);
 		String[] list = null;
 		if(f.isDirectory()){
 			list = f.list();
 		}
-
-		/**比赛信息统计*/
-		if(list != null)
-			initMatchesInfo(list);
-		
-		return matchesInfo;
+		/**读取文件*/
+		ArrayList<MatchPO> matches = new ArrayList<MatchPO>();
+		if(list != null){
+			matches = this.getAllMatches(list);
+		}
+		return matches;			
 	}
-	
+
 	/**判断一场比赛是否有脏数据*/
 	private static boolean hasDutyData;
-	private static void initMatchesInfo(String[] list) {
+	/**读取文件*/
+	private ArrayList<MatchPO> getAllMatches(String[] list) {
+		ArrayList<MatchPO> matches = new ArrayList<MatchPO>();
 		for(int i = 0; i < list.length; i++){
 			/**第i个文件的绝对路径*/
 			String absolutePath = rootDirectory + "\\" + list[i];
-			
 			MatchPO matchPO = new MatchPO();
 			hasDutyData = false;
-			matchPO.setSeason(list[i].split("_")[0]);
-			matchPO.setDate(list[i].split("_")[1]);
-						
-			/**解析文件获取球队比赛数据*/
+					
+			/**球队比赛数据*/
 			ArrayList<MatchTeamDataPO> dataPOs = getTeams(absolutePath);
 			
+			/**是否有可计算脏数据*/
 			if(hasDutyData){
 				dataPOs = calData(dataPOs);
 			}
 			
+			matchPO.setSeason(list[i].split("_")[0]);
+			matchPO.setDate(list[i].split("_")[1]);
 			matchPO.setTeam1(dataPOs.get(0));
 			matchPO.setTeam2(dataPOs.get(1));
-			matchesInfo.add(matchPO);
+			matches.add(matchPO);
 		}
+		return matches;
 	}
 	
 	/**从文件中获得球队的比赛信息*/
@@ -66,12 +61,13 @@ public class DealMBasicInfo {
 		MatchTeamDataPO team1DataPO = new MatchTeamDataPO();
 		MatchTeamDataPO team2DataPO	= new MatchTeamDataPO();
 		ArrayList<MatchTeamDataPO> dataPOs = new ArrayList<MatchTeamDataPO>();
-		/**读取的比赛文件的每一行
-		 * temperature
-		 * */
-		ArrayList<String> matchData = new ArrayList<String>(ReadMBasicInfo.readMBasicInfo(absolutePath));
-		ArrayList<String> team1Data = new ArrayList<String>();
-		ArrayList<String> team2Data = new ArrayList<String>();
+		
+		/**
+		 * 读取的比赛文件的每一行
+		 */
+		ArrayList<String> matchData = new ArrayList<String>(ReadMatch.readMBasicInfo(absolutePath));
+		ArrayList<String> team1Players = new ArrayList<String>();
+		ArrayList<String> team2Players = new ArrayList<String>();
 		
 		team1DataPO.setAbbName(matchData.get(0).split(";")[1].split("-")[0]);
 		team2DataPO.setAbbName(matchData.get(0).split(";")[1].split("-")[1]);
@@ -85,27 +81,26 @@ public class DealMBasicInfo {
 		team2DataPO.setQt3Scores(Double.parseDouble(matchData.get(1).split(";")[2].split("-")[1]));
 		team1DataPO.setQt4Scores(Double.parseDouble(matchData.get(1).split(";")[3].split("-")[0]));
 		team2DataPO.setQt4Scores(Double.parseDouble(matchData.get(1).split(";")[3].split("-")[1]));
-		
 		for(int i = 4; i < matchData.get(1).split(";").length; i++){
 			team1DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[i].split("-")[0]));
 			team2DataPO.addQtPlusScores(Double.parseDouble(matchData.get(1).split(";")[i].split("-")[1]));
 		}
-			
+
 		/**每支球队的所有球员，从第4行开始*/
 		int i = 3;
 		while(!(matchData.get(i).equals(team2DataPO.getAbbName()))){
-			team1Data.add(matchData.get(i));
+			team1Players.add(matchData.get(i));
 			i++;
 		}
 		
 		for(++i; i < matchData.size(); i++){
-			team2Data.add(matchData.get(i));
+			team2Players.add(matchData.get(i));
 		}
 		
-		/**team1Data*/
-		for(int j = 0; j < team1Data.size(); j++){
+		/**team1添加球员*/
+		for(int j = 0; j < team1Players.size(); j++){
 			MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
-			String[] data = team1Data.get(j).split(";");
+			String[] data = team1Players.get(j).split(";");
 			
 			/**存在空(脏)数据*/
 			if(isIllegalData(data).equals(DutyType.DUTY_TIME_AND_DATA) || isIllegalData(data).equals(DutyType.TIME_ZERO))
@@ -121,14 +116,13 @@ public class DealMBasicInfo {
 			
 			/**设置球员比赛属性*/
 			playerDataPO = setData(data);
-			
 			team1DataPO.addPlayer(playerDataPO);
 		}
 		
-		/**team2Data*/
-		for(int j = 0; j < team2Data.size(); j++){
+		/**team2添加球员*/
+		for(int j = 0; j < team2Players.size(); j++){
 			MatchPlayerDataPO playerDataPO = new MatchPlayerDataPO();
-			String[] data = team2Data.get(j).split(";");
+			String[] data = team2Players.get(j).split(";");
 			
 			/**存在空(脏)数据*/
 			if(isIllegalData(data).equals(DutyType.DUTY_TIME_AND_DATA) || isIllegalData(data).equals(DutyType.TIME_ZERO))
@@ -149,7 +143,6 @@ public class DealMBasicInfo {
 			
 			/**设置球员比赛属性*/
 			playerDataPO = setData(data);
-			
 			team2DataPO.addPlayer(playerDataPO);
 		}
 		

@@ -1,4 +1,4 @@
-package data.readOriFiles;
+package data.io;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ReadTBasicInfo {
-	public static ArrayList<String> readTBasicInfo(String addr) {
+public class ReadPlayer {
+
+	public static ArrayList<String> readPBasicInfo(String addr) {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
@@ -20,14 +21,13 @@ public class ReadTBasicInfo {
 			isr = new InputStreamReader(fis,"UTF-8"); 
 			br = new BufferedReader(isr);
 			
+			int i = 0;
 			String line = new String();
 			while((line = br.readLine()) != null){
-				data.add(line);
+				if(i % 2 == 1)
+					data.add(line);
+				i++;
 			}
-				
-			/**É¾³ýÊ×Î²Á½ÐÐ*/
-			data.remove(0);
-			data.remove(data.size() - 1);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -45,8 +45,13 @@ public class ReadTBasicInfo {
 		return data;
 	}
 	
-	public static File readLogo(String addr){
-		File loge = new File(addr);
-		return loge;
+	public static File getPPortrait(String addr){
+		File portrait = new File(addr);
+		return portrait;
+	}
+	
+	public static File getPAction(String addr){
+		File action = new File(addr);
+		return action;
 	}
 }

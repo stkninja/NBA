@@ -28,9 +28,6 @@ import ui.hotspot.HotspotPane;
 import ui.match.MatchPane;
 import ui.player.PlayerPane;
 import ui.team.TeamPane;
-import data.Pretreatment;
-import event.DataUpdEventSource;
-import event.DataUpdListener;
 
 /**
  * NBA查询平台主界面
@@ -248,17 +245,11 @@ public class MainFrame extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		Thread thread = new Thread() {
-			public void run() {
-				Pretreatment.pretreatment();
-			}
-		};
-		new ProgressBar(thread, "正在加载数据,请稍候……");
 		MainFrame mf = new MainFrame();
 		mf.setOpacity(0.9f);
 		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));
 		//启动线程,实时刷新
-		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource(mf);
-		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){});
+//		DataUpdEventSource dataUpdEventSource = new DataUpdEventSource(mf);
+//		dataUpdEventSource.addDataUpdListener(new DataUpdListener(){});
 	}
 }
