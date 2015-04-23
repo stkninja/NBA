@@ -146,7 +146,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					ArrayList<PlayerVO> vo = playerBL.getPlayersInfo((String)season.getSelectedItem(), text.getText());
+					ArrayList<PlayerVO> vo = playerBL.getPlayersInfo(list, (String)season.getSelectedItem(), text.getText());
 					if (vo != null) {
 						PlayerSearchPane.this.setData(vo);
 					} else {

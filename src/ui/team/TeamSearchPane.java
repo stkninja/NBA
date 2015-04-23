@@ -104,7 +104,7 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					ArrayList<TeamVO> vo = teamBL.getTeamsInfo((String)season.getSelectedItem(), text.getText());
+					ArrayList<TeamVO> vo = teamBL.getTeamsInfo(list, (String)season.getSelectedItem(), text.getText());
 					if (vo != null) {
 						TeamSearchPane.this.setData(vo);
 					} else {
