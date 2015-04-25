@@ -2,21 +2,14 @@ package ui.player;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
@@ -32,48 +25,15 @@ import businesslogic.PlayerBL;
 import businesslogicservice.PlayerBLService;
  
 
-@SuppressWarnings("serial")
-public class RecentMatch extends JFrame{
+public class RecentMatch{
 	PlayerBLService bl; 
-	ImageIcon icon1;
-	ImageIcon icon2;
-	JPanel panel;
-	JLabel label1;
-	JLabel label2;
-	ImageIcon bg;
-	JLabel lab;
 	Object[][] data;
-	public RecentMatch(Object[][] data,PlayerFrame dialog) throws IOException{
+	public RecentMatch(Object[][] data) throws IOException{
 		this.data = data;
 		bl = new PlayerBL();
 		
-		int frameHeight = 450;
-		int frameWidth = 400;
-		this.setBounds(dialog.getX()-frameWidth , dialog.getY(), frameWidth, frameHeight);
-		
-		//背景图片
-		bg = new ImageIcon("data/pic/playerframe.jpg");
-		lab = new JLabel(bg);
-		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
-		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
-		
 		this.chart1();
 		this.chart2();
-		icon1 = new ImageIcon("3.jpg");
-		icon2 = new ImageIcon("4.jpg");
-		label1 = new JLabel();
-		label2 = new JLabel();
-		label2.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-		label1.setIcon(icon1);
-		label2.setIcon(icon2);
-		
-		this.setLayout(new GridLayout(2,1));
-		this.add(label1);
-		this.add(label2);
-		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);
-		this.setVisible(true);
 	}
 	@SuppressWarnings("deprecation")
 	public void chart1() throws IOException {  
@@ -115,7 +75,6 @@ public class RecentMatch extends JFrame{
         BarRenderer3D customBarRenderer = (BarRenderer3D) plot.getRenderer(); 
         numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits()); //横线
         numberaxis.setUpperMargin(0.14999999999999999D); //顶端
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); 
         customBarRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值 
         customBarRenderer.setBaseItemLabelsVisible(true); 
         //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题 
@@ -126,11 +85,11 @@ public class RecentMatch extends JFrame{
         
         customBarRenderer.setSeriesPaint(0, Color.BLUE); // 给series1 Bar 
         customBarRenderer.setSeriesOutlinePaint(0,Color.BLACK);//边框为黑色 
-  
+        chart.getLegend().setVisible(false);
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("3.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 400, 200, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
                 out.close();  
@@ -143,7 +102,7 @@ public class RecentMatch extends JFrame{
 	public void chart2() throws IOException {  
         CategoryDataset ds = this.getDataSet2();  
         JFreeChart chart = ChartFactory.createBarChart3D(  
-                "近五场命中率情况", //图表标题  
+                "近五场命中率情况(%)", //图表标题  
                 "", //目录轴的显示标签  
                 "命中率", //数值轴的显示标签  
                 ds, //数据集  
@@ -179,7 +138,6 @@ public class RecentMatch extends JFrame{
         BarRenderer3D customBarRenderer = (BarRenderer3D) plot.getRenderer(); 
         numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits()); //横线
         numberaxis.setUpperMargin(0.14999999999999999D); //顶端
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); 
         customBarRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值 
         customBarRenderer.setBaseItemLabelsVisible(true); 
         //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题 
@@ -187,11 +145,12 @@ public class RecentMatch extends JFrame{
         ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER)); 
         customBarRenderer.setItemLabelAnchorOffset(10D);// 设置柱形图上的文字偏离值 
         customBarRenderer.setItemLabelsVisible(true); 
+        chart.getLegend().setVisible(false);
   
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("4.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 400, 200, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
                 out.close();  
@@ -202,41 +161,16 @@ public class RecentMatch extends JFrame{
     }
 	 private CategoryDataset getDataSet1() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();  
-//		    for (int i = 0; i < list.size(); i++) {
-//		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
-//		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
-//		    			ds.addValue((int)list.get(i).team1.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
-//		    		}
-//		    	}
-//		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
-//		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
-//		    			ds.addValue((int)list.get(i).team2.teamPlayers.get(m).point, "得分", "第"+(i+1)+"场");
-//		    		}
-//		    	}
-//		    }
-		    
 		    for(int i = 0; i < data.length; i++){
-		    	ds.addValue((int)data[i][15], "得分", "第"+(i+1)+"场");
+		    	ds.addValue((int)data[i][15], "", "第"+(i+1)+"场");
 		    }
 	        return ds;  
 	    }
 	 private CategoryDataset getDataSet2() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();
-//		    for (int i = 0; i < list.size(); i++) {
-//		    	for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
-//		    		if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
-//		    			ds.addValue((list.get(i).team1.teamPlayers.get(m).shootmade/list.get(i).team1.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
-//		    		}
-//		    	}
-//		    	for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
-//		    		if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
-//		    			ds.addValue((list.get(i).team2.teamPlayers.get(m).shootmade/list.get(i).team2.teamPlayers.get(m).shoot)*100, "命中率(%)", "第"+(i+1)+"场");
-//		    		}
-//		    	}
-//		    }
 		    for(int i = 0; i < data.length; i++){
 		    	if(data[i][6].toString().split("-")[1].equals("0")){
-		    		ds.addValue(0, "命中率(%)", "第"+(i+1)+"场");
+		    		ds.addValue(0, "", "第"+(i+1)+"场");
 		    	}
 		    	else{
 		    		ds.addValue(Integer.parseInt(data[i][6].toString().split("-")[0])*100/Integer.parseInt(data[i][6].toString().split("-")[1]), "命中率(%)", "第"+(i+1)+"场");

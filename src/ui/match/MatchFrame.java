@@ -383,7 +383,7 @@ public class MatchFrame extends JFrame{
 						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
-					} catch (IOException e1) {
+					} catch (IOException | TranscoderException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -471,7 +471,7 @@ public class MatchFrame extends JFrame{
 						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
-					} catch (IOException e1) {
+					} catch (IOException | TranscoderException e1) {
 						e1.printStackTrace();
 					}
 				}
