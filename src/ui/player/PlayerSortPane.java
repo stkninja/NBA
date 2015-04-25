@@ -31,27 +31,23 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 	private PlayerPane father;
 	private PlayerBLService playerBL;
 	private JPanel contentPane;//总panel
-	private ImageIcon background;//背景图片
-	private JPanel pane;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JLabel label4;
 	private JComboBox<String> box1;
 	private JComboBox<String> box2;
 	private JComboBox<String> box3;
-	private JComboBox<String> box4;
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//--------------------------------------------------
+	/**
+	 * 
+	 * @param father 上层PlayerPane
+	 */
 	public PlayerSortPane(PlayerPane father) {
 		this.father = father;
 		playerBL = new PlayerBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.png");
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -59,26 +55,32 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 			}
 		};
 		this.setContentPane(contentPane);
-		//搜索界面
-		pane = new JPanel(new GridLayout(8, 1, 0, 6));
+		
+		this.init();
+		this.setDragable();
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		this.setVisible(true);
+	}
+	/**
+	 * 初始化
+	 */
+	private void init() {
+		JPanel pane = new JPanel(new GridLayout(6, 1, 0, 6));
 		pane.setOpaque(false);
-		pane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-		label1 = new JLabel("排序类型：");
+		pane.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+		JLabel label1 = new JLabel("排序类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
-		label2 = new JLabel("第一排序依据：");
+		JLabel label2 = new JLabel("第一排序依据：");
 		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		label3 = new JLabel("第二排序依据：");
+		JLabel label3 = new JLabel("第二排序依据：");
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
-		label4 = new JLabel("第三排序依据：");
-		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		box1 = new JComboBox<String>(new String[]{"升序", "降序"});
 		box1.setFont(new Font("楷体", Font.PLAIN, 14));
 		box2 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box2.setFont(new Font("楷体", Font.PLAIN, 14));
 		box3 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box3.setFont(new Font("楷体", Font.PLAIN, 14));
-		box4 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
-		box4.setFont(new Font("楷体", Font.PLAIN, 14));
 		
 		pane.add(label1);
 		pane.add(box1);
@@ -86,19 +88,11 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		pane.add(box2);
 		pane.add(label3);
 		pane.add(box3);
-		pane.add(label4);
-		pane.add(box4);
 		contentPane.add(pane, BorderLayout.CENTER);
-		//监听
+		
 		box1.addActionListener(this);
 		box2.addActionListener(this);
 		box3.addActionListener(this);
-		box4.addActionListener(this);
-		//-----------------------------------------------------------------
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
 	}
 	/**
 	 * 监听
@@ -108,7 +102,6 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		ArrayList<String> filter = new ArrayList<String>();
 		filter.add((String)box2.getSelectedItem());
 		filter.add((String)box3.getSelectedItem());
-		filter.add((String)box4.getSelectedItem());
 		ArrayList<PlayerVO> data = playerBL.sortPlayer(list, filter, (String)box1.getSelectedItem());
 		this.father.getSearchPane().setData(data);
 	}
@@ -116,7 +109,7 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.getX(), father.getY() + father.getHeight() / 2, father.getWidth() / 5, father.getHeight() / 2);
+		this.setBounds(father.dp.getX(), father.dp.getY() + father.dp.getHeight() * 3 / 5, father.dp.getWidth() / 5, father.dp.getHeight() * 2 / 5);
 	}
 	/**
 	 * 设置界面可拖动

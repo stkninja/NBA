@@ -47,53 +47,65 @@ import businesslogicservice.TeamBLService;
  *
  */
 @SuppressWarnings("serial")
-public class TeamPane extends JDesktopPane {
+public class TeamPane extends JPanel {
 	public MainFrame main;
 	private TeamBLService teamBL;
+	public JDesktopPane dp;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
-	//搜索界面
-	private JPanel pane;
-	private JButton search;
-	private JButton sort;
 	//子窗口
 	private TeamSearchPane searchPane;
 	private TeamSortPane sortPane;
-	//--------------------------------------------------------------
+	/**
+	 * 
+	 * @param main 主框架
+	 */
 	public TeamPane(MainFrame main) {
 		this.main = main;
 		teamBL = new TeamBL();
 		this.setOpaque(false);
-		this.setLayout(new BorderLayout(0, 20));
-		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
-		//搜索界面
-		pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
-		pane.setOpaque(false);
-		search = new JButton();
-		search.setSize(new Dimension(25, 25));
-		search.setSize(new Dimension(25, 25));
-		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
-		sort = new JButton();
-		sort.setSize(new Dimension(25, 25));
-		sort.setSize(new Dimension(25, 25));
-		this.setIcon(sort, "data/pic/sort1.png", "data/pic/sort2.png");
-		pane.add(search);
-		pane.add(sort);
-		this.add(pane, BorderLayout.NORTH);
+		this.setLayout(new BorderLayout());
+		//桌面
+		dp = new JDesktopPane();
+		dp.setOpaque(false);
+		dp.setLayout(new BorderLayout(0, 20));
+		dp.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+		this.add(dp, BorderLayout.CENTER);
+		
+		this.initTop();
 		//初始搜索排序面板
 		searchPane = new TeamSearchPane(this);
 		searchPane.setVisible(false);
 		sortPane = new TeamSortPane(this);
 		sortPane.setVisible(false);
-		this.add(searchPane);
-		this.add(sortPane);
+		dp.add(searchPane);
+		dp.add(sortPane);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		searchPane.getAll();
-		this.add(sp, BorderLayout.CENTER);
-		//监听
+		dp.add(sp, BorderLayout.CENTER);
+	}
+	/**
+	 * 初始化搜索面板
+	 */
+	private void initTop() {
+		JPanel pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
+		pane.setOpaque(false);
+		
+		JButton search = new JButton();
+		search.setSize(new Dimension(25, 25));
+		search.setSize(new Dimension(25, 25));
+		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
+		JButton sort = new JButton();
+		sort.setSize(new Dimension(25, 25));
+		sort.setSize(new Dimension(25, 25));
+		this.setIcon(sort, "data/pic/sort1.png", "data/pic/sort2.png");
+		pane.add(search);
+		pane.add(sort);
+		dp.add(pane, BorderLayout.NORTH);
+		
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (searchPane.isVisible())
@@ -118,7 +130,7 @@ public class TeamPane extends JDesktopPane {
 	 * @param data 表格数据
 	 */
 	public void showTable(Object[][] data) {
-		this.remove(table);
+		dp.remove(table);
 		String[] subTitle = {"编号", "球队名称", "队名缩写",
 							 "胜利场数", "比赛场数", "胜率",
 							 //投篮 6
@@ -311,7 +323,7 @@ public class TeamPane extends JDesktopPane {
 	 * @param file1 默认图标路径
 	 * @param file2 翻转图标路径
 	 */
-	public void setIcon(JButton button, String file1, String file2) {  
+	private void setIcon(JButton button, String file1, String file2) {  
         Image icon1 = (new ImageIcon(file1)).getImage();
         double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
 		Image temp1 = icon1.getScaledInstance((int)(button.getHeight() * scale1), button.getHeight(), Image.SCALE_DEFAULT);

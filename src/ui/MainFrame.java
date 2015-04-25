@@ -1,7 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,6 +12,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
@@ -20,13 +22,16 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import ui.hotspot.HotspotPane;
 import ui.match.MatchPane;
 import ui.player.PlayerPane;
+import ui.team.Team;
 import ui.team.TeamPane;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
@@ -38,42 +43,24 @@ import event.DataUpdListener;
  */
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
-	public JPanel contentPane;//总panel
-	public JPanel pane;//内容panel
-	public CardLayout cardLayout;//卡片式布局
-	private ImageIcon background;//背景图片
-	public HotspotPane hotspotPane;
-	public PlayerPane playerPane;
-	public TeamPane teamPane;
-	public MatchPane matchPane;
-	//退出、最小化按钮
-	private JPanel top;
-	private JButton exit;
-	private JButton mini;
-	//导航
-	private JPanel navigation;
-	private JButton hotspot;
-	private JButton team;
-	private JButton player;
-	private JButton match;
+	private JPanel contentPane;//总panel
+	private JPanel pane;//内容panel
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//--------------------------------------------------------
+	/**
+	 * 
+	 */
 	public MainFrame() {
-		hotspotPane = new HotspotPane(this);
-		playerPane = new PlayerPane(this);
-		teamPane = new TeamPane(this);
-		matchPane = new MatchPane(this);
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 3 / 4;
-		int frameWidth = frameHeight * 16 / 9;
+		int frameHeight = screenSize.height * 7 / 9;
+		int frameWidth = frameHeight * 5 / 3;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景
-		background = new ImageIcon("data/pic/background.png");
+		ImageIcon background = new ImageIcon("data/pic/background.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -81,46 +68,29 @@ public class MainFrame extends JFrame {
 			}
 		};
 		this.setContentPane(contentPane);
-		//导航
-		navigation = new JPanel();
-		navigation.setOpaque(false);
-		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
-		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
-		
-		hotspot = new JButton();
-		hotspot.setSize(new Dimension(80, 30));
-		hotspot.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(hotspot, "data/pic/hotspot1.png", "data/pic/hotspot2.png");
-		team = new JButton();
-		team.setSize(new Dimension(80, 30));
-		team.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(team, "data/pic/team1.png", "data/pic/team2.png");
-		player = new JButton();
-		player.setSize(new Dimension(80, 30));
-		player.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(player, "data/pic/player1.png", "data/pic/player2.png");
-		match = new JButton();
-		match.setSize(new Dimension(80, 30));
-		match.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(match, "data/pic/match1.png", "data/pic/match2.png");
-		
-		navigation.add(hotspot);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(team);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(player);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(match);
-		contentPane.add(navigation, BorderLayout.WEST);
-		//按钮
-		top = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		//初始化
+		this.initTop();
+		this.initNavigation();
+		//内容panel
+		pane = new Team(this, "East");
+		pane.setOpaque(false);
+		contentPane.add(pane, BorderLayout.CENTER);
+		this.setDragable();
+		this.setUndecorated(true);
+		this.setVisible(true);
+	}
+	/**
+	 * 初始化退出最小化按钮
+	 */
+	private void initTop() {
+		JPanel top = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		top.setOpaque(false);
 		
-		exit = new JButton();
+		JButton exit = new JButton();
         exit.setSize(new Dimension(25, 25));
         exit.setPreferredSize(new Dimension(25, 25));
 		this.setIcon(exit, "data/pic/exit1.png", "data/pic/exit2.png");
-		mini = new JButton();
+		JButton mini = new JButton();
 		mini.setSize(new Dimension(25, 25));
 		mini.setPreferredSize(new Dimension(25, 25));
 		this.setIcon(mini, "data/pic/mini1.png", "data/pic/mini2.png");
@@ -128,18 +98,7 @@ public class MainFrame extends JFrame {
 		top.add(mini);
 		top.add(exit);
 		contentPane.add(top, BorderLayout.NORTH);
-		//内容panel
-		pane = new JPanel();
-		cardLayout = new CardLayout();
-		pane.setLayout(cardLayout);
-		pane.setOpaque(false);
 		
-		pane.add(hotspotPane, "Hotspot");
-		pane.add(teamPane, "Team");
-		pane.add(playerPane, "Player");
-		pane.add(matchPane, "Match");
-		contentPane.add(pane, BorderLayout.CENTER);
-		//监听
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -150,30 +109,221 @@ public class MainFrame extends JFrame {
 				MainFrame.this.setExtendedState(JFrame.ICONIFIED);
 			}
 		});
-		hotspot.addActionListener(new ActionListener() {
+	}
+	/**
+	 * 初始化导航
+	 */
+	private void initNavigation() {
+		JPanel navigation = new JPanel();
+		navigation.setOpaque(false);
+		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
+		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
+		//球队
+		JButton team = new JButton();
+		team.setSize(new Dimension(80, 30));
+		team.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(team, "data/pic/team1.png", "data/pic/team2.png");
+		
+		JPopupMenu teamPopup = new JPopupMenu();
+		teamPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		JMenuItem t1 = new JMenuItem("东部联盟");
+		t1.setOpaque(true);
+		t1.setBackground(Color.BLUE);
+		JMenuItem t2 = new JMenuItem("西部联盟");
+		t2.setOpaque(true);
+		t2.setBackground(Color.BLUE);
+		JMenuItem t3 = new JMenuItem("球队数据");
+		t3.setOpaque(true);
+		t3.setBackground(Color.BLUE);
+		
+		teamPopup.add(t1);
+		teamPopup.add(new JSeparator());
+		teamPopup.add(t2);
+		teamPopup.add(new JSeparator());
+		teamPopup.add(t3);
+		
+		team.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				teamPopup.show(team, team.getX() + 46, team.getY() - 18);
+			}
+//			public void mouseExited(MouseEvent e) {
+//				Timer timer = new Timer();
+//				timer.schedule(new TimerTask() {
+//					public void run() {
+//						teamPopup.setVisible(false);
+//					}
+//				}, 1500);
+//			}
+		});
+//		team.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				contentPane.remove(pane);
+//				pane = new Team(MainFrame.this, "East");
+//				contentPane.add(pane, BorderLayout.CENTER);
+//				revalidate();
+//			}
+//		});
+		t1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(pane, "Hotspot");
+				contentPane.remove(pane);
+				pane = new Team(MainFrame.this, "East");
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
-		team.addActionListener(new ActionListener() {
+		t2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(pane, "Team");
+				contentPane.remove(pane);
+				pane = new Team(MainFrame.this, "West");
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
-		player.addActionListener(new ActionListener() {
+		t3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(pane, "Player");
+				contentPane.remove(pane);
+				pane = new TeamPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
+		//球员
+		JButton player = new JButton();
+		player.setSize(new Dimension(80, 30));
+		player.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(player, "data/pic/player1.png", "data/pic/player2.png");
+		
+		JPopupMenu playerPopup = new JPopupMenu();
+		playerPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		JMenuItem p1 = new JMenuItem("球员信息");
+		p1.setOpaque(true);
+		p1.setBackground(Color.BLUE);
+		JMenuItem p2 = new JMenuItem("球员数据");
+		p2.setOpaque(true);
+		p2.setBackground(Color.BLUE);
+		
+		playerPopup.add(p1);
+		playerPopup.add(new JSeparator());
+		playerPopup.add(p2);
+		
+		player.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				playerPopup.show(player, player.getX() + 46, player.getY() - 72);
+			}
+//			public void mouseExited(MouseEvent e) {
+//				Timer timer = new Timer();
+//				timer.schedule(new TimerTask() {
+//					public void run() {
+//						playerPopup.setVisible(false);
+//					}
+//				}, 1500);
+//			}
+		});
+//		player.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				contentPane.remove(pane);
+//				pane = new PlayerPane(MainFrame.this);
+//				contentPane.add(pane, BorderLayout.CENTER);
+//				revalidate();
+//			}
+//		});
+//		p1.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				contentPane.remove(pane);
+//				pane = new PlayerPane(MainFrame.this);
+//				contentPane.add(pane, BorderLayout.CENTER);
+//				revalidate();
+//			}
+//		});
+		p2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new PlayerPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
+		//比赛
+		JButton match = new JButton();
+		match.setSize(new Dimension(80, 30));
+		match.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(match, "data/pic/match1.png", "data/pic/match2.png");
+		
 		match.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(pane, "Match");
+				contentPane.remove(pane);
+				pane = new MatchPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
-		//------------------------------------------------------------------
-		this.setDragable();
-		this.setUndecorated(true);
-		this.setVisible(true);
+		//热点
+		JButton hotspot = new JButton();
+		hotspot.setSize(new Dimension(80, 30));
+		hotspot.setPreferredSize(new Dimension(80, 30));
+		this.setIcon(hotspot, "data/pic/hotspot1.png", "data/pic/hotspot2.png");
+		
+		JPopupMenu hotspotPopup = new JPopupMenu();
+		hotspotPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		JMenuItem h1 = new JMenuItem("当天热点球员");
+		h1.setOpaque(true);
+		h1.setBackground(Color.BLUE);
+		JMenuItem h2 = new JMenuItem("赛季热点球员");
+		h2.setOpaque(true);
+		h2.setBackground(Color.BLUE);
+		JMenuItem h3 = new JMenuItem("赛季热点球队");
+		h3.setOpaque(true);
+		h3.setBackground(Color.BLUE);
+		JMenuItem h4 = new JMenuItem("进步最快球员");
+		h4.setOpaque(true);
+		h4.setBackground(Color.BLUE);
+		
+		hotspotPopup.add(h1);
+		hotspotPopup.add(new JSeparator());
+		hotspotPopup.add(h2);
+		hotspotPopup.add(new JSeparator());
+		hotspotPopup.add(h3);
+		hotspotPopup.add(new JSeparator());
+		hotspotPopup.add(h4);
+		
+		hotspot.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				hotspotPopup.show(hotspot, hotspot.getX() + 46, hotspot.getY() - 180);
+			}
+//			public void mouseExited(MouseEvent e) {
+//				Timer timer = new Timer();
+//				timer.schedule(new TimerTask() {
+//					public void run() {
+//						hotspotPopup.setVisible(false);
+//					}
+//				}, 1500);
+//			}
+		});
+		h1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		h2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		h3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		h4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		navigation.add(team);
+		navigation.add(Box.createVerticalStrut(20));
+		navigation.add(player);
+		navigation.add(Box.createVerticalStrut(20));
+		navigation.add(match);
+		navigation.add(Box.createVerticalStrut(20));
+		navigation.add(hotspot);
+		contentPane.add(navigation, BorderLayout.WEST);
 	}
 	/**
 	 * 设置图标
@@ -181,7 +331,7 @@ public class MainFrame extends JFrame {
 	 * @param file1 默认图标路径
 	 * @param file2 翻转图标路径
 	 */
-	public void setIcon(JButton button, String file1, String file2) {  
+	private void setIcon(JButton button, String file1, String file2) {  
         Image icon1 = (new ImageIcon(file1)).getImage();
         double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
 		Image temp1 = icon1.getScaledInstance((int)(button.getHeight() * scale1), button.getHeight(), Image.SCALE_DEFAULT);
@@ -197,21 +347,6 @@ public class MainFrame extends JFrame {
 		button.setBorderPainted(false);//无边框
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
 		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
-	}
-	/**
-	 * 刷新
-	 */
-	public void refresh() {
-		pane.removeAll();
-		hotspotPane = new HotspotPane(this);
-		playerPane = new PlayerPane(this);
-		teamPane = new TeamPane(this);
-		matchPane = new MatchPane(this);
-		pane.add(hotspotPane, "Hotspot");
-		pane.add(teamPane, "Team");
-		pane.add(playerPane, "Player");
-		pane.add(matchPane, "Match");
-		revalidate();
 	}
 	/**
 	 * 设置界面可拖动
@@ -237,6 +372,22 @@ public class MainFrame extends JFrame {
                }
             }
         });
+	}
+	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		pane.removeAll();
+//		hotspotPane = new HotspotPane(this);
+//		playerPane = new PlayerPane(this);
+//		teamPane = new TeamPane(this);
+//		teamPane = new Team();
+//		matchPane = new MatchPane(this);
+//		pane.add(hotspotPane, "Hotspot");
+//		pane.add(teamPane, "Team");
+//		pane.add(playerPane, "Player");
+//		pane.add(matchPane, "Match");
+		revalidate();
 	}
 	//--------------------------------------------------------
 	public static void main(String[] args) {

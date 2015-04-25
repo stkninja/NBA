@@ -35,34 +35,27 @@ public class MatchSearchPane extends JInternalFrame {
 	private MatchPane father;
 	private MatchBLService bl;
 	private JPanel contentPane;//总panel
-	private ImageIcon background;//背景图片
-	private JPanel pane;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JLabel label4;
-	private JPanel date;
-	private JLabel label5;
-	private JLabel label6;
 	private JComboBox<String> comboBox1;
 	private JComboBox<String> comboBox2;
 	private JComboBox<String> comboBox3;
 	private JTextField text1;
 	private JTextField text2;
-	private JPanel bottom;
 	private JButton search;
 	private JButton reset;
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//--------------------------------------------------------
+	/**
+	 * 
+	 * @param father 上层MatchPane
+	 */
 	public MatchSearchPane(MatchPane father) {
 		this.father = father;
 		bl = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.png");
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -70,27 +63,37 @@ public class MatchSearchPane extends JInternalFrame {
 			}
 		};
 		this.setContentPane(contentPane);
-		//搜索界面
-		pane = new JPanel(new GridLayout(9, 1, 0, 2));
+		
+		this.init();
+		this.setDragable();
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		this.setVisible(true);
+	}
+	/**
+	 * 初始化
+	 */
+	private void init() {
+		JPanel pane = new JPanel(new GridLayout(9, 1, 0, 2));
 		pane.setOpaque(false);
 		pane.setBorder(BorderFactory.createEmptyBorder(5, 20, 20, 20));
-		label1 = new JLabel("赛季：");
+		JLabel label1 = new JLabel("赛季：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
-		label2 = new JLabel("日期：");
+		JLabel label2 = new JLabel("日期：");
 		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		label3 = new JLabel("球员：");
+		JLabel label3 = new JLabel("球员：");
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
-		label4 = new JLabel("球队缩写：");
+		JLabel label4 = new JLabel("球队缩写：");
 		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		comboBox1 = new JComboBox<String>((String[])bl.getAllSeasons().toArray(new String[bl.getAllSeasons().size()]));
 		text1 = new JTextField();
 		text2 = new JTextField();
 		
-		date = new JPanel(new FlowLayout());
+		JPanel date = new JPanel(new FlowLayout());
 		date.setOpaque(false);
-		label5 = new JLabel("月");
+		JLabel label5 = new JLabel("月");
 		label5.setFont(new Font("黑体", Font.PLAIN, 14));
-		label6 = new JLabel("日");
+		JLabel label6 = new JLabel("日");
 		label6.setFont(new Font("黑体", Font.PLAIN, 14));
 		comboBox2 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
 		comboBox3 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
@@ -102,7 +105,7 @@ public class MatchSearchPane extends JInternalFrame {
 		date.add(label6);
 		date.setPreferredSize(new Dimension(100, 25));
 		
-		bottom = new JPanel(new FlowLayout());
+		JPanel bottom = new JPanel(new FlowLayout());
 		bottom.setOpaque(false);
 		search = new JButton("搜索");
 		search.setFont(new Font("楷体", Font.PLAIN, 14));
@@ -122,7 +125,7 @@ public class MatchSearchPane extends JInternalFrame {
 		pane.add(text2);
 		pane.add(bottom);
 		contentPane.add(pane, BorderLayout.NORTH);
-		//监听
+		
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem(), text1.getText()));
@@ -133,17 +136,12 @@ public class MatchSearchPane extends JInternalFrame {
 				MatchSearchPane.this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
 			}
 		});
-		//-----------------------------------------------------------------
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
 	}
 	/**
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.getX(), father.getY(), father.getWidth() / 5, father.getHeight() * 4 / 7);
+		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 5, father.dp.getHeight() * 4 / 7);
 	}
 	/**
 	 * 获得所有数据

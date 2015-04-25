@@ -8,8 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -17,11 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import ui.Region;
+import ui.TeamEnum;
 import vo.TeamVO;
 import businesslogic.MatchBL;
 import businesslogic.TeamBL;
@@ -40,28 +36,24 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 	private MatchBLService matchBL;
 	private ArrayList<TeamVO> list;
 	private JPanel contentPane;//总panel
-	private ImageIcon background;//背景图片
-	private JPanel pane;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JLabel label4;
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> season;
-	private JTextField text;
 	//拖动
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//--------------------------------------------------------
+	/**
+	 * 
+	 * @param father 上层TeamPane
+	 */
 	public TeamSearchPane(TeamPane father) {
 		this.father = father;
 		teamBL = new TeamBL();
 		matchBL = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.png");
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -69,24 +61,30 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 			}
 		};
 		this.setContentPane(contentPane);
-		//搜索界面
-		pane = new JPanel(new GridLayout(8, 1, 0, 6));
+		this.init();
+		this.setDragable();
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		this.setVisible(true);
+	}
+	/**
+	 * 初始化
+	 */
+	private void init() {
+		JPanel pane = new JPanel(new GridLayout(6, 1, 0, 6));
 		pane.setOpaque(false);
-		pane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+		pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
-		label1 = new JLabel("数据类型：");
+		JLabel label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label2 = new JLabel("地区：");
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label3 = new JLabel("赛季：");
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		mode.setFont(new Font("楷体", Font.PLAIN, 14));
-		label2 = new JLabel("地区：");
-		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		region = new JComboBox<String>(Region.getRegion());
-		label3 = new JLabel("赛季：");
-		label3.setFont(new Font("黑体", Font.PLAIN, 14));
+		region = new JComboBox<String>(TeamEnum.getRegion());
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		label4 = new JLabel("球队缩写：");
-		label4.setFont(new Font("黑体", Font.PLAIN, 14));
-		text = new JTextField();
 		
 		pane.add(label1);
 		pane.add(mode);
@@ -94,36 +92,17 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		pane.add(region);
 		pane.add(label3);
 		pane.add(season);
-		pane.add(label4);
-		pane.add(text);
 		contentPane.add(pane, BorderLayout.CENTER);
-		//监听
+		
 		mode.addActionListener(this);
 		season.addActionListener(this);
 		region.addActionListener(this);
-		text.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					ArrayList<TeamVO> vo = teamBL.getTeamsInfo(list, (String)season.getSelectedItem(), text.getText());
-					if (vo != null) {
-						TeamSearchPane.this.setData(vo);
-					} else {
-						JOptionPane.showMessageDialog(null, "查无此队！", "提示", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		//-----------------------------------------------------------------
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
 	}
 	/**
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.getX(), father.getY(), father.getWidth() / 5, father.getHeight() / 2);
+		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 6, father.dp.getHeight() / 3);
 	}
 	/**
 	 * 监听

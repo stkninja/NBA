@@ -45,43 +45,55 @@ import businesslogicservice.MatchBLService;
  *
  */
 @SuppressWarnings("serial")
-public class MatchPane extends JDesktopPane {
+public class MatchPane extends JPanel {
 	public MainFrame main;
 	private MatchBLService bl;
+	public JDesktopPane dp;
 	private JTable table;
 	private JScrollPane sp;
-	//搜索界面
-	private JPanel pane;
-	private JButton search;
 	//子窗口
 	private MatchSearchPane searchPane;
-	//--------------------------------------------------
+	/**
+	 * 
+	 * @param main 主框架
+	 */
 	public MatchPane(MainFrame main) {
 		this.main = main;
 		bl = new MatchBL();
 		this.setOpaque(false);
-		this.setLayout(new BorderLayout(0, 20));
-		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
-		//搜索界面
-		pane = new JPanel();
-		pane.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
-		pane.setOpaque(false);
-		search = new JButton();
-		search.setSize(new Dimension(25, 25));
-		search.setSize(new Dimension(25, 25));
-		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
-		pane.add(search);
-		this.add(pane, BorderLayout.NORTH);
+		this.setLayout(new BorderLayout());
+		//桌面
+		dp = new JDesktopPane();
+		dp.setOpaque(false);
+		dp.setLayout(new BorderLayout(0, 20));
+		dp.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+		this.add(dp, BorderLayout.CENTER);
+		
+		this.init();
 		//初始搜索面板
 		searchPane= new MatchSearchPane(this);
 		searchPane.setVisible(false);
-		this.add(searchPane);
+		dp.add(searchPane);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		searchPane.getAll();
-		this.add(sp, BorderLayout.CENTER);
-		//监听
+		dp.add(sp, BorderLayout.CENTER);
+	}
+	/**
+	 * 初始化
+	 */
+	private void init() {
+		JPanel pane = new JPanel();
+		pane.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
+		pane.setOpaque(false);
+		JButton search = new JButton();
+		search.setSize(new Dimension(25, 25));
+		search.setSize(new Dimension(25, 25));
+		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
+		pane.add(search);
+		dp.add(pane, BorderLayout.NORTH);
+		
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (searchPane.isVisible())
@@ -97,7 +109,7 @@ public class MatchPane extends JDesktopPane {
 	 * @param data 表格数据
 	 */
 	public void showTable(Object[][] data) {
-		this.remove(table);
+		dp.remove(table);
 		String[] subTitle = new String[]{"赛季", "日期", "主队", "比分", "客队"};
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
@@ -163,7 +175,7 @@ public class MatchPane extends JDesktopPane {
 	 * @param file1 默认图标路径
 	 * @param file2 翻转图标路径
 	 */
-	public void setIcon(JButton button, String file1, String file2) {  
+	private void setIcon(JButton button, String file1, String file2) {  
         Image icon1 = (new ImageIcon(file1)).getImage();
         double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
 		Image temp1 = icon1.getScaledInstance((int)(button.getHeight() * scale1), button.getHeight(), Image.SCALE_DEFAULT);

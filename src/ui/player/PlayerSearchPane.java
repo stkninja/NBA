@@ -1,6 +1,7 @@
 package ui.player;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
@@ -23,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.Region;
+import ui.TeamEnum;
 import vo.PlayerVO;
 import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
@@ -42,14 +45,6 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	private MatchBLService matchBL;
 	private ArrayList<PlayerVO> list;
 	private JPanel contentPane;//总panel
-	private ImageIcon background;//背景图片
-	private JPanel pane;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JLabel label4;
-	private JLabel label5;
-	private JLabel label6;
 	private JComboBox<String> mode;
 	private JComboBox<String> season;
 	private JComboBox<String> region;
@@ -60,14 +55,17 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	private Point loc = null;
 	private Point tmp = null;
 	private boolean isDragged = false;
-	//----------------------------------------------------
+	/**
+	 * 
+	 * @param father 上层PlayerPane
+	 */
 	public PlayerSearchPane(PlayerPane father) {
 		this.father = father;
 		playerBL = new PlayerBL();
 		matchBL = new MatchBL();
 		this.setPlace();
 		//背景
-		background = new ImageIcon("data/pic/PanelBG.png");
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
 		contentPane = new JPanel(new BorderLayout()) {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -75,33 +73,43 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 			}
 		};
 		this.setContentPane(contentPane);
-		//搜索界面
-		pane = new JPanel(new GridLayout(12, 1, 0, 1));
+		this.init();
+		this.setDragable();
+		this.setBorder(BorderFactory.createEmptyBorder());
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		this.setVisible(true);
+	}
+	/**
+	 * 初始化
+	 */
+	private void init() {
+		JPanel pane = new JPanel(new GridLayout(12, 1, 0, 1));
 		pane.setOpaque(false);
 		pane.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
 		
-		label1 = new JLabel("数据类型：");
+		JLabel label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label2 = new JLabel("地区：");
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label3 = new JLabel("球队：");
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label4 = new JLabel("位置：");
+		label4.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label5 = new JLabel("赛季：");
+		label5.setFont(new Font("黑体", Font.PLAIN, 14));
+		JLabel label6 = new JLabel("球员名称：");
+		label6.setFont(new Font("黑体", Font.PLAIN, 14));
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		mode.setFont(new Font("楷体", Font.PLAIN, 14));
-		label2 = new JLabel("地区：");
-		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		region = new JComboBox<String>(Region.getRegion());
-		label3 = new JLabel("球队：");
-		label3.setFont(new Font("黑体", Font.PLAIN, 14));
+		region = new JComboBox<String>(TeamEnum.getRegion());
 		team = new JComboBox<String>();
 		team.addItem("All");
 		team.setEnabled(false);
-		label4 = new JLabel("位置：");
-		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		String[] positionList = {"All", "G", "F", "C"};
 		position = new JComboBox<String>(positionList);
-		label5 = new JLabel("赛季：");
-		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		label6 = new JLabel("球员名称：");
-		label6.setFont(new Font("黑体", Font.PLAIN, 14));
-		text = new JTextField();
+		text = new JTextField("按回车键确定");
+		text.setForeground(Color.GRAY);
 		
 		pane.add(label1);
 		pane.add(mode);
@@ -116,7 +124,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		pane.add(label6);
 		pane.add(text);
 		contentPane.add(pane, BorderLayout.CENTER);
-		//监听
+		
 		mode.addActionListener(this);
 		region.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +134,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 					team.setEnabled(false);
 				} else {
 					team.removeAllItems();
-					String[] list = Region.valueOf((String)region.getSelectedItem()).getTeam();
+					String[] list = TeamEnum.getTeam((String)region.getSelectedItem());
 					team.addItem("All");
 					for (int i = 0; i < list.length; i++) {
 						team.addItem(list[i]);
@@ -143,6 +151,15 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		});
 		position.addActionListener(this);
 		season.addActionListener(this);
+		text.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				text.setText("按回车键确定");
+				text.setForeground(Color.GRAY);
+			}
+			public void focusGained(FocusEvent e) {
+				text.setText("");
+			}
+		});
 		text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
@@ -155,17 +172,12 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 				}
 			}
 		});
-		//-------------------------------------------------
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
 	}
 	/**
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.getX(), father.getY(), father.getWidth() / 5, father.getHeight() / 2);
+		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 5, father.dp.getHeight() * 3 / 5);
 	}
 	/**
 	 * 监听
