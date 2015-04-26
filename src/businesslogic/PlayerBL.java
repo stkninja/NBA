@@ -632,8 +632,34 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 						break;
 					}
 					if(filter.get(i).equals("ÇòÔ±Ãû³Æ")){
-						if(!vo1.name.equals(vo2.name)){
-							res = vo1.name.compareTo(vo2.name);
+						String vo1last = "";
+						String vo1first = "";
+						String vo2last = "";
+						String vo2first = "";
+						if(vo1.name.indexOf(" ") < 0){
+							vo1last = vo1.name;
+							vo1first = vo1.name;
+						}
+						else{
+							vo1last = vo1.name.split(" ")[1];
+							vo1first = vo1.name.split(" ")[0];
+						}
+						
+						if(vo2.name.indexOf(" ") < 0){
+							vo2last = vo2.name;
+							vo2first = vo2.name;
+						}
+						else{
+							vo2last = vo2.name.split(" ")[1];
+							vo2first = vo2.name.split(" ")[0];
+						}
+						
+						if(!vo1last.equals(vo2last)){
+							res = vo1last.compareTo(vo2last);
+							break;
+						}
+						else if(vo1last.equals(vo2last) && !vo1first.equals(vo2first)){
+							res = vo1first.compareTo(vo2first);
 							break;
 						}
 						else{
@@ -657,7 +683,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 							else{
 								res = -1;
 							}
-//							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
 							break;
 						}
 						else{
@@ -956,5 +981,15 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			}
 		}
 		return res;
+	}
+
+	public ArrayList<PlayerBasicInfoVO> getOnePlayerByFirst(String s) {
+		ArrayList<PlayerBasicInfoVO> list = new ArrayList<PlayerBasicInfoVO>();
+		for(String name : playerdata.getAllPlayersName()){
+			if(name.substring(0, 1).equals(s)){
+				list.add(getOnePlayer(name));
+			}
+		}
+		return list;
 	}
 }

@@ -11,6 +11,8 @@ public interface PlayerBLService {
 	
 	public PlayerBasicInfoVO getOnePlayer(String name);
 	
+	public ArrayList<PlayerBasicInfoVO> getOnePlayerByFirst(String s);
+	
 	public ArrayList<PlayerVO> getPlayersInfo(ArrayList<PlayerVO> list,String season,String name);
 
 	public ArrayList<MatchVO> getLastFiveMatches(String name);
