@@ -983,11 +983,11 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return res;
 	}
 
-	public ArrayList<PlayerBasicInfoVO> getOnePlayerByFirst(String s) {
+	public ArrayList<PlayerBasicInfoVO> getPlayersByFirst(String s,String team) {
 		ArrayList<PlayerBasicInfoVO> list = new ArrayList<PlayerBasicInfoVO>();
-		for(String name : playerdata.getAllPlayersName()){
-			if(name.substring(0, 1).equals(s)){
-				list.add(getOnePlayer(name));
+		for(PlayerVO vo : getPlayers(matchdata.getLastSeason(),"All","All",team)){
+			if(vo.name.substring(0, 1).equals(s)){
+				list.add(getOnePlayer(vo.name));
 			}
 		}
 		return list;
