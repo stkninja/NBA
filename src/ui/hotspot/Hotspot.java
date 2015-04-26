@@ -1,11 +1,11 @@
 package ui.hotspot;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,78 +41,109 @@ import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
 
 /**
- * 热点分类内容面板
+ * 热点面板
  * @author stk
  *
  */
 @SuppressWarnings("serial")
-public class ContentPane extends JPanel {
+public class Hotspot extends JPanel {
 	public MainFrame main;
 	private TeamBLService teamBL;
 	private PlayerBLService playerBL;
 	private MatchBLService matchBL;
-	private String type;
-	private String filter;
-	private JPanel top;
-	private JLabel label1;
 	private JPanel pane;
-	private JButton[] label;
+	private String filter;
+	private String[] condition;
 	private JButton[] button;
-	private JLabel label2;
+	private JButton[] label;
 	private JComboBox<String> comboBox;
-	//---------------------------------------------------------
 	/**
 	 * 
+	 * @param main 主框架
 	 * @param condition 筛选条件
 	 */
-	public ContentPane(MainFrame main, String[] condition) {
+	public Hotspot(MainFrame main, String[] condition) {
 		this.main = main;
-		playerBL = new PlayerBL();
+		this.condition = condition;
+		this.filter = condition[1];
 		teamBL = new TeamBL();
+		playerBL = new PlayerBL();
 		matchBL = new MatchBL();
 		this.setOpaque(false);
-		this.setLayout(new BorderLayout());
-		type = condition[0];
-		filter = condition[1];
-		//筛选条件
-		top = new JPanel(new FlowLayout());
-		top.setOpaque(false);
-		label1 = new JLabel("筛选条件：");
-		label1.setFont(new Font("黑体", Font.BOLD, 15));
-		top.add(label1);
-		button = new JButton[condition.length - 1];
-		for (int i = 1; i < condition.length; i++) {
-			button[i - 1] = new JButton(condition[i]);
-			button[i - 1].setContentAreaFilled(false);
-			button[i - 1].setBorderPainted(false);
-			button[i - 1].setMargin(new Insets(0, 0, 0, 0));
-			button[i - 1].setFont(new Font("楷体", Font.PLAIN, 15));
-			button[i - 1].setForeground(Color.BLUE);
-			button[i - 1].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
-			top.add(button[i - 1]);
-		}
-		if (type.equals("赛季热点球员") || type.equals("赛季热点球队")) {
-			this.setComboBox();
-		}
-		this.add(top, BorderLayout.NORTH);
-		//球员面板
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 30));
+		this.initTop();
+		this.initSearch();
 		pane = new JPanel();
 		pane.setOpaque(false);
 		label = new JButton[5];
 		this.setData();
+		this.add(pane);
+	}
+	/**
+	 * 初始化标题
+	 */
+	private void initTop() {
+		ImageIcon background = new ImageIcon("data/pic/" + condition[0] +"1.png");
+		JPanel top = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image bg = background.getImage();
+				double scale = (double)bg.getWidth(null) / (double)bg.getHeight(null);
+				g.drawImage(bg, 0, 0, getWidth(), (int)(getWidth() / scale), background.getImageObserver());
+			}
+		};
+		top.setOpaque(false);
+		this.add(top);
+	}
+	/**
+	 * 初始化搜索
+	 */
+	private void initSearch() {
+		JPanel search = new JPanel(new FlowLayout());
+		search.setOpaque(false);
 		
-		this.add(pane, BorderLayout.CENTER);
-		//监听
+		JLabel label1 = new JLabel("筛选条件：");
+		label1.setFont(new Font("黑体", Font.BOLD, 15));
+		search.add(label1);
+		button = new JButton[condition.length - 1];
+		for (int i = 0; i < condition.length - 1; i++) {
+			button[i] = new JButton(condition[i + 1]);
+			button[i].setContentAreaFilled(false);
+			button[i].setBorderPainted(false);
+			button[i].setMargin(new Insets(0, 0, 0, 0));
+			button[i].setFont(new Font("楷体", Font.PLAIN, 15));
+			button[i].setForeground(Color.BLUE);
+			button[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
+			search.add(button[i]);
+		}
+		if (condition[0].equals("SeasonTopPlayer") || condition[0].equals("SeasonTopTeam"))
+			this.setComboBox(search);
+		this.add(search);
+		
 		for (int i = 0; i < button.length; i++) {
 			button[i].addActionListener(new ButtonListener());
 		}
 	}
 	/**
+	 * 添加赛季选项
+	 * @param search 搜索面板
+	 */
+	private void setComboBox(JPanel search) {
+		JLabel label2 = new JLabel("选择赛季：");
+		label2.setFont(new Font("黑体", Font.BOLD, 15));
+		comboBox = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
+		search.add(label2);
+		search.add(comboBox);
+		
+		comboBox.addActionListener(new ComboBoxListener());
+	}
+	/**
 	 * 设置数据
 	 */
 	private void setData() {
-		switch(type) {
-		case "当天热点球员" : {
+		switch(condition[0]) {
+		case "TodayTopPlayer" : {
 			ArrayList<PlayerVO> playerList = playerBL.getTodayTopFivePlayers(filter);
 			if (playerList.size() != 0) {
 				for (int i = 0; i < 5; i++) {
@@ -139,7 +172,7 @@ public class ContentPane extends JPanel {
 			}
 			break;
 		}
-		case "赛季热点球员" : {
+		case "SeasonTopPlayer" : {
 			ArrayList<PlayerVO> playerList = playerBL.getSeasonTopFivePlayers((String)comboBox.getSelectedItem(), filter);
 			if (playerList.size() != 0) {
 				for (int i = 0; i < 5; i++) {
@@ -168,7 +201,7 @@ public class ContentPane extends JPanel {
 			}
 			break;
 		}
-		case "赛季热点球队" : {
+		case "SeasonTopTeam" : {
 			ArrayList<TeamVO> teamList = teamBL.getSeasonTopFiveTeams((String)comboBox.getSelectedItem(), filter);
 			if (teamList.size() != 0) {
 				for (int i = 0; i < 5; i++) {
@@ -196,7 +229,7 @@ public class ContentPane extends JPanel {
 			}
 			break;
 		}
-		case "进步最快球员" : {
+		case "PromotionPlayer" : {
 			ArrayList<PlayerVO> playerList = playerBL.getPromotionPlayers(filter);
 			if (playerList.size() != 0) {
 				for (int i = 0; i < 5; i++) {
@@ -229,23 +262,11 @@ public class ContentPane extends JPanel {
 		revalidate();
 	}
 	/**
-	 * 添加赛季选项
-	 */
-	private void setComboBox() {
-		label2 = new JLabel("选择赛季：");
-		label2.setFont(new Font("黑体", Font.BOLD, 15));
-		comboBox = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		top.add(label2);
-		top.add(comboBox);
-		//监听
-		comboBox.addActionListener(new ComboBoxListener());
-	}
-	/**
 	 * 设置图片异常图标
 	 * @param button 按钮
 	 * @param file 图标路径
 	 */
-	public void setNOTFOUND(JButton button, String file) {
+	private void setNOTFOUND(JButton button, String file) {
 		Image icon = (new ImageIcon(file)).getImage();
 		double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
 		Image temp = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale), Image.SCALE_DEFAULT);
@@ -263,7 +284,7 @@ public class ContentPane extends JPanel {
 	 * @param icon 默认图标路径
 	 * @param file 翻转图标路径
 	 */
-	public void setIcon(JButton button, Image icon, String file) {
+	private void setIcon(JButton button, Image icon, String file) {
 		double scale1 = (double)icon.getWidth(null) / (double)icon.getHeight(null);
 		Image temp1 = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale1), Image.SCALE_DEFAULT);
 		Image icon2 = (new ImageIcon(file)).getImage();
@@ -291,7 +312,7 @@ public class ContentPane extends JPanel {
 			for (int i = 0; i < 5; i++) {
 				pane.remove(label[i]);
 			}
-			ContentPane.this.setData();
+			Hotspot.this.setData();
 		}
 	}
 	/**
@@ -310,7 +331,7 @@ public class ContentPane extends JPanel {
 			for (int i = 0; i < 5; i++) {
 				pane.remove(label[i]);
 			}
-			ContentPane.this.setData();
+			Hotspot.this.setData();
 		}
 	}
 	/**
@@ -326,11 +347,11 @@ public class ContentPane extends JPanel {
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
 						if (str.length() <= 3) {
-							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str), main.teamPane);
+							TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str), main);
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						} else {
-							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main.playerPane);
+							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main);
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						}

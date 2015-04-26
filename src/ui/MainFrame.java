@@ -29,7 +29,9 @@ import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.hotspot.Hotspot;
 import ui.match.MatchPane;
+import ui.player.Player;
 import ui.player.PlayerPane;
 import ui.team.Team;
 import ui.team.TeamPane;
@@ -227,14 +229,14 @@ public class MainFrame extends JFrame {
 //				revalidate();
 //			}
 //		});
-//		p1.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				contentPane.remove(pane);
-//				pane = new PlayerPane(MainFrame.this);
-//				contentPane.add(pane, BorderLayout.CENTER);
-//				revalidate();
-//			}
-//		});
+		p1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new Player(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
 		p2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
@@ -301,18 +303,34 @@ public class MainFrame extends JFrame {
 		});
 		h1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new Hotspot(MainFrame.this, new String[]{"TodayTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断"});
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
 		h2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new Hotspot(MainFrame.this, new String[]{"SeasonTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"});
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
 		h3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new Hotspot(MainFrame.this, new String[]{"SeasonTopTeam", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"});
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
 		h4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new Hotspot(MainFrame.this, new String[]{"PromotionPlayer", "场均得分", "场均篮板", "场均助攻"});
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
 			}
 		});
 		

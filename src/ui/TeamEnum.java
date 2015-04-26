@@ -75,4 +75,11 @@ public enum TeamEnum {
 		}
 		return null;
 	}
+	public static TeamEnum valueToEnum(String value) {
+		for (TeamEnum i : TeamEnum.values()) {
+			if (i.abbr.equals(value) || i.name_Ch.equals(value) || i.name_En.equals(value))
+				return i;
+		}
+		return null;
+	}
 }

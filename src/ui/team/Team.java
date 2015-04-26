@@ -49,7 +49,7 @@ public class Team extends JPanel {
 			background = new ImageIcon("data/pic/TodayTopPlayer1.png");
 		else
 			background = new ImageIcon("data/pic/TodayTopPlayer2.png");
-		JPanel top = new JPanel(new FlowLayout(FlowLayout.RIGHT)) {
+		JPanel top = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Image bg = background.getImage();
