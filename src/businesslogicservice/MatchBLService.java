@@ -12,4 +12,5 @@ public interface MatchBLService {
 	public ArrayList<MatchVO> getMatchesAboutTeamSeasonDatePlayer(String team,String season,String date,String player);
 	
 	public ArrayList<String> getAllSeasons();
+	
 }

@@ -36,4 +36,6 @@ public interface PlayerBLService {
 	public ArrayList<PlayerVO> getPromotionPlayers(String filter);//依据筛选条件筛选进步最快球员
 	
 	public PlayerVO getPlayerVO(String name);
+	
+	public String getLastSeason();
 }
