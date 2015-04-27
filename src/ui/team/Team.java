@@ -1,7 +1,7 @@
 package ui.team;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -78,6 +78,9 @@ public class Team extends JPanel {
 			label2 = new JLabel("西北分区", JLabel.CENTER);
 			label3 = new JLabel("西南分区", JLabel.CENTER);
 		}
+		label1.setFont(new Font("黑体", Font.PLAIN, 15));
+		label2.setFont(new Font("黑体", Font.PLAIN, 15));
+		label3.setFont(new Font("黑体", Font.PLAIN, 15));
 		category.add(label1);
 		category.add(label2);
 		category.add(label3);
@@ -104,13 +107,13 @@ public class Team extends JPanel {
 		}
 		Boolean judge = true;
 		for (int i = 0, j = 0; i < 15; i = i + 3, j++) {
-			teamInfo[i] = new TeamInfo(region1[j]);
-			teamInfo[i + 1] = new TeamInfo(region2[j]);
-			teamInfo[i + 2] = new TeamInfo(region3[j]);
+			teamInfo[i] = new TeamInfo(main, region1[j]);
+			teamInfo[i + 1] = new TeamInfo(main, region2[j]);
+			teamInfo[i + 2] = new TeamInfo(main, region3[j]);
 			if (judge) {
-				teamInfo[i].setBackground(Color.BLUE);
-				teamInfo[i + 1].setBackground(Color.BLUE);
-				teamInfo[i + 2].setBackground(Color.BLUE);
+				teamInfo[i].setBackground(new Color(206,231,255));
+				teamInfo[i + 1].setBackground(new Color(206,231,255));
+				teamInfo[i + 2].setBackground(new Color(206,231,255));
 				judge = false;
 			} else {
 				teamInfo[i].setBackground(Color.LIGHT_GRAY);

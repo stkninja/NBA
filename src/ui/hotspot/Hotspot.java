@@ -71,7 +71,7 @@ public class Hotspot extends JPanel {
 		matchBL = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 30));
+		this.setBorder(BorderFactory.createEmptyBorder(70, 20, 70, 30));
 		this.initTop();
 		this.initSearch();
 		pane = new JPanel();

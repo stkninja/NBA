@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ui.PositionEnum;
 import ui.TeamEnum;
 import vo.PlayerVO;
 import businesslogic.MatchBL;
@@ -192,6 +193,14 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		this.setData(playerBL.getSeasonPlayers((String)season.getSelectedItem()));
 	}
 	/**
+	 * 获得某个球队的球员
+	 * @param season 赛季
+	 * @param name 球队名
+	 */
+	public void getPlayers(String season, String name) {
+		this.setData(playerBL.getPlayers(season, "All", "All", name));
+	}
+	/**
 	 * 设置表格数据
 	 * @param list 队员VO列表
 	 */
@@ -202,8 +211,8 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
 				data[i][1] = list.get(i).name;
-				data[i][2] = list.get(i).team;
-				data[i][3] = list.get(i).position;
+				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
 				data[i][4] = list.get(i).gameplay;
 				data[i][5] = list.get(i).gamestart;
 				data[i][6] = list.get(i).allminute;
@@ -252,8 +261,8 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
 				data[i][1] = list.get(i).name;
-				data[i][2] = list.get(i).team;
-				data[i][3] = list.get(i).position;
+				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
 				data[i][4] = list.get(i).gameplay;
 				data[i][5] = list.get(i).gamestart;
 				data[i][6] = list.get(i).minute;

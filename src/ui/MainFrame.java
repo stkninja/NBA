@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
@@ -130,13 +131,16 @@ public class MainFrame extends JFrame {
 		teamPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		JMenuItem t1 = new JMenuItem("东部联盟");
 		t1.setOpaque(true);
-		t1.setBackground(Color.BLUE);
+		t1.setFont(new Font("楷体", Font.PLAIN, 16));
+		t1.setBackground(new Color(206,231,255));
 		JMenuItem t2 = new JMenuItem("西部联盟");
 		t2.setOpaque(true);
-		t2.setBackground(Color.BLUE);
+		t2.setFont(new Font("楷体", Font.PLAIN, 16));
+		t2.setBackground(new Color(206,231,255));
 		JMenuItem t3 = new JMenuItem("球队数据");
 		t3.setOpaque(true);
-		t3.setBackground(Color.BLUE);
+		t3.setFont(new Font("楷体", Font.PLAIN, 16));
+		t3.setBackground(new Color(206,231,255));
 		
 		teamPopup.add(t1);
 		teamPopup.add(new JSeparator());
@@ -199,10 +203,12 @@ public class MainFrame extends JFrame {
 		playerPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		JMenuItem p1 = new JMenuItem("球员信息");
 		p1.setOpaque(true);
-		p1.setBackground(Color.BLUE);
+		p1.setFont(new Font("楷体", Font.PLAIN, 16));
+		p1.setBackground(new Color(206,231,255));
 		JMenuItem p2 = new JMenuItem("球员数据");
 		p2.setOpaque(true);
-		p2.setBackground(Color.BLUE);
+		p2.setFont(new Font("楷体", Font.PLAIN, 16));
+		p2.setBackground(new Color(206,231,255));
 		
 		playerPopup.add(p1);
 		playerPopup.add(new JSeparator());
@@ -269,16 +275,20 @@ public class MainFrame extends JFrame {
 		hotspotPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		JMenuItem h1 = new JMenuItem("当天热点球员");
 		h1.setOpaque(true);
-		h1.setBackground(Color.BLUE);
+		h1.setFont(new Font("楷体", Font.PLAIN, 16));
+		h1.setBackground(new Color(206,231,255));
 		JMenuItem h2 = new JMenuItem("赛季热点球员");
 		h2.setOpaque(true);
-		h2.setBackground(Color.BLUE);
+		h2.setFont(new Font("楷体", Font.PLAIN, 16));
+		h2.setBackground(new Color(206,231,255));
 		JMenuItem h3 = new JMenuItem("赛季热点球队");
 		h3.setOpaque(true);
-		h3.setBackground(Color.BLUE);
+		h3.setFont(new Font("楷体", Font.PLAIN, 16));
+		h3.setBackground(new Color(206,231,255));
 		JMenuItem h4 = new JMenuItem("进步最快球员");
 		h4.setOpaque(true);
-		h4.setBackground(Color.BLUE);
+		h4.setFont(new Font("楷体", Font.PLAIN, 16));
+		h4.setBackground(new Color(206,231,255));
 		
 		hotspotPopup.add(h1);
 		hotspotPopup.add(new JSeparator());
@@ -392,22 +402,48 @@ public class MainFrame extends JFrame {
         });
 	}
 	/**
+	 * 显示某个球员的比赛
+	 * @param season 赛季
+	 * @param name 球员名字
+	 */
+	public void getPlayerMatch(String season, String name) {
+		contentPane.remove(pane);
+		pane = new MatchPane(MainFrame.this);
+		((MatchPane) pane).getSearchPane().getPlayerMatch(season, name);
+		contentPane.add(pane, BorderLayout.CENTER);
+		revalidate();
+	}
+	/**
+	 * 显示某个球队的比赛
+	 * @param season 赛季
+	 * @param name 球队名字
+	 */
+	public void getTeamMatch(String season, String name) {
+		contentPane.remove(pane);
+		pane = new MatchPane(MainFrame.this);
+		((MatchPane) pane).getSearchPane().getTeamMatch(season, name);
+		contentPane.add(pane, BorderLayout.CENTER);
+		revalidate();
+	}
+	/**
+	 * 显示某个球队的球员
+	 * @param season 赛季
+	 * @param name 球队名字
+	 */
+	public void getPlayers(String season, String name) {
+		contentPane.remove(pane);
+		pane = new PlayerPane(MainFrame.this);
+		((PlayerPane) pane).getSearchPane().getPlayers(season, name);
+		contentPane.add(pane, BorderLayout.CENTER);
+		revalidate();
+	}
+	/**
 	 * 刷新
 	 */
 	public void refresh() {
-		pane.removeAll();
-//		hotspotPane = new HotspotPane(this);
-//		playerPane = new PlayerPane(this);
-//		teamPane = new TeamPane(this);
-//		teamPane = new Team();
-//		matchPane = new MatchPane(this);
-//		pane.add(hotspotPane, "Hotspot");
-//		pane.add(teamPane, "Team");
-//		pane.add(playerPane, "Player");
-//		pane.add(matchPane, "Match");
-		revalidate();
 	}
 	//--------------------------------------------------------
+	//FIXME search sort to chinese, table width refresh
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

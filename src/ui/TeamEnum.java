@@ -43,7 +43,10 @@ public enum TeamEnum {
 	HOU("HOU", "Houston Rockets", "ÐÝË¹¶Ù »ð¼ý"),
 	MEM("MEM", "Memphis Grizzlies", "ÃÏ·ÆË¹ »ÒÐÜ"),
 	NOP("NOP", "New Orleans Pelicans", "ÐÂ°Â¶ûÁ¼ ðÃðÉ"),
-	SAS("SAS", "San Antonio Spurs", "Ê¥°²¶«Äá°Â Âí´Ì");
+//	NOC("NOC", "New Orleans Pelicans", "ÐÂ°Â¶ûÁ¼ ðÃðÉ"),
+	SAS("SAS", "San Antonio Spurs", "Ê¥°²¶«Äá°Â Âí´Ì"),
+	
+	NONE("NONE", "", "");
 	
 	private String abbr;
 	private String name_En;
@@ -80,6 +83,6 @@ public enum TeamEnum {
 			if (i.abbr.equals(value) || i.name_Ch.equals(value) || i.name_En.equals(value))
 				return i;
 		}
-		return null;
+		return TeamEnum.NONE;
 	}
 }

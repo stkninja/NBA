@@ -199,6 +199,7 @@ public class TeamPane extends JPanel {
 		table.setColumnModel(new GroupableTableColumnModel());
         table.setTableHeader(new GroupableTableHeader((GroupableTableColumnModel)table.getColumnModel()));
         table.setModel(dm);
+        table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setOpaque(false);
         table.getTableHeader().setFont(new Font("楷体", Font.PLAIN, 14));
@@ -254,9 +255,9 @@ public class TeamPane extends JPanel {
 		try {
             DefaultTableCellRenderer tcr = new DefaultTableCellRenderer() {
             	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            		if(column%2 == 0)
+            		if(row % 2 == 0)
             			setBackground(Color.white); //设置奇数行底色
-            		else if(column%2 == 1)
+            		else if(row % 2 == 1)
             			setBackground(new Color(206,231,255));  //设置偶数行底色
             		return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             	}
@@ -267,7 +268,7 @@ public class TeamPane extends JPanel {
         } catch (Exception ex) {
         	ex.printStackTrace();
         }
-		fixedTable.setBackground(Color.PINK);
+		fixedTable.setBackground(new Color(206,231,255));
 		//表格监听
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -275,7 +276,7 @@ public class TeamPane extends JPanel {
 					String str = (String)table.getValueAt(table.getSelectedRow(), 1);
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
-						TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str),TeamPane.this);
+						TeamFrame frame = new TeamFrame(teamBL.getOneTeam(str), main);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 					} catch (IOException | TranscoderException e1) {

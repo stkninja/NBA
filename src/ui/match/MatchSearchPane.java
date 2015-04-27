@@ -151,12 +151,16 @@ public class MatchSearchPane extends JInternalFrame {
 	}
 	/**
 	 * 获得某个球员一个赛季比赛
+	 * @param season 赛季
+	 * @param player 球员
 	 */
 	public void getPlayerMatch(String season, String player) {
 		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer("All", season, "All", player));
 	}
 	/**
 	 * 获得某个球队一个赛季比赛
+	 * @param season 赛季
+	 * @param team 球队
 	 */
 	public void getTeamMatch(String season, String team) {
 		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(team, season, "All", "All"));

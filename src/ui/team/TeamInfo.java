@@ -6,16 +6,21 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import ui.MainFrame;
 import ui.SvgUtil;
 import ui.TeamEnum;
 import vo.TeamBasicInfoVO;
@@ -29,12 +34,15 @@ import businesslogicservice.TeamBLService;
  */
 @SuppressWarnings("serial")
 public class TeamInfo extends JPanel {
+	public MainFrame main;
 	private TeamBLService teamBL;
 	/**
 	 * 
-	 * @param team	球队缩写
+	 * @param main 主框架
+	 * @param team 球队缩写
 	 */
-	public TeamInfo(String team) {
+	public TeamInfo(MainFrame main, String team) {
+		this.main = main;
 		teamBL = new TeamBL();
 		TeamBasicInfoVO vo = teamBL.getOneTeam(team);
 		JButton logo = new JButton();
@@ -49,7 +57,7 @@ public class TeamInfo extends JPanel {
 		}
 		JButton name = new JButton(TeamEnum.valueOf(vo.abbName).name_Ch());
 		name.setFont(new Font("黑体", Font.BOLD, 15));
-		name.setForeground(Color.CYAN);
+		name.setForeground(Color.DARK_GRAY);
 		name.setOpaque(false);//透明
 		name.setContentAreaFilled(false);//填充
 		name.setBorderPainted(false);//无边框
@@ -57,6 +65,19 @@ public class TeamInfo extends JPanel {
 		name.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 		this.add(logo);
 		this.add(name);
+		
+		name.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFrame.setDefaultLookAndFeelDecorated(true);
+					TeamFrame frame = new TeamFrame(teamBL.getOneTeam(vo.abbName), main);
+					frame.setOpacity(0.9f);
+					frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+				} catch (IOException | TranscoderException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 	/**
 	 * 设置图标
