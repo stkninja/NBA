@@ -314,7 +314,7 @@ public class PlayerFrame extends JFrame{
 	    		}
 	    		
 	    		pp.main.toFront();
-	    		pp.main.cardLayout.show(pp.main.pane, "Match");
+	    		pp.main.cardLayout.show(pp.main., "Match");
 	    		
 	    	}
 	    });

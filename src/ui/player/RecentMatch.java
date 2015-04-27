@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
+
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -37,7 +39,7 @@ public class RecentMatch{
 	}
 	@SuppressWarnings("deprecation")
 	public void chart1() throws IOException {  
-        CategoryDataset ds = this.getDataSet1();  
+        CategoryDataset ds = this.getDataSet1();
         JFreeChart chart = ChartFactory.createBarChart3D(  
                 "近五场得分情况", //图表标题  
                 "", //目录轴的显示标签  
@@ -48,7 +50,7 @@ public class RecentMatch{
                 false, //是否生成提示工具  
                 false);         //是否生成url链接  
   
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();  
+        CategoryPlot plot = chart.getCategoryPlot();  
   
         NumberAxis numberaxis = (NumberAxis) plot.getRangeAxis();  
   
@@ -83,9 +85,11 @@ public class RecentMatch{
         customBarRenderer.setItemLabelAnchorOffset(10D);// 设置柱形图上的文字偏离值 
         customBarRenderer.setItemLabelsVisible(true); 
         
-        customBarRenderer.setSeriesPaint(0, Color.BLUE); // 给series1 Bar 
+        customBarRenderer.setSeriesPaint(0, Color.GREEN); // 给series1 Bar 
         customBarRenderer.setSeriesOutlinePaint(0,Color.BLACK);//边框为黑色 
         chart.getLegend().setVisible(false);
+        
+         
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("3.jpg");  
@@ -146,6 +150,7 @@ public class RecentMatch{
         customBarRenderer.setItemLabelAnchorOffset(10D);// 设置柱形图上的文字偏离值 
         customBarRenderer.setItemLabelsVisible(true); 
         chart.getLegend().setVisible(false);
+        customBarRenderer.setSeriesPaint(0, Color.ORANGE); // 给series1 Bar 
   
         FileOutputStream out = null;  
         try {  
