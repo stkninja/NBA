@@ -10,7 +10,38 @@ import dataservice.MatchService;
 public class GetMatchInfo implements MatchService{
 	
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season) {
-		return new MatchBasic().matchBasic(season);
+		ArrayList<MatchPO> matches = new MatchBasic().matchBasic(season);
+		
+		int index = 0;
+		for(; index < matches.size(); index++){
+			if(matches.get(index).getDate().compareTo("06-01") > 0)
+				break;
+		}
+		index--;
+
+		if(index == -1){
+			//不存在第二年的比赛
+			for(int i = 0, j = matches.size() - 1; j - i > 1; i++, j--){
+				MatchPO temp = matches.get(i);
+				matches.set(i, matches.get(j));
+				matches.set(j, temp);
+			}
+		}
+		else{
+			for(int i = 0, j = index; j - i > 1; i++, j--){
+				MatchPO temp = matches.get(i);
+				matches.set(i, matches.get(j));
+				matches.set(j, temp);
+			}
+
+			for(int i = index + 1, j = matches.size() - 1; j - i > 1; i++, j--){
+				MatchPO temp = matches.get(i);
+				matches.set(i, matches.get(j));
+				matches.set(j, temp);
+			}
+		}
+		
+		return matches;
 	}
 
 	public ArrayList<MatchPO> getTodayAllMatches() {
