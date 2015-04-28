@@ -92,7 +92,7 @@ public class RecentMatch{
          
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("3.jpg");  
+            out = new FileOutputStream("data/pic/10.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
@@ -154,7 +154,7 @@ public class RecentMatch{
   
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("4.jpg");  
+            out = new FileOutputStream("data/pic/11.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  

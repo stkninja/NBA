@@ -73,7 +73,7 @@ public class PlayerData {
         chart.setTitle(title); 
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("5.jpg");  
+            out = new FileOutputStream("data/pic/5.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 200, 150, null);  
         } finally {  
             try {  
@@ -126,7 +126,7 @@ public class PlayerData {
         chart.setTitle(title); 
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("6.jpg");  
+            out = new FileOutputStream("data/pic/6.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 200, 150, null);  
         } finally {  
             try {  
@@ -181,7 +181,7 @@ public class PlayerData {
         chart.setTitle(title); 
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("7.jpg");  
+            out = new FileOutputStream("data/pic/7.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 200, 150, null);  
         } finally {  
             try {  

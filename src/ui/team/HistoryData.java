@@ -83,7 +83,7 @@ public class HistoryData {
         chart.getLegend().setVisible(false);
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("3.jpg");  
+            out = new FileOutputStream("data/pic/3.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
@@ -143,7 +143,7 @@ public class HistoryData {
         chart.getLegend().setVisible(false);
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("4.jpg");  
+            out = new FileOutputStream("data/pic/4.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  

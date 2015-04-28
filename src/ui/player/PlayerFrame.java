@@ -335,8 +335,8 @@ public class PlayerFrame extends JFrame{
 		subpanel6.setLayout(new GridLayout(1,2));
 		subpanel6.setOpaque(false);
 		careerdata = new CareerData(vo.name);
-	    icon3 = new ImageIcon("1.jpg");
-		icon4 = new ImageIcon("2.jpg");
+	    icon3 = new ImageIcon("data/pic/8.jpg");
+		icon4 = new ImageIcon("data/pic/9.jpg");
 		label3 = new JLabel();
 		label4 = new JLabel();
 		label3.setIcon(icon3);
@@ -423,8 +423,8 @@ public class PlayerFrame extends JFrame{
 	    subpanel5.setLayout(new GridLayout(1,2));
 	    subpanel5.setOpaque(false);
 	    recentmatch = new RecentMatch(data);
-	    icon1 = new ImageIcon("3.jpg");
-		icon2 = new ImageIcon("4.jpg");
+	    icon1 = new ImageIcon("data/pic/10.jpg");
+		icon2 = new ImageIcon("data/pic/11.jpg");
 		label1 = new JLabel();
 		label2 = new JLabel();
 		label1.setIcon(icon1);

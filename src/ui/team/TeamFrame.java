@@ -348,9 +348,9 @@ public class TeamFrame extends JFrame{
 		subpanel8.setLayout(new GridLayout(1,3));
 		subpanel8.setOpaque(false);
 		playerdata = new PlayerData(vo.abbName);
-	    icon5 = new ImageIcon("5.jpg");
-		icon6 = new ImageIcon("6.jpg");
-		icon7 = new ImageIcon("7.jpg");
+	    icon5 = new ImageIcon("data/pic/5.jpg");
+		icon6 = new ImageIcon("data/pic/6.jpg");
+		icon7 = new ImageIcon("data/pic/7.jpg");
 		label5 = new JLabel();
 		label6 = new JLabel();
 		label7 = new JLabel();
@@ -419,8 +419,8 @@ public class TeamFrame extends JFrame{
 		subpanel6.setLayout(new GridLayout(1,2));
 		subpanel6.setOpaque(false);
 		historydata = new HistoryData(vo.abbName);
-	    icon3 = new ImageIcon("3.jpg");
-		icon4 = new ImageIcon("4.jpg");
+	    icon3 = new ImageIcon("data/pic/3.jpg");
+		icon4 = new ImageIcon("data/pic/4.jpg");
 		label3 = new JLabel();
 		label4 = new JLabel();
 		label3.setIcon(icon3);
@@ -431,7 +431,7 @@ public class TeamFrame extends JFrame{
 		panel3 = new JPanel();
 		panel3.setLayout(new GridLayout(2,1));
 		panel3.setOpaque(false);
-        panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		
 		panel3.add(subpanel3);
 		panel3.add(subpanel6);
@@ -446,7 +446,7 @@ public class TeamFrame extends JFrame{
 		panel2 = new JPanel();
 		panel2.setOpaque(false);
 		panel2.setLayout(new GridLayout(2,1));
-		panel2.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+		panel2.setBorder(BorderFactory.createEmptyBorder(0, 20, 10, 20));
 		subpanel41 = new JPanel();
 		subpanel41.setOpaque(false);
 		subpanel41.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -487,7 +487,7 @@ public class TeamFrame extends JFrame{
 	    subpanel4 = new JPanel();
 	    subpanel4.setLayout(new BorderLayout());
 	    subpanel4.setOpaque(false);
-	    subpanel4.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+	    subpanel4.setBorder(BorderFactory.createEmptyBorder(5, 0, 12, 0));
 	    subpanel4.add(subpanel41, BorderLayout.NORTH);
 	    subpanel4.add(sp,BorderLayout.CENTER);
 	    
@@ -496,8 +496,8 @@ public class TeamFrame extends JFrame{
 	    subpanel5.setOpaque(false);
 	    recentdata = new RecentData(vo.abbName);
 	    
-	    icon1 = new ImageIcon("1.jpg");
-		icon2 = new ImageIcon("2.jpg");
+	    icon1 = new ImageIcon("data/pic/1.jpg");
+		icon2 = new ImageIcon("data/pic/2.jpg");
 		label1 = new JLabel();
 		label2 = new JLabel();
 		label1.setIcon(icon1);

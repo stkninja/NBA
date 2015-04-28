@@ -90,7 +90,7 @@ public class RecentData {
          
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("1.jpg");  
+            out = new FileOutputStream("data/pic/1.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
@@ -153,7 +153,7 @@ public class RecentData {
   
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("2.jpg");  
+            out = new FileOutputStream("data/pic/2.jpg");  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
