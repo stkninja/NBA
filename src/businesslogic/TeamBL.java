@@ -162,6 +162,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			if(vo.team1.abbName.equals(name)){
 				teamvo.abbName = name;
 				teamvo.season = vo.season;
+				teamvo.scores = vo.team1.scores;
 				teamvo.shootingHit = vo.team1.getShootingHit();
 				teamvo.shooting = vo.team1.getShooting();
 				teamvo.threePointHits = vo.team1.getThreePointHits();
@@ -180,6 +181,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			else{
 				teamvo.abbName = name;
 				teamvo.season = vo.season;
+				teamvo.scores = vo.team2.scores;
 				teamvo.shootingHit = vo.team2.getShootingHit();
 				teamvo.shooting = vo.team2.getShooting();
 				teamvo.threePointHits = vo.team2.getThreePointHits();
