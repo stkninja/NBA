@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ui.PositionEnum;
+import ui.RegionEnum;
 import ui.TeamEnum;
 import vo.PlayerVO;
 import businesslogic.MatchBL;
@@ -100,13 +101,22 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label6 = new JLabel("球员名称：");
 		label6.setFont(new Font("黑体", Font.PLAIN, 14));
-		mode = new JComboBox<String>(new String[]{"总数", "场均"});
+		mode = new JComboBox<String>(new String[]{"场均", "总数"});
 		mode.setFont(new Font("楷体", Font.PLAIN, 14));
-		region = new JComboBox<String>(TeamEnum.getRegion());
+		String[] strList = TeamEnum.getRegion();
+		for (int i = 0; i < strList.length; i++) {
+			strList[i] = RegionEnum.valueToEnum(strList[i]).name_Ch();
+		}
+		region = new JComboBox<String>(strList);
 		team = new JComboBox<String>();
-		team.addItem("All");
+		team.addItem("所有球队");
 		team.setEnabled(false);
-		String[] positionList = {"All", "G", "F", "C"};
+		String[] positionList = new String[10];
+		int j = 0;
+		for (PositionEnum i : PositionEnum.values()) {
+			positionList[j] = i.name_Ch();
+			j++;
+		}
 		position = new JComboBox<String>(positionList);
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		text = new JTextField("按回车键确定");
@@ -129,14 +139,17 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		mode.addActionListener(this);
 		region.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (region.getSelectedItem().equals("All")) {
+				if (region.getSelectedItem().equals("所有球队")) {
 					team.removeAllItems();
-					team.addItem("All");
+					team.addItem("所有球队");
 					team.setEnabled(false);
 				} else {
 					team.removeAllItems();
-					String[] list = TeamEnum.getTeam((String)region.getSelectedItem());
-					team.addItem("All");
+					String[] list = TeamEnum.getTeam(RegionEnum.valueToEnum((String)region.getSelectedItem()).name_En());
+					for (int i = 0; i < list.length; i++) {
+						list[i] = TeamEnum.valueToEnum(list[i]).name_Ch();
+					}
+					team.addItem("所有球队");
 					for (int i = 0; i < list.length; i++) {
 						team.addItem(list[i]);
 					}
@@ -147,7 +160,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		team.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED)
-					PlayerSearchPane.this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+					PlayerSearchPane.this.setData(playerBL.getPlayers((String)season.getSelectedItem(), RegionEnum.valueToEnum((String)region.getSelectedItem()).name_En(), PositionEnum.valueToEnum((String)position.getSelectedItem()).abbr(), TeamEnum.valueToEnum((String)team.getSelectedItem()).abbr()));
 			}
 		});
 		position.addActionListener(this);
@@ -184,13 +197,19 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), RegionEnum.valueToEnum((String)region.getSelectedItem()).name_En(), PositionEnum.valueToEnum((String)position.getSelectedItem()).abbr(), TeamEnum.valueToEnum((String)team.getSelectedItem()).abbr()));
 	}
 	/**
 	 * 获得所有数据
 	 */
 	public void getAll() {
 		this.setData(playerBL.getSeasonPlayers((String)season.getSelectedItem()));
+	}
+	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
 	}
 	/**
 	 * 获得某个球队的球员

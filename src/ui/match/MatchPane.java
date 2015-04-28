@@ -193,4 +193,10 @@ public class MatchPane extends JPanel {
 		button.setMargin(new Insets(0, 0, 0, 0));//无边距
 		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 	}
+	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		searchPane.refresh();
+	}
 }

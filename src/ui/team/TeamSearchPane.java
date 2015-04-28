@@ -17,6 +17,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ui.RegionEnum;
 import ui.TeamEnum;
 import vo.TeamVO;
 import businesslogic.MatchBL;
@@ -83,7 +84,11 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		mode = new JComboBox<String>(new String[]{"总数", "场均"});
 		mode.setFont(new Font("楷体", Font.PLAIN, 14));
-		region = new JComboBox<String>(TeamEnum.getRegion());
+		String[] strList = TeamEnum.getRegion();
+		for (int i = 0; i < strList.length; i++) {
+			strList[i] = RegionEnum.valueToEnum(strList[i]).name_Ch();
+		}
+		region = new JComboBox<String>(strList);
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		
 		pane.add(label1);
@@ -108,13 +113,13 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
+		this.refresh();
 	}
 	/**
-	 * 获得所有数据
+	 * 刷新
 	 */
-	public void getAll() {
-		this.setData(teamBL.getTeams((String)season.getSelectedItem(), (String)region.getSelectedItem()));
+	public void refresh() {
+		this.setData(teamBL.getTeams((String)season.getSelectedItem(), RegionEnum.valueToEnum((String)region.getSelectedItem()).name_En()));
 	}
 	/**
 	 * 设置表格数据

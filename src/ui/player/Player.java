@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -28,6 +29,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
@@ -72,7 +75,7 @@ public class Player extends JPanel {
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		letter = "A";
-		this.setData(letter);
+		this.setData();
 	}
 	/**
 	 * 初始化搜索栏
@@ -114,14 +117,14 @@ public class Player extends JPanel {
 			button[i].addActionListener(new ButtonListener());
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Player.this.setData(letter);
+				Player.this.setData();
 			}
 		});
 	}
 	/**
 	 * 设置数据
 	 */
-	private void setData(String letter) {
+	private void setData() {
 		String temp;
 		if (comboBox.getSelectedItem().equals("根据球队查找"))
 			temp = "All";
@@ -197,6 +200,7 @@ public class Player extends JPanel {
 	    tcr.setHorizontalAlignment(JLabel.CENTER);
 	    table.setDefaultRenderer(Object.class, tcr);//内容居中
 	    ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+	    this.FitTableColumns(table);
 		
 	    table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -247,7 +251,34 @@ public class Player extends JPanel {
 					break;
 				}
 			}
-			Player.this.setData(letter);
+			Player.this.setData();
 		}
+	}
+	/**
+	 * JTable自适应
+	 * @param myTable JTable
+	 */
+	public void FitTableColumns(JTable myTable) {
+		JTableHeader header = myTable.getTableHeader();
+		int rowCount = myTable.getRowCount();
+		@SuppressWarnings("rawtypes")
+		Enumeration columns = myTable.getColumnModel().getColumns();
+		while (columns.hasMoreElements()) {
+			TableColumn column = (TableColumn)columns.nextElement();
+			int col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+			int width = (int)myTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(myTable, column.getIdentifier(), false, false, -1, col).getPreferredSize().getWidth();
+			for (int row = 0; row < rowCount; row++) {
+				int preferedWidth = (int)myTable.getCellRenderer(row, col).getTableCellRendererComponent(myTable, myTable.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+				width = Math.max(width, preferedWidth);
+			}
+			header.setResizingColumn(column);
+			column.setWidth(width+myTable.getIntercellSpacing().width);
+		}
+	}
+	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		this.setData();
 	}
 }

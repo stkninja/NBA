@@ -77,7 +77,7 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label4 = new JLabel("第三排序依据：");
 		label4.setFont(new Font("黑体", Font.PLAIN, 14));
-		box1 = new JComboBox<String>(new String[]{"升序", "降序"});
+		box1 = new JComboBox<String>(new String[]{"降序", "升序"});
 		box1.setFont(new Font("楷体", Font.PLAIN, 14));
 		box2 = new JComboBox<String>((String[])teamBL.getFilters().toArray(new String[teamBL.getFilters().size()]));
 		box2.setFont(new Font("楷体", Font.PLAIN, 14));
@@ -100,6 +100,17 @@ public class TeamSortPane extends JInternalFrame implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
+		ArrayList<TeamVO> list = this.father.getSearchPane().getList();
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add((String)box2.getSelectedItem());
+		filter.add((String)box3.getSelectedItem());
+		ArrayList<TeamVO> data = teamBL.sortTeam(list, filter, (String)box1.getSelectedItem());
+		this.father.getSearchPane().setData(data);
+	}
+	/**
+	 * 初始数据
+	 */
+	public void initData() {
 		ArrayList<TeamVO> list = this.father.getSearchPane().getList();
 		ArrayList<String> filter = new ArrayList<String>();
 		filter.add((String)box2.getSelectedItem());

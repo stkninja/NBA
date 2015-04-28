@@ -75,7 +75,7 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 		label2.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label3 = new JLabel("第二排序依据：");
 		label3.setFont(new Font("黑体", Font.PLAIN, 14));
-		box1 = new JComboBox<String>(new String[]{"升序", "降序"});
+		box1 = new JComboBox<String>(new String[]{"降序", "升序"});
 		box1.setFont(new Font("楷体", Font.PLAIN, 14));
 		box2 = new JComboBox<String>((String[])playerBL.getFilters().toArray(new String[playerBL.getFilters().size()]));
 		box2.setFont(new Font("楷体", Font.PLAIN, 14));
@@ -98,6 +98,17 @@ public class PlayerSortPane extends JInternalFrame implements ActionListener {
 	 * 监听
 	 */
 	public void actionPerformed(ActionEvent e) {
+		ArrayList<PlayerVO> list = this.father.getSearchPane().getList();
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add((String)box2.getSelectedItem());
+		filter.add((String)box3.getSelectedItem());
+		ArrayList<PlayerVO> data = playerBL.sortPlayer(list, filter, (String)box1.getSelectedItem());
+		this.father.getSearchPane().setData(data);
+	}
+	/**
+	 * 初始化数据
+	 */
+	public void initData() {
 		ArrayList<PlayerVO> list = this.father.getSearchPane().getList();
 		ArrayList<String> filter = new ArrayList<String>();
 		filter.add((String)box2.getSelectedItem());

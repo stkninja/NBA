@@ -362,4 +362,10 @@ public class Hotspot extends JPanel {
 			}
 		}
 	}
+	/**
+	 * Ë¢ÐÂ
+	 */
+	public void refresh() {
+		this.setData();
+	}
 }

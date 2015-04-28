@@ -150,6 +150,12 @@ public class MatchSearchPane extends JInternalFrame {
 		this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
 	}
 	/**
+	 * 刷新
+	 */
+	public void refresh() {
+		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem(), text1.getText()));
+	}
+	/**
 	 * 获得某个球员一个赛季比赛
 	 * @param season 赛季
 	 * @param player 球员

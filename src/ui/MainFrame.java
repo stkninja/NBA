@@ -441,9 +441,20 @@ public class MainFrame extends JFrame {
 	 * Ë¢ÐÂ
 	 */
 	public void refresh() {
+		if (pane instanceof TeamPane)
+			((TeamPane) pane).refresh();
+		else if (pane instanceof Player)
+			((Player) pane).refresh();
+		else if (pane instanceof PlayerPane)
+			((PlayerPane) pane).refresh();
+		else if (pane instanceof MatchPane)
+			((MatchPane) pane).refresh();
+		else if (pane instanceof Hotspot)
+			((Hotspot) pane).refresh();
+		else
+			System.out.println("panel error");
 	}
 	//--------------------------------------------------------
-	//FIXME search sort to chinese, table width refresh
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

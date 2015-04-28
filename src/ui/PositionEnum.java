@@ -6,6 +6,7 @@ package ui;
  *
  */
 public enum PositionEnum {
+	All("All", "所有位置"),
 	G("G", "后卫"),
 	C("C", "中锋"),
 	F("F", "前锋"),
