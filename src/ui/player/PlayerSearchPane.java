@@ -209,7 +209,7 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	 * 刷新
 	 */
 	public void refresh() {
-		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), (String)region.getSelectedItem(), (String)position.getSelectedItem(), (String)team.getSelectedItem()));
+		this.setData(playerBL.getPlayers((String)season.getSelectedItem(), RegionEnum.valueToEnum((String)region.getSelectedItem()).name_En(), PositionEnum.valueToEnum((String)position.getSelectedItem()).abbr(), TeamEnum.valueToEnum((String)team.getSelectedItem()).abbr()));
 	}
 	/**
 	 * 获得某个球队的球员
