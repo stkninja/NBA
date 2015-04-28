@@ -574,7 +574,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 
 	public ArrayList<String> getFilters() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("无");
+		list.add("比赛得分");
 		list.add("球队名称");
 		list.add("队名缩写");
 		list.add("比赛场数");
@@ -602,8 +602,8 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		list.add("盖帽数");
 		list.add("失误数");
 		list.add("犯规数");
-		list.add("比赛得分");
 		list.add("助攻效率");
+		list.add("无");
 		
 		return list;
 	}

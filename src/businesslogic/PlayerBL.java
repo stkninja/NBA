@@ -928,7 +928,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 
 	public ArrayList<String> getFilters() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("无");
+		list.add("场均得分");
 		list.add("球员名称");
 		list.add("所属球队");
 		list.add("参赛场数");
@@ -958,7 +958,6 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		list.add("盖帽率");
 		list.add("失误率");
 		list.add("使用率");
-		list.add("场均得分");
 		list.add("场均篮板数");
 		list.add("场均助攻数");
 		list.add("场均在场时间");
@@ -969,6 +968,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		list.add("场均得分/篮板/助攻");
 		list.add("得分/篮板/助攻");
 		list.add("两双");
+		list.add("无");
 		
 		return list;
 	}
