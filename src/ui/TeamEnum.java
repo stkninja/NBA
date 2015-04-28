@@ -43,7 +43,7 @@ public enum TeamEnum {
 	HOU("HOU", "Houston Rockets", "休斯顿 火箭"),
 	MEM("MEM", "Memphis Grizzlies", "孟菲斯 灰熊"),
 	NOP("NOP", "New Orleans Pelicans", "新奥尔良 鹈鹕"),
-//	NOH("NOH", "New Orleans Pelicans", "新奥尔良 鹈鹕"),
+	NOH("NOH", "New Orleans Hornet", "新奥尔良 黄蜂"),
 	SAS("SAS", "San Antonio Spurs", "圣安东尼奥 马刺"),
 	
 	All("All", "All", "所有球队"),

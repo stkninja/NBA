@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ui.TeamEnum;
 import vo.MatchVO;
 import businesslogic.MatchBL;
 import businesslogicservice.MatchBLService;
@@ -179,9 +180,9 @@ public class MatchSearchPane extends JInternalFrame {
 		for (int i = 0; i < list.size(); i++) {
 			data[i][0] = list.get(i).season;
 			data[i][1] = list.get(i).date;
-			data[i][2] = list.get(i).team1.abbName;
+			data[i][2] = TeamEnum.valueToEnum(list.get(i).team1.abbName).name_Ch();
 			data[i][3] = Math.round(list.get(i).team1.scores) +":"+ Math.round(list.get(i).team2.scores);
-			data[i][4] = list.get(i).team2.abbName;
+			data[i][4] = TeamEnum.valueToEnum(list.get(i).team2.abbName).name_Ch();
 		}
 		father.showTable(data);
 	}

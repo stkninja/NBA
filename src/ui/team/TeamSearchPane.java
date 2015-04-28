@@ -130,7 +130,7 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		if (mode.getSelectedItem() == "змЪ§") {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
-				data[i][1] = list.get(i).fullName;
+				data[i][1] = TeamEnum.valueToEnum(list.get(i).abbName).name_Ch();
 				data[i][2] = list.get(i).abbName;
 				data[i][3] = list.get(i).winsNum;
 				data[i][4] = list.get(i).gamesNum;
@@ -170,7 +170,7 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		} else {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
-				data[i][1] = list.get(i).fullName;
+				data[i][1] = TeamEnum.valueToEnum(list.get(i).abbName).name_Ch();
 				data[i][2] = list.get(i).abbName;
 				data[i][3] = list.get(i).winsNum;
 				data[i][4] = list.get(i).gamesNum;
