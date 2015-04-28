@@ -366,6 +366,9 @@ public class Hotspot extends JPanel {
 	 * Ë¢ÐÂ
 	 */
 	public void refresh() {
+		for (int i = 0; i < 5; i++) {
+			pane.remove(label[i]);
+		}
 		this.setData();
 	}
 }

@@ -443,8 +443,6 @@ public class MainFrame extends JFrame {
 	public void refresh() {
 		if (pane instanceof TeamPane)
 			((TeamPane) pane).refresh();
-		else if (pane instanceof Player)
-			((Player) pane).refresh();
 		else if (pane instanceof PlayerPane)
 			((PlayerPane) pane).refresh();
 		else if (pane instanceof MatchPane)
