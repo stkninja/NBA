@@ -42,6 +42,7 @@ import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
 import ui.MainFrame;
 import ui.SvgUtil;
+import ui.TeamEnum;
 import ui.player.PlayerFrame;
 import vo.MatchVO;
 
@@ -155,7 +156,7 @@ public class MatchFrame extends JFrame{
 		season = new JLabel(vo.season+"赛季");
 		season.setFont(f);
 		season.setForeground(Color.WHITE);
-		date = new JLabel("   "+vo.date);
+		date = new JLabel("   "+vo.date+"日");
 		date.setFont(f);
 		date.setForeground(Color.WHITE);
 		panel1A.add(season);
@@ -322,7 +323,7 @@ public class MatchFrame extends JFrame{
 		panelB.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
 		subpanelB1 = new JPanel();
 		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team1 = new JLabel(vo.team1.abbName+"技术统计:");
+		team1 = new JLabel(TeamEnum.valueToEnum(vo.team1.abbName).name_Ch()+"的技术统计:");
 		team1.setFont(new Font("宋体",Font.BOLD,15));
 		team1.setForeground(Color.ORANGE);
 		subpanelB1.add(team1);
@@ -410,7 +411,7 @@ public class MatchFrame extends JFrame{
 		panelC.setBorder(BorderFactory.createEmptyBorder(0, 12, 20, 12));
 		subpanelC1 = new JPanel();
 		subpanelC1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team2 = new JLabel(vo.team2.abbName+"技术统计:");
+		team2 = new JLabel(TeamEnum.valueToEnum(vo.team2.abbName).name_Ch()+"的技术统计:");
 		team2.setFont(new Font("宋体",Font.BOLD,15));
 		team2.setForeground(Color.ORANGE);
 		subpanelC1.add(team2);

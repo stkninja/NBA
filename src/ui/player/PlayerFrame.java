@@ -145,12 +145,8 @@ public class PlayerFrame extends JFrame{
 	ImageIcon actionicon1;
 	JFrame playeraction;
 	
-	ImageIcon icon1;
-	ImageIcon icon2;
 	JLabel label1;
 	JLabel label2;
-	ImageIcon icon3;
-	ImageIcon icon4;
 	JLabel label3;
 	JLabel label4;
 	
@@ -335,12 +331,10 @@ public class PlayerFrame extends JFrame{
 		subpanel6.setLayout(new GridLayout(1,2));
 		subpanel6.setOpaque(false);
 		careerdata = new CareerData(vo.name);
-	    icon3 = new ImageIcon("data/pic/8.jpg");
-		icon4 = new ImageIcon("data/pic/9.jpg");
 		label3 = new JLabel();
 		label4 = new JLabel();
-		label3.setIcon(icon3);
-		label4.setIcon(icon4);
+		label3.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/8.jpg"))));
+		label4.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/9.jpg"))));
 		subpanel6.add(label3);
 		subpanel6.add(label4);
 		
@@ -423,12 +417,10 @@ public class PlayerFrame extends JFrame{
 	    subpanel5.setLayout(new GridLayout(1,2));
 	    subpanel5.setOpaque(false);
 	    recentmatch = new RecentMatch(data);
-	    icon1 = new ImageIcon("data/pic/10.jpg");
-		icon2 = new ImageIcon("data/pic/11.jpg");
 		label1 = new JLabel();
 		label2 = new JLabel();
-		label1.setIcon(icon1);
-		label2.setIcon(icon2);
+		label1.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/10.jpg"))));
+		label2.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/11.jpg"))));
 		subpanel5.add(label1);
 		subpanel5.add(label2);
 	    

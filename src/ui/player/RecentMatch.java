@@ -8,6 +8,7 @@ import java.io.IOException;
 
 
 
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -92,7 +93,8 @@ public class RecentMatch{
          
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("data/pic/10.jpg");  
+        	
+            out = new FileOutputStream("data/pic/10.jpg",false);  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  
@@ -154,7 +156,7 @@ public class RecentMatch{
   
         FileOutputStream out = null;  
         try {  
-            out = new FileOutputStream("data/pic/11.jpg");  
+            out = new FileOutputStream("data/pic/11.jpg",false);  
             ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 320, 150, null);  
         } finally {  
             try {  

@@ -132,17 +132,10 @@ public class TeamFrame extends JFrame{
     ImageIcon logoicon;
 	File logofile;
 	
-	ImageIcon icon1;
-	ImageIcon icon2;
 	JLabel label1;
 	JLabel label2;
-	ImageIcon icon3;
-	ImageIcon icon4;
 	JLabel label3;
 	JLabel label4;
-	ImageIcon icon5;
-	ImageIcon icon6;
-	ImageIcon icon7;
 	JLabel label5;
 	JLabel label6;
 	JLabel label7;
@@ -348,15 +341,12 @@ public class TeamFrame extends JFrame{
 		subpanel8.setLayout(new GridLayout(1,3));
 		subpanel8.setOpaque(false);
 		playerdata = new PlayerData(vo.abbName);
-	    icon5 = new ImageIcon("data/pic/5.jpg");
-		icon6 = new ImageIcon("data/pic/6.jpg");
-		icon7 = new ImageIcon("data/pic/7.jpg");
 		label5 = new JLabel();
 		label6 = new JLabel();
 		label7 = new JLabel();
-		label5.setIcon(icon5);
-		label6.setIcon(icon6);
-		label7.setIcon(icon7);
+		label5.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/5.jpg"))));
+		label6.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/6.jpg"))));
+		label7.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/7.jpg"))));
 		subpanel8.add(label5);
 		subpanel8.add(label6);
 		subpanel8.add(label7);
@@ -419,12 +409,10 @@ public class TeamFrame extends JFrame{
 		subpanel6.setLayout(new GridLayout(1,2));
 		subpanel6.setOpaque(false);
 		historydata = new HistoryData(vo.abbName);
-	    icon3 = new ImageIcon("data/pic/3.jpg");
-		icon4 = new ImageIcon("data/pic/4.jpg");
 		label3 = new JLabel();
 		label4 = new JLabel();
-		label3.setIcon(icon3);
-		label4.setIcon(icon4);
+		label3.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/3.jpg"))));
+		label4.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/4.jpg"))));
 		subpanel6.add(label3);
 		subpanel6.add(label4);
 		
@@ -496,12 +484,10 @@ public class TeamFrame extends JFrame{
 	    subpanel5.setOpaque(false);
 	    recentdata = new RecentData(vo.abbName);
 	    
-	    icon1 = new ImageIcon("data/pic/1.jpg");
-		icon2 = new ImageIcon("data/pic/2.jpg");
 		label1 = new JLabel();
 		label2 = new JLabel();
-		label1.setIcon(icon1);
-		label2.setIcon(icon2);
+		label1.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/1.jpg"))));
+		label2.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/2.jpg"))));
 		subpanel5.add(label1);
 		subpanel5.add(label2);
 		
