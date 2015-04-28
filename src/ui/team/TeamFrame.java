@@ -28,7 +28,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,12 +50,13 @@ import businesslogicservice.TeamBLService;
 import ui.MainFrame;
 import ui.SvgUtil;
 import ui.match.MatchFrame;
+import ui.player.PlayerFrame;
 import vo.MatchVO;
 import vo.PlayerVO;
 import vo.TeamBasicInfoVO;
 import vo.TeamVO;
 
-public class TeamFrame extends JDialog{
+public class TeamFrame extends JFrame{
 
 	/**
 	 * 
@@ -201,7 +201,7 @@ public class TeamFrame extends JDialog{
 		panel3(vo, mf);
 		
 		//panel4--------------------------------------
-		panel4(vo);
+		panel4(vo, mf);
 		
 		//container-----------------------------------------------
 		card = new CardLayout();
@@ -294,7 +294,7 @@ public class TeamFrame extends JDialog{
 	 * @param vo
 	 * @throws IOException
 	 */
-	private void panel4(TeamBasicInfoVO vo) throws IOException {
+	private void panel4(TeamBasicInfoVO vo,MainFrame mf) throws IOException {
 		panel4 = new JPanel();
 		panel4.setLayout(new GridLayout(2,1));
 		panel4.setOpaque(false);
@@ -311,6 +311,32 @@ public class TeamFrame extends JDialog{
 		playertable = new JTable();
 		psp = new JScrollPane(playertable);
 		this.setPlayerData(vo.abbName);
+		//表格监听
+		playertable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (playertable.getSelectedColumn() == 0) {
+					String str = (String)playertable.getValueAt(playertable.getSelectedRow(), 0);
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
+						frame.setOpacity(0.9f);
+						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+					} catch (IOException | TranscoderException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		playertable.addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {  
+		        int col = playertable.columnAtPoint(e.getPoint());  
+		        if (col == 0)
+		        	playertable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		        else
+		        	playertable.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));//鼠标默认
+		    }  
+		});
+		
 		
 		subpanel7 = new JPanel();
 		subpanel7.setLayout(new BorderLayout());

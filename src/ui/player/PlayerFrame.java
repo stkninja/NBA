@@ -44,6 +44,7 @@ import org.apache.batik.transcoder.TranscoderException;
 import ui.MainFrame;
 import ui.SvgUtil;
 import ui.match.MatchFrame;
+import ui.team.TeamFrame;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -166,6 +167,7 @@ public class PlayerFrame extends JFrame{
 	ImageIcon logoicon;
     File logofile;
 	
+    String abbname;
 	public PlayerFrame(PlayerBasicInfoVO vo,MainFrame mf) throws IOException, TranscoderException{
 		bl = new PlayerBL();
 		mbl = new MatchBL();
@@ -182,7 +184,7 @@ public class PlayerFrame extends JFrame{
 		lab.setBounds(0, 0,bg.getIconWidth(), bg.getIconHeight());
 		this.getLayeredPane().add(lab, new Integer(Integer.MIN_VALUE));
 		//panel1基本数据----------
-		panel1(vo);	
+		panel1(vo, mf);	
 		
 		//panel2近五场比赛panel-----------------------------------------------
 		panel2(vo, mf);
@@ -439,7 +441,7 @@ public class PlayerFrame extends JFrame{
 	 * @throws IOException
 	 * @throws TranscoderException
 	 */
-	private void panel1(PlayerBasicInfoVO vo) throws IOException,
+	private void panel1(PlayerBasicInfoVO vo, MainFrame mf) throws IOException,
 			TranscoderException {
 		//基本数据panel-----------------------------------------------------------
 		panel1 = new JPanel();
@@ -574,6 +576,7 @@ public class PlayerFrame extends JFrame{
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
 		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).fullName,JLabel.CENTER);
+		 		     abbname = list.get(list.size()-1).team1.abbName;
 		    	 }
 			}
 			for(int m = 0;m<list.get(list.size()-1).team2.teamPlayers.size();m++){
@@ -585,6 +588,7 @@ public class PlayerFrame extends JFrame{
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
 		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).fullName,JLabel.CENTER);
+		 		     abbname = list.get(list.size()-1).team2.abbName;
 		    	 }
 			}
 		}
@@ -592,6 +596,25 @@ public class PlayerFrame extends JFrame{
 		
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logoicon);
+		if(logoicon != null){
+			Pic1.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					try {
+						JFrame.setDefaultLookAndFeelDecorated(true);
+						TeamFrame frame = new TeamFrame(tbl.getOneTeam(abbname), mf);
+						frame.setOpacity(0.9f);
+						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+					} catch (IOException | TranscoderException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			Pic1.addMouseMotionListener(new MouseAdapter() {
+				public void mouseMoved(MouseEvent e) {
+					Pic1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+				}
+			});
+		}
 		team.setFont(new Font("黑体",Font.BOLD,20));
 		team.setForeground(Color.RED);
 		subpanel21.add(Pic1);
