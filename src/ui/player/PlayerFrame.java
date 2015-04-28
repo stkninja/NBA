@@ -41,6 +41,7 @@ import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
+import ui.MainFrame;
 import ui.SvgUtil;
 import ui.match.MatchFrame;
 import vo.MatchVO;
@@ -165,7 +166,7 @@ public class PlayerFrame extends JFrame{
 	ImageIcon logoicon;
     File logofile;
 	
-	public PlayerFrame(PlayerBasicInfoVO vo,PlayerPane pp) throws IOException, TranscoderException{
+	public PlayerFrame(PlayerBasicInfoVO vo,MainFrame mf) throws IOException, TranscoderException{
 		bl = new PlayerBL();
 		mbl = new MatchBL();
 		tbl = new TeamBL();
@@ -184,10 +185,10 @@ public class PlayerFrame extends JFrame{
 		panel1(vo);	
 		
 		//panel2近五场比赛panel-----------------------------------------------
-		panel2(vo, pp);
+		panel2(vo, mf);
 		
 	    //panel3历史数据-------------------------------------------
-		panel3(vo, pp);
+		panel3(vo, mf);
 		
 		//container-----------------------------------------------
 		card = new CardLayout();
@@ -279,7 +280,7 @@ public class PlayerFrame extends JFrame{
 	 * @param pp
 	 * @throws IOException
 	 */
-	private void panel3(PlayerBasicInfoVO vo, PlayerPane pp) throws IOException {
+	private void panel3(PlayerBasicInfoVO vo, MainFrame mf) throws IOException {
 		subpanel31 = new JPanel();
 		subpanel31.setLayout(new FlowLayout(FlowLayout.LEFT));
 		subpanel31.setOpaque(false);
@@ -307,14 +308,13 @@ public class PlayerFrame extends JFrame{
 	    	public void mouseClicked(MouseEvent e) {
 	    		String season = ((String)historytable.getValueAt(historytable.getSelectedRow(), 0));
 	    		if(season.equals("生涯总计")){
-	    			pp.main.matchPane.getSearchPane().getPlayerMatch("All", vo.name);
+	    			mf.getPlayerMatch("All", vo.name);
 	    		}
 	    		else{
-	    			pp.main.matchPane.getSearchPane().getPlayerMatch(season, vo.name);
+	    			mf.getPlayerMatch(season, vo.name);
 	    		}
 	    		
-	    		pp.main.toFront();
-	    		pp.main.cardLayout.show(pp.main., "Match");
+	    		mf.toFront();
 	    		
 	    	}
 	    });
@@ -356,7 +356,7 @@ public class PlayerFrame extends JFrame{
 	 * @param pp
 	 * @throws IOException
 	 */
-	private void panel2(PlayerBasicInfoVO vo, PlayerPane pp) throws IOException {
+	private void panel2(PlayerBasicInfoVO vo, MainFrame mf) throws IOException {
 		panel2 = new JPanel();
 		panel2.setOpaque(false);
 		panel2.setLayout(new GridLayout(2,1));
@@ -396,7 +396,7 @@ public class PlayerFrame extends JFrame{
 					public void run() {
 						try {
 							JFrame.setDefaultLookAndFeelDecorated(true);
-							MatchFrame frame = new MatchFrame(list.get(0),pp.main.matchPane);
+							MatchFrame frame = new MatchFrame(list.get(0),mf);
 							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
 							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
 						} catch (IOException | TranscoderException e) {
@@ -560,28 +560,36 @@ public class PlayerFrame extends JFrame{
 		subpanel1.add(getSchool);
 		
 		ArrayList<MatchVO> list = bl.getLastFiveMatches(vo.name);
-		for(int m = 0;m<list.get(list.size()-1).team1.teamPlayers.size();m++){
-	    	 if(list.get(list.size()-1).team1.teamPlayers.get(m).name.equals(vo.name)){
-	    		 logofile = new File("logofile");
-	 		     logofile.createNewFile();
-	 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).teamLogo, logofile);
-	 		     logo = ImageIO.read(logofile);
-	 		     logoicon = new ImageIcon(logo);
-	 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
-	 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).fullName,JLabel.CENTER);
-	    	 }
+		if(list.size()==0){
+			logoicon = null;
+			team = new JLabel("");
 		}
-		for(int m = 0;m<list.get(list.size()-1).team2.teamPlayers.size();m++){
-	    	 if(list.get(list.size()-1).team2.teamPlayers.get(m).name.equals(vo.name)){
-	    		 logofile = new File("logofile");
-	 		     logofile.createNewFile();
-	 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).teamLogo, logofile);
-	 		     logo = ImageIO.read(logofile);
-	 		     logoicon = new ImageIcon(logo);
-	 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
-	 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).fullName,JLabel.CENTER);
-	    	 }
+		else{
+			for(int m = 0;m<list.get(list.size()-1).team1.teamPlayers.size();m++){
+		    	 if(list.get(list.size()-1).team1.teamPlayers.get(m).name.equals(vo.name)){
+		    		 logofile = new File("logofile");
+		 		     logofile.createNewFile();
+		 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).teamLogo, logofile);
+		 		     logo = ImageIO.read(logofile);
+		 		     logoicon = new ImageIcon(logo);
+		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
+		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).fullName,JLabel.CENTER);
+		    	 }
+			}
+			for(int m = 0;m<list.get(list.size()-1).team2.teamPlayers.size();m++){
+		    	 if(list.get(list.size()-1).team2.teamPlayers.get(m).name.equals(vo.name)){
+		    		 logofile = new File("logofile");
+		 		     logofile.createNewFile();
+		 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).teamLogo, logofile);
+		 		     logo = ImageIO.read(logofile);
+		 		     logoicon = new ImageIcon(logo);
+		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
+		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).fullName,JLabel.CENTER);
+		    	 }
+			}
 		}
+		
+		
 		JLabel Pic1 = new JLabel();
 		Pic1.setIcon(logoicon);
 		team.setFont(new Font("黑体",Font.BOLD,20));

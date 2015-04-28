@@ -1,6 +1,7 @@
 package ui.team;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -23,6 +24,7 @@ import java.util.Enumeration;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -46,6 +48,7 @@ import businesslogic.TeamBL;
 import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
+import ui.MainFrame;
 import ui.SvgUtil;
 import ui.match.MatchFrame;
 import vo.MatchVO;
@@ -65,6 +68,7 @@ public class TeamFrame extends JDialog{
 	JPanel panelA2;
 	
 	JPanel panelB;  //数据panel
+	JPanel panelB1;
 	
 	JPanel panel1;  //基本数据panel
 	JPanel subpanel1;
@@ -74,14 +78,20 @@ public class TeamFrame extends JDialog{
 	
 	JPanel panel2;  //赛季战绩panel
 	JPanel subpanel4;
+	JPanel subpanel41;
 	JPanel subpanel5;
 	
 	JPanel panel3;  //生涯统计
 	JPanel subpanel3;
+	JPanel subpanel31;
 	JPanel subpanel6;
 	
-    JPanel panel4;
+    JPanel panel4; //球员统计
     JPanel subpanel7;
+    JPanel subpanel71;
+    JPanel subpanel8;
+    
+    JPanel panel5; //标签
 	
 	JButton exit;  //关闭按钮
 	JLabel fullName;  //球队
@@ -122,6 +132,21 @@ public class TeamFrame extends JDialog{
     ImageIcon logoicon;
 	File logofile;
 	
+	ImageIcon icon1;
+	ImageIcon icon2;
+	JLabel label1;
+	JLabel label2;
+	ImageIcon icon3;
+	ImageIcon icon4;
+	JLabel label3;
+	JLabel label4;
+	ImageIcon icon5;
+	ImageIcon icon6;
+	ImageIcon icon7;
+	JLabel label5;
+	JLabel label6;
+	JLabel label7;
+	
 	JComboBox<String> mode;
 	
 	JTable table;
@@ -138,14 +163,25 @@ public class TeamFrame extends JDialog{
 	TeamBLService bl;
 	MatchBLService mbl;
 	PlayerBLService pbl;
-	public TeamFrame (TeamBasicInfoVO vo,TeamPane tp) throws IOException, TranscoderException{	
+	
+	HistoryData historydata;
+	PlayerData playerdata;
+	RecentData recentdata;
+	
+	JButton button1;
+	JButton button2;
+	JButton button3;
+	
+	JPanel container; //容器
+	CardLayout card;
+	public TeamFrame (TeamBasicInfoVO vo,MainFrame mf) throws IOException, TranscoderException{	
 		bl = new TeamBL();
 		mbl = new MatchBL();
 		pbl = new PlayerBL();
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 34 / 48;
+		int frameHeight = screenSize.height * 35 / 48;
 		int frameWidth = frameHeight * 39 / 32;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		
@@ -159,38 +195,46 @@ public class TeamFrame extends JDialog{
 		panel1(vo);
 		
 		//panel2近五场---------------------------------
-		panel2(vo, tp);
+		panel2(vo, mf);
 		
 		//panel3---------------------------------------
-		panel3(vo, tp);
+		panel3(vo, mf);
 		
 		//panel4--------------------------------------
-		panel4 = new JPanel();
-		panel4.setLayout(new BorderLayout());
-		panel4.setOpaque(false);
-		panel4.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+		panel4(vo);
 		
-		playerTitle = new JLabel("球队阵容：");
-		playerTitle.setFont(new Font("黑体",Font.BOLD,18));
-		playerTitle.setForeground(Color.ORANGE);
-		subpanel7 = new JPanel();
-		subpanel7.setLayout(new FlowLayout(FlowLayout.LEFT));
-		subpanel7.setOpaque(false);
-		subpanel7.add(playerTitle);
-		
-		playertable = new JTable();
-		psp = new JScrollPane(playertable);
-		this.setPlayerData(vo.abbName);
-		
-		panel4.add(subpanel7,BorderLayout.NORTH);
-		panel4.add(psp,BorderLayout.CENTER);
+		//container-----------------------------------------------
+		card = new CardLayout();
+		container = new JPanel(card);
+		container.setOpaque(false);
+		container.add(panel2,"1");
+		container.add(panel3,"2");
+		container.add(panel4,"3");
 		
 		//数据panel---------------------------------------------
 		panelB = new JPanel();
-		panelB.setLayout(new GridLayout(3,1));
+		panelB.setLayout(new BorderLayout());
 		panelB.setOpaque(false);
-		panelB.add(panel1);
-		panelB.add(panel4);
+		
+		panel5 = new JPanel();
+		panel5.setLayout(new BoxLayout(panel5,BoxLayout.X_AXIS));
+		panel5.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+		panel5.setOpaque(false);
+		button1 = new JButton("近五场比赛");
+		button2 = new JButton("历史数据");
+		button3 = new JButton("球队阵容");
+		panel5.add(button1);
+		panel5.add(button2);
+		panel5.add(button3);
+		
+		panelB1 = new JPanel();
+		panelB1.setLayout(new BorderLayout());
+		panelB1.setOpaque(false);
+		panelB1.add(panel5,BorderLayout.NORTH);
+		panelB1.add(container,BorderLayout.CENTER);
+		
+		panelB.add(panel1,BorderLayout.NORTH);
+		panelB.add(panelB1,BorderLayout.CENTER);
 
 		//------------------
 		panelA = new JPanel();
@@ -218,6 +262,22 @@ public class TeamFrame extends JDialog{
 	    this.setIcon(exit, "data/pic/exit1.png", "data/pic/exit2.png");
 		panelA2.add(exit);
 		exit.addActionListener(new ExitListener());
+		//标签监听-----------------------------------
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				card.show(container, "1");
+			}
+		});
+		button2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				card.show(container, "2");
+			}
+		});
+		button3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				card.show(container, "3");
+			}
+		});
 		//---------------------------------
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -232,17 +292,62 @@ public class TeamFrame extends JDialog{
 
 	/**
 	 * @param vo
-	 * @param tp
+	 * @throws IOException
 	 */
-	private void panel3(TeamBasicInfoVO vo, TeamPane tp) {
-		panel3 = new JPanel();
-		panel3.setLayout(new BorderLayout());
-		panel3.setOpaque(false);
-		panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+	private void panel4(TeamBasicInfoVO vo) throws IOException {
+		panel4 = new JPanel();
+		panel4.setLayout(new GridLayout(2,1));
+		panel4.setOpaque(false);
+		panel4.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 		
-		subpanel3 = new JPanel();
-		subpanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
-		subpanel3.setOpaque(false);
+		playerTitle = new JLabel("球队阵容：");
+		playerTitle.setFont(new Font("黑体",Font.BOLD,15));
+		playerTitle.setForeground(Color.ORANGE);
+		subpanel71 = new JPanel();
+		subpanel71.setLayout(new FlowLayout(FlowLayout.LEFT));
+		subpanel71.setOpaque(false);
+		subpanel71.add(playerTitle);
+		
+		playertable = new JTable();
+		psp = new JScrollPane(playertable);
+		this.setPlayerData(vo.abbName);
+		
+		subpanel7 = new JPanel();
+		subpanel7.setLayout(new BorderLayout());
+		subpanel7.setOpaque(false);
+		subpanel7.add(subpanel71,BorderLayout.NORTH);
+		subpanel7.add(psp, BorderLayout.CENTER);
+		
+		subpanel8 = new JPanel();
+		subpanel8.setLayout(new GridLayout(1,3));
+		subpanel8.setOpaque(false);
+		playerdata = new PlayerData(vo.abbName);
+	    icon5 = new ImageIcon("5.jpg");
+		icon6 = new ImageIcon("6.jpg");
+		icon7 = new ImageIcon("7.jpg");
+		label5 = new JLabel();
+		label6 = new JLabel();
+		label7 = new JLabel();
+		label5.setIcon(icon5);
+		label6.setIcon(icon6);
+		label7.setIcon(icon7);
+		subpanel8.add(label5);
+		subpanel8.add(label6);
+		subpanel8.add(label7);
+		panel4.add(subpanel7);
+		panel4.add(subpanel8);
+	}
+
+	/**
+	 * @param vo
+	 * @param tp
+	 * @throws IOException 
+	 */
+	private void panel3(TeamBasicInfoVO vo, MainFrame mf) throws IOException {
+	
+		subpanel31 = new JPanel();
+		subpanel31.setLayout(new FlowLayout(FlowLayout.LEFT));
+		subpanel31.setOpaque(false);
 		mode = new JComboBox<String>(new String[]{"场均", "总数"});
 		mode.addActionListener(
 				new ActionListener(){
@@ -255,81 +360,127 @@ public class TeamFrame extends JDialog{
         historyTitle = new JLabel("历史统计:");
 		historyTitle.setFont(new Font("宋体",Font.BOLD,15));
 		historyTitle.setForeground(Color.ORANGE);
-		subpanel3.add(historyTitle);
-		subpanel3.add(type);
-		subpanel3.add(mode);
+		subpanel31.add(historyTitle);
+		subpanel31.add(type);
+		subpanel31.add(mode);
 		
 		historytable = new JTable();
 		hsp = new JScrollPane(historytable);
 		this.setHistoryData(vo.abbName);
 		//表格监听
-//		historytable.addMouseListener(new MouseAdapter() {
-//	    	public void mouseClicked(MouseEvent e) {
-//	    		String season = ((String)historytable.getValueAt(historytable.getSelectedRow(), 0));
-//	    	    tp.main.matchPane.getSearchPane().getTeamMatch(season, vo.abbName);
-//	    		tp.main.toFront();
-//	    		tp.main.cardLayout.show(tp.main.pane, "Match");
-//	    		
-//	    	}
-//	    });
-//		historytable.addMouseMotionListener(new MouseAdapter() {
-//	    	public void mouseMoved(MouseEvent e) {
-//	    		historytable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
-//		    }
-//	    });
-		panel3.add(subpanel3,BorderLayout.NORTH);
-		panel3.add(hsp,BorderLayout.CENTER);
+		historytable.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		String season = ((String)historytable.getValueAt(historytable.getSelectedRow(), 0));
+	    	    mf.getTeamMatch(season, vo.abbName);
+	    		mf.toFront();
+	    		
+	    	}
+	    });
+		historytable.addMouseMotionListener(new MouseAdapter() {
+	    	public void mouseMoved(MouseEvent e) {
+	    		historytable.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
+		    }
+	    });
+		
+		subpanel3 = new JPanel();
+		subpanel3.setLayout(new BorderLayout());
+		subpanel3.setOpaque(false);
+		subpanel3.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		subpanel3.add(subpanel31,BorderLayout.NORTH);
+		subpanel3.add(hsp, BorderLayout.CENTER);
+		
+		subpanel6 = new JPanel();
+		subpanel6.setLayout(new GridLayout(1,2));
+		subpanel6.setOpaque(false);
+		historydata = new HistoryData(vo.abbName);
+	    icon3 = new ImageIcon("3.jpg");
+		icon4 = new ImageIcon("4.jpg");
+		label3 = new JLabel();
+		label4 = new JLabel();
+		label3.setIcon(icon3);
+		label4.setIcon(icon4);
+		subpanel6.add(label3);
+		subpanel6.add(label4);
+		
+		panel3 = new JPanel();
+		panel3.setLayout(new GridLayout(2,1));
+		panel3.setOpaque(false);
+        panel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+		
+		panel3.add(subpanel3);
+		panel3.add(subpanel6);
 	}
 
 	/**
 	 * @param vo
 	 * @param tp
+	 * @throws IOException 
 	 */
-	private void panel2(TeamBasicInfoVO vo, TeamPane tp) {
+	private void panel2(TeamBasicInfoVO vo, MainFrame mf) throws IOException {
 		panel2 = new JPanel();
 		panel2.setOpaque(false);
-		panel2.setLayout(new BorderLayout());
+		panel2.setLayout(new GridLayout(2,1));
 		panel2.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-		subpanel4 = new JPanel();
-		subpanel4.setOpaque(false);
-		subpanel4.setLayout(new FlowLayout(FlowLayout.LEFT));
+		subpanel41 = new JPanel();
+		subpanel41.setOpaque(false);
+		subpanel41.setLayout(new FlowLayout(FlowLayout.LEFT));
 		recentTitle = new JLabel("最近5场比赛统计:");
 		recentTitle.setFont(new Font("宋体",Font.BOLD,15));
 		recentTitle.setForeground(Color.ORANGE);
-		subpanel4.add(recentTitle);
+		subpanel41.add(recentTitle);
 		table = new JTable();
 		sp = new JScrollPane(table);
 		this.setData(vo.abbName);
 		 //表格监听
-//	    table.addMouseListener(new MouseAdapter() {
-//	    	public void mouseClicked(MouseEvent e) {
-//	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
-//	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
-//	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 3));
-//	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
-//	    		SwingUtilities.invokeLater(new Runnable() {
-//					@SuppressWarnings("restriction")
-//					public void run() {
-//						try {
-//							JFrame.setDefaultLookAndFeelDecorated(true);
-//							MatchFrame frame = new MatchFrame(list.get(0),tp.main.matchPane);
-//							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
-//							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
-//						} catch (IOException | TranscoderException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//			    });
-//	    	}
-//	    });
+	    table.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
+	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
+	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 3));
+	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
+	    		SwingUtilities.invokeLater(new Runnable() {
+					@SuppressWarnings("restriction")
+					public void run() {
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							MatchFrame frame = new MatchFrame(list.get(0),mf);
+							com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.9f);//设置透明度
+							com.sun.awt.AWTUtilities.setWindowShape(frame, new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));//设置圆角
+						} catch (IOException | TranscoderException e) {
+							e.printStackTrace();
+						}
+					}
+			    });
+	    	}
+	    });
 	    table.addMouseMotionListener(new MouseAdapter() {
 	    	public void mouseMoved(MouseEvent e) {
 	    		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//鼠标变手
 		    }
 	    });
+	    subpanel4 = new JPanel();
+	    subpanel4.setLayout(new BorderLayout());
+	    subpanel4.setOpaque(false);
+	    subpanel4.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+	    subpanel4.add(subpanel41, BorderLayout.NORTH);
+	    subpanel4.add(sp,BorderLayout.CENTER);
+	    
+	    subpanel5 = new JPanel();
+	    subpanel5.setLayout(new GridLayout(1,2));
+	    subpanel5.setOpaque(false);
+	    recentdata = new RecentData(vo.abbName);
+	    
+	    icon1 = new ImageIcon("1.jpg");
+		icon2 = new ImageIcon("2.jpg");
+		label1 = new JLabel();
+		label2 = new JLabel();
+		label1.setIcon(icon1);
+		label2.setIcon(icon2);
+		subpanel5.add(label1);
+		subpanel5.add(label2);
 		
-		panel2.add(sp ,BorderLayout.CENTER);
-		panel2.add(subpanel4,BorderLayout.NORTH);
+		panel2.add(subpanel4);
+		panel2.add(subpanel5);
 	}
 
 	/**
@@ -396,8 +547,8 @@ public class TeamFrame extends JDialog{
 		getlocation = new JLabel(vo.location,JLabel.LEFT);
 		getcompetionArea = new JLabel(vo.competionArea,JLabel.LEFT);
 		getsubArea = new JLabel(vo.subArea,JLabel.LEFT);
-		if(vo.homeGround.length() > 11){
-			gethomeGround = new JLabel("<html>"+vo.homeGround.substring(0, 11)+"-"+"<br>"+vo.homeGround.substring(11, vo.homeGround.length())+"<html>", JLabel.CENTER);
+		if(vo.homeGround.length() > 15){
+			gethomeGround = new JLabel("<html>"+vo.homeGround.substring(0, 15)+"-"+"<br>"+vo.homeGround.substring(15, vo.homeGround.length())+"<html>", JLabel.CENTER);
 		}
 		else{
 			gethomeGround = new JLabel(vo.homeGround, JLabel.LEFT);
@@ -606,7 +757,7 @@ public class TeamFrame extends JDialog{
 		     data[i][13] = (int)list.get(i).allscores;
 		     data[i][1] = (int)list.get(i).winsNum;
 		     data[i][2] = (int)list.get(i).gamesNum;
-		     data[i][3] = list.get(i).winsRate*100+"%";
+		     data[i][3] = (int)(list.get(i).winsRate*100)+"%";
 		}
 		}
 		else{
@@ -624,7 +775,7 @@ public class TeamFrame extends JDialog{
 			     data[i][13] = list.get(i).scores;
 			     data[i][1] = (int)list.get(i).winsNum;
 			     data[i][2] = (int)list.get(i).gamesNum;
-			     data[i][3] = list.get(i).winsRate*100+"%";
+			     data[i][3] = (int)(list.get(i).winsRate*100)+"%";
 			}
 		}
 		this.showHistoryTable(data);

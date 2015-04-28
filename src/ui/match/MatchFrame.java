@@ -40,6 +40,7 @@ import businesslogic.PlayerBL;
 import businesslogic.TeamBL;
 import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
+import ui.MainFrame;
 import ui.SvgUtil;
 import ui.player.PlayerFrame;
 import vo.MatchVO;
@@ -120,7 +121,7 @@ public class MatchFrame extends JFrame{
 	boolean isDragged = false;
 	
 	
-	public MatchFrame(MatchVO vo, MatchPane mp) throws IOException, TranscoderException{
+	public MatchFrame(MatchVO vo, MainFrame mf) throws IOException, TranscoderException{
 		bl = new TeamBL();
 		pbl = new PlayerBL();
 		//定义界面大小
@@ -380,7 +381,7 @@ public class MatchFrame extends JFrame{
 					String str = (String)table1.getValueAt(table1.getSelectedRow(), 0);
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
-						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
+						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 					} catch (IOException | TranscoderException e1) {
@@ -468,7 +469,7 @@ public class MatchFrame extends JFrame{
 					String str = (String)table2.getValueAt(table2.getSelectedRow(), 0);
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
-						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mp.main.playerPane);
+						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
 						frame.setOpacity(0.9f);
 						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 					} catch (IOException | TranscoderException e1) {
