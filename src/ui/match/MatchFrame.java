@@ -380,14 +380,15 @@ public class MatchFrame extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (table1.getSelectedColumn() == 0 && table1.getSelectedRow() != (table1.getRowCount()-1)) {
 					String str = (String)table1.getValueAt(table1.getSelectedRow(), 0);
-					
-					try {
-						JFrame.setDefaultLookAndFeelDecorated(true);
-						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
-						frame.setOpacity(0.9f);
-						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
-					} catch (IOException | TranscoderException e1) {
-						e1.printStackTrace();
+					if(pbl.getOnePlayer(str).isNull){
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
+							frame.setOpacity(0.9f);
+							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+						} catch (IOException | TranscoderException e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
