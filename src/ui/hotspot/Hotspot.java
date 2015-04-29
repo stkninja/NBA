@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.batik.transcoder.TranscoderException;
@@ -351,9 +352,13 @@ public class Hotspot extends JPanel {
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						} else {
-							PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main);
-							frame.setOpacity(0.9f);
-							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+							if (playerBL.getOnePlayer(str) != null) {
+								PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main);
+								frame.setOpacity(0.9f);
+								frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+							} else {
+								JOptionPane.showMessageDialog(null, "此人信息不全！", "提示", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					} catch (IOException | TranscoderException e1) {
 						e1.printStackTrace();
