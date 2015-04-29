@@ -387,7 +387,7 @@ public class PlayerFrame extends JFrame{
 	    	public void mouseClicked(MouseEvent e) {
 	    		String season = ((String)table.getValueAt(table.getSelectedRow(), 0)).substring(0, 5);
 	    		String date = ((String)table.getValueAt(table.getSelectedRow(), 0)).substring(6);
-	    		String team = ((String)table.getValueAt(table.getSelectedRow(), 1)).substring(0, 3);
+	    		String team = TeamEnum.valueToEnum(((String)table.getValueAt(table.getSelectedRow(), 1)).split("-")[0]).name();
 	    		ArrayList<MatchVO> list = mbl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
 	    		SwingUtilities.invokeLater(new Runnable() {
 					@SuppressWarnings("restriction")
