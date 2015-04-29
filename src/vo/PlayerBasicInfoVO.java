@@ -14,8 +14,16 @@ public class PlayerBasicInfoVO {
 	public File portrait = null;                 //Ð¤Ïñ
 	public File action = null;                    //¶¯×÷ÕÕ
 	public String position = new String();
+	public boolean isNull;
 	
 	public PlayerBasicInfoVO(){
-		
+		if(number.equals(null) && height.equals(null) && weight.equals(null) && birth.equals(null) && age.equals(null) && exp.equals(null) && school.equals(null) && portrait.equals(null) && 
+				action.equals(null) && position.equals(null)){
+			isNull = false;
+		}
+		else{
+			isNull = true;
+		}
 	}
+	
 }

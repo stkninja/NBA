@@ -28,8 +28,11 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 	
 	public ArrayList<TeamVO> getTeams(String season,String subArea) {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("比赛得分");
 		if(subArea.equals("All")){
-			return getSeasonTeams(season);
+			list = sortTeam(getSeasonTeams(season),filter,"降序");
+			return list;
 		}
 		else{
 			for(TeamVO vo : getSeasonTeams(season)){
@@ -37,8 +40,9 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 					list.add(vo);
 				}
 			}
+			list = sortTeam(list,filter,"降序");
+			return list;
 		}
-		return list;
 	}
 	
 	public ArrayList<TeamVO> getSeasonTeams(String season){

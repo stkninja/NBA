@@ -285,6 +285,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		for(PSeasonDataPO po : playerdata.getAllPSeasonData(season)){
 			list.add(potovo(po));
 		}
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("场均得分");
+		list = sortPlayer(list,filter,"降序");
 		return list;
 	}
 	
