@@ -180,7 +180,7 @@ public class RecentMatch{
 		    		ds.addValue(0, "", "第"+(i+1)+"场");
 		    	}
 		    	else{
-		    		ds.addValue(Integer.parseInt(data[i][6].toString().split("-")[0])*100/Integer.parseInt(data[i][6].toString().split("-")[1]), "命中率(%)", "第"+(i+1)+"场");
+		    		ds.addValue(Integer.parseInt(data[i][5].toString().split("-")[0])*100/Integer.parseInt(data[i][5].toString().split("-")[1]), "命中率(%)", "第"+(i+1)+"场");
 		    	}
 		    	
 		    }
