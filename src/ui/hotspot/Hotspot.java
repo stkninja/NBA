@@ -352,7 +352,7 @@ public class Hotspot extends JPanel {
 							frame.setOpacity(0.9f);
 							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
 						} else {
-							if (!playerBL.getOnePlayer(str).isNull()) {
+							if (playerBL.getOnePlayer(str).isNull()) {
 								PlayerFrame frame = new PlayerFrame(playerBL.getOnePlayer(str), main);
 								frame.setOpacity(0.9f);
 								frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
