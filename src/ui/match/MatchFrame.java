@@ -380,7 +380,7 @@ public class MatchFrame extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (table1.getSelectedColumn() == 0 && table1.getSelectedRow() != (table1.getRowCount()-1)) {
 					String str = (String)table1.getValueAt(table1.getSelectedRow(), 0);
-					if(pbl.getOnePlayer(str).isNull){
+					if(pbl.getOnePlayer(str).isNull()){
 						try {
 							JFrame.setDefaultLookAndFeelDecorated(true);
 							PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
