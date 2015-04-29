@@ -4,26 +4,28 @@ import java.io.File;
 
 public class PlayerBasicInfoVO {
 	public String name = new String();
-	public String number;
-	public String height = new String();
-	public String weight = new String();
-	public String birth = new String();
-	public String age;
-	public String exp;
-	public String school =new String();
+	public String number = null;
+	public String height = null;
+	public String weight = null;
+	public String birth = null;
+	public String age = null;
+	public String exp = null;
+	public String school = null;
 	public File portrait = null;                 //Ð¤Ïñ
 	public File action = null;                    //¶¯×÷ÕÕ
-	public String position = new String();
-	public boolean isNull;
+	public String position = null;
 	
 	public PlayerBasicInfoVO(){
-		if(number.equals(null) && height.equals(null) && weight.equals(null) && birth.equals(null) && age.equals(null) && exp.equals(null) && school.equals(null) && portrait.equals(null) && 
-				action.equals(null) && position.equals(null)){
-			isNull = false;
-		}
-		else{
-			isNull = true;
-		}
+
 	}
 	
+	public boolean isNull(){
+		if(number == null && height == null && weight == null && birth == null && age == null && exp == null && school == null && portrait == null && 
+				action == null && position == null){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
 }

@@ -999,4 +999,5 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public String getLastSeason() {
 		return matchdata.getLastSeason();
 	}
+	
 }
