@@ -46,9 +46,9 @@ public class Team extends JPanel {
 	private void initTop() {
 		ImageIcon background;
 		if (type.equals("East"))
-			background = new ImageIcon("data/pic/TodayTopPlayer1.png");
+			background = new ImageIcon("data/pic/east.png");
 		else
-			background = new ImageIcon("data/pic/TodayTopPlayer2.png");
+			background = new ImageIcon("data/pic/west.png");
 		JPanel top = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -78,9 +78,9 @@ public class Team extends JPanel {
 			label2 = new JLabel("西北分区", JLabel.CENTER);
 			label3 = new JLabel("西南分区", JLabel.CENTER);
 		}
-		label1.setFont(new Font("黑体", Font.PLAIN, 15));
-		label2.setFont(new Font("黑体", Font.PLAIN, 15));
-		label3.setFont(new Font("黑体", Font.PLAIN, 15));
+		label1.setFont(new Font("黑体", Font.PLAIN, 14));
+		label2.setFont(new Font("黑体", Font.PLAIN, 14));
+		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		category.add(label1);
 		category.add(label2);
 		category.add(label3);

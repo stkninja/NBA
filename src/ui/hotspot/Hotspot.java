@@ -84,7 +84,7 @@ public class Hotspot extends JPanel {
 	 * 初始化标题
 	 */
 	private void initTop() {
-		ImageIcon background = new ImageIcon("data/pic/" + condition[0] +"1.png");
+		ImageIcon background = new ImageIcon("data/pic/" + condition[0] +".png");
 		JPanel top = new JPanel() {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
