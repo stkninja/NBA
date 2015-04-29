@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -311,13 +312,18 @@ public class TeamFrame extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (playertable.getSelectedColumn() == 0) {
 					String str = (String)playertable.getValueAt(playertable.getSelectedRow(), 0);
-					try {
-						JFrame.setDefaultLookAndFeelDecorated(true);
-						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
-						frame.setOpacity(0.9f);
-						frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
-					} catch (IOException | TranscoderException e1) {
-						e1.printStackTrace();
+					if(pbl.getOnePlayer(str).isNull()){
+						try {
+							JFrame.setDefaultLookAndFeelDecorated(true);
+							PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
+							frame.setOpacity(0.9f);
+							frame.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, frame.getWidth(), frame.getHeight(), 26.0D, 26.0D));
+						} catch (IOException | TranscoderException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null,"此人信息不全","提示",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
