@@ -48,7 +48,9 @@ import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
 import ui.MainFrame;
+import ui.RegionEnum;
 import ui.SvgUtil;
+import ui.TeamEnum;
 import ui.match.MatchFrame;
 import ui.player.PlayerFrame;
 import vo.MatchVO;
@@ -244,7 +246,7 @@ public class TeamFrame extends JFrame{
 		panelA.add(panelA1);
 		panelA.add(panelA2);
 		Font f = new Font("宋体",Font.BOLD,22);
-		fullName = new JLabel(vo.fullName);
+		fullName = new JLabel(TeamEnum.valueToEnum(vo.abbName).name_Ch());
 		fullName.setFont(f);
 		fullName.setForeground(Color.ORANGE);
 		panelA1.add(fullName);
@@ -557,8 +559,8 @@ public class TeamFrame extends JFrame{
 
 		getabbName = new JLabel(vo.abbName,JLabel.LEFT);
 		getlocation = new JLabel(vo.location,JLabel.LEFT);
-		getcompetionArea = new JLabel(vo.competionArea,JLabel.LEFT);
-		getsubArea = new JLabel(vo.subArea,JLabel.LEFT);
+		getcompetionArea = new JLabel(RegionEnum.valueToEnum(vo.competionArea).name_Ch(),JLabel.LEFT);
+		getsubArea = new JLabel(RegionEnum.valueToEnum(vo.subArea).name_Ch(),JLabel.LEFT);
 		if(vo.homeGround.length() > 15){
 			gethomeGround = new JLabel("<html>"+vo.homeGround.substring(0, 15)+"-"+"<br>"+vo.homeGround.substring(15, vo.homeGround.length())+"<html>", JLabel.CENTER);
 		}
@@ -710,7 +712,7 @@ public class TeamFrame extends JFrame{
 		     data[i][1] = list.get(i).date;
 		     if(list.get(i).team1.abbName.equals(name)){
 		    	 data[i][2] = "主场";
-		    	 data[i][3] = list.get(i).team2.abbName;
+		    	 data[i][3] = TeamEnum.valueToEnum(list.get(i).team2.abbName).name_abbCh();
 		    	 data[i][4] = (int)list.get(i).team1.qt1Scores+"-"+(int)list.get(i).team2.qt1Scores;
 			     data[i][5] = (int)list.get(i).team1.qt2Scores+"-"+(int)list.get(i).team2.qt2Scores;
 			     data[i][6] = (int)list.get(i).team1.qt3Scores+"-"+(int)list.get(i).team2.qt3Scores;
@@ -729,7 +731,7 @@ public class TeamFrame extends JFrame{
 		     }
 		     else{
 		    	 data[i][2] = "客场";
-		    	 data[i][3] = list.get(i).team1.abbName;
+		    	 data[i][3] = TeamEnum.valueToEnum(list.get(i).team1.abbName).name_abbCh();
 		    	 data[i][4] = (int)list.get(i).team2.qt1Scores+"-"+(int)list.get(i).team1.qt1Scores;
 			     data[i][5] = (int)list.get(i).team2.qt2Scores+"-"+(int)list.get(i).team1.qt2Scores;
 			     data[i][6] = (int)list.get(i).team2.qt3Scores+"-"+(int)list.get(i).team1.qt3Scores;

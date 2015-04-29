@@ -169,7 +169,7 @@ public class RecentMatch{
 	 private CategoryDataset getDataSet1() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();  
 		    for(int i = 0; i < data.length; i++){
-		    	ds.addValue((int)data[i][15], "", "第"+(i+1)+"场");
+		    	ds.addValue((int)data[i][14], "", "第"+(i+1)+"场");
 		    }
 	        return ds;  
 	    }

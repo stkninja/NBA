@@ -12,7 +12,9 @@ public enum RegionEnum {
 	Pacific("Pacific", "太平洋分区"),
 	Northwest("Northwest", "西北分区"),
 	Southwest("Southwest", "西南分区"),
-	All("All", "所有分区");
+	All("All", "所有分区"),
+	E("E", "东区"),
+	W("W", "西区");
 	
 	private String name_En;
 	private String name_Ch;

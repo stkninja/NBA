@@ -323,7 +323,7 @@ public class MatchFrame extends JFrame{
 		panelB.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
 		subpanelB1 = new JPanel();
 		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team1 = new JLabel(TeamEnum.valueToEnum(vo.team1.abbName).name_Ch()+"的技术统计:");
+		team1 = new JLabel(TeamEnum.valueToEnum(vo.team1.abbName).name_abbCh()+"的技术统计:");
 		team1.setFont(new Font("宋体",Font.BOLD,15));
 		team1.setForeground(Color.ORANGE);
 		subpanelB1.add(team1);
@@ -380,6 +380,7 @@ public class MatchFrame extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (table1.getSelectedColumn() == 0 && table1.getSelectedRow() != (table1.getRowCount()-1)) {
 					String str = (String)table1.getValueAt(table1.getSelectedRow(), 0);
+					
 					try {
 						JFrame.setDefaultLookAndFeelDecorated(true);
 						PlayerFrame frame = new PlayerFrame(pbl.getOnePlayer(str),mf);
@@ -411,7 +412,7 @@ public class MatchFrame extends JFrame{
 		panelC.setBorder(BorderFactory.createEmptyBorder(0, 12, 20, 12));
 		subpanelC1 = new JPanel();
 		subpanelC1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		team2 = new JLabel(TeamEnum.valueToEnum(vo.team2.abbName).name_Ch()+"的技术统计:");
+		team2 = new JLabel(TeamEnum.valueToEnum(vo.team2.abbName).name_abbCh()+"的技术统计:");
 		team2.setFont(new Font("宋体",Font.BOLD,15));
 		team2.setForeground(Color.ORANGE);
 		subpanelC1.add(team2);

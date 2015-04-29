@@ -42,7 +42,9 @@ import javax.swing.table.TableColumn;
 import org.apache.batik.transcoder.TranscoderException;
 
 import ui.MainFrame;
+import ui.PositionEnum;
 import ui.SvgUtil;
+import ui.TeamEnum;
 import ui.match.MatchFrame;
 import ui.team.TeamFrame;
 import vo.MatchVO;
@@ -410,6 +412,7 @@ public class PlayerFrame extends JFrame{
 	    subpanel4 = new JPanel();
 	    subpanel4.setLayout(new BorderLayout());
 	    subpanel4.setOpaque(false);
+	    subpanel4.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
 	    subpanel4.add(subpanel41, BorderLayout.NORTH);
 	    subpanel4.add(sp,BorderLayout.CENTER);
 	    
@@ -517,7 +520,7 @@ public class PlayerFrame extends JFrame{
 		Font f2 = new Font("宋体",Font.BOLD,12);
 
 		getAge = new JLabel(vo.age, JLabel.CENTER);
-		getPosition = new JLabel(vo.position, JLabel.CENTER);
+		getPosition = new JLabel(PositionEnum.valueToEnum(vo.position).name_Ch(), JLabel.CENTER);
 		getHeight = new JLabel(vo.height+"英尺", JLabel.RIGHT);
 		getWeight = new JLabel(vo.weight+"磅", JLabel.CENTER);
 		getNumber = new JLabel(vo.number+"号", JLabel.RIGHT);
@@ -567,7 +570,7 @@ public class PlayerFrame extends JFrame{
 		 		     logo = ImageIO.read(logofile);
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
-		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).fullName,JLabel.CENTER);
+		 		     team = new JLabel(TeamEnum.valueToEnum(list.get(list.size()-1).team1.abbName).name_abbCh(),JLabel.CENTER);
 		 		     abbname = list.get(list.size()-1).team1.abbName;
 		    	 }
 			}
@@ -579,7 +582,7 @@ public class PlayerFrame extends JFrame{
 		 		     logo = ImageIO.read(logofile);
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
-		 		     team = new JLabel(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).fullName,JLabel.CENTER);
+		 		     team = new JLabel(TeamEnum.valueToEnum(list.get(list.size()-1).team2.abbName).name_abbCh(),JLabel.CENTER);
 		 		     abbname = list.get(list.size()-1).team2.abbName;
 		    	 }
 			}
@@ -688,57 +691,56 @@ public class PlayerFrame extends JFrame{
 		
 		private void setData(String name) {
 			ArrayList<MatchVO> list = bl.getLastFiveMatches(name);
-			data = new Object[list.size()][16];
+			data = new Object[list.size()][15];
 			for (int i = 0; i < list.size(); i++) {
 			     data[i][0] = list.get(i).season+"·"+list.get(i).date;
-			     data[i][1] = list.get(i).team1.abbName+"-"+list.get(i).team2.abbName;
-			     data[i][3] = "常规赛";
+			     data[i][1] = TeamEnum.valueToEnum(list.get(i).team1.abbName).name_abbCh()+"-"+TeamEnum.valueToEnum(list.get(i).team2.abbName).name_abbCh();
+			     data[i][2] = "常规赛";
 			     for(int m = 0;m<list.get(i).team1.teamPlayers.size();m++){
 			    	 if(list.get(i).team1.teamPlayers.get(m).name.equals(name)){
-			    		 data[i][2] = list.get(i).team1.abbName;
+			    		
 			    		 if(list.get(i).team1.teamPlayers.get(m).gameStart==1){
-			    			 data[i][4] = "是";
+			    			 data[i][3] = "是";
 			    		 }
 			    		 else{
-			    			 data[i][4] = "否";
+			    			 data[i][3] = "否";
 			    		 }
-					     data[i][5] = Math.ceil(list.get(i).team1.teamPlayers.get(m).minute * 100) / 100;
-					     data[i][6] = (int)list.get(i).team1.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).shoot;
-					     data[i][7] = (int)list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).threepoint;
-					     data[i][8] = (int)list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).freethrow;
-					     data[i][9] = (int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
+					     data[i][4] = Math.ceil(list.get(i).team1.teamPlayers.get(m).minute * 100) / 100;
+					     data[i][5] = (int)list.get(i).team1.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).shoot;
+					     data[i][6] = (int)list.get(i).team1.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).threepoint;
+					     data[i][7] = (int)list.get(i).team1.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team1.teamPlayers.get(m).freethrow;
+					     data[i][8] = (int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds+"-"
 					    		 +(int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+"-"
 					    		 +((int)list.get(i).team1.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team1.teamPlayers.get(m).offensiveRebounds);
-					     data[i][10] =(int)list.get(i).team1.teamPlayers.get(m).assist;
-					     data[i][11] = (int)list.get(i).team1.teamPlayers.get(m).steal;
-					     data[i][12] = (int)list.get(i).team1.teamPlayers.get(m).block;
-					     data[i][13] = (int)list.get(i).team1.teamPlayers.get(m).error;
-					     data[i][14] = (int)list.get(i).team1.teamPlayers.get(m).foul;
-					     data[i][15] = (int)list.get(i).team1.teamPlayers.get(m).point;
+					     data[i][9] =(int)list.get(i).team1.teamPlayers.get(m).assist;
+					     data[i][10] = (int)list.get(i).team1.teamPlayers.get(m).steal;
+					     data[i][11] = (int)list.get(i).team1.teamPlayers.get(m).block;
+					     data[i][12] = (int)list.get(i).team1.teamPlayers.get(m).error;
+					     data[i][13] = (int)list.get(i).team1.teamPlayers.get(m).foul;
+					     data[i][14] = (int)list.get(i).team1.teamPlayers.get(m).point;
 			    	 }
 			     }
 			     for(int m = 0;m<list.get(i).team2.teamPlayers.size();m++){
 			    	 if(list.get(i).team2.teamPlayers.get(m).name.equals(name)){
-			    		 data[i][2] = list.get(i).team2.abbName;
 			    		 if(list.get(i).team2.teamPlayers.get(m).gameStart==1){
-			    			 data[i][4] = "是";
+			    			 data[i][3] = "是";
 			    		 }
 			    		 else{
-			    			 data[i][4] = "否";
+			    			 data[i][3] = "否";
 			    		 }
-					     data[i][5] = Math.ceil(list.get(i).team2.teamPlayers.get(m).minute * 100) / 100;
-					     data[i][6] = (int)list.get(i).team2.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).shoot;
-					     data[i][7] = (int)list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).threepoint;
-					     data[i][8] = (int)list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).freethrow;
-					     data[i][9] = (int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
+					     data[i][4] = Math.ceil(list.get(i).team2.teamPlayers.get(m).minute * 100) / 100;
+					     data[i][5] = (int)list.get(i).team2.teamPlayers.get(m).shootmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).shoot;
+					     data[i][6] = (int)list.get(i).team2.teamPlayers.get(m).threepointmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).threepoint;
+					     data[i][7] = (int)list.get(i).team2.teamPlayers.get(m).freethrowmade+"-"+(int)list.get(i).team2.teamPlayers.get(m).freethrow;
+					     data[i][8] = (int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds+"-"
 					    		 +(int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+"-"
 					    		 +((int)list.get(i).team2.teamPlayers.get(m).defensiveRebounds+(int)list.get(i).team2.teamPlayers.get(m).offensiveRebounds);
-					     data[i][10] = (int)list.get(i).team2.teamPlayers.get(m).assist;
-					     data[i][11] = (int)list.get(i).team2.teamPlayers.get(m).steal;
-					     data[i][12] = (int)list.get(i).team2.teamPlayers.get(m).block;
-					     data[i][13] = (int)list.get(i).team2.teamPlayers.get(m).error;
-					     data[i][14] = (int)list.get(i).team2.teamPlayers.get(m).foul;
-					     data[i][15] = (int)list.get(i).team2.teamPlayers.get(m).point;
+					     data[i][9] = (int)list.get(i).team2.teamPlayers.get(m).assist;
+					     data[i][10] = (int)list.get(i).team2.teamPlayers.get(m).steal;
+					     data[i][11] = (int)list.get(i).team2.teamPlayers.get(m).block;
+					     data[i][12] = (int)list.get(i).team2.teamPlayers.get(m).error;
+					     data[i][13] = (int)list.get(i).team2.teamPlayers.get(m).foul;
+					     data[i][14] = (int)list.get(i).team2.teamPlayers.get(m).point;
 			    	 }
 			     }
 			}
@@ -770,7 +772,7 @@ public class PlayerFrame extends JFrame{
 					}
 					else{
 						 data[i][0] = list.get(i).season;
-					     data[i][1] = list.get(i).team;
+					     data[i][1] = TeamEnum.valueToEnum(list.get(i).team).name_abbCh();
 					     data[i][2] = list.get(i).gameplay;
 					     data[i][3] = list.get(i).gamestart;
 					     data[i][4] = list.get(i).allminute;
@@ -808,7 +810,7 @@ public class PlayerFrame extends JFrame{
 					}
 					else{
 						 data[i][0] = list.get(i).season;
-					     data[i][1] = list.get(i).team;
+					     data[i][1] = TeamEnum.valueToEnum(list.get(i).team).name_abbCh();
 					     data[i][2] = list.get(i).gameplay;
 					     data[i][3] = list.get(i).gamestart;
 					     data[i][4] = list.get(i).minute;
@@ -832,9 +834,9 @@ public class PlayerFrame extends JFrame{
 		private void showTable(Object[][] data) {
 			this.remove(table);
 			//近比赛表格
-			String[] subTitle = {"赛季·日期", "比赛","球队", "类型", "首发","时间",//0-5
-						"投篮","三分","罚球","篮板(前-后-总)","助攻","抢断","盖帽",//6-12
-						"失误","犯规","得分"//13-15
+			String[] subTitle = {"赛季·日期", "比赛", "类型", "首发","时间",//0-4
+						"投篮","三分","罚球","篮板(前后总)","助攻","抢断","盖帽",//5-11
+						"失误","犯规","得分"//12-14
 						};
 			//------------------------------------------------------
 			DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
@@ -848,6 +850,7 @@ public class PlayerFrame extends JFrame{
 			table.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 			table.setFont(new Font("宋体",0,12));
 			table.setDefaultRenderer(Object.class,   r);//居中显示
+			((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 			FitTableColumns(table);
 	        table.getTableHeader().setReorderingAllowed(false); 
 	        table.getTableHeader().setResizingAllowed(false);
@@ -874,6 +877,7 @@ public class PlayerFrame extends JFrame{
 			historytable = new JTable(dm);
 			historytable.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 			historytable.setDefaultRenderer(Object.class,   r);//居中显示
+			((DefaultTableCellRenderer)historytable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 			historytable.setFont(new Font("宋体",0,12));
 			FitTableColumns(historytable);
 			historytable.getTableHeader().setReorderingAllowed(false); 
