@@ -155,7 +155,7 @@ public class Hotspot extends JPanel {
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
 						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 						else
 							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
@@ -184,7 +184,7 @@ public class Hotspot extends JPanel {
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
 						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 						else
 							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
@@ -241,7 +241,7 @@ public class Hotspot extends JPanel {
 					label[i].setPreferredSize(new Dimension(150, 150));
 					try {
 						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setNOTFOUND(label[i], "data/pic/NotFound.png");
+							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 						else
 							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
 					} catch (IOException e) {
