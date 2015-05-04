@@ -232,37 +232,37 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 				data[i][1] = list.get(i).name;
 				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
 				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
-				data[i][4] = list.get(i).gameplay;
-				data[i][5] = list.get(i).gamestart;
+				data[i][4] = (int)list.get(i).gameplay;
+				data[i][5] = (int)list.get(i).gamestart;
 				data[i][6] = list.get(i).allminute;
 				
-				data[i][7] = list.get(i).allshootmade;
-				data[i][8] = list.get(i).allshoot;
+				data[i][7] = (int)list.get(i).allshootmade;
+				data[i][8] = (int)list.get(i).allshoot;
 				data[i][9] = list.get(i).allfieldgoalpercent;
 				data[i][10] = list.get(i).allrealshootpercent;
 				
-				data[i][11] = list.get(i).allthreepointmade;
-				data[i][12] = list.get(i).allthreepoint;
+				data[i][11] = (int)list.get(i).allthreepointmade;
+				data[i][12] = (int)list.get(i).allthreepoint;
 				data[i][13] = list.get(i).allthreepointpercent;
 				
-				data[i][14] = list.get(i).allfreethrowmade;
-				data[i][15] = list.get(i).allfreethrow;
+				data[i][14] = (int)list.get(i).allfreethrowmade;
+				data[i][15] = (int)list.get(i).allfreethrow;
 				data[i][16] = list.get(i).allfreethrowpercent;
 				
-				data[i][17] = list.get(i).alloffensiverebound;
-				data[i][18] = list.get(i).alldefensiverebound;
-				data[i][19] = list.get(i).allrebound;
+				data[i][17] = (int)list.get(i).alloffensiverebound;
+				data[i][18] = (int)list.get(i).alldefensiverebound;
+				data[i][19] = (int)list.get(i).allrebound;
 				
-				data[i][20] = list.get(i).alloffense;
-				data[i][21] = list.get(i).alldefence;
-				data[i][22] = list.get(i).allassist;
-				data[i][23] = list.get(i).allsteal;
-				data[i][24] = list.get(i).allblock;
-				data[i][25] = list.get(i).allerror;
-				data[i][26] = list.get(i).allfoul;
-				data[i][27] = list.get(i).allpoint;
-				data[i][28] = list.get(i).doubledouble;
-				data[i][29] = list.get(i).allpointReboundAssist;
+				data[i][20] = (int)list.get(i).alloffense;
+				data[i][21] = (int)list.get(i).alldefence;
+				data[i][22] = (int)list.get(i).allassist;
+				data[i][23] = (int)list.get(i).allsteal;
+				data[i][24] = (int)list.get(i).allblock;
+				data[i][25] = (int)list.get(i).allerror;
+				data[i][26] = (int)list.get(i).allfoul;
+				data[i][27] = (int)list.get(i).allpoint;
+				data[i][28] = (int)list.get(i).doubledouble;
+				data[i][29] = (int)list.get(i).allpointReboundAssist;
 				 
 				data[i][30] = list.get(i).allshootefficiency;
 				data[i][31] = list.get(i).alloffensivereboundrate;
@@ -282,8 +282,8 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 				data[i][1] = list.get(i).name;
 				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
 				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
-				data[i][4] = list.get(i).gameplay;
-				data[i][5] = list.get(i).gamestart;
+				data[i][4] = (int)list.get(i).gameplay;
+				data[i][5] = (int)list.get(i).gamestart;
 				data[i][6] = list.get(i).minute;
 				
 				data[i][7] = list.get(i).shootmade;

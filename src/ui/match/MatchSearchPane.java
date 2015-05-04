@@ -39,7 +39,7 @@ public class MatchSearchPane extends JInternalFrame {
 	private JComboBox<String> comboBox1;
 	private JComboBox<String> comboBox2;
 	private JComboBox<String> comboBox3;
-	private JTextField text1;
+//	private JTextField text1;
 	private JTextField text2;
 	private JButton search;
 	private JButton reset;
@@ -82,12 +82,12 @@ public class MatchSearchPane extends JInternalFrame {
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label2 = new JLabel("日期：");
 		label2.setFont(new Font("黑体", Font.PLAIN, 14));
-		JLabel label3 = new JLabel("球员：");
-		label3.setFont(new Font("黑体", Font.PLAIN, 14));
+//		JLabel label3 = new JLabel("球员：");
+//		label3.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label4 = new JLabel("球队缩写：");
 		label4.setFont(new Font("黑体", Font.PLAIN, 14));
 		comboBox1 = new JComboBox<String>((String[])bl.getAllSeasons().toArray(new String[bl.getAllSeasons().size()]));
-		text1 = new JTextField();
+//		text1 = new JTextField();
 		text2 = new JTextField();
 		
 		JPanel date = new JPanel(new FlowLayout());
@@ -96,8 +96,8 @@ public class MatchSearchPane extends JInternalFrame {
 		label5.setFont(new Font("黑体", Font.PLAIN, 14));
 		JLabel label6 = new JLabel("日");
 		label6.setFont(new Font("黑体", Font.PLAIN, 14));
-		comboBox2 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
-		comboBox3 = new JComboBox<String>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+		comboBox2 = new JComboBox<String>(new String[]{"--", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"});
+		comboBox3 = new JComboBox<String>(new String[]{"--", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
 													   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 													   "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
 		date.add(comboBox2);
@@ -120,8 +120,8 @@ public class MatchSearchPane extends JInternalFrame {
 		pane.add(comboBox1);
 		pane.add(label2);
 		pane.add(date);
-		pane.add(label3);
-		pane.add(text1);
+//		pane.add(label3);
+//		pane.add(text1);
 		pane.add(label4);
 		pane.add(text2);
 		pane.add(bottom);
@@ -129,7 +129,11 @@ public class MatchSearchPane extends JInternalFrame {
 		
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem(), text1.getText()));
+				String temp = (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem();
+				if (temp.equals("-----"))
+					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), "All", "All"));
+				else
+					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text2.getText(), (String)comboBox1.getSelectedItem(), temp, "All"));
 			}
 		});
 		reset.addActionListener(new ActionListener() {
@@ -142,7 +146,7 @@ public class MatchSearchPane extends JInternalFrame {
 	 * 设置位置大小
 	 */
 	public void setPlace() {
-		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 5, father.dp.getHeight() * 4 / 7);
+		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 5, father.dp.getHeight() / 2);
 	}
 	/**
 	 * 获得所有数据
