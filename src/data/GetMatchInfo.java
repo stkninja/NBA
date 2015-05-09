@@ -188,7 +188,7 @@ public class GetMatchInfo implements MatchService{
 		File f = new File(new Console().getDataSource() + "\\matches");
 		if(f.exists()){
 			String[] seasons = f.list();
-			return seasons[seasons.length - 1];
+			return seasons[seasons.length - 1].split("_")[0];
 		}
 		else
 			return "";
