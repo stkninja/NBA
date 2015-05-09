@@ -8,20 +8,20 @@ public class PlayerBasicInfoVO {
 	public String height = null;
 	public String weight = null;
 	public String birth = null;
-	public String age = null;
+	public String age = "0";
 	public String exp = null;
 	public String school = null;
 	public File portrait = null;                 //Ð¤Ïñ
 	public File action = null;                    //¶¯×÷ÕÕ
-	public String position = null;
+	public String position = "";
 	
 	public PlayerBasicInfoVO(){
 
 	}
 	
 	public boolean isNull(){
-		if(number == null && height == null && weight == null && birth == null && age == null && exp == null && school == null && portrait == null && 
-				action == null && position == null){
+		if(number == null && height == null && weight == null && birth == null && age == "0" && exp == null && school == null && portrait == null && 
+				action == null && position == ""){
 			return false;
 		}
 		else{

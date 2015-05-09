@@ -337,11 +337,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 
 	public ArrayList<TeamVO> getSeasonTopFiveTeams(String season, String filter) {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
-		ArrayList<TeamVO> templist = new ArrayList<TeamVO>();
-		for(TSeasonDataPO po : teamdata.getAllTSeasonData(season)){
-			templist.add(potovo(po));
-		}
-		list = sort(templist,filter);
+		list = sort(getSeasonTeams(season),filter);
 		return list;
 	}
 	
@@ -387,13 +383,13 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		case "防守效率":
 			res = vo.alldefenceEfficiency;
 			break;
-		case "进攻篮板效率":
+		case "进攻篮板率":
 			res = vo.alloffensivereboundsEfficiency;
 			break;
-		case "防守篮板效率":
+		case "防守篮板率":
 			res = vo.alldefensivereboundsEfficiency;
 			break;
-		case "抢断效率":
+		case "抢断率":
 			res = vo.allstealEfficiency;
 			break;
 			
@@ -427,7 +423,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		case "比赛得分":
 			res = vo.allscores;
 			break;
-		case "助攻效率":
+		case "助攻率":
 			res = vo.allassistEfficiency;
 			break;
 			
@@ -485,7 +481,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		case "场均犯规数":
 			res = vo.fouls;
 			break;
-		case "场均比赛得分":
+		case "场均得分":
 			res = vo.scores;
 			break;
 		case "场均进攻篮板效率":
@@ -567,6 +563,75 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 			return reslist;
 		}
 	}
+	
+	public ArrayList<TeamVO> sortTeam(ArrayList<TeamVO> list,ArrayList<String> filter,ArrayList<String> sortOrder){
+		Comparator<TeamVO> comparator = new Comparator<TeamVO>(){
+			public int compare(TeamVO vo1, TeamVO vo2) {
+				int res = 0;
+				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("无")){
+						break;
+					}
+					if(filter.get(i).equals("球队名称")){
+						if(!vo1.fullName.equals(vo2.fullName)){
+							if(sortOrder.get(i).equals("asc")){
+								res = vo1.fullName.compareTo(vo2.fullName);
+							}
+							else{
+								res = vo2.fullName.compareTo(vo1.fullName);
+							}
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else if(filter.get(i).equals("队名缩写")){
+						if(!vo1.abbName.equals(vo2.abbName)){
+							if(sortOrder.get(i).equals("asc")){
+								res = vo1.abbName.compareTo(vo2.abbName);
+							}
+							else{
+								res = vo2.abbName.compareTo(vo1.abbName);
+							}
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+						if(getAttribute(vo1,filter.get(i)) != getAttribute(vo2,filter.get(i))){
+							if(getAttribute(vo1,filter.get(i)) > getAttribute(vo2,filter.get(i))){
+								if(sortOrder.get(i).equals("asc")){
+									res = 1;
+								}
+								else{
+									res = -1;
+								}
+							}
+							else{
+								if(sortOrder.get(i).equals("asc")){
+									res = -1;
+								}
+								else{
+									res = 1;
+								}
+							}
+//							res = (int) ((int)getAttribute(vo1,filter.get(i)) - getAttribute(vo2,filter.get(i)));
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				return res;
+			}
+		};
+		Collections.sort(list,comparator);
+		return list;
+	}
 
 	public ArrayList<TeamVO> getAllSeasonTeam(String name) {
 		ArrayList<TeamVO> list = new ArrayList<TeamVO>();
@@ -594,9 +659,9 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		list.add("进攻回合");
 		list.add("进攻效率");
 		list.add("防守效率");
-		list.add("进攻篮板效率");
-		list.add("防守篮板效率");
-		list.add("抢断效率");
+		list.add("进攻篮板率");
+		list.add("防守篮板率");
+		list.add("抢断率");
 		list.add("篮板数");
 		list.add("助攻数");
 		list.add("投篮命中率");
@@ -606,7 +671,7 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		list.add("盖帽数");
 		list.add("失误数");
 		list.add("犯规数");
-		list.add("助攻效率");
+		list.add("助攻率");
 		list.add("无");
 		
 		return list;

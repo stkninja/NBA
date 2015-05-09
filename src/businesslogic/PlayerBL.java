@@ -622,6 +622,15 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		case "两双":
 			res = vo.doubledouble;
 			break;
+		case "近5场得分提升率":
+			res = vo.pointpromotion;
+			break;
+		case "近5场篮板提升率":
+			res = vo.reboundpromotion;
+			break;
+		case "近5场助攻提升率":
+			res = vo.assistpromotion;
+			break;
 		}
 		return res;		
 	}
@@ -708,6 +717,105 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			return reslist;
 		}
 	}
+	
+	public ArrayList<PlayerVO> sortPlayer(ArrayList<PlayerVO> list,ArrayList<String> filter,ArrayList<String> sortOrder){
+		Comparator<PlayerVO> comparator = new Comparator<PlayerVO>(){
+			public int compare(PlayerVO vo1, PlayerVO vo2) {
+				int res = 0;
+				for(int i = 0;i < filter.size();i ++){
+					if(filter.get(i).equals("无")){
+						break;
+					}
+					if(filter.get(i).equals("球员名称")){
+						String vo1last = "";
+						String vo1first = "";
+						String vo2last = "";
+						String vo2first = "";
+						if(vo1.name.indexOf(" ") < 0){
+							vo1last = vo1.name;
+							vo1first = vo1.name;
+						}
+						else{
+							vo1last = vo1.name.split(" ")[1];
+							vo1first = vo1.name.split(" ")[0];
+						}
+						
+						if(vo2.name.indexOf(" ") < 0){
+							vo2last = vo2.name;
+							vo2first = vo2.name;
+						}
+						else{
+							vo2last = vo2.name.split(" ")[1];
+							vo2first = vo2.name.split(" ")[0];
+						}
+						
+						if(!vo1last.equals(vo2last)){
+							if(sortOrder.get(i).equals("asc")){
+								res = vo1last.compareTo(vo2last);
+							}
+							else{
+								res = vo2last.compareTo(vo1last);
+							}
+							break;
+						}
+						else if(vo1last.equals(vo2last) && !vo1first.equals(vo2first)){
+							if(sortOrder.get(i).equals("asc")){
+								res = vo1first.compareTo(vo2first);
+							}
+							else{
+								res = vo2first.compareTo(vo1first);
+							}
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else if(filter.get(i).equals("所属球队")){
+						if(!vo1.team.equals(vo2.team)){
+							if(sortOrder.get(i).equals("asc")){
+								res = vo1.team.compareTo(vo2.team);
+							}
+							else{
+								res = vo2.team.compareTo(vo1.team);
+							}
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+					else{
+						if(getAttribute(vo1,filter.get(i)) != getAttribute(vo2,filter.get(i))){
+							if(getAttribute(vo1,filter.get(i)) > getAttribute(vo2,filter.get(i))){
+								if(sortOrder.get(i).equals("asc")){
+									res = 1;
+								}
+								else{
+									res = -1;
+								}
+							}
+							else{
+								if(sortOrder.get(i).equals("asc")){
+									res = -1;
+								}
+								else{
+									res = 1;
+								}
+							}
+							break;
+						}
+						else{
+							continue;
+						}
+					}
+				}
+				return res;
+			}
+		};
+		Collections.sort(list,comparator);
+		return list;
+	}
 
 	public PlayerVO getPlayerVO(String name) {
 		PlayerVO vo = new PlayerVO();
@@ -752,17 +860,23 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			else if(age.equals("<=22")){
 				for(PlayerVO vo1 : getPlayers("all","Southwest",position,"All")){
 					if(age(vo1) <= 22){
-						list.add(vo1);
+						if(age(vo1) != 0){
+							list.add(vo1);
+						}
 					}
 				}
 				for(PlayerVO vo2 : getPlayers("all","Northwest",position,"All")){
 					if(age(vo2) <= 22){
-						list.add(vo2);
+						if(age(vo2) != 0){
+							list.add(vo2);
+						}
 					}
 				}
 				for(PlayerVO vo3 : getPlayers("all","Pacific",position,"All")){
 					if(age(vo3) <= 22){
-						list.add(vo3);
+						if(age(vo3) != 0){
+							list.add(vo3);
+						}
 					}
 				}
 			}
@@ -833,17 +947,23 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			else if(age.equals("<=22")){
 				for(PlayerVO vo1 : getPlayers("all","Atlantic",position,"All")){
 					if(age(vo1) <= 22){
-						list.add(vo1);
+						if(age(vo1) != 0){
+							list.add(vo1);
+						}
 					}
 				}
 				for(PlayerVO vo2 : getPlayers("all","Central",position,"All")){
 					if(age(vo2) <= 22){
-						list.add(vo2);
+						if(age(vo2) != 0){
+							list.add(vo2);
+						}
 					}
 				}
 				for(PlayerVO vo3 : getPlayers("all","Southeast",position,"All")){
 					if(age(vo3) <= 22){
-						list.add(vo3);
+						if(age(vo3) != 0){
+							list.add(vo3);
+						}
 					}
 				}
 			}
@@ -906,7 +1026,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 				}
 				else if(age.equals("<=22")){
 					if(age(vo) <= 22){
-						list.add(vo);
+						if(age(vo) != 0){
+							list.add(vo);
+						}
 					}
 				}
 				else if(age.equals("22< X <=25")){
@@ -999,5 +1121,4 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public String getLastSeason() {
 		return matchdata.getLastSeason();
 	}
-	
 }
