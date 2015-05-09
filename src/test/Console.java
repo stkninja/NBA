@@ -114,7 +114,7 @@ public class Console {
 						out.println();
 					}
 				}
-				else if(s.indexOf("hot") >= 0){
+				else if(s.indexOf("-hot") >= 0){
 					for(i = 0;i < cal.getTeamHot(s).size();i ++){
 						out.print(i + 1);
 						out.println();

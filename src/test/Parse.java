@@ -200,6 +200,8 @@ public class Parse {
 		Console c = new Console();
 		c.execute(System.out, new String[]{"--datasource","D:\\data"});
 		Parse p = new Parse();
-		System.out.println(p.allorHotorKing("-player -king score -season"));
+		for(String s : p.sort("-team -sort shot.asc")){
+			System.out.println(s);
+		}
 	}
 }
