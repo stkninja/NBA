@@ -6,18 +6,15 @@ import po.MatchPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
 import po.TBasicInfoPO;
-import data.predo.MatchBasic;
-import data.predo.PlayerBasic;
 import data.predo.PlayerSeason;
-import data.predo.TeamBasic;
-import dataservice.MatchService;
+import data.predo.PreRead;
 import dataservice.PlayerService;
 
 public class GetPlayerInfo implements PlayerService{
 
 	public ArrayList<String> getAllPlayersName() {
 		ArrayList<String> names = new ArrayList<String>();
-		ArrayList<PBasicInfoPO> pos = new PlayerBasic().playerBasic();
+		ArrayList<PBasicInfoPO> pos = PreRead.players;
 		
 		for(PBasicInfoPO po : pos){
 			names.add(po.getName());
@@ -26,7 +23,7 @@ public class GetPlayerInfo implements PlayerService{
 	}
 
 	public PBasicInfoPO getSinglePBasicInfo(String name) {
-		ArrayList<PBasicInfoPO> pos = new PlayerBasic().playerBasic();
+		ArrayList<PBasicInfoPO> pos = PreRead.players;
 		
 		for(PBasicInfoPO po : pos)
 			if(po.getName().equals(name))
@@ -36,9 +33,9 @@ public class GetPlayerInfo implements PlayerService{
 	}
 
 	public PSeasonDataPO getOnePSeasonDataPO(String name, String season) {
-		ArrayList<MatchPO> matches = new MatchBasic().matchBasic(season);
-		ArrayList<PBasicInfoPO> players = new PlayerBasic().playerBasic();
-		ArrayList<TBasicInfoPO> teams = new TeamBasic().teamBasic();
+		ArrayList<MatchPO> matches = PreRead.matches;
+		ArrayList<PBasicInfoPO> players = PreRead.players;
+		ArrayList<TBasicInfoPO> teams = PreRead.teams;
 		
 		ArrayList<PSeasonDataPO> pos = new PlayerSeason().playerSeason(matches, players, teams, season);;
 		for(PSeasonDataPO po :pos)
@@ -49,18 +46,9 @@ public class GetPlayerInfo implements PlayerService{
 	}
 
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season) {
-		ArrayList<MatchPO> matches = new ArrayList<MatchPO>();
-		if(season.equals("all")){
-			MatchService ms = new GetMatchInfo();
-			ArrayList<String> seasons = ms.getExistedSeasons();
-			for(String ss : seasons)
-				matches.addAll(new MatchBasic().matchBasic(ss));
-		}
-		else{
-			matches = new MatchBasic().matchBasic(season);
-		}
-		ArrayList<PBasicInfoPO> players = new PlayerBasic().playerBasic();
-		ArrayList<TBasicInfoPO> teams = new TeamBasic().teamBasic();
+		ArrayList<MatchPO> matches = PreRead.matches;
+		ArrayList<PBasicInfoPO> players = PreRead.players;
+		ArrayList<TBasicInfoPO> teams = PreRead.teams;
 		return new PlayerSeason().playerSeason(matches, players, teams, season);			
 	}
 }

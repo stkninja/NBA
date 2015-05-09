@@ -1,5 +1,10 @@
 package test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import test.data.PlayerHighInfo;
 import test.data.PlayerHotInfo;
 import test.data.PlayerKingInfo;
@@ -74,34 +79,32 @@ public class Conversion {
 	public PlayerHotInfo playervotoHot(PlayerVO vo,String s){
 		PlayerHotInfo playerHot = new PlayerHotInfo();
 		String str = p.allorHotorKing(s);
-		if(str.indexOf("hot") >= 0){
-			String filter = str.substring(3);
-			playerHot.setField(filter);
+		
+			
+			playerHot.setField(str);
 			playerHot.setName(vo.name);
 			playerHot.setPosition(vo.position);
 			playerHot.setTeamName(vo.team);
-			if(filter.equals("score")){
+			if(str.equals("score")){
 				playerHot.setUpgradeRate(vo.pointpromotion);
 				playerHot.setValue(vo.point);
 			}
-			else if(filter.equals("rebound")){
+			else if(str.equals("rebound")){
 				playerHot.setUpgradeRate(vo.reboundpromotion);
 				playerHot.setValue(vo.rebound);
 			}
-			else if(filter.equals("assist")){
+			else if(str.equals("assist")){
 				playerHot.setUpgradeRate(vo.assistpromotion);
 				playerHot.setValue(vo.assist);
 			}
-		}
+		
 		return playerHot;
 	}
 	
 	public PlayerKingInfo playervotoKing(PlayerVO vo,String s){
 		PlayerKingInfo playerKing = new PlayerKingInfo();
 		String str = p.allorHotorKing(s);
-		if(str.indexOf("king") >= 0){
-			String filter = str.substring(4);
-			playerKing.setField(filter.split(" ")[0]);
+			playerKing.setField(str.split(" ")[0]);
 			playerKing.setName(vo.name);
 			playerKing.setPosition(vo.position);
 			playerKing.setTeamName(vo.team);
@@ -114,7 +117,7 @@ public class Conversion {
 			else if(playerKing.getField().equals("assist")){
 				playerKing.setValue(vo.assist);
 			}
-		}
+		
 		return playerKing;
 	}
 	
@@ -192,9 +195,8 @@ public class Conversion {
 	public TeamHotInfo teamvotoHot(TeamVO vo,String s){
 		TeamHotInfo teamHot = new TeamHotInfo();
 		String str = p.allorHotorKing(s);
-		if(str.indexOf("hot") >= 0){
-			String filter = str.substring(3);
-			teamHot.setField(filter);
+		
+			teamHot.setField(str);
 			if(teambl.getOneTeam(vo.abbName).competionArea.equals("W")){
 				teamHot.setLeague("West");
 			}
@@ -205,7 +207,7 @@ public class Conversion {
 				teamHot.setLeague("All");
 			}
 			teamHot.setTeamName(vo.abbName);
-			switch (filter){
+			switch (str){
 			case "score":
 				teamHot.setValue(vo.scores);
 				break;
@@ -244,7 +246,7 @@ public class Conversion {
 				break;
 			}
 			
-		}
+		
 		return teamHot;
 	}
 
@@ -267,29 +269,15 @@ public class Conversion {
 		return teamHigh;
 	}
 	
-	public static void main(String[] args){
-		PlayerNormalInfo p = new PlayerNormalInfo();
-		p.setAge(20);
-		p.setAssist(1);
-		p.setBlockShot(1.12);
-		p.setDefend(1.12);
-		p.setEfficiency(1.12);
-		p.setFault(1.12);
-		p.setFoul(1);
-		p.setMinute(1);
+/*	public static void main(String[] args){
+		PlayerKingInfo p = new PlayerKingInfo();
+		p.setField("score");
 		p.setName("zk");
-		p.setNumOfGame(2);
-		p.setOffend(1);
-		p.setPenalty(1);
-		p.setPoint(1);
-		p.setRebound(1);
-		p.setShot(1);
-		p.setStart(2);
-		p.setSteal(1);
-		p.setTeamName("h");
-		p.setThree(1);
+		p.setPosition("F");
+		p.setTeamName("HOU");
+		p.setValue(1);
 	
-/*		try{
+		try{
 			File file = new File("test.txt");
 	        if(!file.exists()){
 	        	file.createNewFile();
@@ -304,8 +292,8 @@ public class Conversion {
 		}
 		catch (IOException e){
 			e.printStackTrace();
-		}*/
+		}
 		
 		
-	}
+	}*/
 }

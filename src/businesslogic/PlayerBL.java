@@ -8,6 +8,7 @@ import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
+import test.Console;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
@@ -1123,8 +1124,10 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	}
 	
 	public static void main(String[] args){
+		Console c = new Console();
+		c.execute(System.out, new String[]{"--datasource","D:\\data"});
 		PlayerBL bl = new PlayerBL();
-		for(PlayerVO vo : bl.getPromotionPlayers("场均篮板")){
+		for(PlayerVO vo : bl.getPromotionPlayers("场均助攻")){
 			System.out.println(vo.name);
 		}
 	}

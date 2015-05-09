@@ -31,6 +31,12 @@ public class TeamSeason {
 			po.setSeason(season);
 			po.setGamesNum(matchesAbout.size());
 			po.setWinsNum(getwinNum());
+			
+			if(po.getGamesNum() == 0){
+				list.add(po);
+				continue;
+			}
+			
 			double allopponentscores = 0;
 			double allopponentattackround = 0;
 			
@@ -60,9 +66,26 @@ public class TeamSeason {
 			}
 			
 			po.setAllrebounds(po.getAlloffensiveRebounds() + po.getAlldefensiveRebounds());
-			po.setAllshootingHitRate(getDouble(po.getAllshootingHit() / po.getAllshooting() ));
-			po.setAllthreePointHitRate(getDouble(po.getAllthreePointHits() / po.getAllthreePoint() ));
-			po.setAllfreeThrowHitRate(getDouble(po.getAllfreeThrowHit() / po.getAllfreeThrow() ));
+			if(po.getAllshooting() == 0){
+				po.setAllshootingHitRate(0);
+			}
+			else{
+				po.setAllshootingHitRate(getDouble(po.getAllshootingHit() / po.getAllshooting() ));
+			}
+			
+			if(po.getAllthreePoint() == 0){
+				po.setAllthreePointHitRate(0);
+			}
+			else{
+				po.setAllthreePointHitRate(getDouble(po.getAllthreePointHits() / po.getAllthreePoint() ));
+			}
+			
+			if(po.getAllfreeThrow() == 0){
+				po.setAllfreeThrowHitRate(0);
+			}
+			else{
+				po.setAllfreeThrowHitRate(getDouble(po.getAllfreeThrowHit() / po.getAllfreeThrow() ));
+			}
 			po.setWinsRate(getDouble(po.getWinsNum() / po.getGamesNum() ));
 			po.setAllattackRound(getDouble(calculateAttackround(po.getAllshooting(),po.getAllfreeThrow(),po.getAlloffensiveRebounds(),po.getAllopponentDefensiveRebounds(),po.getAllshootingHit(),po.getAllturnovers()) ));
 			po.setAllattackEfficiency(getDouble(100 * po.getAllscores() / po.getAllattackRound() ));
@@ -70,7 +93,12 @@ public class TeamSeason {
 				po.setAlldefenceEfficiency(0);
 			}
 			else{
-				po.setAlldefenceEfficiency(getDouble(100 * allopponentscores / allopponentattackround ));
+				if(Double.isNaN(100 * allopponentscores / allopponentattackround)){
+					po.setAlldefenceEfficiency(0);
+				}
+				else{
+					po.setAlldefenceEfficiency(getDouble(100 * allopponentscores / allopponentattackround ));
+				}
 			}
 			if(Double.isNaN(po.getAlldefenceEfficiency())){
 				po.setAlldefenceEfficiency(0);
@@ -81,11 +109,14 @@ public class TeamSeason {
 				po.setAllstealEfficiency(0);
 			}
 			else{
-				po.setAllstealEfficiency(getDouble(100 * po.getAllsteal() / allopponentattackround ));
+				if(Double.isNaN(100 * po.getAllsteal() / allopponentattackround)){
+					po.setAllstealEfficiency(0);
+				}
+				else{
+					po.setAllstealEfficiency(getDouble(100 * po.getAllsteal() / allopponentattackround ));
+				}
 			}
-			if(Double.isNaN(po.getAllstealEfficiency())){
-				po.setAllstealEfficiency(0);
-			}
+			
 			po.setAllassistEfficiency(getDouble(100 * po.getAllassists() / po.getAllattackRound() ));
 			
 			po.setShooting(getDouble(po.getAllshooting() / po.getGamesNum() ));

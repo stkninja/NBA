@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import po.MatchPO;
 import po.TBasicInfoPO;
 import po.TSeasonDataPO;
-import data.predo.MatchBasic;
-import data.predo.TeamBasic;
+import data.predo.PreRead;
 import data.predo.TeamSeason;
-import dataservice.MatchService;
 import dataservice.TeamService;
 
 public class GetTeamInfo implements TeamService{
@@ -17,7 +15,7 @@ public class GetTeamInfo implements TeamService{
 		if(abbName.equals("NOH"))
 			abbName = "NOP";
 		
-		ArrayList<TBasicInfoPO> pos = new TeamBasic().teamBasic();
+		ArrayList<TBasicInfoPO> pos = PreRead.teams;
 		
 		for(TBasicInfoPO po : pos)
 			if(po.getAbbName().equals(abbName))
@@ -30,8 +28,8 @@ public class GetTeamInfo implements TeamService{
 		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
 			abbName = "NOH";
 		
-		ArrayList<MatchPO> matches = new MatchBasic().matchBasic(season);
-		ArrayList<TBasicInfoPO> teams = new TeamBasic().teamBasic();
+		ArrayList<MatchPO> matches = PreRead.matches;
+		ArrayList<TBasicInfoPO> teams = PreRead.teams;
 		
 		ArrayList<TSeasonDataPO> pos = new TeamSeason().teamSeason(matches, teams, season);
 		for(TSeasonDataPO po :pos)
@@ -42,17 +40,8 @@ public class GetTeamInfo implements TeamService{
 	}
 
 	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season) {
-		ArrayList<MatchPO> matches = new ArrayList<MatchPO>();
-		if(season.equals("all")){
-			MatchService ms = new GetMatchInfo();
-			ArrayList<String> seasons = ms.getExistedSeasons();
-			for(String ss : seasons)
-				matches.addAll(new MatchBasic().matchBasic(ss));
-		}
-		else{
-			matches = new MatchBasic().matchBasic(season);
-		}
-		ArrayList<TBasicInfoPO> teams = new TeamBasic().teamBasic();
+		ArrayList<MatchPO> matches = PreRead.matches;
+		ArrayList<TBasicInfoPO> teams = PreRead.teams;
 		return new TeamSeason().teamSeason(matches, teams, season);
 	}	
 }

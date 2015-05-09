@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 import po.MatchPO;
 import test.Console;
-import data.predo.MatchBasic;
+import data.predo.PreRead;
 import dataservice.MatchService;
 
 public class GetMatchInfo implements MatchService{
 	
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season) {
-		ArrayList<MatchPO> matches = new MatchBasic().matchBasic(season);
+		ArrayList<MatchPO> matches = PreRead.matches;
 		
 		int index = 0;
 		for(; index < matches.size(); index++){

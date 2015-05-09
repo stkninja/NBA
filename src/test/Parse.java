@@ -42,8 +42,13 @@ public class Parse {
 		}
 		else if(s.indexOf("-king") >= 0){
 			int j = s.indexOf("-king");
-			String temp = s.substring(j + 5);
-			res = temp.split(" ")[0] + " " + temp.split(" ")[1].substring(1);
+			String temp = s.substring(j + 6);
+			if(temp.indexOf("-season") >= 0){
+				res = temp.split(" ")[0] + " " + "season";
+			}
+			else{
+				res = temp.split(" ")[0] + " " + "daily";
+			}
 		}
 		return res;
 	}
@@ -191,4 +196,10 @@ public class Parse {
 		return list;
 	}
 	
+	public static void main(String[] args){
+		Console c = new Console();
+		c.execute(System.out, new String[]{"--datasource","D:\\data"});
+		Parse p = new Parse();
+		System.out.println(p.allorHotorKing("-player -king score -season"));
+	}
 }

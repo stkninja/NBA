@@ -3,13 +3,8 @@ package test;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import test.data.PlayerHighInfo;
-import test.data.PlayerHotInfo;
-import test.data.PlayerKingInfo;
 import test.data.PlayerNormalInfo;
-import test.data.TeamHighInfo;
-import test.data.TeamHotInfo;
-import test.data.TeamNormalInfo;
+import data.predo.PreRead;
 
 
 public class Console {
@@ -37,6 +32,8 @@ public class Console {
 		
 		if(p.getDataSource(s) != null){
 			datasource = p.getDataSource(s);
+			@SuppressWarnings("unused")
+			PreRead preRead = new PreRead();
 		}
 		
 		int i = 0;
@@ -117,7 +114,7 @@ public class Console {
 						out.println();
 					}
 				}
-				else if(p.allorHotorKing(s).indexOf("hot") >= 0){
+				else if(s.indexOf("hot") >= 0){
 					for(i = 0;i < cal.getTeamHot(s).size();i ++){
 						out.print(i + 1);
 						out.println();
@@ -147,11 +144,4 @@ public class Console {
 			}
 		}
 	}
-	
-/*	public static void main(String[] args){
-		Console c = new Console();
-		String res = "";
-		c.execute(System.out, new String[]{"--datasource","D:\\data"});
-		System.out.println(datasource);
-	}*/
 }
