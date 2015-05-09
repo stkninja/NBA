@@ -185,7 +185,7 @@ public class GetMatchInfo implements MatchService{
 	
 	//最近赛季
 	public String getLastSeason(){
-		File f = new File("H:\\软件工程学习资料\\大二部分\\软工III\\迭代一\\data\\matches");
+		File f = new File(new Console().getDataSource() + "\\matches");
 		if(f.exists()){
 			String[] seasons = f.list();
 			return seasons[seasons.length - 1];

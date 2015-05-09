@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 public class Parse {
 	public String getDataSource(String s){
-		if(s.indexOf("--datasoruce") >= 0){
-			return s.split(" ")[1];
+		if(s.indexOf("--datasource") >= 0){
+			int i = s.indexOf(" ");
+			return s.substring(i + 1);
 		}
 		return null;
 	}
-	public boolean isPlayer(String s){
+	
+	public String isPlayer(String s){
+		String res = "";
 		if(s.indexOf("-player") >= 0){
-			return true;
+			res = "player";
+		}
+		else if(s.indexOf("-team") >= 0){
+			res = "team";
 		}
 		else{
-			return false;
+			res = "";
 		}
+		return res;
 	}
 	
 	public String allorHotorKing(String s){
@@ -54,7 +61,7 @@ public class Parse {
 			}
 		}
 		else{
-			if(isPlayer(s)){
+			if(isPlayer(s).equals("player")){
 				res = 50;
 			}
 			else{
@@ -73,9 +80,8 @@ public class Parse {
 		}
 	}
 	
-	@SuppressWarnings("null")
 	public String[] filter(String s){
-		String[] res = null;
+		String[] res = new String[10];
 		
 			res[0] = "filter";
 			res[1] = "position";
@@ -160,7 +166,7 @@ public class Parse {
 			}
 		}
 		else{
-			if(isPlayer(s)){
+			if(isPlayer(s).equals("player")){
 				if(!isHigh(s)){
 					list.add("score");
 					list.add("desc");
@@ -170,7 +176,7 @@ public class Parse {
 					list.add("desc");
 				}
 			}
-			else{
+			else if(isPlayer(s).equals("team")){
 				if(!isHigh(s)){
 					list.add("score");
 					list.add("desc");
@@ -185,8 +191,4 @@ public class Parse {
 		return list;
 	}
 	
-/*	public static void main(String[] args){
-		Parse p = new Parse();
-		String str[] = {"-player",""};
-	}*/
 }

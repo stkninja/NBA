@@ -1121,4 +1121,11 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	public String getLastSeason() {
 		return matchdata.getLastSeason();
 	}
+	
+	public static void main(String[] args){
+		PlayerBL bl = new PlayerBL();
+		for(PlayerVO vo : bl.getPromotionPlayers("³¡¾ùÀº°å")){
+			System.out.println(vo.name);
+		}
+	}
 }

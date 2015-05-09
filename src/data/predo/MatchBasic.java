@@ -11,7 +11,7 @@ import data.io.ReadMatch;
 
 public class MatchBasic {
 	/**比赛根目录*/
-	private static final String rootDirectory = new Console().getDataSource() + "data\\matches"; 
+	private static final String rootDirectory = new Console().getDataSource() + "\\matches"; 
 	
 	public ArrayList<MatchPO> matchBasic(String season) {
 		/**所有文件名*/
