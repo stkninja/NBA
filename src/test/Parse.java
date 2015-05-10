@@ -196,12 +196,4 @@ public class Parse {
 		return list;
 	}
 	
-	public static void main(String[] args){
-		Console c = new Console();
-		c.execute(System.out, new String[]{"--datasource","D:\\data"});
-		Parse p = new Parse();
-		for(String s : p.sort("-team -sort shot.asc")){
-			System.out.println(s);
-		}
-	}
 }

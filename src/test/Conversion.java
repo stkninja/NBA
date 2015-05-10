@@ -264,31 +264,4 @@ public class Conversion {
 		return teamHigh;
 	}
 	
-/*	public static void main(String[] args){
-		PlayerKingInfo p = new PlayerKingInfo();
-		p.setField("score");
-		p.setName("zk");
-		p.setPosition("F");
-		p.setTeamName("HOU");
-		p.setValue(1);
-	
-		try{
-			File file = new File("test.txt");
-	        if(!file.exists()){
-	        	file.createNewFile();
-	        	return;
-	        }
-         
-	        PrintStream out = new PrintStream(new FileOutputStream(file));
-	        out.print("1");
-			out.print(p.toString());
-			
-			out.close();
-		}
-		catch (IOException e){
-			e.printStackTrace();
-		}
-		
-		
-	}*/
 }
