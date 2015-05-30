@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import po.MatchPO;
-import test.Console;
 import data.predo.PreRead;
 import dataservice.MatchService;
 
@@ -185,7 +184,7 @@ public class GetMatchInfo implements MatchService{
 	
 	//最近赛季
 	public String getLastSeason(){
-		File f = new File(new Console().getDataSource() + "\\matches");
+		File f = new File("data\\matches");
 		if(f.exists()){
 			String[] seasons = f.list();
 			return seasons[seasons.length - 1].split("_")[0];
@@ -196,7 +195,7 @@ public class GetMatchInfo implements MatchService{
 	
 	//获得数据库中已存在的赛季列表
 	public ArrayList<String> getExistedSeasons() {
-		File f = new File(new Console().getDataSource() + "\\matches");
+		File f = new File("data\\matches");
 		String[] fileNames = f.list();
 		
 		ArrayList<String> seasons = new ArrayList<String>();

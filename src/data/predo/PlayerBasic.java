@@ -4,17 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 
 import po.PBasicInfoPO;
-import test.Console;
 import data.io.ReadPlayer;
 
 public class PlayerBasic {
 
 	/**球员全身照地址*/
-	private final static String actRootPath= new Console().getDataSource() + "\\players\\action";
+	private final static String actRootPath= "data\\players\\action";
 	/**球员头像地址*/
-	private final static String portraitRootPath= new Console().getDataSource() + "\\players\\portrait";
+	private final static String portraitRootPath= "data\\players\\portrait";
 	/**球员信息地址*/
-	private final static String infoRootPath= new Console().getDataSource() + "\\players\\info";
+	private final static String infoRootPath= "data\\players\\info";
 	
 	public ArrayList<PBasicInfoPO> playerBasic() {
 		ArrayList<PBasicInfoPO> players = new ArrayList<PBasicInfoPO>();

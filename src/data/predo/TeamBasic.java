@@ -3,15 +3,14 @@ package data.predo;
 import java.util.ArrayList;
 
 import po.TBasicInfoPO;
-import test.Console;
 import data.io.ReadTeam;
 
 public class TeamBasic {
 	
 	/**球队基本信息地址*/
-	private static final String basicInfoAddr = new Console().getDataSource() + "\\teams\\teams";
+	private static final String basicInfoAddr = "data\\teams\\teams";
 	/**球队标志地址*/
-	private static final String teamLogoAddr = new Console().getDataSource() + "\\teams";
+	private static final String teamLogoAddr = "data\\teams";
 	
 	public ArrayList<TBasicInfoPO> teamBasic() {
 		ArrayList<TBasicInfoPO> teams = new ArrayList<TBasicInfoPO>();

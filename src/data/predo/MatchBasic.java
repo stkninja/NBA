@@ -3,7 +3,6 @@ package data.predo;
 import java.io.File;
 import java.util.ArrayList;
 
-import test.*;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
@@ -11,7 +10,7 @@ import data.io.ReadMatch;
 
 public class MatchBasic {
 	/**比赛根目录*/
-	private static final String rootDirectory = new Console().getDataSource() + "\\matches"; 
+	private static final String rootDirectory = "data\\matches"; 
 	
 	public ArrayList<MatchPO> matchBasic(String season) {
 		/**所有文件名*/
