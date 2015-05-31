@@ -1,14 +1,11 @@
 package ui.team;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -34,31 +31,10 @@ public class Team extends JPanel {
 		this.main = main;
 		this.type = type;
 		this.setOpaque(false);
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBorder(BorderFactory.createEmptyBorder(0, 50, 15, 70));
-		this.initTop();
+		this.setLayout(new BorderLayout(10, 10));
+		this.setBorder(BorderFactory.createEmptyBorder(10, 100, 20, 100));
 		this.initCategory();
 		this.initContent();
-	}
-	/**
-	 * 初始化顶部面板
-	 */
-	private void initTop() {
-		ImageIcon background;
-		if (type.equals("East"))
-			background = new ImageIcon("data/pic/east.png");
-		else
-			background = new ImageIcon("data/pic/west.png");
-		JPanel top = new JPanel() {
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Image bg = background.getImage();
-				double scale = (double)bg.getWidth(null) / (double)bg.getHeight(null);
-				g.drawImage(bg, 0, 0, getWidth(), (int)(getWidth() / scale), background.getImageObserver());
-			}
-		};
-		top.setOpaque(false);
-		this.add(top);
 	}
 	/**
 	 * 初始化分类面板
@@ -84,13 +60,13 @@ public class Team extends JPanel {
 		category.add(label1);
 		category.add(label2);
 		category.add(label3);
-		this.add(category);
+		this.add(category, BorderLayout.NORTH);
 	}
 	/**
 	 * 初始化内容面板
 	 */
 	private void initContent() {
-		JPanel pane = new JPanel(new GridLayout(5, 3, 30, 5));
+		JPanel pane = new JPanel(new GridLayout(5, 3, 40, 10));
 		pane.setOpaque(false);
 		teamInfo = new TeamInfo[15];
 		String[] region1;
@@ -124,6 +100,6 @@ public class Team extends JPanel {
 		}
 		for (int i = 0; i < 15; i++)
 			pane.add(teamInfo[i]);
-		this.add(pane);
+		this.add(pane, BorderLayout.CENTER);
 	}
 }

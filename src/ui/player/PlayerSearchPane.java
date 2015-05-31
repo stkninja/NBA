@@ -1,12 +1,9 @@
 package ui.player;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -41,22 +37,17 @@ import businesslogicservice.PlayerBLService;
  *
  */
 @SuppressWarnings("serial")
-public class PlayerSearchPane extends JInternalFrame implements ActionListener {
+public class PlayerSearchPane extends JPanel implements ActionListener {
 	private PlayerPane father;
 	private PlayerBLService playerBL;
 	private MatchBLService matchBL;
 	private ArrayList<PlayerVO> list;
-	private JPanel contentPane;//总panel
 	private JComboBox<String> mode;
 	private JComboBox<String> season;
 	private JComboBox<String> region;
 	private JComboBox<String> team;
 	private JComboBox<String> position;
 	private JTextField text;
-	//拖动
-	private Point loc = null;
-	private Point tmp = null;
-	private boolean isDragged = false;
 	/**
 	 * 
 	 * @param father 上层PlayerPane
@@ -65,29 +56,10 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		this.father = father;
 		playerBL = new PlayerBL();
 		matchBL = new MatchBL();
-		this.setPlace();
-		//背景
-		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
-		contentPane = new JPanel(new BorderLayout()) {
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
-			}
-		};
-		this.setContentPane(contentPane);
-		this.init();
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
-	}
-	/**
-	 * 初始化
-	 */
-	private void init() {
-		JPanel pane = new JPanel(new GridLayout(12, 1, 0, 1));
-		pane.setOpaque(false);
-		pane.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
+		
+		this.setLayout(new GridLayout(12, 1, 0, 5));
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 70, 20));
 		
 		JLabel label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -122,24 +94,23 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		text = new JTextField("按回车键确定");
 		text.setForeground(Color.GRAY);
 		
-		pane.add(label1);
-		pane.add(mode);
-		pane.add(label2);
-		pane.add(region);
-		pane.add(label3);
-		pane.add(team);
-		pane.add(label4);
-		pane.add(position);
-		pane.add(label5);
-		pane.add(season);
-		pane.add(label6);
-		pane.add(text);
-		contentPane.add(pane, BorderLayout.CENTER);
+		this.add(label1);
+		this.add(mode);
+		this.add(label2);
+		this.add(region);
+		this.add(label3);
+		this.add(team);
+		this.add(label4);
+		this.add(position);
+		this.add(label5);
+		this.add(season);
+		this.add(label6);
+		this.add(text);
 		
 		mode.addActionListener(this);
 		region.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (region.getSelectedItem().equals("所有球队")) {
+				if (region.getSelectedItem().equals("所有分区")) {
 					team.removeAllItems();
 					team.addItem("所有球队");
 					team.setEnabled(false);
@@ -188,10 +159,12 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 		});
 	}
 	/**
-	 * 设置位置大小
+	 * 背景
 	 */
-	public void setPlace() {
-		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 5, father.dp.getHeight() * 3 / 5);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
+		g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
 	}
 	/**
 	 * 监听
@@ -335,30 +308,5 @@ public class PlayerSearchPane extends JInternalFrame implements ActionListener {
 	 */
 	public ArrayList<PlayerVO> getList() {
 		return list;
-	}
-	/**
-	 * 设置界面可拖动
-	 */
-	private void setDragable() {
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-               isDragged = false;
-               PlayerSearchPane.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-            public void mousePressed(java.awt.event.MouseEvent e) {
-               tmp = new Point(e.getX(), e.getY());
-               isDragged = true;
-               PlayerSearchPane.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-            }
-        });
-        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent e) {
-               if(isDragged) {
-                   loc = new Point(PlayerSearchPane.this.getLocation().x + e.getX() - tmp.x,
-                		   PlayerSearchPane.this.getLocation().y + e.getY() - tmp.y);
-                   PlayerSearchPane.this.setLocation(loc);
-               }
-            }
-        });
 	}
 }

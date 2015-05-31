@@ -85,9 +85,9 @@ public class TeamInfo extends JPanel {
 	 * @param icon 图标路径
 	 */
 	private void setIcon(JButton button, Image icon) {
-		double scale1 = (double)icon.getWidth(null) / (double)icon.getHeight(null);
-		Image temp1 = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale1), Image.SCALE_DEFAULT);
-        button.setIcon(new ImageIcon(temp1));
+		double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
+		Image temp = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale), Image.SCALE_DEFAULT);
+        button.setIcon(new ImageIcon(temp));
 		button.setFocusPainted(false);//无选择效果
         button.setOpaque(false);//透明
 		button.setContentAreaFilled(false);//填充

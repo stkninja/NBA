@@ -1,11 +1,8 @@
 package ui.team;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -31,19 +27,14 @@ import businesslogicservice.TeamBLService;
  *
  */
 @SuppressWarnings("serial")
-public class TeamSearchPane extends JInternalFrame implements ActionListener {
+public class TeamSearchPane extends JPanel implements ActionListener {
 	private TeamPane father;
 	private TeamBLService teamBL;
 	private MatchBLService matchBL;
 	private ArrayList<TeamVO> list;
-	private JPanel contentPane;//总panel
 	private JComboBox<String> mode;
 	private JComboBox<String> region;
 	private JComboBox<String> season;
-	//拖动
-	private Point loc = null;
-	private Point tmp = null;
-	private boolean isDragged = false;
 	/**
 	 * 
 	 * @param father 上层TeamPane
@@ -52,29 +43,10 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		this.father = father;
 		teamBL = new TeamBL();
 		matchBL = new MatchBL();
-		this.setPlace();
-		//背景
-		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
-		contentPane = new JPanel(new BorderLayout()) {
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
-			}
-		};
-		this.setContentPane(contentPane);
-		this.init();
-		this.setDragable();
-		this.setBorder(BorderFactory.createEmptyBorder());
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-		this.setVisible(true);
-	}
-	/**
-	 * 初始化
-	 */
-	private void init() {
-		JPanel pane = new JPanel(new GridLayout(6, 1, 0, 6));
-		pane.setOpaque(false);
-		pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		
+		this.setLayout(new GridLayout(6, 1, 0, 10));
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 250, 20));
 		
 		JLabel label1 = new JLabel("数据类型：");
 		label1.setFont(new Font("黑体", Font.PLAIN, 14));
@@ -91,23 +63,24 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 		region = new JComboBox<String>(strList);
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
 		
-		pane.add(label1);
-		pane.add(mode);
-		pane.add(label2);
-		pane.add(region);
-		pane.add(label3);
-		pane.add(season);
-		contentPane.add(pane, BorderLayout.CENTER);
+		this.add(label1);
+		this.add(mode);
+		this.add(label2);
+		this.add(region);
+		this.add(label3);
+		this.add(season);
 		
 		mode.addActionListener(this);
 		season.addActionListener(this);
 		region.addActionListener(this);
 	}
 	/**
-	 * 设置位置大小
+	 * 背景
 	 */
-	public void setPlace() {
-		this.setBounds(father.dp.getX(), father.dp.getY(), father.dp.getWidth() / 6, father.dp.getHeight() / 3);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		ImageIcon background = new ImageIcon("data/pic/PanelBG.png");
+		g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), background.getImageObserver());
 	}
 	/**
 	 * 监听
@@ -217,30 +190,5 @@ public class TeamSearchPane extends JInternalFrame implements ActionListener {
 	 */
 	public ArrayList<TeamVO> getList() {
 		return list;
-	}
-	/**
-	 * 设置界面可拖动
-	 */
-	private void setDragable() {
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-               isDragged = false;
-               TeamSearchPane.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-            public void mousePressed(java.awt.event.MouseEvent e) {
-               tmp = new Point(e.getX(), e.getY());
-               isDragged = true;
-               TeamSearchPane.this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-            }
-        });
-        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent e) {
-               if(isDragged) {
-                   loc = new Point(TeamSearchPane.this.getLocation().x + e.getX() - tmp.x,
-                		   TeamSearchPane.this.getLocation().y + e.getY() - tmp.y);
-                   TeamSearchPane.this.setLocation(loc);
-               }
-            }
-        });
 	}
 }

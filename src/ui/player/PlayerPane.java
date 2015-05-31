@@ -5,12 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -19,11 +15,10 @@ import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.RowSorter;
@@ -53,7 +48,6 @@ import businesslogicservice.PlayerBLService;
 public class PlayerPane extends JPanel {
 	public MainFrame main;
 	private PlayerBLService playerBL;
-	public JDesktopPane dp;
 	private JTable table;
 	private JTable fixedTable;
 	private JScrollPane sp;
@@ -68,73 +62,34 @@ public class PlayerPane extends JPanel {
 		this.main = main;
 		playerBL = new PlayerBL();
 		this.setOpaque(false);
-		this.setLayout(new BorderLayout());
-		//桌面
-		dp = new JDesktopPane();
-		dp.setOpaque(false);
-		dp.setLayout(new BorderLayout(0, 20));
-		dp.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
-		this.add(dp, BorderLayout.CENTER);
-		
-		this.init();
+		this.setLayout(new BorderLayout(20, 20));
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		//初始搜索排序面板
+		JTabbedPane tab = new JTabbedPane();
 		searchPane = new PlayerSearchPane(this);
-		searchPane.setVisible(false);
 		sortPane = new PlayerSortPane(this);
-		sortPane.setVisible(false);
-		dp.add(searchPane);
-		dp.add(sortPane);
+		Image icon1 = (new ImageIcon("data/pic/search.png")).getImage();
+        double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
+		Image temp1 = icon1.getScaledInstance(20, (int)(20 / scale1), Image.SCALE_DEFAULT);
+		tab.addTab("", new ImageIcon(temp1), searchPane, "搜索");
+		Image icon2 = (new ImageIcon("data/pic/sort.png")).getImage();
+        double scale2 = (double)icon2.getWidth(null) / (double)icon2.getHeight(null);
+		Image temp2 = icon2.getScaledInstance(20, (int)(20 / scale2), Image.SCALE_DEFAULT);
+		tab.addTab("", new ImageIcon(temp2), sortPane, "排序");
+		this.add(tab, BorderLayout.WEST);
 		//表格
 		table = new JTable();
 		sp = new JScrollPane(table);
 		searchPane.getAll();
 		sortPane.initData();
-		dp.add(sp, BorderLayout.CENTER);
-	}
-	/**
-	 * 初始化
-	 */
-	private void init() {
-		JPanel pane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 0));
-		pane.setOpaque(false);
-		
-		JButton search = new JButton();
-		search.setSize(new Dimension(25, 25));
-		search.setSize(new Dimension(25, 25));
-		this.setIcon(search, "data/pic/search1.png", "data/pic/search2.png");
-		JButton sort = new JButton();
-		sort.setSize(new Dimension(25, 25));
-		sort.setSize(new Dimension(25, 25));
-		this.setIcon(sort, "data/pic/sort1.png", "data/pic/sort2.png");
-		pane.add(search);
-		pane.add(sort);
-		dp.add(pane, BorderLayout.NORTH);
-		
-		search.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (searchPane.isVisible())
-					searchPane.setVisible(false);
-				else
-					searchPane.setVisible(true);
-				searchPane.setPlace();
-			}
-		});
-		sort.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (sortPane.isVisible())
-					sortPane.setVisible(false);
-				else
-					sortPane.setVisible(true);
-				sortPane.setPlace();
-			}
-		});
+		this.add(sp, BorderLayout.CENTER);
 	}
 	/**
 	 * 显示表格
 	 * @param data 表格数据
 	 */
 	public void showTable(Object[][] data) {
-		dp.remove(table);
+		this.remove(table);
 		String[] subTitle = {"编号", "球员名称", "所属球队", "位置",//0-6
 				 "参赛场数", "先发场数","在场时间",
 				 //投篮7-10
@@ -333,29 +288,6 @@ public class PlayerPane extends JPanel {
 		return searchPane;
 	}
 	/**
-	 * 设置图标
-	 * @param button 图标
-	 * @param file1 默认图标路径
-	 * @param file2 翻转图标路径
-	 */
-	private void setIcon(JButton button, String file1, String file2) {  
-        Image icon1 = (new ImageIcon(file1)).getImage();
-        double scale1 = (double)icon1.getWidth(null) / (double)icon1.getHeight(null);
-		Image temp1 = icon1.getScaledInstance((int)(button.getHeight() * scale1), button.getHeight(), Image.SCALE_DEFAULT);
-		Image icon2 = (new ImageIcon(file2)).getImage();
-		double scale2 = (double)icon2.getWidth(null) / (double)icon2.getHeight(null);
-		Image temp2 = icon2.getScaledInstance((int)(button.getHeight() * scale2), button.getHeight(), Image.SCALE_DEFAULT);
-        button.setIcon(new ImageIcon(temp1));
-		button.setRolloverIcon(new ImageIcon(temp2));
-		button.setPressedIcon(new ImageIcon(temp2));
-		button.setFocusPainted(false);//无选择效果
-        button.setOpaque(false);//透明
-		button.setContentAreaFilled(false);//填充
-		button.setBorderPainted(false);//无边框
-		button.setMargin(new Insets(0, 0, 0, 0));//无边距
-		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
-	}
-	/**
 	 * JTable自适应
 	 * @param myTable JTable
 	 */
@@ -373,7 +305,7 @@ public class PlayerPane extends JPanel {
 				width = Math.max(width, preferedWidth);
 			}
 			header.setResizingColumn(column);
-			column.setWidth(width+myTable.getIntercellSpacing().width);
+			column.setWidth(20+width+myTable.getIntercellSpacing().width);
 		}
 	}
 	/**

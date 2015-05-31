@@ -68,8 +68,8 @@ public class Player extends JPanel {
 		playerBL = new PlayerBL();
 		teamBL = new TeamBL();
 		this.setOpaque(false);
-		this.setLayout(new BorderLayout(0, 20));
-		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 30));
+		this.setLayout(new BorderLayout(20, 20));
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.initTop();
 		table = new JTable();
 		sp = new JScrollPane(table);
@@ -187,7 +187,7 @@ public class Player extends JPanel {
 	    		if (column == 0) {
 	    			Image temp = ((ImageIcon)value).getImage();
 	    			double scale = (double)temp.getWidth(null) / (double)temp.getHeight(null);
-	    			return new JLabel(new ImageIcon(temp.getScaledInstance((int)(100 * scale), 100, Image.SCALE_DEFAULT)));
+	    			return new JLabel(new ImageIcon(temp.getScaledInstance((int)(70 * scale), 70, Image.SCALE_DEFAULT)));
 	    		} else
 	    			return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	    	}
@@ -195,7 +195,7 @@ public class Player extends JPanel {
 	    for(int i = 0; i < table.getColumnCount(); i++) {
 	    	table.getColumnModel().getColumn(i).setCellRenderer(tcr);
 	    }
-	    table.setRowHeight(100);
+	    table.setRowHeight(70);
 	    table.setFont(new Font("ºÚÌå", Font.PLAIN, 14));
 	    tcr.setHorizontalAlignment(JLabel.CENTER);
 	    table.setDefaultRenderer(Object.class, tcr);//ÄÚÈÝ¾ÓÖÐ
@@ -272,7 +272,7 @@ public class Player extends JPanel {
 				width = Math.max(width, preferedWidth);
 			}
 			header.setResizingColumn(column);
-			column.setWidth(width+myTable.getIntercellSpacing().width);
+			column.setWidth(80+width+myTable.getIntercellSpacing().width);
 		}
 	}
 	/**

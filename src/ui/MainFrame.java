@@ -13,8 +13,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
@@ -36,6 +34,7 @@ import ui.player.Player;
 import ui.player.PlayerPane;
 import ui.team.Team;
 import ui.team.TeamPane;
+import data.predo.PreRead;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
 
@@ -59,7 +58,7 @@ public class MainFrame extends JFrame {
 		//定义界面大小
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 7 / 9;
+		int frameHeight = screenSize.height * 8 / 9;
 		int frameWidth = frameHeight * 5 / 3;
 		this.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
 		//背景
@@ -72,10 +71,9 @@ public class MainFrame extends JFrame {
 		};
 		this.setContentPane(contentPane);
 		//初始化
-		this.initTop();
-		this.initNavigation();
+		this.initTitle();
 		//内容panel
-		pane = new Team(this, "East");
+		pane = new JPanel();
 		pane.setOpaque(false);
 		contentPane.add(pane, BorderLayout.CENTER);
 		this.setDragable();
@@ -83,9 +81,20 @@ public class MainFrame extends JFrame {
 		this.setVisible(true);
 	}
 	/**
-	 * 初始化退出最小化按钮
+	 * 初始化标题
 	 */
-	private void initTop() {
+	private void initTitle() {
+		ImageIcon background = new ImageIcon("data/pic/logo1.png");
+		Image temp = background.getImage();
+		double scale = (double)temp.getWidth(null) / (double)temp.getHeight(null);
+		JPanel title = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(temp, 0, 0, getWidth(), (int)(getWidth() / scale), background.getImageObserver());
+			}
+		};
+		title.setLayout(new BoxLayout(title, BoxLayout.Y_AXIS));
+		//初始化退出最小化按钮
 		JPanel top = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		top.setOpaque(false);
 		
@@ -100,7 +109,7 @@ public class MainFrame extends JFrame {
 		
 		top.add(mini);
 		top.add(exit);
-		contentPane.add(top, BorderLayout.NORTH);
+		title.add(top);
 		
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -112,64 +121,53 @@ public class MainFrame extends JFrame {
 				MainFrame.this.setExtendedState(JFrame.ICONIFIED);
 			}
 		});
+		
+		title.add(Box.createVerticalStrut(40));
+		//菜单
+		this.initMenu(title);
+		contentPane.add(title, BorderLayout.NORTH);
 	}
 	/**
-	 * 初始化导航
+	 * 初始化菜单
+	 * @param father 父容器
 	 */
-	private void initNavigation() {
-		JPanel navigation = new JPanel();
-		navigation.setOpaque(false);
-		navigation.setLayout(new BoxLayout(navigation, BoxLayout.Y_AXIS));
-		navigation.setBorder(BorderFactory.createEmptyBorder(20, 30, 0, 10));
-		//球队
-		JButton team = new JButton();
-		team.setSize(new Dimension(80, 30));
-		team.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(team, "data/pic/team1.png", "data/pic/team2.png");
+	private void initMenu(JPanel father) {
+		JPanel menu = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		menu.setOpaque(false);
+		menu.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
-		JPopupMenu teamPopup = new JPopupMenu();
-		teamPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		JMenuItem t1 = new JMenuItem("东部联盟");
-		t1.setOpaque(true);
-		t1.setFont(new Font("楷体", Font.PLAIN, 16));
-		t1.setBackground(new Color(206,231,255));
-		JMenuItem t2 = new JMenuItem("西部联盟");
-		t2.setOpaque(true);
-		t2.setFont(new Font("楷体", Font.PLAIN, 16));
-		t2.setBackground(new Color(206,231,255));
-		JMenuItem t3 = new JMenuItem("球队数据");
-		t3.setOpaque(true);
-		t3.setFont(new Font("楷体", Font.PLAIN, 16));
-		t3.setBackground(new Color(206,231,255));
+		JButton button1 = new JButton("球队");
+		JButton button2 = new JButton("球员");
+		JButton button3 = new JButton("比赛");
+		JButton button4 = new JButton("热点");
+		JButton button5 = new JButton("统计");
+		this.setMenu(button1);
+		this.setMenu(button2);
+		this.setMenu(button3);
+		this.setMenu(button4);
+		this.setMenu(button5);
 		
-		teamPopup.add(t1);
-		teamPopup.add(new JSeparator());
-		teamPopup.add(t2);
-		teamPopup.add(new JSeparator());
-		teamPopup.add(t3);
+		menu.add(button1);
+		menu.add(button2);
+		menu.add(button3);
+		menu.add(button4);
+		menu.add(button5);
+		father.add(menu);
 		
-		team.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				teamPopup.show(team, team.getX() + 46, team.getY() - 18);
+		JPopupMenu popMenuA = new JPopupMenu();
+		JMenuItem menuItemA1 = new JMenuItem("东部联盟");
+		JMenuItem menuItemA2 = new JMenuItem("西部联盟");
+		this.setMenuItem(menuItemA1);
+		this.setMenuItem(menuItemA2);
+		popMenuA.add(menuItemA1);
+		popMenuA.add(new JSeparator());
+		popMenuA.add(menuItemA2);
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				popMenuA.show(button1, 0, button1.getHeight());
 			}
-//			public void mouseExited(MouseEvent e) {
-//				Timer timer = new Timer();
-//				timer.schedule(new TimerTask() {
-//					public void run() {
-//						teamPopup.setVisible(false);
-//					}
-//				}, 1500);
-//			}
 		});
-//		team.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				contentPane.remove(pane);
-//				pane = new Team(MainFrame.this, "East");
-//				contentPane.add(pane, BorderLayout.CENTER);
-//				revalidate();
-//			}
-//		});
-		t1.addActionListener(new ActionListener() {
+		menuItemA1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Team(MainFrame.this, "East");
@@ -177,7 +175,7 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		t2.addActionListener(new ActionListener() {
+		menuItemA2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Team(MainFrame.this, "West");
@@ -185,57 +183,8 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		t3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				contentPane.remove(pane);
-				pane = new TeamPane(MainFrame.this);
-				contentPane.add(pane, BorderLayout.CENTER);
-				revalidate();
-			}
-		});
-		//球员
-		JButton player = new JButton();
-		player.setSize(new Dimension(80, 30));
-		player.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(player, "data/pic/player1.png", "data/pic/player2.png");
 		
-		JPopupMenu playerPopup = new JPopupMenu();
-		playerPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		JMenuItem p1 = new JMenuItem("球员信息");
-		p1.setOpaque(true);
-		p1.setFont(new Font("楷体", Font.PLAIN, 16));
-		p1.setBackground(new Color(206,231,255));
-		JMenuItem p2 = new JMenuItem("球员数据");
-		p2.setOpaque(true);
-		p2.setFont(new Font("楷体", Font.PLAIN, 16));
-		p2.setBackground(new Color(206,231,255));
-		
-		playerPopup.add(p1);
-		playerPopup.add(new JSeparator());
-		playerPopup.add(p2);
-		
-		player.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				playerPopup.show(player, player.getX() + 46, player.getY() - 72);
-			}
-//			public void mouseExited(MouseEvent e) {
-//				Timer timer = new Timer();
-//				timer.schedule(new TimerTask() {
-//					public void run() {
-//						playerPopup.setVisible(false);
-//					}
-//				}, 1500);
-//			}
-		});
-//		player.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				contentPane.remove(pane);
-//				pane = new PlayerPane(MainFrame.this);
-//				contentPane.add(pane, BorderLayout.CENTER);
-//				revalidate();
-//			}
-//		});
-		p1.addActionListener(new ActionListener() {
+		button2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Player(MainFrame.this);
@@ -243,21 +192,8 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		p2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				contentPane.remove(pane);
-				pane = new PlayerPane(MainFrame.this);
-				contentPane.add(pane, BorderLayout.CENTER);
-				revalidate();
-			}
-		});
-		//比赛
-		JButton match = new JButton();
-		match.setSize(new Dimension(80, 30));
-		match.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(match, "data/pic/match1.png", "data/pic/match2.png");
 		
-		match.addActionListener(new ActionListener() {
+		button3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new MatchPane(MainFrame.this);
@@ -265,53 +201,29 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		//热点
-		JButton hotspot = new JButton();
-		hotspot.setSize(new Dimension(80, 30));
-		hotspot.setPreferredSize(new Dimension(80, 30));
-		this.setIcon(hotspot, "data/pic/hotspot1.png", "data/pic/hotspot2.png");
 		
-		JPopupMenu hotspotPopup = new JPopupMenu();
-		hotspotPopup.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		JMenuItem h1 = new JMenuItem("当天热点球员");
-		h1.setOpaque(true);
-		h1.setFont(new Font("楷体", Font.PLAIN, 16));
-		h1.setBackground(new Color(206,231,255));
-		JMenuItem h2 = new JMenuItem("赛季热点球员");
-		h2.setOpaque(true);
-		h2.setFont(new Font("楷体", Font.PLAIN, 16));
-		h2.setBackground(new Color(206,231,255));
-		JMenuItem h3 = new JMenuItem("赛季热点球队");
-		h3.setOpaque(true);
-		h3.setFont(new Font("楷体", Font.PLAIN, 16));
-		h3.setBackground(new Color(206,231,255));
-		JMenuItem h4 = new JMenuItem("进步最快球员");
-		h4.setOpaque(true);
-		h4.setFont(new Font("楷体", Font.PLAIN, 16));
-		h4.setBackground(new Color(206,231,255));
-		
-		hotspotPopup.add(h1);
-		hotspotPopup.add(new JSeparator());
-		hotspotPopup.add(h2);
-		hotspotPopup.add(new JSeparator());
-		hotspotPopup.add(h3);
-		hotspotPopup.add(new JSeparator());
-		hotspotPopup.add(h4);
-		
-		hotspot.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				hotspotPopup.show(hotspot, hotspot.getX() + 46, hotspot.getY() - 180);
+		JPopupMenu popMenuB = new JPopupMenu();
+		JMenuItem menuItemB1 = new JMenuItem("当天热点球员");
+		JMenuItem menuItemB2 = new JMenuItem("赛季热点球员");
+		JMenuItem menuItemB3 = new JMenuItem("赛季热点球队");
+		JMenuItem menuItemB4 = new JMenuItem("进步最快球员");
+		this.setMenuItem(menuItemB1);
+		this.setMenuItem(menuItemB2);
+		this.setMenuItem(menuItemB3);
+		this.setMenuItem(menuItemB4);
+		popMenuB.add(menuItemB1);
+		popMenuB.add(new JSeparator());
+		popMenuB.add(menuItemB2);
+		popMenuB.add(new JSeparator());
+		popMenuB.add(menuItemB3);
+		popMenuB.add(new JSeparator());
+		popMenuB.add(menuItemB4);
+		button4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				popMenuB.show(button4, 0, button4.getHeight());
 			}
-//			public void mouseExited(MouseEvent e) {
-//				Timer timer = new Timer();
-//				timer.schedule(new TimerTask() {
-//					public void run() {
-//						hotspotPopup.setVisible(false);
-//					}
-//				}, 1500);
-//			}
 		});
-		h1.addActionListener(new ActionListener() {
+		menuItemB1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Hotspot(MainFrame.this, new String[]{"TodayTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断"});
@@ -319,7 +231,7 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		h2.addActionListener(new ActionListener() {
+		menuItemB2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Hotspot(MainFrame.this, new String[]{"SeasonTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"});
@@ -327,7 +239,7 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		h3.addActionListener(new ActionListener() {
+		menuItemB3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Hotspot(MainFrame.this, new String[]{"SeasonTopTeam", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"});
@@ -335,7 +247,7 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
-		h4.addActionListener(new ActionListener() {
+		menuItemB4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
 				pane = new Hotspot(MainFrame.this, new String[]{"PromotionPlayer", "场均得分", "场均篮板", "场均助攻"});
@@ -344,14 +256,57 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		navigation.add(team);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(player);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(match);
-		navigation.add(Box.createVerticalStrut(20));
-		navigation.add(hotspot);
-		contentPane.add(navigation, BorderLayout.WEST);
+
+		JPopupMenu popMenuC = new JPopupMenu();
+		JMenuItem menuItemC1 = new JMenuItem("球队数据");
+		JMenuItem menuItemC2 = new JMenuItem("球员数据");
+		this.setMenuItem(menuItemC1);
+		this.setMenuItem(menuItemC2);
+		popMenuC.add(menuItemC1);
+		popMenuC.add(new JSeparator());
+		popMenuC.add(menuItemC2);
+		button5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				popMenuC.show(button5, 0, button5.getHeight());
+			}
+		});
+		menuItemC1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new TeamPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
+		menuItemC2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new PlayerPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
+	}
+	/**
+	 * 设置菜单项样式
+	 * @param menu 菜单项
+	 */
+	private void setMenu(JButton menu) {
+		menu.setFont(new Font("黑体", Font.BOLD, 16));
+		menu.setForeground(Color.WHITE);
+		menu.setContentAreaFilled(false);//填充
+		menu.setFocusPainted(false);//无选择效果
+		menu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+	/**
+	 * 设置菜单子项样式
+	 * @param menuItem 菜单子项
+	 */
+	private void setMenuItem(JMenuItem menuItem) {
+		menuItem.setFont(new Font("楷体", Font.PLAIN, 17));
+		menuItem.setOpaque(true);
+		menuItem.setBackground(new Color(206,231,255));
+		menuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 	/**
 	 * 设置图标
@@ -461,6 +416,7 @@ public class MainFrame extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		new PreRead();
 		MainFrame mf = new MainFrame();
 		mf.setOpacity(0.9f);
 		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));
