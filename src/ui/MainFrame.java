@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
 	 * 初始化标题
 	 */
 	private void initTitle() {
-		ImageIcon background = new ImageIcon("data/pic/logo1.png");
+		ImageIcon background = new ImageIcon("data/pic/logo.png");
 		Image temp = background.getImage();
 		double scale = (double)temp.getWidth(null) / (double)temp.getHeight(null);
 		JPanel title = new JPanel() {
