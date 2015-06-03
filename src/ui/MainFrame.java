@@ -13,6 +13,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
@@ -297,6 +299,14 @@ public class MainFrame extends JFrame {
 		menu.setContentAreaFilled(false);//填充
 		menu.setFocusPainted(false);//无选择效果
 		menu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		menu.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				menu.setForeground(new Color(206,231,255));
+			}
+			public void mouseExited(MouseEvent e) {
+				menu.setForeground(Color.WHITE);
+			}
+		});
 	}
 	/**
 	 * 设置菜单子项样式
