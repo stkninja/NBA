@@ -9,20 +9,21 @@ import spider.spiderMatch.SpiderMatch;
 import dataBase.dataBaseOpe.DataBaseOpe;
 
 /*=========================================================*
- * 同时加载t_match和t_match_player两张表格
+ * 同时加载t_match和t_match_player两张表格(某一赛季year-1~year)
  *=========================================================*/
-public class FillT_MATCH {
-
-	public static void fillT_MATCH() {
-		int startYear = 1991;
-		int endYear = 2015;
-				
-		for(int i = startYear; i <= endYear; i++){
-			//常规赛
-			insertInto(i, false);
-			//季后赛
-			insertInto(i, true);
-		}
+public class FillT_MATCH implements Runnable{
+	
+	int year = 0;
+	
+	public FillT_MATCH(int year) {	
+		this.year = year;
+	}
+	
+	public void run() {
+		//常规赛
+		insertInto(year, false);
+		//季后赛
+		insertInto(year, true);
 	}
 	
 	/*============================================*
@@ -32,7 +33,7 @@ public class FillT_MATCH {
 	private static void insertInto(int year, boolean isPlayOffs){
 		ArrayList<String> matchLink_urls = MatchesLinks.matchesLinks(year, isPlayOffs);
 		for(String url : matchLink_urls){
-			//把每一场常规赛写入数据库
+			//把每一场比赛写入数据库
 			MatchStruct ms = SpiderMatch.spiderMatch(url, 
 					String.valueOf(year - 1).substring(2, 4) + "-" + String.valueOf(year).substring(2, 4), isPlayOffs);
 			String ord = "INSERT INTO t_match VALUES('" + ms.getId() + "', '" + ms.getSeason() + "', '" 
@@ -61,10 +62,5 @@ public class FillT_MATCH {
 				System.out.println("INSERT INTO t_match_player(" + ms.getId() + ", " + ps.getName() + ")");
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		CreatTables.creatTables();
-		FillT_MATCH.fillT_MATCH();
 	}
 }

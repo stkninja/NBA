@@ -35,8 +35,4 @@ public class CreatTables {
 				+ "t_player(name VARCHAR(40), fromYear VARCHAR(4), toYear VARCHAR(4), position VARCHAR(3), height VARCHAR(5), weight VARCHAR(5), "
 				+ "birth VARCHAR(10), college VARCHAR(80))");
 	}
-	
-	public static void main(String[] args) {
-		creatTables();
-	}
 }

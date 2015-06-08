@@ -6,7 +6,7 @@ import dataBase.dataBaseOpe.DataBaseOpe;
 import spider.spiderPlayer.PlayerBasicStruct;
 import spider.spiderPlayer.SpiderPlayer;
 
-public class FillT_PLAYER {
+public class FillT_PLAYER implements Runnable{
 
 	public static void fillT_PLAYER() {
 		char[] firstChar = {'a', 'b', 'c', 'd', 'e', 'f',
@@ -32,9 +32,8 @@ public class FillT_PLAYER {
 			}
 		}
 	}
-	
-	public static void main(String[] args) {
-		CreatTables.creatTables();
-		FillT_PLAYER.fillT_PLAYER();
+
+	public void run() {
+		fillT_PLAYER();
 	}
 }

@@ -6,7 +6,7 @@ import dataBase.dataBaseOpe.DataBaseOpe;
 import spider.spiderTeam.SpiderTeam;
 import spider.spiderTeam.TeamBasicStruct;
 
-public class FillT_TEAM {
+public class FillT_TEAM implements Runnable{
 
 	public static void fillT_TEAM() {
 		ArrayList<TeamBasicStruct> lists = SpiderTeam.spiderTeam();
@@ -23,7 +23,7 @@ public class FillT_TEAM {
 		}
 	}
 	
-	public static void main(String[] args) {
-		FillT_TEAM.fillT_TEAM();
+	public void run() {
+		fillT_TEAM();
 	}
 }
