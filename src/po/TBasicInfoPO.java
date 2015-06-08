@@ -1,11 +1,8 @@
 package po;
 
 import java.io.File;
-import java.io.Serializable;
 
-public class TBasicInfoPO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class TBasicInfoPO{	
 	/**球队基本信息*/
 	//球队标志
 	private File teamLogo = null;
@@ -13,6 +10,10 @@ public class TBasicInfoPO implements Serializable{
 	private String fullName = new String();
 	//球队缩写
 	private String abbName = new String();
+	//曾经球队全名
+	private String historyFullName = new String();
+	//曾经球队缩写
+	private String historyAbblName = new String();
 	//所在地
 	private String location = new String();
 	//赛区
@@ -56,7 +57,14 @@ public class TBasicInfoPO implements Serializable{
 	public String getSetupTime() {
 		return setupTime;
 	}
+	
+	public String getHistoryFullName() {
+		return historyFullName;
+	}
 
+	public String getHistoryAbblName() {
+		return historyAbblName;
+	}
 	
 	/**球队set方法*/
 	public void setTeamLogo(File teamLogo) {
@@ -89,5 +97,14 @@ public class TBasicInfoPO implements Serializable{
 
 	public void setSetupTime(String setupTime) {
 		this.setupTime = setupTime;
+	}
+	
+
+	public void setHistoryFullName(String historyFullName) {
+		this.historyFullName = historyFullName;
+	}
+
+	public void setHistoryAbblName(String historyAbblName) {
+		this.historyAbblName = historyAbblName;
 	}
 }
