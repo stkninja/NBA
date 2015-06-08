@@ -1,11 +1,8 @@
 package po;
 
-import java.io.File;
 
 public class TBasicInfoPO{	
 	/**球队基本信息*/
-	//球队标志
-	private File teamLogo = null;
 	//球队全名
 	private String fullName = new String();
 	//球队缩写
@@ -25,11 +22,7 @@ public class TBasicInfoPO{
 	//建立时间
 	private String setupTime;
 	
-	/**球队get方法*/
-	public File getTeamLogo() {
-		return teamLogo;
-	}
-	
+	/**球队get方法*/	
 	public String getFullName() {
 		return fullName;
 	}
@@ -67,10 +60,6 @@ public class TBasicInfoPO{
 	}
 	
 	/**球队set方法*/
-	public void setTeamLogo(File teamLogo) {
-		this.teamLogo = teamLogo;
-	}
-
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

@@ -1,14 +1,11 @@
 package po;
 
-import java.io.Serializable;
-
-
-public class MatchPO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class MatchPO{	
 	private String season = new String();
 	private String date = new String();
+	private String isPlayOffs = new String();
 	
+	//team1 主队 team2 客队
 	private MatchTeamDataPO team1 = new MatchTeamDataPO();
 	private MatchTeamDataPO team2 = new MatchTeamDataPO();
 
@@ -45,10 +42,11 @@ public class MatchPO implements Serializable{
 		this.team2 = team2;
 	}
 	
-	/**交换team1 team2 位置*/
-	public void swapTeam(){
-		MatchTeamDataPO temp = this.team2;
-		this.team2 = this.team1;
-		this.team1 = temp;
+	public String getIsPlayOffs() {
+		return isPlayOffs;
+	}
+	
+	public void setIsPlayOffs(String isPlayOffs) {
+		this.isPlayOffs = isPlayOffs;
 	}
 }

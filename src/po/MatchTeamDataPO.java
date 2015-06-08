@@ -1,11 +1,9 @@
 package po;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class MatchTeamDataPO implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class MatchTeamDataPO{
 	
 	/**球队比赛信息*/
 	//球队缩写
@@ -207,6 +205,7 @@ public class MatchTeamDataPO implements Serializable{
 		this.teamPlayers.add(playerDataPO);
 	}
 	
+	//判断该场比赛该队中某球员是否参加
 	public boolean existPlayer(String name){
 		for(MatchPlayerDataPO matchPlayerDataPO : teamPlayers)
 			if(matchPlayerDataPO.getName().equals(name))

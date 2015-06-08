@@ -1,17 +1,11 @@
 package po;
 
-import java.io.Serializable;
-
-
-public class MatchPlayerDataPO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class MatchPlayerDataPO{	
 	private String name = new String();
-	private String position = new String();
+	private double minute;        //在场时间
 	private double offensiveRebounds;	//进攻篮板数
 	private double defensiveRebounds;	//防守篮板数
 	private double assist;        //助攻数
-	private double minute;        //在场时间
 	private double steal;         //抢断数
 	private double block;         //盖帽数
 	private double error;         //失误数
@@ -160,14 +154,6 @@ public class MatchPlayerDataPO implements Serializable{
 	
 	public void setGameStart(double gameStart) {
 		this.gameStart = gameStart;
-	}
-	
-	public String getPosition() {
-		return position;
-	}
-	
-	public void setPosition(String position) {
-		this.position = position;
 	}
 	
 	/**总篮板数*/

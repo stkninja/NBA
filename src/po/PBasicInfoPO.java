@@ -1,25 +1,15 @@
 package po;
 
-import java.io.File;
-import java.io.Serializable;
 
-public class PBasicInfoPO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class PBasicInfoPO{	
 	private String name = new String();
-	private String number = new String();
 	private String height = new String();
 	private String weight = new String();
 	private String birth = new String();
 	private String age = new String();
 	private String exp = new String();
 	private String school =new String();
-	private String position = new String();	
-	//Ð¤Ïñ
-	private File portrait = null;                 
-	//¶¯×÷ÕÕ
-	private File action = null;                    
-	
+	private String position = new String();            
 	
 	/***sets gets**/
 	public String getName() {
@@ -37,32 +27,6 @@ public class PBasicInfoPO implements Serializable{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
-	public File getPortrait() {
-		return portrait;
-	}
-	
-	public void setPortrait(File portrait) {
-		this.portrait = portrait;
-	}
-	
-	public File getAction() {
-		return action;
-	}
-	
-	public void setAction(File action) {
-		this.action = action;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
 
 	public String getHeight() {
 		return height;

@@ -224,4 +224,6 @@ public class GetMatchInfo implements MatchService{
 		}
 		return date;
 	}
+	
+	public static void main(String[] args) {}
 }
