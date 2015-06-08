@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -75,8 +76,19 @@ public class MainFrame extends JFrame {
 		//初始化
 		this.initTitle();
 		//内容panel
-		pane = new JPanel();
-		pane.setOpaque(false);
+		switch (Math.abs(new Random().nextInt()) % 10) {
+		case 0: pane = new Team(this, "East"); break;
+		case 1: pane = new Team(this, "West"); break;
+		case 2: pane = new Player(this); break;
+		case 3: pane = new MatchPane(this); break;
+		case 4: pane = new Hotspot(this, new String[]{"TodayTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断"}); break;
+		case 5: pane = new Hotspot(this, new String[]{"SeasonTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"}); break;
+		case 6: pane = new Hotspot(this, new String[]{"SeasonTopTeam", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"}); break;
+		case 7: pane = new Hotspot(this, new String[]{"PromotionPlayer", "场均得分", "场均篮板", "场均助攻"}); break;
+		case 8: pane = new TeamPane(this); break;
+		case 9: pane = new PlayerPane(this); break;
+		default: pane = new JPanel(); pane.setOpaque(false);
+		}
 		contentPane.add(pane, BorderLayout.CENTER);
 		this.setDragable();
 		this.setUndecorated(true);
@@ -195,9 +207,31 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		JPopupMenu popMenuD = new JPopupMenu();
+		JMenuItem menuItemD1 = new JMenuItem("常规赛");
+		JMenuItem menuItemD2 = new JMenuItem("季后赛");
+		this.setMenuItem(menuItemD1);
+		this.setMenuItem(menuItemD2);
+		popMenuD.add(menuItemD1);
+		popMenuD.add(new JSeparator());
+		popMenuD.add(menuItemD2);
 		button3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				popMenuD.show(button3, 0, button3.getHeight());
+			}
+		});
+		menuItemD1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
+				pane = new MatchPane(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
+		menuItemD2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				//TODO
 				pane = new MatchPane(MainFrame.this);
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();

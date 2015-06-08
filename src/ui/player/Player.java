@@ -95,6 +95,7 @@ public class Player extends JPanel {
 			button[i].setForeground(Color.BLUE);
 			button[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//指针变手
 		}
+		button[0].setForeground(Color.RED);
 		String[] team = new String[31];
 		team[0] = "根据球队查找";
 		int count = 1;
@@ -248,6 +249,9 @@ public class Player extends JPanel {
 			for (int i = 0; i < button.length; i++) {
 				if (e.getSource() == button[i]) {
 					letter = button[i].getText();
+					for (int j = 0; j < button.length; j++)
+						button[j].setForeground(Color.BLUE);
+					button[i].setForeground(Color.RED);
 					break;
 				}
 			}
