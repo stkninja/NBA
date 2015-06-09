@@ -59,7 +59,6 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		if(po == null){
 			return vo;
 		}
-		vo.teamLogo = po.getTeamLogo();
 		vo.fullName = po.getFullName();
 		vo.abbName = po.getAbbName();
 		vo.location = po.getLocation();
@@ -694,4 +693,5 @@ public class TeamBL implements businesslogicservice.TeamBLService{
 		}
 		return res;
 	}
+	
 }

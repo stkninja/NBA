@@ -82,6 +82,12 @@ public class PlayerVO {
 	public double reboundpromotion;//场均篮板近5场提升率
 	public double assistpromotion;//场均助攻近5场提升率
 	
+	public double ORPM;//每百回合进攻（得分）贡献值
+	public double DRPM;//每百回合对手进攻（得分）贡献值
+	public double RPM;//每100回合球员在场净胜分贡献       RPM = ORPM + DRPM
+	public double WAR;//胜场贡献值
+	
+	
 	public PlayerVO(){
 		
 	}

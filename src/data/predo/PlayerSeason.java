@@ -4,47 +4,60 @@ import java.util.ArrayList;
 
 import po.MatchPO;
 import po.MatchPlayerDataPO;
+import po.MatchTeamDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
 import po.TBasicInfoPO;
 
 public class PlayerSeason {
-	private static ArrayList<MatchPO> matches;
-	private static ArrayList<PBasicInfoPO> players;
-	private static ArrayList<TBasicInfoPO> teams;
-	private static ArrayList<MatchPO> matchesAbout;
+	private ArrayList<MatchPO> matches;
+	private ArrayList<TBasicInfoPO> teams;
 	
-	@SuppressWarnings("static-access")
-	public ArrayList<PSeasonDataPO> playerSeason(ArrayList<MatchPO> matches, ArrayList<PBasicInfoPO> players, ArrayList<TBasicInfoPO> teams, String season) {
+	public PSeasonDataPO playerSeason(ArrayList<MatchPO> matches,ArrayList<MatchPlayerDataPO> players,ArrayList<TBasicInfoPO> teams,PBasicInfoPO playerinfo) {
 		this.matches = matches;
-		this.players = players;
 		this.teams = teams;
-		ArrayList<PSeasonDataPO> list = new ArrayList<PSeasonDataPO>();
 		
-		for(String name : getAllPlayersName()){
-			getMatchesAboutPlayer(name);
-			ArrayList<Double> teamlist = getTeamData();
+//			ArrayList<Double> teamlist = getTeamData();
 			PSeasonDataPO po = new PSeasonDataPO();
-		    po.setSeason(season);
-		    po.setName(name);
+		    po.setSeason(matches.get(0).getSeason());
+		    po.setName(players.get(0).getName());
 		    po.setTeam(getTeam());
-		    po.setPosition(getSinglePlayerBasicInfo(name).getPosition());
+		    po.setPosition(playerinfo.getPosition());
 		    po.setSubArea(getSubArea(po.getTeam()));
-		    po.setGameplay(matchesAbout.size());
-		    po.setGamestart((int)getPlayerGameStart(name,season));
+		    po.setGameplay(matches.size());
+		    po.setGamestart((int)getPlayerGameStart(po.getName(),po.getSeason()));
 		    
 		    if(po.getGameplay() == 0){
-		    	list.add(po);
-		    	continue;
+		    	return po;
 		    }
 		    
-		    double efficiencysum = 0,gmscsum = 0,time = 0;
-		    for(MatchPO match : matchesAbout){
+		    double efficiencysum = 0,gmscsum = 0,time = 0,allteamoffensiveRebounds = 0,allteamdefensiveRebounds = 0,allteamrebounds = 0,allteamshootingHit = 0,allopponentOffensiveRebounds = 0,
+					allopponentDefensiveRebounds = 0,allopponentrebounds = 0,allopponentshoot = 0,allopponentthreepoint = 0,allopponentshootingHit = 0,allteamshooting = 0,allteamfreeThrow = 0,allopponentfreethrow = 0,allteamturnover = 0,allopponentturnover = 0,allteampoint = 0,allopponentpoint = 0,allattackround = 0,allopponentattackround = 0;
+		    for(MatchPO match : matches){
 		    	double plustime = match.getTeam1().getQtPlusNum() * 5;
 		    	time += plustime;
+		    	MatchTeamDataPO teampo = match.getTeam1();
+		    	MatchTeamDataPO opponentpo = match.getTeam2();
 		    	
-		    	for(MatchPlayerDataPO playerpo : match.getTeam1().getTeamPlayers()){
-		    		if(playerpo.getName().equals(name)){
+		    	allteamoffensiveRebounds += teampo.getOffensiveRebounds();
+				allteamdefensiveRebounds += teampo.getDefensiveRebounds();
+				allteamrebounds += teampo.getRebounds();
+				allteamshootingHit += teampo.getShootingHit();
+				allopponentOffensiveRebounds += opponentpo.getOffensiveRebounds();
+				allopponentDefensiveRebounds += opponentpo.getDefensiveRebounds();
+				allopponentrebounds += opponentpo.getRebounds();
+				allopponentshoot += opponentpo.getShooting();
+				allopponentthreepoint += opponentpo.getThreePoint();
+				allopponentshootingHit += opponentpo.getShootingHit();
+				allteamshooting += teampo.getShooting();
+				allteamfreeThrow += teampo.getFreeThrow();
+				allopponentfreethrow += opponentpo.getFreeThrow();
+				allteamturnover += teampo.getTurnovers();
+				allopponentturnover += opponentpo.getTurnovers();
+				allteampoint += teampo.getScores();
+				allopponentpoint += opponentpo.getScores();
+		    	
+		    	for(MatchPlayerDataPO playerpo : players){
 		    			po.setAllrebound(po.getAllrebound() + playerpo.getRebound());
 						po.setAlloffensiverebound(po.getAlloffensiverebound() + playerpo.getOffensiveRebounds());
 						po.setAlldefensiverebound(po.getAlldefensiverebound() + playerpo.getDefensiveRebounds());
@@ -66,7 +79,7 @@ public class PlayerSeason {
 						po.setDoubledouble(po.getDoubledouble() + playerpo.getDoubledouble());
 						efficiencysum += (playerpo.getPoint() + playerpo.getRebound() + playerpo.getAssist() + playerpo.getSteal() + playerpo.getBlock()) - (playerpo.getShoot() - playerpo.getShootmade()) - (playerpo.getFreethrow() - playerpo.getFreethrowmade()) - playerpo.getError();
 						gmscsum += (playerpo.getPoint() + 0.4 * playerpo.getShootmade() - 0.7 * playerpo.getShoot() - 0.4 * (playerpo.getFreethrow() - playerpo.getFreethrowmade()) + 0.7 * playerpo.getOffensiveRebounds() + 0.3 * playerpo.getDefensiveRebounds() + playerpo.getSteal() + 0.7 * playerpo.getAssist() + 0.7 * playerpo.getBlock() - 0.4 * playerpo.getFoul() - playerpo.getError());
-		    		}
+		    		
 		    	}
 		    }
 		    po.setAlloffensiverebound(getDouble(po.getAlloffensiverebound()));
@@ -111,18 +124,48 @@ public class PlayerSeason {
 			else{
 				po.setAllshootefficiency(getDouble((po.getAllshootmade() + 0.5 * po.getAllthreepointmade()) / po.getAllshoot() ));
 			}
-			po.setAlloffensivereboundrate(getDouble(po.getAlloffensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(0) + teamlist.get(4)) ));
-			po.setAlldefensivereboundrate(getDouble(po.getAlldefensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(1) + teamlist.get(5)) ));
-			po.setAllreboundrate(getDouble(po.getAllrebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (teamlist.get(2) + teamlist.get(5) + teamlist.get(4)) ));
-			po.setAllassistrate(getDouble(po.getAllassist() / (po.getAllminute() / ((48 * po.getGameplay() + time)) * teamlist.get(3) - po.getAllshootmade()) ));
 			
-			po.setAllstealrate(getDouble(po.getAllsteal() * ((48 * po.getGameplay() + time)) / po.getAllminute() / teamlist.get(4) ));
-			if(teamlist.get(6) - teamlist.get(7) == 0){
+			if(po.getAllminute() == 0 || allteamrebounds + allopponentrebounds == 0){
+				po.setAlloffensivereboundrate(0);
+			}
+			else{
+				po.setAlloffensivereboundrate(getDouble(po.getAlloffensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (allteamrebounds + allopponentrebounds) ));
+			}
+			
+			if(po.getAllminute() == 0 || allteamrebounds + allopponentrebounds == 0){
+				po.setAlldefensivereboundrate(0);
+			}
+			else{
+				po.setAlldefensivereboundrate(getDouble(po.getAlldefensiverebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (allteamrebounds + allopponentrebounds) ));
+			}
+			
+			if(po.getAllminute() == 0 || allteamrebounds + allopponentrebounds == 0){
+				po.setAllreboundrate(0);
+			}
+			else{
+				po.setAllreboundrate(getDouble(po.getAllrebound() * (48 * po.getGameplay() + time) / po.getAllminute() / (allteamrebounds + allopponentrebounds) ));
+			}
+			
+			if(po.getAllminute() == 0 || (48 * po.getGameplay() + time) * allteamshootingHit - po.getAllshootmade() == 0){
+				po.setAllassistrate(0);
+			}
+			else{
+				po.setAllassistrate(getDouble(po.getAllassist() / (po.getAllminute() / ((48 * po.getGameplay() + time)) * allteamshootingHit - po.getAllshootmade()) ));
+			}
+			
+			if(po.getAllminute() == 0 || allopponentOffensiveRebounds == 0){
+				po.setAllstealrate(0);
+			}
+			else{
+				po.setAllstealrate(getDouble(po.getAllsteal() * ((48 * po.getGameplay() + time)) / po.getAllminute() / allopponentOffensiveRebounds ));
+			}
+			
+			if(allopponentshoot - allopponentthreepoint == 0){
 				po.setAllblockrate(0);
 			}
 
 			else{				
-				po.setAllblockrate(getDouble(po.getAllblock() * ((48 * po.getGameplay() + time)) / po.getAllminute() / (teamlist.get(6) - teamlist.get(7)) ));
+				po.setAllblockrate(getDouble(po.getAllblock() * ((48 * po.getGameplay() + time)) / po.getAllminute() / (allopponentshoot - allopponentthreepoint) ));
 			}
 			
 			if(po.getAllshoot() - po.getAllthreepoint() + 0.44 * po.getAllfreethrow() + po.getAllerror() == 0){
@@ -132,7 +175,12 @@ public class PlayerSeason {
 				po.setAllerrorrate(getDouble(po.getAllerror() / (po.getAllshoot() - po.getAllthreepoint() + 0.44 * po.getAllfreethrow() + po.getAllerror()) ));
 			}
 			
-			po.setAllusage(getDouble((po.getAllshoot() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * ((48 * po.getGameplay() + time)) / po.getAllminute()  / (teamlist.get(8) + 0.44 * teamlist.get(9) + teamlist.get(10)) ));
+			if(po.getAllminute() == 0 || allteamshooting + 0.44 * allteamfreeThrow + allteamturnover == 0){
+				po.setAllusage(0);
+			}
+			else{
+				po.setAllusage(getDouble((po.getAllshoot() + 0.44 * po.getAllfreethrow() + po.getAllerror()) * ((48 * po.getGameplay() + time)) / po.getAllminute()  / (allteamshooting + 0.44 * allteamfreeThrow + allteamturnover) ));
+			}
 			
 			po.setRebound(getDouble(po.getAllrebound() / po.getGameplay()));
 			po.setOffensiverebound(getDouble(po.getAlloffensiverebound() / po.getGameplay()));
@@ -173,7 +221,7 @@ public class PlayerSeason {
 			
 
 		    double fivepoint = 0,fiverebound = 0,fiveassist = 0;
-			for(MatchPO matchpo : this.getLastFiveMatchesAboutPlayer(po.getName())){
+			for(MatchPO matchpo : this.getLastFivematchesPlayer(po.getName())){
 				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
 					if(playerpo.getName().equals(po.getName())){
 						fivepoint += playerpo.getPoint();
@@ -230,20 +278,29 @@ public class PlayerSeason {
 					po.setAssistpromotion(0);
 				}
 			}
-			list.add(po);
-		}
-		return list;
+			allattackround = calculateAttackround(allteamshooting,allteamfreeThrow,allteamoffensiveRebounds,allopponentDefensiveRebounds,allteamshootingHit,allteamturnover);
+			allopponentattackround = calculateAttackround(allopponentshoot,allopponentfreethrow,allopponentOffensiveRebounds,allteamdefensiveRebounds,allopponentshootingHit,allopponentturnover);
+			double percent = po.getAllminute() / (po.getGameplay() * 48);
+//			po.setORPM(getDouble(100 * / allattackround));
+			po.setDRPM(getDouble(100 * allopponentpoint / allopponentattackround));
+			po.setRPM(getDouble(100 * (allteampoint - allopponentpoint) / percent * (allattackround + allopponentattackround)));
+			
+			return po;
 	}
 	
 	public double getDouble(double d){
 		return new  java.math.BigDecimal(Double.toString(d)).setScale(1,java.math.BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
+	
+	private double calculateAttackround(double allshooting,double allfreeThrow,double alloffensiveRebounds,double allopponentDefensiveRebounds,double allshootingHit,double allturnovers){
+		return allshooting + 0.4 * allfreeThrow - 1.07 * (alloffensiveRebounds / (alloffensiveRebounds + allopponentDefensiveRebounds) * (allshooting - allshootingHit)) + 1.07 * allturnovers;
+	}
 
-	private ArrayList<Double> getTeamData(){
+/*	private ArrayList<Double> getTeamData(){
 		ArrayList<Double> list = new ArrayList<Double>();
 		double alloffensiveRebounds = 0,alldefensiveRebounds = 0,allrebounds = 0,allshootingHit = 0,allopponentOffensiveRebounds = 0,
-				allopponentDefensiveRebounds = 0,allopponentshoot = 0,allopponentthreepoint = 0,allshooting = 0,allfreeThrow = 0,allturnovers = 0;
-		for(MatchPO po : matchesAbout){
+				allopponentDefensiveRebounds = 0,allopponentshoot = 0,allopponentthreepoint = 0,allshooting = 0,allfreeThrow = 0,allturnovers = 0,allpoint = 0,allopponentpoint = 0;
+		for(MatchPO po : matches){
 			alloffensiveRebounds += po.getTeam1().getOffensiveRebounds();
 			alldefensiveRebounds += po.getTeam1().getDefensiveRebounds();
 			allrebounds += po.getTeam1().getRebounds();
@@ -255,6 +312,8 @@ public class PlayerSeason {
 			allshooting += po.getTeam1().getShooting();
 			allfreeThrow += po.getTeam1().getFreeThrow();
 			allturnovers += po.getTeam1().getTurnovers();
+			allpoint += po.getTeam1().getScores();
+			allopponentpoint += po.getTeam2().getScores();
 		}
 		list.add(alloffensiveRebounds);
 		list.add(alldefensiveRebounds);
@@ -268,39 +327,9 @@ public class PlayerSeason {
 		list.add(allfreeThrow);
 		list.add(allturnovers);
 		return list;
-	}
+	}*/
 	
 	/********************************************************************************************
-	 *获得球员name在season的所有比赛数据
-	 *该球员处于team1 中 
-	 */
-	private void getMatchesAboutPlayer(String name) {
-		matchesAbout = new ArrayList<MatchPO>();
-		for(MatchPO matchPO : matches){
-			/**寻找相关比赛*/
-			boolean existInTeam1 = matchPO.getTeam1().existPlayer(name);
-			boolean existInTeam2 = matchPO.getTeam2().existPlayer(name);
-			if(existInTeam1 || existInTeam2){
-				/**交换至team1*/
-				if(existInTeam2)
-					matchPO.swapTeam();	
-				
-				matchesAbout.add(matchPO);	
-			}
-		}
-	}
-	
-	/**
-	 * 获得所有球员名字
-	 * */
-	private ArrayList<String> getAllPlayersName() {
-		ArrayList<String> names = new ArrayList<String>();
-		
-		for(PBasicInfoPO pBasicPO : players)
-			names.add(pBasicPO.getName());
-		
-		return names;
-	}
 	
 	/**
 	 * 获得球员在season的先发场数
@@ -308,7 +337,7 @@ public class PlayerSeason {
 	private double getPlayerGameStart(String name, String season) {			
 		/**统计先发场数*/
 		double gameStart = 0.0;
-		for(MatchPO matchPO : matchesAbout){
+		for(MatchPO matchPO : matches){
 			ArrayList<MatchPlayerDataPO> teamPlayers = matchPO.getTeam1().getTeamPlayers();
 			for(MatchPlayerDataPO matchPlayerPO : teamPlayers){
 				if(matchPlayerPO.getName().equals(name)){
@@ -321,25 +350,23 @@ public class PlayerSeason {
 		return gameStart;
 	}
 	
-	/**获得球员基本信息*/
-	public PBasicInfoPO getSinglePlayerBasicInfo(String name) {
+	
+/*	public PBasicInfoPO getSinglePlayerBasicInfo(String name) {
 		for(PBasicInfoPO po : players)
 			if(po.getName().equals(name))
 				return po;
-		
-		/**无法找到该球员*/
 		return new PBasicInfoPO();
-	}
+	}*/
 	
 	/**获得球员的最近的球队*/
 	private String getTeam() {
-		if(matchesAbout.size() != 0){
+		if(matches.size() != 0){
 			/**找到最近的比赛*/
-			MatchPO lastMatchPO = matchesAbout.get(0);
-			for(int i = 1; i < matchesAbout.size(); i++)
-				if((matchesAbout.get(i).getSeason() + matchesAbout.get(i).getDate()).compareTo
+			MatchPO lastMatchPO = matches.get(0);
+			for(int i = 1; i < matches.size(); i++)
+				if((matches.get(i).getSeason() + matches.get(i).getDate()).compareTo
 						(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
-					 lastMatchPO = matchesAbout.get(i);
+					 lastMatchPO = matches.get(i);
 			
 			return lastMatchPO.getTeam1().getAbbName();
 		}
@@ -356,35 +383,35 @@ public class PlayerSeason {
 	}
 	
 	/**球员最近五场比赛*/
-	private ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
+	private ArrayList<MatchPO> getLastFivematchesPlayer(String name) {
 		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
 		
-		if(matchesAbout.size() <= 5)
-			return matchesAbout;
+		if(matches.size() <= 5)
+			return matches;
 		
 		//找到最近五场
 		int lastedIndex = 0;
-		if(matchesAbout.get(lastedIndex).getDate().compareTo("06-01") > 0){
+		if(matches.get(lastedIndex).getDate().compareTo("06-01") > 0){
 			for(int i = 0; i < 5; i++)
-				res.add(matchesAbout.get(matchesAbout.size() - 1 - i));
+				res.add(matches.get(matches.size() - 1 - i));
 		}
 		else{
-			for(; lastedIndex < matchesAbout.size(); lastedIndex++){	
-				if(matchesAbout.get(lastedIndex).getDate().compareTo("06-01") > 0)
+			for(; lastedIndex < matches.size(); lastedIndex++){	
+				if(matches.get(lastedIndex).getDate().compareTo("06-01") > 0)
 					break;
 			}
 			lastedIndex--;
 			
 			if(lastedIndex >= 4){
 				for(int i = 0; i < 5; i++){
-					res.add(matchesAbout.get(lastedIndex - i));
+					res.add(matches.get(lastedIndex - i));
 				}				
 			}
 			else{
 				for(int i = 0; i <= lastedIndex; i++)
-					res.add(matchesAbout.get(i));
+					res.add(matches.get(i));
 				for(int i = 0; i < 5 - res.size(); i++){
-					res.add(matchesAbout.get(matchesAbout.size() - 1 - i));
+					res.add(matches.get(matches.size() - 1 - i));
 				}
 			}
 		}

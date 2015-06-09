@@ -83,6 +83,10 @@ public class PSeasonDataPO implements Serializable{
 	private double pointpromotion;//场均得分近5场提升率
 	private double reboundpromotion;//场均篮板近5场提升率
 	private double assistpromotion;//场均助攻近5场提升率
+	private double ORPM;//每百回合进攻（得分）贡献值
+	private double DRPM;//每百回合对手进攻（得分）贡献值
+	private double RPM;//每100回合球员在场净胜分贡献       RPM = ORPM + DRPM
+	private double WAR;//胜场贡献值
 	
 	public String getSeason() {
 		return season;
@@ -557,5 +561,29 @@ public class PSeasonDataPO implements Serializable{
 	}
 	public void setAssistpromotion(double assistpromotion) {
 		this.assistpromotion = assistpromotion;
+	}
+	public double getORPM() {
+		return ORPM;
+	}
+	public void setORPM(double oRPM) {
+		ORPM = oRPM;
+	}
+	public double getDRPM() {
+		return DRPM;
+	}
+	public void setDRPM(double dRPM) {
+		DRPM = dRPM;
+	}
+	public double getRPM() {
+		return RPM;
+	}
+	public void setRPM(double rPM) {
+		RPM = rPM;
+	}
+	public double getWAR() {
+		return WAR;
+	}
+	public void setWAR(double wAR) {
+		WAR = wAR;
 	}
 }

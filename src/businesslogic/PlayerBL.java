@@ -8,12 +8,12 @@ import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
 import po.PSeasonDataPO;
-import test.Console;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 import data.GetMatchInfo;
 import data.GetPlayerInfo;
+import data.predo.PreRead;
 import dataservice.MatchService;
 import dataservice.PlayerService;
 
@@ -105,15 +105,12 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 			return vo;
 		}
 		vo.name = pp.getName();
-		vo.number = pp.getNumber();
 		vo.height = pp.getHeight();
 		vo.weight = pp.getWeight();
 		vo.birth = pp.getBirth();
 		vo.age = pp.getAge();
 		vo.exp = pp.getExp();
 		vo.school = pp.getSchool();
-		vo.portrait = pp.getPortrait();
-		vo.action = pp.getAction();
 		vo.position = pp.getPosition();
 		return vo;
 	}
@@ -199,6 +196,10 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	    vo.pointpromotion = po.getPointpromotion();
 	    vo.reboundpromotion = po.getReboundpromotion();
 	    vo.assistpromotion = po.getAssistpromotion();
+	    vo.ORPM = po.getORPM();
+	    vo.DRPM = po.getDRPM();
+	    vo.RPM = po.getRPM();
+	    vo.WAR = po.getWAR();
 	    
 	    return vo;
 	}
@@ -1124,11 +1125,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 	}
 	
 	public static void main(String[] args){
-		Console c = new Console();
-		c.execute(System.out, new String[]{"--datasource","D:\\data"});
+		new PreRead();
 		PlayerBL bl = new PlayerBL();
-		for(PlayerVO vo : bl.getPromotionPlayers("³¡¾ùÖú¹¥")){
-			System.out.println(vo.name);
-		}
+//		System.out.println(bl.getOnePlayer("Aaron Brooks").age);
+		System.out.println(bl.playerdata.getOnePSeasonDataPO("LeBron James", "13-14").getMinute());
 	}
 }
