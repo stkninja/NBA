@@ -14,8 +14,6 @@ public interface MatchService {
 	public ArrayList<MatchPO> getLastFiveMatchesAboutTeam(String abbName);
 	//获得今天的所有比赛
 	public ArrayList<MatchPO> getTodayAllMatches();
-	//赛季两个队伍比赛
-	//public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1, String abbName2, String season);
 	//获得最近赛季
 	public String getLastSeason();
 	//获得所有赛季

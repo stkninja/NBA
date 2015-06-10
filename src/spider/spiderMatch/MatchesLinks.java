@@ -67,9 +67,4 @@ public class MatchesLinks {
 		
 		return allLinks;
 	}
-	
-	 //²âÊÔÓÃmainº¯Êı
-	public static void main(String argsp[]){  
-    	System.out.println(matchesLinks(2015, true).get(0));
-    }  
 }
