@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import test.data.PlayerNormalInfo;
-import data.predo.PreRead;
+import data.statistics.PreRead;
 
 
 public class Console {

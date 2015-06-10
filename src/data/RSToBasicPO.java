@@ -17,22 +17,27 @@ public class RSToBasicPO {
 	 * rs仅有一条记录或空记录
 	 * return null 或 对应的team类
 	 *=================================================*/
-	public static TBasicInfoPO toTeamBasic(ResultSet rs) {
+	public static ArrayList<TBasicInfoPO> toTeamBasic(ResultSet rs) {
 		ArrayList<String[]> arrays = to2DStringArray(rs);
+		
 		if(arrays == null)
 			return null;
 		else{
-			TBasicInfoPO tb = new TBasicInfoPO();
-			tb.setFullName(arrays.get(0)[0]);
-			tb.setAbbName(arrays.get(0)[1]);
-			tb.setHistoryFullName(arrays.get(0)[2]);
-			tb.setHistoryAbblName(arrays.get(0)[3]);
-			tb.setLocation(arrays.get(0)[4]);
-			tb.setCompetionArea(arrays.get(0)[5]);
-			tb.setSubArea(arrays.get(0)[6]);
-			tb.setHomeGround(arrays.get(0)[7]);
-			tb.setSetupTime(arrays.get(0)[8]);
-			return tb;
+			ArrayList<TBasicInfoPO> ret = new ArrayList<TBasicInfoPO>();
+			for(String[] a : arrays){
+				TBasicInfoPO tb = new TBasicInfoPO();
+				tb.setFullName(a[0]);
+				tb.setAbbName(a[1]);
+				tb.setHistoryFullName(a[2]);
+				tb.setHistoryAbblName(a[3]);
+				tb.setLocation(a[4]);
+				tb.setCompetionArea(a[5]);
+				tb.setSubArea(a[6]);
+				tb.setHomeGround(a[7]);
+				tb.setSetupTime(a[8]);
+				ret.add(tb);
+			}
+			return ret;
 		}
 	}
 	

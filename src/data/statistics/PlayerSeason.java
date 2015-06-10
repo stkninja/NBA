@@ -1,7 +1,8 @@
-package data.predo;
+package data.statistics;
 
 import java.util.ArrayList;
 
+import data.GetMatchInfo;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
@@ -11,10 +12,13 @@ import po.TBasicInfoPO;
 
 public class PlayerSeason {
 	private ArrayList<MatchPO> matches;
+	private ArrayList<MatchPO> lastFiveMatches;
 	private ArrayList<TBasicInfoPO> teams;
 	
 	public PSeasonDataPO playerSeason(ArrayList<MatchPO> matches,ArrayList<MatchPlayerDataPO> players,ArrayList<TBasicInfoPO> teams,PBasicInfoPO playerinfo) {
 		this.matches = matches;
+		this.swapToTeam1(playerinfo.getName());
+		this.lastFiveMatches = this.getLastFivematchesPlayer(players.get(0).getName());
 		this.teams = teams;
 		
 //			ArrayList<Double> teamlist = getTeamData();
@@ -221,7 +225,7 @@ public class PlayerSeason {
 			
 
 		    double fivepoint = 0,fiverebound = 0,fiveassist = 0;
-			for(MatchPO matchpo : this.getLastFivematchesPlayer(po.getName())){
+			for(MatchPO matchpo : this.lastFiveMatches){
 				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
 					if(playerpo.getName().equals(po.getName())){
 						fivepoint += playerpo.getPoint();
@@ -288,6 +292,14 @@ public class PlayerSeason {
 			return po;
 	}
 	
+	private void swapToTeam1(String name) {
+		for(int i = 0; i < matches.size(); i++){
+			if(matches.get(i).getTeam2().existPlayer(name)){
+				matches.get(i).swapTeam();
+			}
+		}
+	}
+
 	public double getDouble(double d){
 		return new  java.math.BigDecimal(Double.toString(d)).setScale(1,java.math.BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
@@ -350,27 +362,9 @@ public class PlayerSeason {
 		return gameStart;
 	}
 	
-	
-/*	public PBasicInfoPO getSinglePlayerBasicInfo(String name) {
-		for(PBasicInfoPO po : players)
-			if(po.getName().equals(name))
-				return po;
-		return new PBasicInfoPO();
-	}*/
-	
 	/**获得球员的最近的球队*/
 	private String getTeam() {
-		if(matches.size() != 0){
-			/**找到最近的比赛*/
-			MatchPO lastMatchPO = matches.get(0);
-			for(int i = 1; i < matches.size(); i++)
-				if((matches.get(i).getSeason() + matches.get(i).getDate()).compareTo
-						(lastMatchPO.getSeason() + lastMatchPO.getDate()) > 0)
-					 lastMatchPO = matches.get(i);
-			
-			return lastMatchPO.getTeam1().getAbbName();
-		}
-		return "";
+		return this.lastFiveMatches.get(0).getTeam1().getAbbName();
 	}
 	
 	/**获得分区*/
@@ -384,38 +378,6 @@ public class PlayerSeason {
 	
 	/**球员最近五场比赛*/
 	private ArrayList<MatchPO> getLastFivematchesPlayer(String name) {
-		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
-		
-		if(matches.size() <= 5)
-			return matches;
-		
-		//找到最近五场
-		int lastedIndex = 0;
-		if(matches.get(lastedIndex).getDate().compareTo("06-01") > 0){
-			for(int i = 0; i < 5; i++)
-				res.add(matches.get(matches.size() - 1 - i));
-		}
-		else{
-			for(; lastedIndex < matches.size(); lastedIndex++){	
-				if(matches.get(lastedIndex).getDate().compareTo("06-01") > 0)
-					break;
-			}
-			lastedIndex--;
-			
-			if(lastedIndex >= 4){
-				for(int i = 0; i < 5; i++){
-					res.add(matches.get(lastedIndex - i));
-				}				
-			}
-			else{
-				for(int i = 0; i <= lastedIndex; i++)
-					res.add(matches.get(i));
-				for(int i = 0; i < 5 - res.size(); i++){
-					res.add(matches.get(matches.size() - 1 - i));
-				}
-			}
-		}
-		
-		return res;
+		return new GetMatchInfo().getLastFiveMatchesAboutPlayer(name);
 	}
 }

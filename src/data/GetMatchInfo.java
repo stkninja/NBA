@@ -27,20 +27,27 @@ public class GetMatchInfo implements MatchService{
 	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
 			String season) {
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
-			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '%" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
+			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
-			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '%" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
+			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
 		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
-				+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "') ORDER BY year DESC, date DESC LIMIT 0, 5");
+				+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "') ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
-				+ "(SELECT DISTINCT mid FROM t_match WHERE mid IN "
-			+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "')"
-				+ " ORDER BY year DESC, date DESC LIMIT 0, 5)");
-		return RSToMatchPO.toMatchPO(rs_1, rs_2);
+				+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "') ORDER BY mid DESC");
+		ArrayList<MatchPO> res =  RSToMatchPO.toMatchPO(rs_1, rs_2);
+		ArrayList<MatchPO> ret = new ArrayList<MatchPO>();
+		
+		for(int i = 0; i < res.size(); i++){
+			ret.add(res.get(i));
+			
+			if(i >= 5)
+				break;
+		}
+		return ret;
 	}
 
 	public ArrayList<MatchPO> getAllMatchesAboutTeam(String abbName,
@@ -54,13 +61,19 @@ public class GetMatchInfo implements MatchService{
 	}
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutTeam(String abbName) {
-		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
-				+ "(SELECT DISTINCT mid FROM t_match_player WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "') ORDER BY year DESC, date DESC LIMIT 0, 5");
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "' ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
-				+ "(SELECT DISTINCT mid FROM t_match WHERE mid IN "
-			+ "(SELECT DISTINCT mid FROM t_match_player WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "')"
-				+ " ORDER BY year DESC, date DESC LIMIT 0, 5)");
-		return RSToMatchPO.toMatchPO(rs_1, rs_2);
+				+ "(SELECT DISTINCT mid FROM t_match WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "') ORDER BY mid DESC");
+		ArrayList<MatchPO> res =  RSToMatchPO.toMatchPO(rs_1, rs_2);
+		ArrayList<MatchPO> ret = new ArrayList<MatchPO>();
+		
+		for(int i = 0; i < res.size(); i++){
+			ret.add(res.get(i));
+			
+			if(i >= 5)
+				break;
+		}
+		return ret;
 	}
 	
 	//×î½üÈü¼¾

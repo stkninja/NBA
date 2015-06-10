@@ -49,4 +49,11 @@ public class MatchPO{
 	public void setIsPlayOffs(String isPlayOffs) {
 		this.isPlayOffs = isPlayOffs;
 	}
+	
+	//½»»»Çò¶Ó
+	public void swapTeam(){
+		MatchTeamDataPO mtd = this.team1;
+		this.team1 = this.team2;
+		this.team2 = mtd;
+	}
 }
