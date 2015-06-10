@@ -60,32 +60,33 @@ public class PlayerSeason {
 				allopponentturnover += opponentpo.getTurnovers();
 				allteampoint += teampo.getScores();
 				allopponentpoint += opponentpo.getScores();
-		    	
-		    	for(MatchPlayerDataPO playerpo : players){
-		    			po.setAllrebound(po.getAllrebound() + playerpo.getRebound());
-						po.setAlloffensiverebound(po.getAlloffensiverebound() + playerpo.getOffensiveRebounds());
-						po.setAlldefensiverebound(po.getAlldefensiverebound() + playerpo.getDefensiveRebounds());
-						po.setAllassist(po.getAllassist() + playerpo.getAssist());
-						po.setAllminute(po.getAllminute() + playerpo.getMinute());
-						po.setAlloffense(po.getAlloffense() + playerpo.getOffense());
-						po.setAlldefence(po.getAlldefence() + playerpo.getDefence());
-						po.setAllsteal(po.getAllsteal() + playerpo.getSteal());
-						po.setAllblock(po.getAllblock() + playerpo.getBlock());
-						po.setAllerror(po.getAllerror() + playerpo.getError());
-						po.setAllfoul(po.getAllfoul() + playerpo.getFoul());
-						po.setAllpoint(po.getAllpoint() + playerpo.getPoint());
-						po.setAllshoot(po.getAllshoot() + playerpo.getShoot());
-						po.setAllshootmade(po.getAllshootmade() + playerpo.getShootmade());
-						po.setAllthreepoint(po.getAllthreepoint() + playerpo.getThreepoint());
-						po.setAllthreepointmade(po.getAllthreepointmade() + playerpo.getThreepointmade());
-						po.setAllfreethrow(po.getAllfreethrow() + playerpo.getFreethrow());
-						po.setAllfreethrowmade(po.getAllfreethrowmade() + playerpo.getFreethrowmade());
-						po.setDoubledouble(po.getDoubledouble() + playerpo.getDoubledouble());
-						efficiencysum += (playerpo.getPoint() + playerpo.getRebound() + playerpo.getAssist() + playerpo.getSteal() + playerpo.getBlock()) - (playerpo.getShoot() - playerpo.getShootmade()) - (playerpo.getFreethrow() - playerpo.getFreethrowmade()) - playerpo.getError();
-						gmscsum += (playerpo.getPoint() + 0.4 * playerpo.getShootmade() - 0.7 * playerpo.getShoot() - 0.4 * (playerpo.getFreethrow() - playerpo.getFreethrowmade()) + 0.7 * playerpo.getOffensiveRebounds() + 0.3 * playerpo.getDefensiveRebounds() + playerpo.getSteal() + 0.7 * playerpo.getAssist() + 0.7 * playerpo.getBlock() - 0.4 * playerpo.getFoul() - playerpo.getError());
-		    		
-		    	}
 		    }
+		    
+		    for(MatchPlayerDataPO playerpo : players){
+    			po.setAllrebound(po.getAllrebound() + playerpo.getRebound());
+				po.setAlloffensiverebound(po.getAlloffensiverebound() + playerpo.getOffensiveRebounds());
+				po.setAlldefensiverebound(po.getAlldefensiverebound() + playerpo.getDefensiveRebounds());
+				po.setAllassist(po.getAllassist() + playerpo.getAssist());
+				po.setAllminute(po.getAllminute() + playerpo.getMinute());
+				po.setAlloffense(po.getAlloffense() + playerpo.getOffense());
+				po.setAlldefence(po.getAlldefence() + playerpo.getDefence());
+				po.setAllsteal(po.getAllsteal() + playerpo.getSteal());
+				po.setAllblock(po.getAllblock() + playerpo.getBlock());
+				po.setAllerror(po.getAllerror() + playerpo.getError());
+				po.setAllfoul(po.getAllfoul() + playerpo.getFoul());
+				po.setAllpoint(po.getAllpoint() + playerpo.getPoint());
+				po.setAllshoot(po.getAllshoot() + playerpo.getShoot());
+				po.setAllshootmade(po.getAllshootmade() + playerpo.getShootmade());
+				po.setAllthreepoint(po.getAllthreepoint() + playerpo.getThreepoint());
+				po.setAllthreepointmade(po.getAllthreepointmade() + playerpo.getThreepointmade());
+				po.setAllfreethrow(po.getAllfreethrow() + playerpo.getFreethrow());
+				po.setAllfreethrowmade(po.getAllfreethrowmade() + playerpo.getFreethrowmade());
+				po.setDoubledouble(po.getDoubledouble() + playerpo.getDoubledouble());
+				efficiencysum += (playerpo.getPoint() + playerpo.getRebound() + playerpo.getAssist() + playerpo.getSteal() + playerpo.getBlock()) - (playerpo.getShoot() - playerpo.getShootmade()) - (playerpo.getFreethrow() - playerpo.getFreethrowmade()) - playerpo.getError();
+				gmscsum += (playerpo.getPoint() + 0.4 * playerpo.getShootmade() - 0.7 * playerpo.getShoot() - 0.4 * (playerpo.getFreethrow() - playerpo.getFreethrowmade()) + 0.7 * playerpo.getOffensiveRebounds() + 0.3 * playerpo.getDefensiveRebounds() + playerpo.getSteal() + 0.7 * playerpo.getAssist() + 0.7 * playerpo.getBlock() - 0.4 * playerpo.getFoul() - playerpo.getError());
+    		
+    	    }
+		    
 		    po.setAlloffensiverebound(getDouble(po.getAlloffensiverebound()));
 		    po.setAlldefensiverebound(getDouble(po.getAlldefensiverebound()));
 		    po.setAllrebound(getDouble(po.getAllrebound()));

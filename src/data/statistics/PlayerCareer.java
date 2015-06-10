@@ -29,9 +29,27 @@ public class PlayerCareer {
 			po.setAllfoul(po.getAllfoul() + playerpo.getFoul());
 			po.setAllpoint(po.getAllpoint() + playerpo.getPoint());
 		}
-		po.setAllfieldgoalpercent(getDouble(po.getAllshootmade() / po.getAllshoot()));
-		po.setAllthreepointpercent(getDouble(po.getAllthreepointmade() / po.getAllthreepoint()));
-		po.setAllfreethrowpercent(getDouble(po.getAllfreethrowmade() / po.getAllfreethrow()));
+		
+		if(po.getAllshoot() == 0){
+			po.setAllfieldgoalpercent(0);
+		}
+		else{
+			po.setAllfieldgoalpercent(getDouble(po.getAllshootmade() / po.getAllshoot()));
+		}
+		
+		if(po.getAllthreepoint() == 0){
+			po.setAllthreepointpercent(0);
+		}
+		else{
+			po.setAllthreepointpercent(getDouble(po.getAllthreepointmade() / po.getAllthreepoint()));
+		}
+		
+		if(po.getAllfreethrow() == 0){
+			po.setAllfreethrowpercent(0);
+		}
+		else{
+			po.setAllfreethrowpercent(getDouble(po.getAllfreethrowmade() / po.getAllfreethrow()));
+		}
 		po.setAlloffensiverebound(getDouble(po.getAlloffensiverebound()));
 		po.setAlldefensiverebound(getDouble(po.getAlldefensiverebound()));
 		po.setAllrebound(getDouble(po.getAlloffensiverebound() + po.getAlldefensiverebound()));
