@@ -35,6 +35,7 @@ public class GetTeamInfo implements TeamService{
 	
 	public static void main(String[] args) {
 		PlayerService ps = new GetPlayerInfo();
-		PSeasonDataPO psd = ps.getOnePSeasonDataPO("Stephen Curry", "13-14");
+		ArrayList<PSeasonDataPO> lists = ps.getAllPSeasonData("ALL");
+		System.out.println(lists.size());
 	}
 }

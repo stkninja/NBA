@@ -44,6 +44,9 @@ public class GetPlayerInfo implements PlayerService{
 		if(season.equals("ALL")){
 			ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE name = '" + name + "'");
 			ArrayList<MatchPlayerDataPO> players = RSToMatchPO.toMatchPlayerDataPO(RSToBasicPO.to2DStringArray(rs));
+			
+			if(players == null)
+				return null;
 			return new PlayerCareer().getPlayerCareerData(players);
 		}
 		
@@ -52,10 +55,29 @@ public class GetPlayerInfo implements PlayerService{
 		ArrayList<MatchPlayerDataPO> players = RSToMatchPO.toMatchPlayerDataPO(RSToBasicPO.to2DStringArray(rs));
 		ArrayList<TBasicInfoPO> teams = ts.getAllTBasicInfo();
 		PBasicInfoPO playerinfo = ps.getSinglePBasicInfo(name);
+		if(matches == null)
+			return null;
 		return new PlayerSeason().playerSeason(matches, players, teams, playerinfo);
 	}
 
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season) {
-		return null;			
+//		ResultSet rs;
+//		if(season.equals("ALL"))
+//			rs = DataBaseOpe.querySQL("SELECT DISTINCT name FROM t_match_player");
+//		else
+//			rs = DataBaseOpe.querySQL("SELECT DISTINCT name FROM t_match_player WHERE mid LIKE '" + season + "'%");
+//
+//		ArrayList<String> names = new ArrayList<String>();
+//		ArrayList<String[]> tab = RSToBasicPO.to2DStringArray(rs);
+//		for(int i = 0; i < tab.size(); i++)
+//			names.add(tab.get(i)[0]);	
+//		
+//		//¼ÆËã
+//		ArrayList<PSeasonDataPO> psds = new ArrayList<PSeasonDataPO>();
+//		for(String name : names){
+//			psds.add(this.getOnePSeasonDataPO(name, season));
+//		}
+//		return psds;
+		return null;
 	}
 }

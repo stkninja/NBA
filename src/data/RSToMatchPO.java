@@ -72,12 +72,16 @@ public class RSToMatchPO {
 		return mtd;
 	}
 	
-	public static ArrayList<MatchPlayerDataPO> toMatchPlayerDataPO(ArrayList<String[]> teamplayers){		
+	public static ArrayList<MatchPlayerDataPO> toMatchPlayerDataPO(ArrayList<String[]> teamplayers){
+		if(teamplayers == null)
+			return null;		
+		
 		ArrayList<MatchPlayerDataPO> players = new ArrayList<MatchPlayerDataPO>();
 		for(String[] array : teamplayers){
 			MatchPlayerDataPO mpd = new MatchPlayerDataPO();
 			mpd.setName(array[1].replace('#', '\''));
-			mpd.setMinute(Double.parseDouble(array[4].split(":")[0]) + Double.parseDouble(array[4].split(":")[1]) / 60);
+			if(!array[4].equals(""))
+				mpd.setMinute(Double.parseDouble(array[4].split(":")[0]) + Double.parseDouble(array[4].split(":")[1]) / 60);
 			mpd.setOffensiveRebounds(Double.parseDouble(array[11]));
 			mpd.setDefensiveRebounds(Double.parseDouble(array[12]));
 			mpd.setAssist(Double.parseDouble(array[13]));
