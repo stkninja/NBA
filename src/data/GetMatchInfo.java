@@ -1,229 +1,107 @@
 package data;
 
-import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import po.MatchPO;
-import data.predo.PreRead;
+import dataBase.dataBaseOpe.DataBaseOpe;
 import dataservice.MatchService;
 
 public class GetMatchInfo implements MatchService{
 	
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season) {
-		ArrayList<MatchPO> matches = PreRead.matches;
-		
-		int index = 0;
-		for(; index < matches.size(); index++){
-			if(matches.get(index).getDate().compareTo("06-01") > 0)
-				break;
-		}
-		index--;
-
-		if(index == -1){
-			//不存在第二年的比赛
-			for(int i = 0, j = matches.size() - 1; j - i > 1; i++, j--){
-				MatchPO temp = matches.get(i);
-				matches.set(i, matches.get(j));
-				matches.set(j, temp);
-			}
-		}
-		else{
-			for(int i = 0, j = index; j - i > 1; i++, j--){
-				MatchPO temp = matches.get(i);
-				matches.set(i, matches.get(j));
-				matches.set(j, temp);
-			}
-
-			for(int i = index + 1, j = matches.size() - 1; j - i > 1; i++, j--){
-				MatchPO temp = matches.get(i);
-				matches.set(i, matches.get(j));
-				matches.set(j, temp);
-			}
-		}
-		
-		return matches;
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE season = '" + season + "' ORDER BY mid DESC");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid LIKE '" + season + "%' ORDER BY mid DESC");
+		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getTodayAllMatches() {
-		String season = new String();
-		season = this.getLastSeason();
-		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		
-		if(season.equals(""))
-			return res;
-		else{
-			ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
-			
-			String date = new String();
-			date = this.getLastData(pos);
-			
-			for(MatchPO po : pos)
-				if(po.getDate().equals(date))
-					res.add(po);
-		}
-		return res;
+		String lastDate = getLastDate();
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE date = '" + lastDate + "'");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid in"
+				+ " (SELECT DISTINCT mid FROM t_match WHERE date = '" + lastDate + "')");
+		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
 			String season) {
-		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
-		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		for(MatchPO po : pos){
-			if(po.getTeam1().existPlayer(name) || po.getTeam2().existPlayer(name))
-				res.add(po);
-		}
-		
-		return res;
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
+			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
+			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
+		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
-		String season = this.getLastSeason();
-		ArrayList<MatchPO> pos = this.getAllMatchesAboutPlayer(name, season);
-		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
+				+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "') ORDER BY year DESC, date DESC");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
+				+ "(SELECT DISTINCT mid FROM t_match_player WHERE name = '" + name + "') ORDER BY mid DESC");
+		ArrayList<MatchPO> res =  RSToMatchPO.toMatchPO(rs_1, rs_2);
+		ArrayList<MatchPO> ret = new ArrayList<MatchPO>();
 		
-		if(pos.size() <= 5)
-			return pos;
-		
-		//找到最近五场
-		int lastedIndex = 0;
-		if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0){
-			for(int i = 0; i < 5; i++)
-				res.add(pos.get(pos.size() - 1 - i));
-		}
-		else{
-			for(; lastedIndex < pos.size(); lastedIndex++){	
-				if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0)
-					break;
-			}
-			lastedIndex--;
+		for(int i = 0; i < res.size(); i++){
+			ret.add(res.get(i));
 			
-			if(lastedIndex >= 4){
-				for(int i = 0; i < 5; i++){
-					res.add(pos.get(lastedIndex - i));
-				}				
-			}
-			else{
-				for(int i = 0; i <= lastedIndex; i++)
-					res.add(pos.get(i));
-				for(int i = 0; i < 5 - res.size(); i++){
-					res.add(pos.get(pos.size() - 1 - i));
-				}
-			}
+			if(i >= 5)
+				break;
 		}
-		
-		return res;
+		return ret;
 	}
 
 	public ArrayList<MatchPO> getAllMatchesAboutTeam(String abbName,
 			String season) {
-		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
-			abbName = "NOH";
 		
-		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
-		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-		for(MatchPO po : pos){
-			if(po.getTeam1().getAbbName().equals(abbName) || po.getTeam2().getAbbName().equals(abbName))
-				res.add(po);
-		}
-		
-		return res;
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE season = '" + season
+				+ "' AND (vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "') ORDER BY mid DESC");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
+				+ "(SELECT DISTINCT mid FROM t_match WHERE season = '" + season + "' AND (vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "')) ORDER BY mid DESC");
+		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutTeam(String abbName) {
-		String season = this.getLastSeason();
-		if(abbName.equals("NOP") && season.compareTo("12-13") <= 0)
-			abbName = "NOH";
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "' ORDER BY year DESC, date DESC");
+		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
+				+ "(SELECT DISTINCT mid FROM t_match WHERE vtAbbName = '" + abbName + "' OR htAbbName = '" + abbName + "') ORDER BY mid DESC");
+		ArrayList<MatchPO> res =  RSToMatchPO.toMatchPO(rs_1, rs_2);
+		ArrayList<MatchPO> ret = new ArrayList<MatchPO>();
 		
-		ArrayList<MatchPO> pos = this.getAllMatchesAboutTeam(abbName, season);
-		ArrayList<MatchPO> res =new ArrayList<MatchPO>();
-		
-		if(pos.size() <= 5)
-			return pos;
-		
-		//找到最近五场
-		int lastedIndex = 0;
-		if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0){
-			for(int i = 0; i < 5; i++)
-				res.add(pos.get(pos.size() - 1 - i));
-		}
-		else{
-			for(; lastedIndex < pos.size(); lastedIndex++){	
-				if(pos.get(lastedIndex).getDate().compareTo("06-01") > 0)
-					break;
-			}
-			lastedIndex--;
+		for(int i = 0; i < res.size(); i++){
+			ret.add(res.get(i));
 			
-			if(lastedIndex >= 4){
-				for(int i = 0; i < 5; i++){
-					res.add(pos.get(lastedIndex - i));
-				}				
-			}
-			else{
-				for(int i = 0; i <= lastedIndex; i++)
-					res.add(pos.get(i));
-				for(int i = 0; i < 5 - res.size(); i++){
-					res.add(pos.get(pos.size() - 1 - i));
-				}
-			}
+			if(i >= 5)
+				break;
 		}
-		
-		return res;
+		return ret;
 	}
-
-//	public ArrayList<MatchPO> getMatchesAboutTwoTeams(String abbName1,
-//			String abbName2, String season) {
-//		ArrayList<MatchPO> pos = this.getAllMatchesAtSeason(season);
-//		ArrayList<MatchPO> res = new ArrayList<MatchPO>();
-//		
-//		for(MatchPO po : pos)
-//			if((po.getTeam1().getAbbName().equals(abbName1) && po.getTeam2().getAbbName().equals(abbName2)) ||
-//					(po.getTeam1().getAbbName().equals(abbName2) && po.getTeam2().getAbbName().equals(abbName1)))
-//				res.add(po);
-//		return res;
-//	}
 	
 	//最近赛季
 	public String getLastSeason(){
-		File f = new File("data\\matches");
-		if(f.exists()){
-			String[] seasons = f.list();
-			return seasons[seasons.length - 1].split("_")[0];
-		}
-		else
-			return "";
+		//降序排列#所以第一项为最近比赛赛季
+		return getExistedSeasons().get(0);
 	}
 	
 	//获得数据库中已存在的赛季列表
 	public ArrayList<String> getExistedSeasons() {
-		File f = new File("data\\matches");
-		String[] fileNames = f.list();
+		ResultSet rs = DataBaseOpe.querySQL("SELECT DISTINCT season FROM t_match ORDER BY season DESC");
 		
 		ArrayList<String> seasons = new ArrayList<String>();
-		seasons.add(fileNames[0].split("_")[0]);
-		for(int i = 1; i < fileNames.length; i++){
-			for(int j = 0; j < seasons.size(); j++){
-				if(seasons.get(j).equals(fileNames[i].split("_")[0]))
-					break;
-				else if(j == seasons.size() - 1)
-					seasons.add(fileNames[i].split("_")[0]);
-			}
+		for(String[] temp : RSToBasicPO.to2DStringArray(rs)){
+			seasons.add(temp[0]);
 		}
 		return seasons;
 	}
 	
-	//最近比赛日期
-	public String getLastData(ArrayList<MatchPO> matches){
-		String date = new String();
-		
-		date = matches.get(0).getDate();
-		for(int i = 1; i < matches.size(); i++){
-			if((date.compareTo("06-01") < 0 && matches.get(i).getDate().compareTo("06-01") < 0 && date.compareTo(matches.get(i).getDate()) < 0) ||
-			   (date.compareTo("06-01") > 0 && matches.get(i).getDate().compareTo("06-01") < 0) ||
-			   (date.compareTo("06-01") > 0 && matches.get(i).getDate().compareTo("06-01") > 0 && date.compareTo(matches.get(i).getDate()) < 0))
-				date = matches.get(i).getDate();
+	//获得最近日期
+	public String getLastDate(){
+		try {
+			ResultSet rs = DataBaseOpe.querySQL("SELECT date FROM t_match ORDER BY year DESC, date DESC");
+			if(rs.next())
+				return rs.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return date;
+		return null;
 	}
-	
-	public static void main(String[] args) {}
 }

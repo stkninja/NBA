@@ -37,7 +37,7 @@ import ui.player.Player;
 import ui.player.PlayerPane;
 import ui.team.Team;
 import ui.team.TeamPane;
-import data.predo.PreRead;
+import data.statistics.PreRead;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
 

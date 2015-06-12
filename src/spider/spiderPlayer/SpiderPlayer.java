@@ -17,10 +17,4 @@ public class SpiderPlayer {
 		ArrayList<PlayerBasicStruct> lists = SetPlayerBasicStruct.setPlayerBasicStruct(eachLine);
 		return lists;
 	}
-	
-	public static void main(String[] args) {
-		ArrayList<PlayerBasicStruct> lists = spiderPlayer('z');
-		System.out.println(lists.get(15).toString());
-		System.out.println(lists.size());
-	}
 }

@@ -3,7 +3,6 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.PBasicInfoPO;
@@ -13,7 +12,6 @@ import vo.PlayerBasicInfoVO;
 import vo.PlayerVO;
 import data.GetMatchInfo;
 import data.GetPlayerInfo;
-import data.predo.PreRead;
 import dataservice.MatchService;
 import dataservice.PlayerService;
 
@@ -1124,10 +1122,4 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return matchdata.getLastSeason();
 	}
 	
-	public static void main(String[] args){
-		new PreRead();
-		PlayerBL bl = new PlayerBL();
-//		System.out.println(bl.getOnePlayer("Aaron Brooks").age);
-		System.out.println(bl.playerdata.getOnePSeasonDataPO("LeBron James", "13-14").getMinute());
-	}
 }

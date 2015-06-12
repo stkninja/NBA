@@ -20,9 +20,9 @@ public class HtmlParser {
         	//连接设置
             con = (HttpURLConnection) url.openConnection();  
             con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");// IE代理进行下载  
-            con.setConnectTimeout(60000);  
-            con.setReadTimeout(60000); 
-            
+            con.setConnectTimeout(100000);  
+            con.setReadTimeout(100000); 
+
             // 获得网页返回信息码  
             responseCode = con.getResponseCode();  
             if (responseCode == -1) {  
@@ -74,6 +74,6 @@ public class HtmlParser {
     
     //测试用main函数
     public static void main(String argsp[]){  
-        System.out.println(getHtmlContent("www.basketball-reference.com/boxscores/201410280LAL.html","utf-8")) ; 
+        System.out.println(getHtmlContent("www.1986.com","utf-8")) ; 
     }  
 }

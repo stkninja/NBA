@@ -1,4 +1,4 @@
-package data.predo;
+package data.statistics;
 
 import java.util.ArrayList;
 
@@ -10,16 +10,13 @@ import po.TSeasonDataPO;
 public class TeamSeason {
 
 	private static ArrayList<MatchPO> matches;
-	private static ArrayList<TBasicInfoPO> teams;
 	
 	@SuppressWarnings("static-access")
-	public TSeasonDataPO teamSeason(ArrayList<MatchPO> matches, ArrayList<TBasicInfoPO> teams,String abbName) {
+	public TSeasonDataPO teamSeason(ArrayList<MatchPO> matches, TBasicInfoPO teambasic, String abbName) {
 		this.matches = matches;
-		this.teams = teams;
+		swapToTeam1(abbName);
 		
 			TSeasonDataPO po = new TSeasonDataPO();
-			TBasicInfoPO teambasic = new TBasicInfoPO();
-			teambasic = getSingleTeamBasicInfo(abbName);
 			po.setFullName(teambasic.getFullName());
 			po.setAbbName(abbName);
 			po.setSubArea(teambasic.getSubArea());
@@ -185,39 +182,12 @@ public class TeamSeason {
 	 * 有关team的所有season比赛
 	 * 该球队在team1
 	 */
-	private void getMatchesAboutTeam(String name) {
-		for(MatchPO matchPO : matches){
-			if(matchPO.getTeam1().getAbbName().equals(name) || matchPO.getTeam2().getAbbName().equals(name)){
-				/**交换该球队 至team1*/
-				if(matchPO.getTeam2().getAbbName().equals(name))
-					matchPO.swapTeam();	
+	private void swapToTeam1(String abbName) {
+		for(int i = 0; i < matches.size(); i++){
+			if(matches.get(i).getTeam2().getAbbName().equals(abbName)){
+				matches.get(i).swapTeam();
 			}
 		}
-	}
-	
-	/**
-	 * 获得球队所有abbName
-	 */
-	private ArrayList<String> getAllTeamsAbbName(String season) {
-		ArrayList<String> names = new ArrayList<String>();
-		for(TBasicInfoPO po : teams){
-			if(po.getAbbName().equals("NOP") && season.compareTo("12-13") <= 0)
-				po.setAbbName("NOH");
-			names.add(po.getAbbName());
-		}
-		
-		return names;
-	}
-	
-	/**
-	 * 获得球队基本信息
-	 */
-	private TBasicInfoPO getSingleTeamBasicInfo(String abbName) {
-		for(TBasicInfoPO basicInfoPO : teams)
-			if(basicInfoPO.getAbbName().equals(abbName))
-				return basicInfoPO;
-		
-		return new TBasicInfoPO();
 	}
 	
 	/**
@@ -228,7 +198,7 @@ public class TeamSeason {
 		 * team1为该球队
 		 * */
 		double winNum = 0.0;
-		for(MatchPO po : matchesAbout)
+		for(MatchPO po : matches)
 			if(po.getTeam1().getScores() > po.getTeam2().getScores())
 				winNum++;
 		

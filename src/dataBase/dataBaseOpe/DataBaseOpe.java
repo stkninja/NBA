@@ -3,7 +3,6 @@ package dataBase.dataBaseOpe;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DataBaseOpe {
@@ -67,19 +66,5 @@ public class DataBaseOpe {
 		}
 		
 		return rs;
-	}
-	
-	public static void main(String[] args) throws SQLException {
-		ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_team");
-		while(rs.next())  
-		{  
-			for(int i = 0; i < rs.getMetaData().getColumnCount(); ++i)  
-				System.out.println(rs.getString(i+1));  
-			System.out.println();  
-		} 	
-		
-		rs = DataBaseOpe.querySQL("SELECT * FROM t_player");
-		rs.next();//第一行
-		System.out.println(rs.getString(1));//第一列 无第零列！
 	}
 }
