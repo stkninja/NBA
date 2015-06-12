@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -31,6 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.News.NewsList;
 import ui.hotspot.Hotspot;
 import ui.match.MatchPane;
 import ui.player.Player;
@@ -76,19 +76,7 @@ public class MainFrame extends JFrame {
 		//初始化
 		this.initTitle();
 		//内容panel
-		switch (Math.abs(new Random().nextInt()) % 10) {
-		case 0: pane = new Team(this, "East"); break;
-		case 1: pane = new Team(this, "West"); break;
-		case 2: pane = new Player(this); break;
-		case 3: pane = new MatchPane(this); break;
-		case 4: pane = new Hotspot(this, new String[]{"TodayTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断"}); break;
-		case 5: pane = new Hotspot(this, new String[]{"SeasonTopPlayer", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"}); break;
-		case 6: pane = new Hotspot(this, new String[]{"SeasonTopTeam", "得分", "篮板", "助攻", "盖帽", "抢断", "三分命中率", "投篮命中率", "罚球命中率"}); break;
-		case 7: pane = new Hotspot(this, new String[]{"PromotionPlayer", "场均得分", "场均篮板", "场均助攻"}); break;
-		case 8: pane = new TeamPane(this); break;
-		case 9: pane = new PlayerPane(this); break;
-		default: pane = new JPanel(); pane.setOpaque(false);
-		}
+		pane = new NewsList(this);
 		contentPane.add(pane, BorderLayout.CENTER);
 		this.setDragable();
 		this.setUndecorated(true);
@@ -155,18 +143,30 @@ public class MainFrame extends JFrame {
 		JButton button3 = new JButton("比赛");
 		JButton button4 = new JButton("热点");
 		JButton button5 = new JButton("统计");
+		JButton button6 = new JButton("新闻");
 		this.setMenu(button1);
 		this.setMenu(button2);
 		this.setMenu(button3);
 		this.setMenu(button4);
 		this.setMenu(button5);
+		this.setMenu(button6);
 		
+		menu.add(button6);
 		menu.add(button1);
 		menu.add(button2);
 		menu.add(button3);
 		menu.add(button4);
 		menu.add(button5);
 		father.add(menu);
+		
+		button6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new NewsList(MainFrame.this);
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
 		
 		JPopupMenu popMenuA = new JPopupMenu();
 		JMenuItem menuItemA1 = new JMenuItem("东部联盟");
