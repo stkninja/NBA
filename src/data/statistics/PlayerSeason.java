@@ -2,7 +2,6 @@ package data.statistics;
 
 import java.util.ArrayList;
 
-import data.GetMatchInfo;
 import po.MatchPO;
 import po.MatchPlayerDataPO;
 import po.MatchTeamDataPO;
@@ -18,13 +17,14 @@ public class PlayerSeason {
 	public PSeasonDataPO playerSeason(ArrayList<MatchPO> matches,ArrayList<MatchPlayerDataPO> players,ArrayList<TBasicInfoPO> teams,PBasicInfoPO playerinfo) {
 		this.matches = matches;
 		this.swapToTeam1(playerinfo.getName());
-		this.lastFiveMatches = this.getLastFivematchesPlayer(players.get(0).getName());
+		this.lastFiveMatches = this.getLastFivematchesPlayer(matches);
+		
 		this.teams = teams;
 		
 //			ArrayList<Double> teamlist = getTeamData();
 			PSeasonDataPO po = new PSeasonDataPO();
 		    po.setSeason(matches.get(0).getSeason());
-		    po.setName(players.get(0).getName());
+		    po.setName(players.get(0).getName().replace('#', '\''));
 		    po.setTeam(getTeam());
 		    po.setPosition(playerinfo.getPosition());
 		    po.setSubArea(getSubArea(po.getTeam()));
@@ -226,22 +226,22 @@ public class PlayerSeason {
 			
 
 		    double fivepoint = 0,fiverebound = 0,fiveassist = 0;
-			for(MatchPO matchpo : this.lastFiveMatches){
-				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
-					if(playerpo.getName().equals(po.getName())){
-						fivepoint += playerpo.getPoint();
-						fiverebound += playerpo.getRebound();
-						fiveassist += playerpo.getAssist();
-					}
-				}
-				for(MatchPlayerDataPO playerpo : matchpo.getTeam2().getTeamPlayers()){
-					if(playerpo.getName().equals(po.getName())){
-						fivepoint += playerpo.getPoint();
-						fiverebound += playerpo.getRebound();
-						fiveassist += playerpo.getAssist();
-					}
-				}
-			}
+//			for(MatchPO matchpo : this.lastFiveMatches){
+//				for(MatchPlayerDataPO playerpo : matchpo.getTeam1().getTeamPlayers()){
+//					if(playerpo.getName().equals(po.getName())){
+//						fivepoint += playerpo.getPoint();
+//						fiverebound += playerpo.getRebound();
+//						fiveassist += playerpo.getAssist();
+//					}
+//				}
+//				for(MatchPlayerDataPO playerpo : matchpo.getTeam2().getTeamPlayers()){
+//					if(playerpo.getName().equals(po.getName())){
+//						fivepoint += playerpo.getPoint();
+//						fiverebound += playerpo.getRebound();
+//						fiveassist += playerpo.getAssist();
+//					}
+//				}
+//			}
 			
 			if(po.getGameplay() <= 5){
 				po.setPointpromotion(0);
@@ -378,7 +378,14 @@ public class PlayerSeason {
 	}
 	
 	/**球员最近五场比赛*/
-	private ArrayList<MatchPO> getLastFivematchesPlayer(String name) {
-		return new GetMatchInfo().getLastFiveMatchesAboutPlayer(name);
+	private ArrayList<MatchPO> getLastFivematchesPlayer(ArrayList<MatchPO> matches) {
+		ArrayList<MatchPO> ret = new ArrayList<MatchPO>();
+		for(int i = 0; i < matches.size(); i++){
+			ret.add(matches.get(i));
+			
+			if(i >= 5)
+				break;
+		}
+		return ret;
 	}
 }

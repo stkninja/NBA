@@ -15,7 +15,6 @@ public class FillT_PLAYER implements Runnable{
 							's', 't', 'u', 'v', 'w', 'y',
 							'z'};
 		
-		
 		//以char开头的所有球员
 		for(int i = 0; i < firstChar.length; i++){
 			ArrayList<PlayerBasicStruct> lists = SpiderPlayer.spiderPlayer(firstChar[i]);

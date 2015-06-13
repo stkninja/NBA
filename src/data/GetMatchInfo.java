@@ -11,7 +11,7 @@ import dataservice.MatchService;
 public class GetMatchInfo implements MatchService{
 	
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season) {
-		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE season = '" + season + "' ORDER BY mid DESC");
+		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE season = '" + season + "' ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid LIKE '" + season + "%' ORDER BY mid DESC");
 		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
@@ -20,14 +20,14 @@ public class GetMatchInfo implements MatchService{
 		String lastDate = getLastDate();
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE date = '" + lastDate + "'");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid in"
-				+ " (SELECT DISTINCT mid FROM t_match WHERE date = '" + lastDate + "')");
+				+ " (SELECT DISTINCT mid FROM t_match WHERE date = '" + lastDate + "') ORDER BY mid DESC");
 		return RSToMatchPO.toMatchPO(rs_1, rs_2);
 	}
 
 	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
 			String season) {
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match WHERE mid IN "
-			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
+			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player WHERE mid IN "
 			+ "(SELECT DISTINCT mid FROM t_match_player WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY mid DESC");
 		return RSToMatchPO.toMatchPO(rs_1, rs_2);

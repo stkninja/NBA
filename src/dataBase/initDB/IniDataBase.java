@@ -1,5 +1,7 @@
 package dataBase.initDB;
 
+import dataBase.dataBaseOpe.DataBaseOpe;
+
 
 /*======================================================*
  * 创建数据库#初始化数据库数据
@@ -34,6 +36,19 @@ public class IniDataBase {
 	}
 	
 	public static void main(String[] args) {
-		IniDataBase.iniDataBase();
+		
+//		DataBaseOpe.createTab_UpdateSQL("DROP TABLE IF EXISTS t_player");
+//		DataBaseOpe.createTab_UpdateSQL("CREATE TABLE IF NOT EXISTS "
+//				+ "t_player(name VARCHAR(40), fromYear VARCHAR(4), toYear VARCHAR(4), position VARCHAR(3), height VARCHAR(5), weight VARCHAR(5), "
+//				+ "birth VARCHAR(10), college VARCHAR(80))");
+//		new Thread(new FillT_PLAYER()).start();
+		
+		DataBaseOpe.createTab_UpdateSQL("DROP TABLE IF EXISTS t_team");
+		DataBaseOpe.createTab_UpdateSQL("CREATE TABLE IF NOT EXISTS "
+				+ "t_team(tempFullName VARCHAR(40), tempAbbName VARCHAR(3), hisFullName VARCHAR(40), hisAbbName VARCHAR(3), "
+				+ "location VARCHAR(40), competionArea VARCHAR(1), subArea VARCHAR(40), homeGround VARCHAR(40), setupTime VARCHAR(4))");
+		new Thread(new FillT_TEAM()).start();
+
+//		IniDataBase.iniDataBase();
 	}
 }

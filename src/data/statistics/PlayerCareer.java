@@ -9,6 +9,7 @@ public class PlayerCareer {
 	public PSeasonDataPO getPlayerCareerData(ArrayList<MatchPlayerDataPO> players){
 		PSeasonDataPO po = new PSeasonDataPO();
 		po.setGameplay(players.size());
+		po.setName(players.get(0).getName().replace('#', '\''));
 		for(MatchPlayerDataPO playerpo : players){
 			if(playerpo.getGameStart() == 1){
 				po.setGamestart(po.getGamestart() + 1);

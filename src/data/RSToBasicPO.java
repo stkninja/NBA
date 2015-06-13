@@ -45,21 +45,27 @@ public class RSToBasicPO {
 	 * rs仅有一条记录或空记录
 	 * return null 或 对应的player类
 	 *=================================================*/
-	public static PBasicInfoPO toPlayerBasic(ResultSet rs){
+	public static ArrayList<PBasicInfoPO> toPlayerBasic(ResultSet rs){
 		ArrayList<String[]> arrays = to2DStringArray(rs);
+		ArrayList<PBasicInfoPO> pbs = new ArrayList<PBasicInfoPO>();
 		if(arrays == null)
 			return null;
 		else{
-			PBasicInfoPO pb = new PBasicInfoPO();
-			pb.setName(arrays.get(0)[0].replace('#', '\''));
-			pb.setExp(String.valueOf((Integer.parseInt(arrays.get(0)[2]) - Integer.parseInt(arrays.get(0)[1]) + 1)));
-			pb.setPosition(arrays.get(0)[3]);
-			pb.setHeight(arrays.get(0)[4]);
-			pb.setWeight(arrays.get(0)[5]);
-			pb.setBirth(arrays.get(0)[6].substring(0, 4) + "-" + arrays.get(0)[6].substring(4, 6) + "-" + arrays.get(0)[6].substring(6, 8));
-			pb.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt((arrays.get(0)[6].substring(0, 4)))));
-			pb.setSchool(arrays.get(0)[7].replace('#', '\''));
-			return pb;
+			for(String[] array : arrays){
+				PBasicInfoPO pb = new PBasicInfoPO();
+				pb.setName(array[0].replace('#', '\''));
+				pb.setExp(String.valueOf((Integer.parseInt(array[2]) - Integer.parseInt(array[1]) + 1)));
+				pb.setPosition(array[3]);
+				pb.setHeight(array[4]);
+				pb.setWeight(array[5]);
+				if(!array[6].equals("")){
+					pb.setBirth(array[6].substring(0, 4) + "-" + array[6].substring(4, 6) + "-" + array[6].substring(6, 8));
+					pb.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt((array[6].substring(0, 4)))));					
+				}
+				pb.setSchool(array[7].replace('#', '\''));
+				pbs.add(pb);
+			}
+			return pbs;
 		}
 	}
 	

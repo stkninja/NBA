@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class SpiderTeam {
 	static String[][] teamInfo = 
 		   {{"Atlanta Hawks", "ATL", "", "", "Atlanta", "E", "Southeast", "Philips Arena", "1949"},
-			{"Brooklyn Nets", "BKN", "", "", "Brooklyn", "E", "Atlantic", "Barclays Center", "1976"},
+			{"Brooklyn Nets", "BRK", "", "", "Brooklyn", "E", "Atlantic", "Barclays Center", "1976"},
 			{"Boston Celtics", "BOS", "", "", "Boston", "W", "Atlantic", "TD Garden", "1946"},	
 			{"Charlotte Hornets", "CHA", "Charlotte Bobcats", "CHA", "Charlotte", "E", "Southeast", "Time Warner Cable Arena", "1988"},
 			{"Chicago Bulls", "CHI", "", "", "Chicago", "E", "Central", "United Center", "1966"},
@@ -31,7 +31,7 @@ public class SpiderTeam {
 			{"Oklahoma City Thunder", "OKC", "Seattle SuperSonics", "SEA", "Oklahoma City", "W", "Northwest", "Chesapeake Energy Arena", "1967"},
 			{"Orlando Magic", "ORL", "", "", "Orlando", "E", "Southeast", "Amway Center", "1989"},
 			{"Philadelphia 76ers", "PHI", "", "", "Philadelphia", "E", "Atlantic", "Wells Fargo Center", "1949"},
-			{"Phoenix Suns", "PHX", "", "", "Phoenix", "W", "Pacific", "US Airways Center", "1968"},
+			{"Phoenix Suns", "PHO", "", "", "Phoenix", "W", "Pacific", "US Airways Center", "1968"},
 			{"Portland Trail Blazers", "POR", "", "", "Portland", "W", "Northwest", "Moda Center", "1970"},
 			{"Sacramento Kings", "SAC", "", "", "Sacramento", "W", "Pacific", "Sleep Train Arena", "1948"},
 			{"San Antonio Spurs", "SAS", "", "", "San Antonio", "W", "Southwest", "AT&T Center", "1976"},
