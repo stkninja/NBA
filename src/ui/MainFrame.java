@@ -30,14 +30,13 @@ import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import ui.News.NewsList;
 import ui.hotspot.Hotspot;
 import ui.match.MatchPane;
+import ui.news.NewsList;
 import ui.player.Player;
 import ui.player.PlayerPane;
 import ui.team.Team;
 import ui.team.TeamPane;
-import data.statistics.PreRead;
 import event.DataUpdEventSource;
 import event.DataUpdListener;
 
@@ -460,7 +459,7 @@ public class MainFrame extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		new PreRead();
+//		new PreRead();
 		MainFrame mf = new MainFrame();
 		mf.setOpacity(0.9f);
 		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));

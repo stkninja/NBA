@@ -1,4 +1,4 @@
-package ui.News;
+package ui.news;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
