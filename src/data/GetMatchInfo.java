@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import spider.spiderLive.LiveInfo;
+import spider.spiderLive.SpiderLive;
 import dataBase.dataBaseOpe.DataBaseOpe;
 import dataservice.MatchService;
 
@@ -103,5 +105,10 @@ public class GetMatchInfo implements MatchService{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	//Ö±²¥
+	public LiveInfo getLiveInfo() {
+		return SpiderLive.spiderLive();
 	}
 }

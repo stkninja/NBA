@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class LiveInfo {
 	private String homeTeam = new String();
 	private String visitTeam = new String();
+	private String score = new String();
 	//剩余时间#球队#事件#比分（主-客）
 	private String[][] matchRecords = null;
 
@@ -26,6 +27,14 @@ public class LiveInfo {
 	
 	public String[][] getMatchRecords() {
 		return matchRecords;
+	}
+	
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
 	}
 	
 	public void setMatchRecords(String[][] matchRecords) {

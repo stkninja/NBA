@@ -3,6 +3,7 @@ package dataservice;
 import java.util.ArrayList;
 
 import po.MatchPO;
+import spider.spiderLive.LiveInfo;
 
 public interface MatchService {
 	public ArrayList<MatchPO> getAllMatchesAtSeason(String season);
@@ -18,4 +19,6 @@ public interface MatchService {
 	public String getLastSeason();
 	//获得所有赛季
 	public ArrayList<String> getExistedSeasons();
+	//直播接口
+	public LiveInfo getLiveInfo();
 }

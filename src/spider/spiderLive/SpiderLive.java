@@ -24,6 +24,7 @@ public class SpiderLive {
 		//½âÎö
 		String homeTeam = new String();
 		String visitTeam = new String();
+		String score = "0-0";
 		ArrayList<String> matchRecords = new ArrayList<String>();
 		
 		for(int i = 0; i < eachLine.length; i++){
@@ -61,6 +62,7 @@ public class SpiderLive {
 				index_1 = eachLine[i + 5].indexOf(">");
 				index_2 = eachLine[i + 5].indexOf("</td>");
 				temp += eachLine[i + 5].substring(index_1 + 1, index_2);
+				score = eachLine[i + 5].substring(index_1 + 1, index_2);
 				matchRecords.add(temp);
 				i += 5;
 			}
@@ -70,6 +72,7 @@ public class SpiderLive {
 		LiveInfo liveInfo = new LiveInfo();
 		liveInfo.setHomeTeam(homeTeam);
 		liveInfo.setVisitTeam(visitTeam);
+		liveInfo.setScore(score);
 		liveInfo.setMatchRecords(matchRecords);
 		return liveInfo;
 	}
