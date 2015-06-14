@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import ui.hotspot.Hotspot;
+import ui.match.LivePane;
 import ui.match.MatchPane;
 import ui.news.NewsList;
 import ui.player.Player;
@@ -141,12 +142,14 @@ public class MainFrame extends JFrame {
 		JButton button4 = new JButton("热点");
 		JButton button5 = new JButton("统计");
 		JButton button6 = new JButton("新闻");
+		JButton button7 = new JButton("直播");
 		this.setMenu(button1);
 		this.setMenu(button2);
 		this.setMenu(button3);
 		this.setMenu(button4);
 		this.setMenu(button5);
 		this.setMenu(button6);
+		this.setMenu(button7);
 		
 		menu.add(button6);
 		menu.add(button1);
@@ -154,6 +157,7 @@ public class MainFrame extends JFrame {
 		menu.add(button3);
 		menu.add(button4);
 		menu.add(button5);
+		menu.add(button7);
 		father.add(menu);
 		
 		button6.addActionListener(new ActionListener() {
@@ -319,6 +323,15 @@ public class MainFrame extends JFrame {
 				revalidate();
 			}
 		});
+		
+		button7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new LivePane();
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
 	}
 	/**
 	 * 设置菜单项样式
@@ -457,7 +470,6 @@ public class MainFrame extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-//		new PreRead();
 		MainFrame mf = new MainFrame();
 		mf.setOpacity(0.9f);
 		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));

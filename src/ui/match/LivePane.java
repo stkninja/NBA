@@ -39,8 +39,6 @@ import vo.LiveInfoVO;
 
 @SuppressWarnings("serial")
 public class LivePane extends JPanel implements Runnable{
-	boolean isShow = false;
-	Thread t;
 	LiveBLService lbl;
 	JComboBox<String> mode;
 	JPanel panel;
@@ -99,9 +97,12 @@ public class LivePane extends JPanel implements Runnable{
 	Object[][] data;
 	public void init(){
 		lbl = new LiveBL();
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		LiveInfoVO vo = lbl.getLiveInfo();
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
+		panel.setOpaque(false);
 		//标题panel
 		panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -137,23 +138,19 @@ public class LivePane extends JPanel implements Runnable{
 		try {
 			logofile1.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		try {
 			SvgUtil.convertSvgFile2Png(new File("data/teams/GSW.svg"), logofile1);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (TranscoderException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			logo1 = ImageIO.read(logofile1);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		logoicon1 = new ImageIcon(logo1);
@@ -242,23 +239,19 @@ public class LivePane extends JPanel implements Runnable{
 		try {
 			logofile2.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		try {
 			SvgUtil.convertSvgFile2Png(new File("data/teams/CLE.svg"), logofile2);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (TranscoderException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			logo2 = ImageIO.read(logofile2);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		logoicon2 = new ImageIcon(logo2);
@@ -290,12 +283,12 @@ public class LivePane extends JPanel implements Runnable{
 		subtitle.setFont(new Font("楷体",Font.BOLD,20));
 		refresh = new JButton("刷新");
 		mode = new JComboBox<String>(new String[]{"自动刷新","手动刷新" });
-		mode.addActionListener(
-				new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					thread();
-				}
-				});
+//		mode.addActionListener(
+//				new ActionListener(){
+//				public void actionPerformed(ActionEvent e) {
+//					thread();
+//				}
+//				});
 		subpanelB1.add(subtitle);
 		subpanelB1.add(mode);
 		subpanelB1.add(refresh);
@@ -324,14 +317,12 @@ public class LivePane extends JPanel implements Runnable{
 		
 	}
 	public LivePane(){
-		isShow = true;
 		init();
-		t =new Thread(){
+		new Thread(){
 			public void run() {
-				while(isShow){
-					
+				while(LivePane.this.isShowing()){
 					refresh();
-					System.out.println(isShow);
+					System.out.println("on");
 					try {
 						Thread.sleep(5000);
 						} catch(InterruptedException e) {
@@ -339,13 +330,11 @@ public class LivePane extends JPanel implements Runnable{
 						}
 				}
 			}
-		};
-		t.start();
+		}.start();
 		
 	}
 	public void run() {
 		while(true){
-			
 			refresh();
 			System.out.println("0");
 			try {
@@ -355,30 +344,30 @@ public class LivePane extends JPanel implements Runnable{
 				}
 		}
 	}
-	private void thread(){
-		if(mode.getSelectedItem().equals("手动刷新")){
-			t.interrupt();
-		}
-		else{
-			t.interrupt();
-			t =new Thread(){
-				public void run() {
-					while(isShow){
-						
-						refresh();
-						System.out.println(isShow);
-						try {
-							Thread.sleep(5000);
-							} catch(InterruptedException e) {
-							return;
-							}
-					}
-				}
-			};
-			t.start();
-		}
-		
-	}
+//	private void thread(){
+//		if(mode.getSelectedItem().equals("手动刷新")){
+//			t.interrupt();
+//		}
+//		else{
+//			t.interrupt();
+//			t =new Thread(){
+//				public void run() {
+//					while(isShow){
+//						
+//						refresh();
+//						System.out.println(isShow);
+//						try {
+//							Thread.sleep(5000);
+//							} catch(InterruptedException e) {
+//							return;
+//							}
+//					}
+//				}
+//			};
+//			t.start();
+//		}
+//		
+//	}
 	
 	private void setData(LiveInfoVO vo){
 		data = vo.live;
@@ -439,16 +428,4 @@ public class LivePane extends JPanel implements Runnable{
          column.setWidth(width+myTable.getIntercellSpacing().width);
      }
     }
-	public static void main(String[] args) throws IOException, TranscoderException{
-		JFrame frame = new JFrame();
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = kit.getScreenSize();
-		int frameHeight = screenSize.height * 11 / 16;
-		int frameWidth = frameHeight * 13 / 10;
-		frame.setBounds((screenSize.width - frameWidth) / 2, (screenSize.height - frameHeight) / 2, frameWidth, frameHeight);
-		LivePane lp = new LivePane();
-		frame.add(lp);
-		frame.setVisible(true);
-	}
-
 }
