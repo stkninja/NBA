@@ -84,10 +84,10 @@ public class NewsList extends JPanel {
 		top.setOpaque(false);
 		
 		button1 = new JButton();
-		this.setIcon(button1, "data/pic/back.png", "data/pic/back.png");
+		this.setIcon(button1, "data/pic/back1.png", "data/pic/back2.png");
 		button1.setEnabled(false);
 		button2 = new JButton();
-		this.setIcon(button2, "data/pic/refresh.png", "data/pic/refresh.png");
+		this.setIcon(button2, "data/pic/refresh1.png", "data/pic/refresh2.png");
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				card.show(pane, "list");

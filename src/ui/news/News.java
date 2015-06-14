@@ -66,7 +66,7 @@ public class News extends JPanel {
 		this.setLayout(new BorderLayout(20, 20));
 		
 		JLabel label = new JLabel(title, JLabel.CENTER);
-		label.setFont(new Font("ºÚÌå", Font.BOLD, 30));
+		label.setFont(new Font("ºÚÌå", Font.BOLD, 27));
 		label.setForeground(new Color(25, 25, 112));
 		JTextPane text = new JTextPane();
 		text.setOpaque(false);
@@ -110,6 +110,8 @@ public class News extends JPanel {
 	private String text(String str) {
 		str = str.replaceAll("&ldquo;", "¡°");
 		str = str.replaceAll("&rdquo;", "¡±");
+		str = str.replaceAll("&lsquo;", "¡®");
+		str = str.replaceAll("&rsquo;", "¡¯");
 		str = str.replaceAll("&hellip;", "¡­");
 		str = str.replaceAll("&#39;", "'");
 		
