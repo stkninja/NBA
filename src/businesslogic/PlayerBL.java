@@ -212,11 +212,7 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 
 	public PlayerVO getPlayerPast(String name) {
 		PlayerVO vo = new PlayerVO();
-		for(PSeasonDataPO po : playerdata.getAllPSeasonData("all")){
-			if(po.getName().equals(name)){
-				vo = potovo(po);
-			}
-		}
+		vo = potovo(playerdata.getOnePSeasonDataPO(name, "ALL"));
 		return vo;
 	}
 
