@@ -448,7 +448,7 @@ public class PlayerFrame extends JFrame{
 		Pic.setSize(new Dimension(180, 180));
 		Pic.setPreferredSize(new Dimension(180, 180));
 		try{
-			portrait=ImageIO.read(vo.portrait);
+			portrait=ImageIO.read(new File("data/players/portrait/"+vo.name+".png"));
 			double scale = (double)portrait.getWidth(null) / (double)portrait.getHeight(null);
 	        Image temp = portrait.getScaledInstance((int)(Pic.getHeight() * scale), Pic.getHeight(), Image.SCALE_DEFAULT);
 			portraiticon=new ImageIcon(temp);
