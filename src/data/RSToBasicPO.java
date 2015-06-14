@@ -18,27 +18,30 @@ public class RSToBasicPO {
 	 * return null 或 对应的team类
 	 *=================================================*/
 	public static ArrayList<TBasicInfoPO> toTeamBasic(ResultSet rs) {
-		ArrayList<String[]> arrays = to2DStringArray(rs);
-		
-		if(arrays == null)
-			return null;
-		else{
-			ArrayList<TBasicInfoPO> ret = new ArrayList<TBasicInfoPO>();
-			for(String[] a : arrays){
-				TBasicInfoPO tb = new TBasicInfoPO();
-				tb.setFullName(a[0]);
-				tb.setAbbName(a[1]);
-				tb.setHistoryFullName(a[2]);
-				tb.setHistoryAbblName(a[3]);
-				tb.setLocation(a[4]);
-				tb.setCompetionArea(a[5]);
-				tb.setSubArea(a[6]);
-				tb.setHomeGround(a[7]);
-				tb.setSetupTime(a[8]);
-				ret.add(tb);
+		ArrayList<TBasicInfoPO> ret = new ArrayList<TBasicInfoPO>();
+
+		try {
+			while(true){
+				if(rs.next()){
+					TBasicInfoPO tb = new TBasicInfoPO();
+					tb.setFullName(rs.getString(1));
+					tb.setAbbName(rs.getString(2));
+					tb.setHistoryFullName(rs.getString(3));
+					tb.setHistoryAbblName(rs.getString(4));
+					tb.setLocation(rs.getString(5));
+					tb.setCompetionArea(rs.getString(6));
+					tb.setSubArea(rs.getString(7));
+					tb.setHomeGround(rs.getString(8));
+					tb.setSetupTime(rs.getString(9));
+					ret.add(tb);
+				}
+				else
+					break;
 			}
-			return ret;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return ret;
 	}
 	
 	/*=================================================*
@@ -46,27 +49,30 @@ public class RSToBasicPO {
 	 * return null 或 对应的player类
 	 *=================================================*/
 	public static ArrayList<PBasicInfoPO> toPlayerBasic(ResultSet rs){
-		ArrayList<String[]> arrays = to2DStringArray(rs);
 		ArrayList<PBasicInfoPO> pbs = new ArrayList<PBasicInfoPO>();
-		if(arrays == null)
-			return null;
-		else{
-			for(String[] array : arrays){
-				PBasicInfoPO pb = new PBasicInfoPO();
-				pb.setName(array[0].replace('#', '\''));
-				pb.setExp(String.valueOf((Integer.parseInt(array[2]) - Integer.parseInt(array[1]) + 1)));
-				pb.setPosition(array[3]);
-				pb.setHeight(array[4]);
-				pb.setWeight(array[5]);
-				if(!array[6].equals("")){
-					pb.setBirth(array[6].substring(0, 4) + "-" + array[6].substring(4, 6) + "-" + array[6].substring(6, 8));
-					pb.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt((array[6].substring(0, 4)))));					
+		try {
+			while(true){
+				if(rs.next()){
+					PBasicInfoPO pb = new PBasicInfoPO();
+					pb.setName(rs.getString(1).replace('#', '\''));
+					pb.setExp(String.valueOf((Integer.parseInt(rs.getString(3)) - Integer.parseInt(rs.getString(2)) + 1)));
+					pb.setPosition(rs.getString(4));
+					pb.setHeight(rs.getString(5));
+					pb.setWeight(rs.getString(6));
+					if(!rs.getString(7).equals("")){
+						pb.setBirth(rs.getString(7).substring(0, 4) + "-" + rs.getString(7).substring(4, 6) + "-" + rs.getString(7).substring(6, 8));
+						pb.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt((rs.getString(7).substring(0, 4)))));					
+					}
+					pb.setSchool(rs.getString(8).replace('#', '\''));
+					pbs.add(pb);
 				}
-				pb.setSchool(array[7].replace('#', '\''));
-				pbs.add(pb);
+				else
+					break;
 			}
-			return pbs;
+		} catch (NumberFormatException | SQLException e) {
+			e.printStackTrace();
 		}
+		return pbs;
 	}
 	
 	/*=================================================*
