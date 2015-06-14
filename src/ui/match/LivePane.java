@@ -2,15 +2,12 @@ package ui.match;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -20,11 +17,11 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -32,10 +29,10 @@ import javax.swing.table.TableColumn;
 
 import org.apache.batik.transcoder.TranscoderException;
 
-import businesslogic.LiveBL;
-import businesslogicservice.LiveBLService;
 import ui.SvgUtil;
 import vo.LiveInfoVO;
+import businesslogic.LiveBL;
+import businesslogicservice.LiveBLService;
 
 @SuppressWarnings("serial")
 public class LivePane extends JPanel implements Runnable{
@@ -130,6 +127,62 @@ public class LivePane extends JPanel implements Runnable{
 		panel1.add(team2);
 		
 		//比分panelA------------------------------
+		panelA = new JPanel();
+		panelA(vo);
+		
+		//文字直播panel
+		panelB = new JPanel();
+		panelB.setLayout(new BorderLayout());
+		panelB.setOpaque(false);
+		panelB.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
+		subpanelB1 = new JPanel();
+		subpanelB1.setOpaque(false);
+		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		subtitle = new JLabel("直播实况 ");
+		subtitle.setFont(new Font("楷体",Font.BOLD,20));
+		refresh = new JButton("刷新");
+//		mode = new JComboBox<String>(new String[]{"自动刷新","手动刷新" });
+//		mode.addActionListener(
+//				new ActionListener(){
+//				public void actionPerformed(ActionEvent e) {
+//					thread();
+//				}
+//				});
+		subpanelB1.add(subtitle);
+//		subpanelB1.add(mode);
+		subpanelB1.add(refresh);
+		refresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				refresh(); 
+			}
+		});
+		table = new JTable();
+		sp = new JScrollPane(table);
+		sp.setOpaque(false);
+		sp.getViewport().setOpaque(false);
+		sp.setBorder(new EmptyBorder(0,0,0,0));
+		this.setData(vo); 
+		
+		panelB.add(subpanelB1,BorderLayout.NORTH);
+		panelB.add(sp,BorderLayout.CENTER);
+		
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		panel2.setOpaque(false);
+		panel2.add(panelA,BorderLayout.NORTH);
+		panel2.add(panelB,BorderLayout.CENTER);
+		
+		panel.add(panel1, BorderLayout.NORTH);
+		panel.add(panel2, BorderLayout.CENTER);
+		this.setLayout(new BorderLayout());
+		this.add(panel,BorderLayout.CENTER);
+		
+	}
+	/**
+	 * @param vo
+	 */
+	private void panelA(LiveInfoVO vo) {
+		this.remove(panelA);
 		panelA = new JPanel();
 		panelA.setLayout(new BorderLayout());
 		panelA.setOpaque(false);
@@ -271,50 +324,7 @@ public class LivePane extends JPanel implements Runnable{
 		panelA.add(subpanelA1,BorderLayout.WEST);
 		panelA.add(subpanelA3,BorderLayout.CENTER);
 		panelA.add(subpanelA2,BorderLayout.EAST);
-		
-		//文字直播panel
-		panelB = new JPanel();
-		panelB.setLayout(new BorderLayout());
-		panelB.setOpaque(false);
-		panelB.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
-		subpanelB1 = new JPanel();
-		subpanelB1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		subtitle = new JLabel("直播实况 ");
-		subtitle.setFont(new Font("楷体",Font.BOLD,20));
-		refresh = new JButton("刷新");
-		mode = new JComboBox<String>(new String[]{"自动刷新","手动刷新" });
-//		mode.addActionListener(
-//				new ActionListener(){
-//				public void actionPerformed(ActionEvent e) {
-//					thread();
-//				}
-//				});
-		subpanelB1.add(subtitle);
-		subpanelB1.add(mode);
-		subpanelB1.add(refresh);
-		refresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				refresh(); 
-			}
-		});
-		table = new JTable();
-		sp = new JScrollPane(table);
-		this.setData(vo); 
-		
-		panelB.add(subpanelB1,BorderLayout.NORTH);
-		panelB.add(sp,BorderLayout.CENTER);
-		
-		panel2 = new JPanel();
-		panel2.setLayout(new BorderLayout());
-		panel2.setOpaque(false);
-		panel2.add(panelA,BorderLayout.NORTH);
-		panel2.add(panelB,BorderLayout.CENTER);
-		
-		panel.add(panel1, BorderLayout.NORTH);
-		panel.add(panel2, BorderLayout.CENTER);
-		this.setLayout(new BorderLayout());
-		this.add(panel,BorderLayout.CENTER);
-		
+		revalidate();
 	}
 	public LivePane(){
 		init();
@@ -375,8 +385,10 @@ public class LivePane extends JPanel implements Runnable{
 	}
 	
 	private void refresh(){
-		
-		this.repaint();
+		LiveInfoVO vo = lbl.getLiveInfo();
+		setData(vo);
+		panelA(vo);
+		revalidate();
 	};
 	
 	private void showTable(Object[][] data) {
@@ -397,6 +409,8 @@ public class LivePane extends JPanel implements Runnable{
 		table.getTableHeader().setFont(new Font("宋体",Font.BOLD,12));
 		table.setFont(new Font("宋体",0,12));
 		this.FitTableColumns(table);
+		table.setRowHeight(30);
+		table.setShowGrid(false);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.getTableHeader().setResizingAllowed(false);
 			
@@ -409,8 +423,8 @@ public class LivePane extends JPanel implements Runnable{
 	
 	public void FitTableColumns(JTable myTable){
         JTableHeader header = myTable.getTableHeader();
-        header.setFont(new Font("黑体",Font.BOLD,15));
-        myTable.setFont(new Font("黑体",Font.PLAIN,12));
+        header.setFont(new Font("黑体",Font.BOLD,16));
+        myTable.setFont(new Font("黑体",Font.PLAIN,14));
         int rowCount = myTable.getRowCount();
         Enumeration<TableColumn> columns = myTable.getColumnModel().getColumns();
         while(columns.hasMoreElements()){
@@ -425,7 +439,8 @@ public class LivePane extends JPanel implements Runnable{
              width = Math.max(width, preferedWidth);
          }
          header.setResizingColumn(column); 
-         column.setWidth(width+myTable.getIntercellSpacing().width);
+         column.setWidth(width+myTable.getIntercellSpacing().width+120);
      }
     }
+
 }
