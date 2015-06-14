@@ -1,7 +1,6 @@
 package spider.spiderLive;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import spider.htmlParser.HtmlParser;
 
@@ -10,15 +9,7 @@ public class SpiderLive {
 	public static LiveInfo spiderLive() {
 		
 		//不同日期比赛网页地址
-		String url = new String();
-		if(Calendar.getInstance().get(Calendar.DATE) == 10)
-			url = "http://g.hupu.com/nba/daily/playbyplay_150121.html";
-		else if(Calendar.getInstance().get(Calendar.DATE) == 12)
-			url = "http://g.hupu.com/nba/daily/playbyplay_150122.html";
-		else if(Calendar.getInstance().get(Calendar.DATE) == 15)
-			url = "http://g.hupu.com/nba/daily/playbyplay_150123.html";
-		else if(Calendar.getInstance().get(Calendar.DATE) == 17)
-			url = "http://g.hupu.com/nba/daily/playbyplay_150124.html";
+		String url = "http://g.hupu.com/nba/daily/playbyplay_150123.html";
 		String[] eachLine = HtmlParser.getHtmlContent(url, "utf-8").split("\n");
 		
 		//解析

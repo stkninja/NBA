@@ -68,10 +68,4 @@ public class GetTeamInfo implements TeamService{
 		}
 		return tsds;
 	}	
-	
-	public static void main(String[] args) {
-		TeamService ps = new GetTeamInfo();
-		ArrayList<TSeasonDataPO> pos = ps.getAllTSeasonData("13-14");
-		System.out.println(pos.size());
-	}
 }
