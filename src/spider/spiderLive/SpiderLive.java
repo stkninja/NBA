@@ -10,7 +10,11 @@ public class SpiderLive {
 		
 		//不同日期比赛网页地址
 		String url = "http://g.hupu.com/nba/daily/playbyplay_150123.html";
-		String[] eachLine = HtmlParser.getHtmlContent(url, "utf-8").split("\n");
+		String srcCode = HtmlParser.getHtmlContent(url, "utf-8");
+		if(srcCode == null)
+			return null;
+					
+		String[] eachLine = srcCode.split("\n");
 		
 		//解析
 		String homeTeam = new String();
