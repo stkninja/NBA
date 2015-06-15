@@ -114,6 +114,7 @@ public class News extends JPanel {
 		str = str.replaceAll("&rsquo;", "¡¯");
 		str = str.replaceAll("&hellip;", "¡­");
 		str = str.replaceAll("&#39;", "'");
+		str = str.replaceAll("&nbsp;", "");
 		
 		str = str.replaceAll("<p>", "");
 		str = str.replaceAll("</p>", "");

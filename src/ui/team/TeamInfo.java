@@ -49,12 +49,15 @@ public class TeamInfo extends JPanel {
 		logo.setSize(new Dimension(75, 75));
 		logo.setPreferredSize(new Dimension(75, 75));
 		File logofile = new File("logofile");
-		try {
-			SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
-			this.setIcon(logo, ImageIO.read(logofile));
-		} catch (IOException | TranscoderException e) {
-			e.printStackTrace();
-		}
+		if (new File("data/teams/" + vo.abbName + ".svg").exists()) {
+			try {
+				SvgUtil.convertSvgFile2Png(new File("data/teams/" + vo.abbName + ".svg"), logofile);
+				this.setIcon(logo, ImageIO.read(logofile));
+			} catch (IOException | TranscoderException e1) {
+				e1.printStackTrace();
+			}
+		} else
+			this.setIcon(logo, new ImageIcon("data/pic/NotFound.png").getImage());
 		JButton name = new JButton(TeamEnum.valueOf(vo.abbName).name_Ch());
 		name.setFont(new Font("ºÚÌå", Font.BOLD, 15));
 		name.setForeground(Color.DARK_GRAY);

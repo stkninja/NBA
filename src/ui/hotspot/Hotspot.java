@@ -152,20 +152,14 @@ public class Hotspot extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					try {
-						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
-						else
-							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
-					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
-					}
+					if (new File("data/players/portrait/" + playerList.get(i).name + ".png").exists())
+						this.setIcon(label[i], new ImageIcon("data/players/portrait/" + playerList.get(i).name + ".png").getImage(), "data/pic/No"+ (i+1) +".png");
+					else
+						this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
 					label[i] = new JButton();
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 			}
@@ -181,20 +175,14 @@ public class Hotspot extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					try {
-						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
-						else
-							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
-					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
-					}
+					if (new File("data/players/portrait/" + playerList.get(i).name + ".png").exists())
+						this.setIcon(label[i], new ImageIcon("data/players/portrait/" + playerList.get(i).name + ".png").getImage(), "data/pic/No"+ (i+1) +".png");
+					else
+						this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
 					label[i] = new JButton();
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 			}
@@ -211,18 +199,19 @@ public class Hotspot extends JPanel {
 					label[i].setSize(new Dimension(150, 170));
 					label[i].setPreferredSize(new Dimension(150, 170));
 					File logofile = new File("logofile");
-					try {
-						SvgUtil.convertSvgFile2Png(teamBL.getOneTeam(teamList.get(i).abbName).teamLogo, logofile);
-						this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
-					} catch (IOException | TranscoderException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
-					}
+					if (new File("data/teams/" + teamList.get(i).abbName + ".svg").exists()) {
+						try {
+							SvgUtil.convertSvgFile2Png(new File("data/teams/" + teamList.get(i).abbName + ".svg"), logofile);
+							this.setIcon(label[i], ImageIO.read(logofile), "data/pic/No"+ (i+1) +".png");
+						} catch (IOException | TranscoderException e) {
+							e.printStackTrace();
+						}
+					} else
+						this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
 					label[i] = new JButton();
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 			}
@@ -238,20 +227,14 @@ public class Hotspot extends JPanel {
 					label[i].setVerticalTextPosition(JButton.BOTTOM);
 					label[i].setSize(new Dimension(150, 150));
 					label[i].setPreferredSize(new Dimension(150, 150));
-					try {
-						if (playerBL.getOnePlayer(playerList.get(i).name).portrait == null)
-							this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
-						else
-							this.setIcon(label[i], ImageIO.read(playerBL.getOnePlayer(playerList.get(i).name).portrait), "data/pic/No"+ (i+1) +".png");
-					} catch (IOException e) {
-						this.setIcon(label[i], (new ImageIcon("data/pic/NotFound.png")).getImage(), "data/pic/No"+ (i+1) +".png");
-					}
+					if (new File("data/players/portrait/" + playerList.get(i).name + ".png").exists())
+						this.setIcon(label[i], new ImageIcon("data/players/portrait/" + playerList.get(i).name + ".png").getImage(), "data/pic/No"+ (i+1) +".png");
+					else
+						this.setIcon(label[i], new ImageIcon("data/pic/NotFound.png").getImage(), "data/pic/No"+ (i+1) +".png");
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
 					label[i] = new JButton();
-					label[i].setSize(new Dimension(150, 150));
-					label[i].setPreferredSize(new Dimension(150, 150));
 					this.setNOTFOUND(label[i], "data/pic/NotFound.png");
 				}
 			}
@@ -266,6 +249,8 @@ public class Hotspot extends JPanel {
 	 * @param file Í¼±êÂ·¾¶
 	 */
 	private void setNOTFOUND(JButton button, String file) {
+		button.setSize(new Dimension(150, 150));
+		button.setPreferredSize(new Dimension(150, 150));
 		Image icon = (new ImageIcon(file)).getImage();
 		double scale = (double)icon.getWidth(null) / (double)icon.getHeight(null);
 		Image temp = icon.getScaledInstance(button.getWidth(), (int)(button.getWidth() / scale), Image.SCALE_DEFAULT);

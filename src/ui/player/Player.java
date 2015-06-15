@@ -13,11 +13,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -134,11 +134,10 @@ public class Player extends JPanel {
 		ArrayList<PlayerBasicInfoVO> list = playerBL.getPlayersByFirst(letter, temp);
 		Object[][] data = new Object[list.size()][7];
 		for (int i = 0; i < data.length; i++) {
-			try {
-				data[i][0] = new ImageIcon(ImageIO.read(list.get(i).portrait));
-			} catch (IOException e) {
+			if (new File("data/players/portrait/" + list.get(i).name + ".png").exists())
+				data[i][0] = new ImageIcon("data/players/portrait" + list.get(i).name + ".png");
+			else
 				data[i][0] = new ImageIcon("data/pic/NotFound.png");
-			}
 			data[i][1] = list.get(i).name;
 			ArrayList<MatchVO> t = playerBL.getLastFiveMatches(list.get(i).name);
 			if (t.size() != 0) { 
