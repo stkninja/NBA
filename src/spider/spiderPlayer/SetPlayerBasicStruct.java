@@ -23,6 +23,10 @@ public class SetPlayerBasicStruct {
 			int index_2 = line.indexOf("</a>");
 			if(index_1 >= 0 && index_2 >= 0)
 				pbs.setName(line.substring(index_1 + 6, index_2).replace('\'', '#'));
+			index_1 = line.indexOf("/players");
+			index_2 = line.indexOf("html");
+			if(index_1 >= 0 && index_2 >= 0)
+				pbs.setLink(line.substring(index_1, index_2 + 4));
 			
 			line = eachLine[i + 1];
 			index_1 = line.indexOf(">");

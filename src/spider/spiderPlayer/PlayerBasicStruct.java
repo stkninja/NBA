@@ -9,6 +9,7 @@ public class PlayerBasicStruct {
 	private String weight = new String();
 	private String birth = new String();
 	private String college = new String();
+	private String link = new String();
 	
 	public String getName() {
 		return name;
@@ -72,6 +73,14 @@ public class PlayerBasicStruct {
 	
 	public void setCollege(String college) {
 		this.college = college;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 	@Override
