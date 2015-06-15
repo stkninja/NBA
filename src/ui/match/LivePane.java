@@ -126,6 +126,10 @@ public class LivePane extends JPanel implements Runnable{
 		panel1.add(team1);
 		panel1.add(team2);
 		
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		panel2.setOpaque(false);
+		
 		//±È·ÖpanelA------------------------------
 		panelA = new JPanel();
 		panelA(vo);
@@ -166,9 +170,6 @@ public class LivePane extends JPanel implements Runnable{
 		panelB.add(subpanelB1,BorderLayout.NORTH);
 		panelB.add(sp,BorderLayout.CENTER);
 		
-		panel2 = new JPanel();
-		panel2.setLayout(new BorderLayout());
-		panel2.setOpaque(false);
 		panel2.add(panelA,BorderLayout.NORTH);
 		panel2.add(panelB,BorderLayout.CENTER);
 		
@@ -182,7 +183,7 @@ public class LivePane extends JPanel implements Runnable{
 	 * @param vo
 	 */
 	private void panelA(LiveInfoVO vo) {
-		this.remove(panelA);
+		panel2.remove(panelA);
 		panelA = new JPanel();
 		panelA.setLayout(new BorderLayout());
 		panelA.setOpaque(false);
@@ -324,6 +325,7 @@ public class LivePane extends JPanel implements Runnable{
 		panelA.add(subpanelA1,BorderLayout.WEST);
 		panelA.add(subpanelA3,BorderLayout.CENTER);
 		panelA.add(subpanelA2,BorderLayout.EAST);
+		panel2.add(panelA, BorderLayout.NORTH);
 		revalidate();
 	}
 	public LivePane(){
@@ -387,7 +389,19 @@ public class LivePane extends JPanel implements Runnable{
 	private void refresh(){
 		LiveInfoVO vo = lbl.getLiveInfo();
 		setData(vo);
-		panelA(vo);
+		h1 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[0]),JLabel.CENTER);
+		h2 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[2]),JLabel.CENTER);
+		h3 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[4]),JLabel.CENTER);
+		h4 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[6]),JLabel.CENTER);
+		
+		c1 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[1]),JLabel.CENTER);
+		c2 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[3]),JLabel.CENTER);
+		c3 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[5]),JLabel.CENTER);
+		c4 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[7]),JLabel.CENTER);
+		
+		score2 = new JLabel(String.valueOf(vo.visitScore));
+		score1 = new JLabel(String.valueOf(vo.homeScore));
+//		panelA(vo);
 		revalidate();
 	};
 	

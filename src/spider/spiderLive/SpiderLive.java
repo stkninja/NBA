@@ -20,7 +20,9 @@ public class SpiderLive {
 		String homeTeam = new String();
 		String visitTeam = new String();
 		String score = "0-0";
+		String[] teamScores = new String[8];
 		ArrayList<String> matchRecords = new ArrayList<String>();
+		int index = 0;
 		
 		for(int i = 0; i < eachLine.length; i++){
 			int index_1;
@@ -28,6 +30,18 @@ public class SpiderLive {
 			if((index_1 = eachLine[i].indexOf("比分")) >= 0){
 				homeTeam = eachLine[i].substring(index_1 + 3, index_1 + 5);
 				visitTeam = eachLine[i].substring(index_1 + 8, index_1 + 10);
+			}
+			else if(eachLine[i].indexOf("<td>勇士</td>") >= 0){
+				for(int j = 0; j < 4; j++){
+					teamScores[j] = eachLine[i + j + 1].substring(eachLine[i + j + 1].indexOf(">") + 1, eachLine[i + j + 1].indexOf("</td>"));
+				}
+				i += 4;
+			}
+			else if(eachLine[i].indexOf("<td>骑士</td>") >= 0){
+				for(int j = 0; j < 4; j++){
+					teamScores[j + 4] = eachLine[i + j + 1].substring(eachLine[i + j + 1].indexOf(">") + 1, eachLine[i + j + 1].indexOf("</td>"));
+				}
+				i += 4;
 			}
 			else if(eachLine[i].indexOf("<tr sid=") >= 0 && eachLine[i].indexOf("class=\"pause\">") >= 0){
 				index_1 = eachLine[i + 1].indexOf("<b>");
@@ -57,7 +71,11 @@ public class SpiderLive {
 				index_1 = eachLine[i + 5].indexOf(">");
 				index_2 = eachLine[i + 5].indexOf("</td>");
 				temp += eachLine[i + 5].substring(index_1 + 1, index_2);
-				score = eachLine[i + 5].substring(index_1 + 1, index_2);
+				
+				if(index == 0){
+					score = eachLine[i + 5].substring(index_1 + 1, index_2);
+					index++;
+				}
 				matchRecords.add(temp);
 				i += 5;
 			}
@@ -65,6 +83,7 @@ public class SpiderLive {
 		
 		//返回值
 		LiveInfo liveInfo = new LiveInfo();
+		liveInfo.setTeamScores(teamScores);
 		liveInfo.setHomeTeam(homeTeam);
 		liveInfo.setVisitTeam(visitTeam);
 		liveInfo.setScore(score);

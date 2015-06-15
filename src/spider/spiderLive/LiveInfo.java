@@ -6,6 +6,8 @@ public class LiveInfo {
 	private String homeTeam = new String();
 	private String visitTeam = new String();
 	private String score = new String();
+	String[] teamScores = null;
+
 	//剩余时间#球队#事件#比分（主-客）
 	private String[][] matchRecords = null;
 
@@ -49,5 +51,13 @@ public class LiveInfo {
 			this.matchRecords[i][2] = matchRecords.get(i).split(";")[2];
 			this.matchRecords[i][3] = matchRecords.get(i).split(";")[3];
 		}
+	}
+	
+	public String[] getTeamScores() {
+		return teamScores;
+	}
+	
+	public void setTeamScores(String[] teamScores) {
+		this.teamScores = teamScores;
 	}
 }
