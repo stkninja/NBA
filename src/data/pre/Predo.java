@@ -16,6 +16,7 @@ public class Predo {
 		
 		for(int year = 2006; year <= 2015; year++){
 			psds_list.add(gpi.getAllPSeasonData_2(season_list[year - 2006]));
+			System.out.println(season_list[year - 2006] + " done!");
 		}
 	}
 	
