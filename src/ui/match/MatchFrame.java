@@ -178,7 +178,7 @@ public class MatchFrame extends JFrame{
 		logofile1 = new File("logofile");
 		logofile1.createNewFile();
 		
-		SvgUtil.convertSvgFile2Png(bl.getOneTeam(vo.team1.abbName).teamLogo, logofile1);
+		SvgUtil.convertSvgFile2Png(new File("data/teams/"+vo.team1.abbName+".svg"), logofile1);
 		logo1 = ImageIO.read(logofile1);
 		logoicon1 = new ImageIcon(logo1);
 		logoicon1.setImage(logoicon1.getImage().getScaledInstance(120,120,Image.SCALE_DEFAULT));		
@@ -295,7 +295,7 @@ public class MatchFrame extends JFrame{
 		logofile2 = new File("logofile");
 		logofile2.createNewFile();
 		
-		SvgUtil.convertSvgFile2Png(bl.getOneTeam(vo.team2.abbName).teamLogo, logofile2);
+		SvgUtil.convertSvgFile2Png(new File("data/teams/"+vo.team2.abbName+".svg"), logofile2);
 		logo2 = ImageIO.read(logofile2);
 		logoicon2 = new ImageIcon(logo2);
 		logoicon2.setImage(logoicon2.getImage().getScaledInstance(120,120,Image.SCALE_DEFAULT));		

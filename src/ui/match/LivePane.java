@@ -334,7 +334,6 @@ public class LivePane extends JPanel implements Runnable{
 			public void run() {
 				while(LivePane.this.isShowing()){
 					refresh();
-					System.out.println("on");
 					try {
 						Thread.sleep(5000);
 						} catch(InterruptedException e) {

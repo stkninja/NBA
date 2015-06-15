@@ -464,7 +464,7 @@ public class PlayerFrame extends JFrame{
 		
 		panel1.add(Pic);
 		try{
-			action = ImageIO.read(vo.action);
+			action = ImageIO.read(new File("data/players/"+vo.name+".png"));
 			actionicon = new ImageIcon(action);	   
 		}
         catch (Exception ex){
@@ -566,7 +566,7 @@ public class PlayerFrame extends JFrame{
 		    	 if(list.get(list.size()-1).team1.teamPlayers.get(m).name.equals(vo.name)){
 		    		 logofile = new File("logofile");
 		 		     logofile.createNewFile();
-		 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team1.abbName).teamLogo, logofile);
+		 		     SvgUtil.convertSvgFile2Png(new File("data/teams/"+list.get(list.size()-1).team1.abbName+".svg"), logofile);
 		 		     logo = ImageIO.read(logofile);
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
@@ -578,7 +578,7 @@ public class PlayerFrame extends JFrame{
 		    	 if(list.get(list.size()-1).team2.teamPlayers.get(m).name.equals(vo.name)){
 		    		 logofile = new File("logofile");
 		 		     logofile.createNewFile();
-		 		     SvgUtil.convertSvgFile2Png(tbl.getOneTeam(list.get(list.size()-1).team2.abbName).teamLogo, logofile);
+		 		     SvgUtil.convertSvgFile2Png(new File("data/teams/"+list.get(list.size()-1).team2.abbName+".svg"), logofile);
 		 		     logo = ImageIO.read(logofile);
 		 		     logoicon = new ImageIcon(logo);
 		 		     logoicon.setImage(logoicon.getImage().getScaledInstance(130,100,Image.SCALE_DEFAULT));
@@ -907,7 +907,7 @@ public class PlayerFrame extends JFrame{
 	        for(int row = 0; row<rowCount; row++){
 	             int preferedWidth = (int)myTable.getCellRenderer(row, col).getTableCellRendererComponent(myTable,
 	               myTable.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
-	             width = Math.max(width, preferedWidth);
+	               width = Math.max(width, preferedWidth);
 	         }
 	         header.setResizingColumn(column); 
 	         column.setWidth(width+myTable.getIntercellSpacing().width);
