@@ -389,18 +389,18 @@ public class LivePane extends JPanel implements Runnable{
 	private void refresh(){
 		LiveInfoVO vo = lbl.getLiveInfo();
 		setData(vo);
-		h1 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[0]),JLabel.CENTER);
-		h2 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[2]),JLabel.CENTER);
-		h3 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[4]),JLabel.CENTER);
-		h4 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[6]),JLabel.CENTER);
+		h1.setText(String.valueOf(LiveInfoVO.matchrecord[0]));
+		h2.setText(String.valueOf(LiveInfoVO.matchrecord[2]));
+		h3.setText(String.valueOf(LiveInfoVO.matchrecord[4]));
+		h4.setText(String.valueOf(LiveInfoVO.matchrecord[6]));
 		
-		c1 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[1]),JLabel.CENTER);
-		c2 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[3]),JLabel.CENTER);
-		c3 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[5]),JLabel.CENTER);
-		c4 = new JLabel(String.valueOf(LiveInfoVO.matchrecord[7]),JLabel.CENTER);
+		c1.setText(String.valueOf(LiveInfoVO.matchrecord[1]));
+		c2.setText(String.valueOf(LiveInfoVO.matchrecord[3]));
+		c3.setText(String.valueOf(LiveInfoVO.matchrecord[5]));
+		c4.setText(String.valueOf(LiveInfoVO.matchrecord[7]));
 		
-		score2 = new JLabel(String.valueOf(vo.visitScore));
-		score1 = new JLabel(String.valueOf(vo.homeScore));
+		score2.setText(String.valueOf(vo.visitScore));
+		score1.setText(String.valueOf(vo.homeScore));
 //		panelA(vo);
 		revalidate();
 	};
