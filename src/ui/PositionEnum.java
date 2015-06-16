@@ -15,7 +15,8 @@ public enum PositionEnum {
 	CG("C-G", "中锋-后卫"),
 	CF("C-F", "中锋-前锋"),
 	FG("F-G", "前锋-后卫"),
-	FC("F-C", "前锋-中锋");
+	FC("F-C", "前锋-中锋"),
+	NONE("", " ");
 	
 	private String abbr;
 	private String name_Ch;

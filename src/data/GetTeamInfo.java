@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import po.MatchPO;
@@ -15,7 +16,7 @@ public class GetTeamInfo implements TeamService{
 
 	public TBasicInfoPO getSingleTBasicInfo(String abbName) {
 		String order = "SELECT * FROM t_team WHERE tempAbbName = '" + abbName + 
-				"' OR hisAbbName = '" + abbName +"'";
+				"' OR hisAbbName = '" + abbName +"' OR hisAbbName2 = '" + abbName + "'";
 		ResultSet rs = DataBaseOpe.querySQL(order);
 		
 		return RSToBasicPO.toTeamBasic(rs).get(0);
@@ -27,16 +28,20 @@ public class GetTeamInfo implements TeamService{
 	}
 	
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
-		ArrayList<TBasicInfoPO> tbs = this.getAllTBasicInfo();
-		for(TBasicInfoPO tb : tbs){
-			if(tb.getAbbName().equals(abbName)){
-				ArrayList<MatchPO> matches = new GetMatchInfo().getAllMatchesAboutTeam(tb.getAbbName(), season);
-				return new TeamSeason().teamSeason(matches, tb, tb.getAbbName());
+		ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_team WHERE tempAbbName = '" + abbName + "' OR hisAbbName = '" + abbName + "'");
+		try {
+			rs.next();
+			String tempAbbName = rs.getString(2);
+			String hisAbbName = rs.getString(4);
+			String hisAbbName2 = rs.getString(5);
+			
+			ArrayList<TSeasonDataPO> tsds = Predo.getAllTSeasonDataAt(season);
+			for(TSeasonDataPO tsd : tsds){
+				if(tsd.getAbbName().equals(hisAbbName) || tsd.getAbbName().equals(tempAbbName) || tsd.getAbbName().equals(hisAbbName2))
+					return tsd;
 			}
-			else if(tb.getHistoryAbblName().equals(abbName)){
-				ArrayList<MatchPO> matches = new GetMatchInfo().getAllMatchesAboutTeam(tb.getHistoryAbblName(), season);
-				return new TeamSeason().teamSeason(matches, tb, tb.getHistoryAbblName());
-			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -64,6 +69,10 @@ public class GetTeamInfo implements TeamService{
 				else if(matches.get(i).getTeam1().getAbbName().equals(tb.getHistoryAbblName()) || matches.get(i).getTeam2().getAbbName().equals(tb.getHistoryAbblName())){
 					matchesAboutTeam.add(matches.get(i));
 					abbName = tb.getHistoryAbblName();
+				}
+				else if(matches.get(i).getTeam1().getAbbName().equals(tb.getHistoryAbblName2()) || matches.get(i).getTeam2().getAbbName().equals(tb.getHistoryAbblName2())){
+					matchesAboutTeam.add(matches.get(i));
+					abbName = tb.getHistoryAbblName2();
 				}
 			}
 			

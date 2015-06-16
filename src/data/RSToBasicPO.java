@@ -28,11 +28,12 @@ public class RSToBasicPO {
 					tb.setAbbName(rs.getString(2));
 					tb.setHistoryFullName(rs.getString(3));
 					tb.setHistoryAbblName(rs.getString(4));
-					tb.setLocation(rs.getString(5));
-					tb.setCompetionArea(rs.getString(6));
-					tb.setSubArea(rs.getString(7));
-					tb.setHomeGround(rs.getString(8));
-					tb.setSetupTime(rs.getString(9));
+					tb.setHistoryAbblName2(rs.getString(5));
+					tb.setLocation(rs.getString(6));
+					tb.setCompetionArea(rs.getString(7));
+					tb.setSubArea(rs.getString(8));
+					tb.setHomeGround(rs.getString(9));
+					tb.setSetupTime(rs.getString(10));
 					ret.add(tb);
 				}
 				else
