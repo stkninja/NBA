@@ -39,8 +39,10 @@ import ui.PositionEnum;
 import ui.TeamEnum;
 import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
+import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
 import businesslogic.TeamBL;
+import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
 import businesslogicservice.TeamBLService;
 
@@ -53,10 +55,12 @@ import businesslogicservice.TeamBLService;
 public class Player extends JPanel {
 	public MainFrame main;
 	private PlayerBLService playerBL;
+	private MatchBLService matchBL;
 	private TeamBLService teamBL;
 	private JButton[] button;
 	private String letter;
 	private JComboBox<String> comboBox;
+	private JComboBox<String> season;
 	private JTable table;
 	private JScrollPane sp;
 	/**
@@ -67,6 +71,7 @@ public class Player extends JPanel {
 		this.main = main;
 		playerBL = new PlayerBL();
 		teamBL = new TeamBL();
+		matchBL = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(20, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -75,7 +80,7 @@ public class Player extends JPanel {
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		letter = "A";
-		this.setData();
+//		this.setData();();
 	}
 	/**
 	 * ³õÊ¼»¯ËÑË÷À¸
@@ -112,6 +117,9 @@ public class Player extends JPanel {
 			top.add(button[i]);
 		}
 		top.add(comboBox);
+		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
+		season.setFont(new Font("¿¬Ìå", Font.PLAIN, 14));
+		top.add(season);
 		this.add(top, BorderLayout.NORTH);
 		
 		for (int i = 0; i < button.length; i++)
@@ -131,7 +139,7 @@ public class Player extends JPanel {
 			temp = "All";
 		else
 			temp = (TeamEnum.valueToEnum((String)comboBox.getSelectedItem())).abbr();
-		ArrayList<PlayerBasicInfoVO> list = playerBL.getPlayersByFirst(letter, temp);
+		ArrayList<PlayerBasicInfoVO> list = playerBL.getPlayersByFirst(letter, temp, (String)season.getSelectedItem());
 		Object[][] data = new Object[list.size()][7];
 		for (int i = 0; i < data.length; i++) {
 			if (new File("data/players/portrait/" + list.get(i).name + ".png").exists())
