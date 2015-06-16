@@ -111,13 +111,13 @@ public class LivePane extends JPanel implements Runnable{
 		type = new JLabel("总决赛");
 		type.setFont(f);
 		type.setForeground(Color.BLACK);
-		date = new JLabel("   "+"6-15"+"日      ");
+		date = new JLabel("   "+"6-17"+"日      ");
 		date.setFont(f);
 		date.setForeground(Color.BLACK);
-		team1 = new JLabel("勇士vs");
+		team1 = new JLabel("骑士vs");
 		team1.setFont(f);
 		team1.setForeground(Color.BLACK);
-		team2 = new JLabel("骑士");
+		team2 = new JLabel("勇士");
 		team2.setFont(f);
 		team2.setForeground(Color.BLACK);
 		panel1.add(season);
@@ -196,7 +196,7 @@ public class LivePane extends JPanel implements Runnable{
 		}
 		
 		try {
-			SvgUtil.convertSvgFile2Png(new File("data/teams/GSW.svg"), logofile1);
+			SvgUtil.convertSvgFile2Png(new File("data/teams/CLE.svg"), logofile1);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (TranscoderException e1) {
@@ -297,7 +297,7 @@ public class LivePane extends JPanel implements Runnable{
 		}
 		
 		try {
-			SvgUtil.convertSvgFile2Png(new File("data/teams/CLE.svg"), logofile2);
+			SvgUtil.convertSvgFile2Png(new File("data/teams/GSW.svg"), logofile2);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (TranscoderException e1) {
@@ -406,7 +406,7 @@ public class LivePane extends JPanel implements Runnable{
 	
 	private void showTable(Object[][] data) {
 		this.remove(table);
-		String[] subTitle = {"时间","球队","事件","比分（勇士-骑士）"};
+		String[] subTitle = {"时间","球队","事件","比分（骑士-勇士）"};
 		//------------------------------------------------------
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
