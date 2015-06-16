@@ -90,12 +90,12 @@ public class RSToMatchPO {
 			mpd.setError(Double.parseDouble(array[16]));
 			mpd.setFoul(Double.parseDouble(array[17]));
 			mpd.setPoint(Double.parseDouble(array[18]));
-			mpd.setShoot(Double.parseDouble(array[5]));
-			mpd.setShootmade(Double.parseDouble(array[6]));
-			mpd.setThreepoint(Double.parseDouble(array[7]));
-			mpd.setThreepointmade(Double.parseDouble(array[8]));
-			mpd.setFreethrow(Double.parseDouble(array[9]));
-			mpd.setFreethrowmade(Double.parseDouble(array[10]));
+			mpd.setShoot(Double.parseDouble(array[6]));
+			mpd.setShootmade(Double.parseDouble(array[5]));
+			mpd.setThreepoint(Double.parseDouble(array[8]));
+			mpd.setThreepointmade(Double.parseDouble(array[7]));
+			mpd.setFreethrow(Double.parseDouble(array[10]));
+			mpd.setFreethrowmade(Double.parseDouble(array[9]));
 			if(array[3].equals("T"))
 				mpd.setGameStart(1);
 			players.add(mpd);

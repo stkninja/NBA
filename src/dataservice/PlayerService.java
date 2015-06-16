@@ -16,4 +16,6 @@ public interface PlayerService {
 	public PSeasonDataPO getOnePSeasonDataPO(String name, String season);
 	//获得所有球员赛季比赛数据
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season);
+	public ArrayList<PSeasonDataPO> getAllPSeasonData_2(String season);
+
 }

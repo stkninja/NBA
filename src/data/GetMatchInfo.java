@@ -31,7 +31,7 @@ public class GetMatchInfo implements MatchService{
 	public ArrayList<MatchPO> getAllMatchesAboutPlayer(String name,
 			String season) {
 		int year = this.seasonToYear(season);
-
+		name = name.replace('\'', '#');
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match_" + year + " WHERE mid IN "
 			+ "(SELECT DISTINCT mid FROM t_match_player_" + year + " WHERE mid LIKE '" + season + "%' AND name = '" + name + "') ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player_" + year + " WHERE mid IN "
@@ -40,6 +40,7 @@ public class GetMatchInfo implements MatchService{
 	}
 
 	public ArrayList<MatchPO> getLastFiveMatchesAboutPlayer(String name) {
+		name = name.replace('\'', '#');
 		ResultSet rs_1 = DataBaseOpe.querySQL("SELECT * FROM t_match_2015 WHERE mid IN "
 				+ "(SELECT DISTINCT mid FROM t_match_player_2015 WHERE name = '" + name + "') ORDER BY year DESC, date DESC");
 		ResultSet rs_2 = DataBaseOpe.querySQL("SELECT * FROM t_match_player_2015 WHERE mid IN "
@@ -50,7 +51,7 @@ public class GetMatchInfo implements MatchService{
 		for(int i = 0; i < res.size(); i++){
 			ret.add(res.get(i));
 			
-			if(i >= 5)
+			if(i >= 4)
 				break;
 		}
 		return ret;
@@ -77,7 +78,7 @@ public class GetMatchInfo implements MatchService{
 		for(int i = 0; i < res.size(); i++){
 			ret.add(res.get(i));
 			
-			if(i >= 5)
+			if(i >= 4)
 				break;
 		}
 		return ret;
