@@ -74,7 +74,7 @@ public class RSToMatchPO {
 	
 	public static ArrayList<MatchPlayerDataPO> toMatchPlayerDataPO(ArrayList<String[]> teamplayers){
 		if(teamplayers == null)
-			return null;		
+			return new ArrayList<MatchPlayerDataPO>();		
 		
 		ArrayList<MatchPlayerDataPO> players = new ArrayList<MatchPlayerDataPO>();
 		for(String[] array : teamplayers){

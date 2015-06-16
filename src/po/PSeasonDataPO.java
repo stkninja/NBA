@@ -1,14 +1,12 @@
 package po;
 
-import java.io.Serializable;
 
-public class PSeasonDataPO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	private String season;
-	private String name;
-	private String team;
-	private String position;
-	private String subArea;                  //分区
+public class PSeasonDataPO{
+	private String season = new String();
+	private String name = new String();
+	private String team = new String();
+	private String position = new String();
+	private String subArea = new String();   //分区
 	private int gameplay;                    //参赛场数
 	private int gamestart;                   //先发场数
 	private double allrebound;                  //总篮板数

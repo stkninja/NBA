@@ -18,13 +18,18 @@ public class GetTeamInfo implements TeamService{
 		String order = "SELECT * FROM t_team WHERE tempAbbName = '" + abbName + 
 				"' OR hisAbbName = '" + abbName +"' OR hisAbbName2 = '" + abbName + "'";
 		ResultSet rs = DataBaseOpe.querySQL(order);
+		TBasicInfoPO ret =  RSToBasicPO.toTeamBasic(rs).get(0);
 		
-		return RSToBasicPO.toTeamBasic(rs).get(0);
+		DataBaseOpe.close();
+		return ret;
 	}
 
 	public ArrayList<TBasicInfoPO> getAllTBasicInfo() {
 		ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_team");
-		return RSToBasicPO.toTeamBasic(rs);
+		ArrayList<TBasicInfoPO> ret = RSToBasicPO.toTeamBasic(rs);
+		
+		DataBaseOpe.close();
+		return ret;
 	}
 	
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season) {
@@ -34,7 +39,8 @@ public class GetTeamInfo implements TeamService{
 			String tempAbbName = rs.getString(2);
 			String hisAbbName = rs.getString(4);
 			String hisAbbName2 = rs.getString(5);
-			
+			DataBaseOpe.close();
+
 			ArrayList<TSeasonDataPO> tsds = Predo.getAllTSeasonDataAt(season);
 			for(TSeasonDataPO tsd : tsds){
 				if(tsd.getAbbName().equals(hisAbbName) || tsd.getAbbName().equals(tempAbbName) || tsd.getAbbName().equals(hisAbbName2))

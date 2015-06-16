@@ -37,14 +37,9 @@ import org.apache.batik.transcoder.TranscoderException;
 import ui.MainFrame;
 import ui.PositionEnum;
 import ui.TeamEnum;
-import vo.MatchVO;
 import vo.PlayerBasicInfoVO;
-import businesslogic.MatchBL;
 import businesslogic.PlayerBL;
-import businesslogic.TeamBL;
-import businesslogicservice.MatchBLService;
 import businesslogicservice.PlayerBLService;
-import businesslogicservice.TeamBLService;
 
 /**
  * 球员面板
@@ -55,12 +50,9 @@ import businesslogicservice.TeamBLService;
 public class Player extends JPanel {
 	public MainFrame main;
 	private PlayerBLService playerBL;
-	private MatchBLService matchBL;
-	private TeamBLService teamBL;
 	private JButton[] button;
 	private String letter;
 	private JComboBox<String> comboBox;
-	private JComboBox<String> season;
 	private JTable table;
 	private JScrollPane sp;
 	/**
@@ -70,8 +62,6 @@ public class Player extends JPanel {
 	public Player(MainFrame main) {
 		this.main = main;
 		playerBL = new PlayerBL();
-		teamBL = new TeamBL();
-		matchBL = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(20, 20));
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -117,9 +107,6 @@ public class Player extends JPanel {
 			top.add(button[i]);
 		}
 		top.add(comboBox);
-		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
-		season.setFont(new Font("楷体", Font.PLAIN, 14));
-		top.add(season);
 		this.add(top, BorderLayout.NORTH);
 		
 		for (int i = 0; i < button.length; i++)
@@ -139,33 +126,20 @@ public class Player extends JPanel {
 			temp = "All";
 		else
 			temp = (TeamEnum.valueToEnum((String)comboBox.getSelectedItem())).abbr();
-		ArrayList<PlayerBasicInfoVO> list = playerBL.getPlayersByFirst(letter, temp, (String)season.getSelectedItem());
-		Object[][] data = new Object[list.size()][7];
+		ArrayList<PlayerBasicInfoVO> list = playerBL.getPlayersByFirst(letter, temp);
+		Object[][] data = new Object[list.size()][8];
 		for (int i = 0; i < data.length; i++) {
 			if (new File("data/players/portrait/" + list.get(i).name + ".png").exists())
-				data[i][0] = new ImageIcon("data/players/portrait" + list.get(i).name + ".png");
+				data[i][0] = new ImageIcon("data/players/portrait/" + list.get(i).name + ".png");
 			else
 				data[i][0] = new ImageIcon("data/pic/NotFound.png");
 			data[i][1] = list.get(i).name;
-			ArrayList<MatchVO> t = playerBL.getLastFiveMatches(list.get(i).name);
-			if (t.size() != 0) { 
-				for(int m = 0; m < t.get(t.size() - 1).team1.teamPlayers.size(); m++){
-			    	 if(t.get(t.size() - 1).team1.teamPlayers.get(m).name.equals(list.get(i).name)){
-			    		 data[i][2] = TeamEnum.valueToEnum(teamBL.getOneTeam(t.get(t.size()-1).team1.abbName).abbName).name_Ch();
-			    	 }
-				}
-				for(int m = 0; m < t.get(t.size() - 1).team2.teamPlayers.size(); m++){
-			    	 if(t.get(t.size() - 1).team2.teamPlayers.get(m).name.equals(list.get(i).name)){
-			    		 data[i][2] = TeamEnum.valueToEnum(teamBL.getOneTeam(t.get(t.size() - 1).team2.abbName).abbName).name_Ch();
-			    	 }
-				}
-			} else {
-				data[i][2] = "";
-			}
-			data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
-			data[i][4] = list.get(i).height;
-			data[i][5] = list.get(i).weight;
-			data[i][6] = list.get(i).exp;
+			data[i][2] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
+			data[i][3] = list.get(i).height;
+			data[i][4] = list.get(i).weight;
+			data[i][5] = list.get(i).exp;
+			data[i][6] = list.get(i).birth;
+			data[i][7] = list.get(i).school;
 		}
 		this.showTable(data);
 	}
@@ -175,7 +149,7 @@ public class Player extends JPanel {
 	 */
 	private void showTable(Object[][] data) {
 		this.remove(table);
-		String[] subTitle = new String[]{"", "球员", "球队", "位置", "身高", "体重", "经验"};
+		String[] subTitle = new String[]{"", "球员", "位置", "身高", "体重", "经验", "生日", "学校"};
 		DefaultTableModel dm = new DefaultTableModel(data, subTitle) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -283,7 +257,7 @@ public class Player extends JPanel {
 				width = Math.max(width, preferedWidth);
 			}
 			header.setResizingColumn(column);
-			column.setWidth(80+width+myTable.getIntercellSpacing().width);
+			column.setWidth(35+width+myTable.getIntercellSpacing().width);
 		}
 	}
 	/**

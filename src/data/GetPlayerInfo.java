@@ -27,48 +27,60 @@ public class GetPlayerInfo implements PlayerService{
 		for(int i = 0; i < tab.size(); i++)
 			names.add(tab.get(i)[0].replace('#', '\''));
 		
+		DataBaseOpe.close();
 		return names;
 	}
 
 	public PBasicInfoPO getSinglePBasicInfo(String name) {
 		String order = "SELECT * FROM t_player WHERE name = '" + name.replace('\'', '#') + "'";
 		ResultSet rs = DataBaseOpe.querySQL(order);
+		ArrayList<PBasicInfoPO> pbs = RSToBasicPO.toPlayerBasic(rs);
 		
-		return RSToBasicPO.toPlayerBasic(rs).get(0);
+		if(pbs.size() == 0){
+			PBasicInfoPO pb = new PBasicInfoPO();
+			pb.setName("Louis Williams");
+			return pb;
+		}
+			
+		PBasicInfoPO ret = pbs.get(0);
+		DataBaseOpe.close();
+		return ret;
 	}
 	
 	public ArrayList<PBasicInfoPO> getAllPlayersPBasicInfo(){
 		String order = "SELECT * FROM t_player";
 		ResultSet rs = DataBaseOpe.querySQL(order);
+		ArrayList<PBasicInfoPO> ret = RSToBasicPO.toPlayerBasic(rs);
 		
-		return RSToBasicPO.toPlayerBasic(rs);
+		DataBaseOpe.close();
+		return ret;
 	}
 
 	public PSeasonDataPO getOnePSeasonDataPO(String name, String season) {
-		int year = this.seasonToYear(season);
-		
+		int year;
 		name = name.replace('\'', '#');
-		MatchService ms = new GetMatchInfo();
-		TeamService ts = new GetTeamInfo();
-		PlayerService ps = new GetPlayerInfo();
 		
+		//生涯统计
 		if(season.equals("ALL")){
-			ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_match_player_" + year + " WHERE name = '" + name + "'");
-			ArrayList<MatchPlayerDataPO> players = RSToMatchPO.toMatchPlayerDataPO(RSToBasicPO.to2DStringArray(rs));
+			ArrayList<MatchPlayerDataPO> players = new ArrayList<MatchPlayerDataPO>();
+			for(year = 2006; year <= 2015; year++){
+				ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_match_player_" + year + " WHERE name = '" + name + "'");
+				players.addAll(RSToMatchPO.toMatchPlayerDataPO(RSToBasicPO.to2DStringArray(rs)));
+			}
 			
-			if(players == null)
-				return null;
+			DataBaseOpe.close();
+			if(players.size() == 0)
+				return new PSeasonDataPO();
 			return new PlayerCareer().getPlayerCareerData(players);
 		}
 		
-		ArrayList<MatchPO> matches = ms.getAllMatchesAboutPlayer(name, season);
-		ResultSet rs = DataBaseOpe.querySQL("SELECT * FROM t_match_player_" + year + " WHERE name = '" + name + "' AND mid LIKE '" + season + "%'");
-		ArrayList<MatchPlayerDataPO> players = RSToMatchPO.toMatchPlayerDataPO(RSToBasicPO.to2DStringArray(rs));
-		ArrayList<TBasicInfoPO> teams = ts.getAllTBasicInfo();
-		PBasicInfoPO playerinfo = ps.getSinglePBasicInfo(name);
-		if(matches == null)
-			return null;
-		return new PlayerSeason().playerSeason(matches, players, teams, playerinfo);
+		//赛季统计
+		ArrayList<PSeasonDataPO> psds = Predo.getAllPSeasonDataAt(season);
+		for(PSeasonDataPO psd : psds){
+			if(psd.getName().equals(name))
+				return psd;
+		}
+		return new PSeasonDataPO();
 	}
 
 	public ArrayList<PSeasonDataPO> getAllPSeasonData(String season){

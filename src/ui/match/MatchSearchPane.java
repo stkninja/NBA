@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.TeamEnum;
 import vo.MatchVO;
 import businesslogic.MatchBL;
 import businesslogicservice.MatchBLService;
@@ -93,9 +92,9 @@ public class MatchSearchPane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String temp = (String)comboBox2.getSelectedItem() +"-"+ (String)comboBox3.getSelectedItem();
 				if (temp.equals("-----"))
-					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text.getText(), (String)comboBox1.getSelectedItem(), "All", "All"));
+					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text.getText(), (String)comboBox1.getSelectedItem(), "All", "All", "All"));
 				else
-					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text.getText(), (String)comboBox1.getSelectedItem(), temp, "All"));
+					MatchSearchPane.this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(text.getText(), (String)comboBox1.getSelectedItem(), temp, "All", "All"));
 			}
 		});
 		reset.addActionListener(new ActionListener() {
@@ -130,7 +129,7 @@ public class MatchSearchPane extends JPanel {
 	 * @param player 球员
 	 */
 	public void getPlayerMatch(String season, String player) {
-		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer("All", season, "All", player));
+		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer("All", season, "All", player, "All"));
 	}
 	/**
 	 * 获得某个球队一个赛季比赛
@@ -138,7 +137,7 @@ public class MatchSearchPane extends JPanel {
 	 * @param team 球队
 	 */
 	public void getTeamMatch(String season, String team) {
-		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(team, season, "All", "All"));
+		this.setData(bl.getMatchesAboutTeamSeasonDatePlayer(team, season, "All", "All", "All"));
 	}
 	/**
 	 * 设置数据
@@ -148,9 +147,11 @@ public class MatchSearchPane extends JPanel {
 		for (int i = 0; i < list.size(); i++) {
 			data[i][0] = list.get(i).season;
 			data[i][1] = list.get(i).date;
-			data[i][2] = TeamEnum.valueToEnum(list.get(i).team1.abbName).name_Ch();
+//			data[i][2] = TeamEnum.valueToEnum(list.get(i).team1.abbName).name_Ch();
+			data[i][2] = list.get(i).team1.abbName;
 			data[i][3] = Math.round(list.get(i).team1.scores) +":"+ Math.round(list.get(i).team2.scores);
-			data[i][4] = TeamEnum.valueToEnum(list.get(i).team2.abbName).name_Ch();
+//			data[i][4] = TeamEnum.valueToEnum(list.get(i).team2.abbName).name_Ch();
+			data[i][4] = list.get(i).team2.abbName;
 		}
 		father.showTable(data);
 	}

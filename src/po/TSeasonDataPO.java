@@ -1,21 +1,19 @@
 package po;
 
-import java.io.Serializable;
 
-public class TSeasonDataPO implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class TSeasonDataPO {
 
 	/**球队基本信息*/
 	//球队全名
-	private String fullName;
+	private String fullName = new String();
 	//球队缩写
-	private String abbName;
+	private String abbName = new String();
 	//分区
-	private String subArea;
+	private String subArea = new String();
 	
 	/**球队比赛信息*/
 	//赛季
-	private String season;
+	private String season = new String();
 	//比赛场数
 	private double gamesNum;
 	//胜利场数

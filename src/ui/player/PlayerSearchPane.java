@@ -88,6 +88,8 @@ public class PlayerSearchPane extends JPanel implements ActionListener {
 		for (PositionEnum i : PositionEnum.values()) {
 			positionList[j] = i.name_Ch();
 			j++;
+			if (j == 10)
+				break;
 		}
 		position = new JComboBox<String>(positionList);
 		season = new JComboBox<String>((String[])matchBL.getAllSeasons().toArray(new String[matchBL.getAllSeasons().size()]));
@@ -203,7 +205,8 @@ public class PlayerSearchPane extends JPanel implements ActionListener {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
 				data[i][1] = list.get(i).name;
-				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+//				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+				data[i][2] = list.get(i).team;
 				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
 				data[i][4] = (int)list.get(i).gameplay;
 				data[i][5] = (int)list.get(i).gamestart;
@@ -253,7 +256,8 @@ public class PlayerSearchPane extends JPanel implements ActionListener {
 			for (int i = 0; i < data.length; i++) {
 				data[i][0] = i + 1;
 				data[i][1] = list.get(i).name;
-				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+//				data[i][2] = TeamEnum.valueToEnum(list.get(i).team).name_Ch();
+				data[i][2] = list.get(i).team;
 				data[i][3] = PositionEnum.valueToEnum(list.get(i).position).name_Ch();
 				data[i][4] = (int)list.get(i).gameplay;
 				data[i][5] = (int)list.get(i).gamestart;

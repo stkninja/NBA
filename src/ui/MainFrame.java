@@ -30,7 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import data.pre.Predo;
+import spider.htmlParser.HtmlParser;
 import ui.hotspot.Hotspot;
 import ui.match.LivePane;
 import ui.match.MatchPane;
@@ -39,6 +39,7 @@ import ui.player.Player;
 import ui.player.PlayerPane;
 import ui.team.Team;
 import ui.team.TeamPane;
+import data.pre.Predo;
 
 /**
  * NBA查询平台主界面
@@ -75,7 +76,18 @@ public class MainFrame extends JFrame {
 		//初始化
 		this.initTitle();
 		//内容panel
-		pane = new NewsList(this);
+		if (HtmlParser.getHtmlContent("http://www.baidu.com", "utf-8") == null) {
+			pane = new JPanel(new BorderLayout());
+			JButton button = new JButton("请链接网络！");
+			button.setFocusPainted(false);//无选择效果
+	        button.setOpaque(false);//透明
+			button.setContentAreaFilled(false);///填充
+			button.setBorderPainted(false);//无边框
+			button.setMargin(new Insets(0, 0, 0, 0));//无边距
+			pane.add(button, BorderLayout.CENTER);
+		} else {
+			pane = new NewsList(this);
+		}
 		contentPane.add(pane, BorderLayout.CENTER);
 		this.setDragable();
 		this.setUndecorated(true);
@@ -327,7 +339,18 @@ public class MainFrame extends JFrame {
 		button7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
-				pane = new LivePane();
+				if (HtmlParser.getHtmlContent("http://www.baidu.com", "utf-8") == null) {
+					pane = new JPanel(new BorderLayout());
+					JButton button = new JButton("请链接网络！");
+					button.setFocusPainted(false);//无选择效果
+			        button.setOpaque(false);//透明
+					button.setContentAreaFilled(false);///填充
+					button.setBorderPainted(false);//无边框
+					button.setMargin(new Insets(0, 0, 0, 0));//无边距
+					pane.add(button, BorderLayout.CENTER);
+				} else {
+					pane = new LivePane();
+				}
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}

@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class DataBaseOpe {
+	static Connection con = null;
+	static Statement stmt = null;
+	static ResultSet rs = null;
 	
 	//对数据库进行创建表格 添加 修改 删除等操作
 	public static void createTab_UpdateSQL(String order){
@@ -16,8 +19,9 @@ public class DataBaseOpe {
 		String username = "root";  
 		String userpass = "ruangong417";
 	
-		Connection con = null;  
-		Statement stmt = null;  
+		con = null;  
+		stmt = null;
+		
 		try{  
 			//建立连接
 			Class.forName(className);  
@@ -47,9 +51,9 @@ public class DataBaseOpe {
 		String username = "root";  
 		String userpass = "ruangong417";
 	
-		Connection con = null;  
-		Statement stmt = null;
-		ResultSet rs = null;
+		con = null;  
+		stmt = null;
+		rs = null;
 		try{  
 			//建立连接
 			Class.forName(className);  
@@ -66,5 +70,11 @@ public class DataBaseOpe {
 		}
 		
 		return rs;
+	}
+	
+	public static void close(){
+		try{ rs.close();}catch(Exception e){}  
+		try{ stmt.close();}catch(Exception e){}  
+		try{ con.close();}catch(Exception e){}  
 	}
 }

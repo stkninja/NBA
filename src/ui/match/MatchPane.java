@@ -29,7 +29,6 @@ import javax.swing.table.TableRowSorter;
 import org.apache.batik.transcoder.TranscoderException;
 
 import ui.MainFrame;
-import ui.TeamEnum;
 import vo.MatchVO;
 import businesslogic.MatchBL;
 import businesslogicservice.MatchBLService;
@@ -113,8 +112,9 @@ public class MatchPane extends JPanel {
 	    	public void mouseClicked(MouseEvent e) {
 	    		String season = (String)table.getValueAt(table.getSelectedRow(), 0);
 	    		String date = (String)table.getValueAt(table.getSelectedRow(), 1);
-	    		String team = TeamEnum.valueToEnum((String)table.getValueAt(table.getSelectedRow(), 2)).abbr();
-	    		ArrayList<MatchVO> list = bl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All");
+//	    		String team = TeamEnum.valueToEnum((String)table.getValueAt(table.getSelectedRow(), 2)).abbr();
+	    		String team = (String)table.getValueAt(table.getSelectedRow(), 2);
+	    		ArrayList<MatchVO> list = bl.getMatchesAboutTeamSeasonDatePlayer(team, season, date, "All", "All");
 	    		try {
 					JFrame.setDefaultLookAndFeelDecorated(true);
 					MatchFrame frame = new MatchFrame(list.get(0), main);

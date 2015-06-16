@@ -55,9 +55,6 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	public ArrayList<MatchVO> getMatchesAboutTeam(String team, String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(String teamname : getAllTeamsName(season)){
-			if(teamname.equals("NOH")){
-				teamname = "NOP";
-			}
 			if(teamname.indexOf(team) >= 0){
 				for(MatchPO po : matchdata.getAllMatchesAboutTeam(teamname, season)){
 					list.add(potovo(po));
@@ -148,7 +145,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	
 	public ArrayList<MatchVO> getSeasonDateMatches(String season,String date){
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
-		for(MatchVO vo : getMatches(season)){
+		for(MatchVO vo : getMatches(season, "All")){
 			if(vo.date.equals(date)){
 				list.add(vo);
 			}
@@ -237,7 +234,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 	}
 	
 	public ArrayList<MatchVO> getMatchesAboutTeamSeasonDatePlayer(String team, String season,
-			String date, String player) {
+			String date, String player, String isPlayOffs) {
 		if(team.equals("All")){
 			if(season.equals("All")){
 				if(date.equals("All")){
@@ -260,7 +257,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 			else{
 				if(date.equals("All")){
 					if(player.equals("All")){
-						return getMatches(season);
+						return getMatches(season, isPlayOffs);
 					}
 					else{
 						return getMatchesAboutPlayer(season,player);
