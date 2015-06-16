@@ -14,4 +14,5 @@ public interface TeamService {
 	public TSeasonDataPO getOneTSeasonDataPO(String abbName, String season);
 	//获得所有球队赛季比赛数据
 	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season);
+	public ArrayList<TSeasonDataPO> getAllTSeasonData_2(String season);
 }

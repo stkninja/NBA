@@ -11,7 +11,7 @@ public class SpiderTeam {
 		   {{"Atlanta Hawks", "ATL", "", "", "Atlanta", "E", "Southeast", "Philips Arena", "1949"},
 			{"Brooklyn Nets", "BRK", "", "", "Brooklyn", "E", "Atlantic", "Barclays Center", "1976"},
 			{"Boston Celtics", "BOS", "", "", "Boston", "W", "Atlantic", "TD Garden", "1946"},	
-			{"Charlotte Hornets", "CHA", "Charlotte Bobcats", "CHA", "Charlotte", "E", "Southeast", "Time Warner Cable Arena", "1988"},
+			{"Charlotte Hornets", "CHO", "Charlotte Bobcats", "CHA", "Charlotte", "E", "Southeast", "Time Warner Cable Arena", "1988"},
 			{"Chicago Bulls", "CHI", "", "", "Chicago", "E", "Central", "United Center", "1966"},
 			{"Cleveland Cavaliers", "CLE", "", "", "Cleveland", "E", "Central", "Quicken Loans Arena", "1970"},
 			{"Dallas Mavericks", "DAL", "", "", "Dallas", "W", "Southwest", "American Airlines Center", "1980"},

@@ -26,7 +26,7 @@ public class FillT_MATCH implements Runnable{
 				+ "vtAbbName VARCHAR(3), vtFullName VARCHAR(40), vtScores VARCHAR(25),"
 				+ "htAbbName VARCHAR(3), htFullName VARCHAR(40), htScores VARCHAR(25))");
 	
-		DataBaseOpe.createTab_UpdateSQL("DROP TABLE IF EXISTS t_match_player" + year);
+		DataBaseOpe.createTab_UpdateSQL("DROP TABLE IF EXISTS t_match_player_" + year);
 		DataBaseOpe.createTab_UpdateSQL("CREATE TABLE IF NOT EXISTS "
 				+ "t_match_player_" + year + "(mid VARCHAR(20), name VARCHAR(40), belongTo VARCHAR(40), isStarter VARCHAR(1), "
 				+ "MinutesPlayed VARCHAR(5), fieldGoals VARCHAR(3), fieldGoalsAttempts VARCHAR(3), threePoints VARCHAR(3), threePointsAttempts VARCHAR(3), "

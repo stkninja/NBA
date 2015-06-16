@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import po.MatchPO;
 import po.TBasicInfoPO;
 import po.TSeasonDataPO;
+import data.pre.Predo;
 import data.statistics.TeamSeason;
 import dataBase.dataBaseOpe.DataBaseOpe;
 import dataservice.TeamService;
@@ -40,7 +41,11 @@ public class GetTeamInfo implements TeamService{
 		return null;
 	}
 
-	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season) {
+	public ArrayList<TSeasonDataPO> getAllTSeasonData(String season){
+		return Predo.getAllTSeasonDataAt(season);
+	}
+	
+	public ArrayList<TSeasonDataPO> getAllTSeasonData_2(String season) {
 		ArrayList<TSeasonDataPO> tsds = new ArrayList<TSeasonDataPO>();
 		
 		ArrayList<TBasicInfoPO> tbs = this.getAllTBasicInfo();
