@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import data.pre.Predo;
 import vo.TeamSeasonVO;
 import businesslogic.TeamStatBL;
 import businesslogicservice.TeamStatBLService;
@@ -93,11 +95,13 @@ public class StatPane extends JPanel{
 		subtitle1.setForeground(Color.lightGray);
 		subpanelA1.add(subtitle1);
 		mode = new JComboBox<String>(new String[]{"09-10","10-11","11-12","12-13","13-14","14-15"});
-//		new XYChart(String.valueOf(mode.getSelectedItem()));
+		new XYChart(String.valueOf(mode.getSelectedItem()));
+		new PieChart(String.valueOf(mode.getSelectedItem()));
 		mode.addActionListener(
 				new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						new XYChart(String.valueOf(mode.getSelectedItem()));
+						new PieChart(String.valueOf(mode.getSelectedItem()));
 					}
 				});
 		subpanelA1.add(mode);
@@ -112,8 +116,8 @@ public class StatPane extends JPanel{
 		sp.setOpaque(false);
 		
 		try {
-			piclabel1.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/8.jpg"))));
-			piclabel3.setIcon(new ImageIcon(ImageIO.read(new File("data/pic/8.jpg"))));
+			piclabel1.setIcon(new ImageIcon(ImageIO.read(new File("pic1.jpg"))));
+			piclabel3.setIcon(new ImageIcon(ImageIO.read(new File("pic2.jpg"))));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -143,6 +147,8 @@ public class StatPane extends JPanel{
 		piclabel4 = new JLabel();
 		piclabel5 = new JLabel();
 		piclabel6 = new JLabel();
+		new MixedChart();
+		new LineChart();
 		try {
 			piclabel4.setIcon(new ImageIcon(ImageIO.read(new File("pic4.jpg"))));
 			piclabel5.setIcon(new ImageIcon(ImageIO.read(new File("pic5.jpg"))));
@@ -209,6 +215,7 @@ public class StatPane extends JPanel{
 		this.add(panelB);
 		this.add(panelC);
 		this.add(panelD);
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 	}
 	
@@ -223,6 +230,7 @@ public class StatPane extends JPanel{
 	}
 	
 	public static void main(String[] args){
+		Predo.predo();
 		JFrame frame = new JFrame();
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();

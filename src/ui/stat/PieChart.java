@@ -74,7 +74,7 @@ public class PieChart {
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("pic2.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 200, 150, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 300, 150, null);  
         } finally {  
             try {  
                 out.close();  

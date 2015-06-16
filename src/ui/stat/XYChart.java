@@ -43,12 +43,13 @@ public class XYChart {
                 true, //是否显示图例，对于简单的柱状图必须为false  
                 false, //是否生成提示工具  
                 false);         //是否生成url链接  
+        chart.setBackgroundPaint(Color.GRAY);
   
         XYPlot plot = (XYPlot) chart.getPlot();  
         plot.setNoDataMessage("NO DATA");  
         plot.setDomainZeroBaselineVisible(true);  
         plot.setRangeZeroBaselineVisible(true); 
-        plot.setBackgroundPaint(ChartColor.GRAY);
+        plot.setBackgroundPaint(ChartColor.LIGHT_GRAY);
        
         XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot.getRenderer();  
         renderer.setSeriesOutlinePaint(0, Color.black);  
@@ -84,7 +85,7 @@ public class XYChart {
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("pic1.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 500, 500, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 300, 150, null);  
         } finally {  
             try {  
                 out.close();  
@@ -97,12 +98,12 @@ public class XYChart {
 	 private DefaultXYDataset getDataSet1() {
 		 DefaultXYDataset ds = new DefaultXYDataset();
 		 
-		 data = new double[2][82];
-		 for(int i = 0;i < 82;i ++){
+		 data = new double[2][list.size()];
+		 for(int i = 0;i < list.size();i ++){
 			 data[0][i] = i;
 			 data[1][i] = list.get(i);
 		 }	          
-	     ds.addSeries("09-10赛季勇士的每场三分出手数", data);  
+	     ds.addSeries("勇士单赛季的每场三分出手数", data);  
 		 
 	     return ds;  
 	    }

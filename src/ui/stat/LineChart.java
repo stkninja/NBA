@@ -1,5 +1,6 @@
 package ui.stat;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +21,16 @@ import vo.TeamSeasonVO;
 
 public class LineChart {
 	private static TeamStatBLService team = new TeamStatBL();
+	public LineChart(){
+		try {
+			chart1();
+			chart2();
+		    chart3();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public void chart1() throws IOException {  
 		DefaultCategoryDataset ds = getDataSet1();  
         JFreeChart chart = ChartFactory.createLineChart(  
@@ -34,6 +45,8 @@ public class LineChart {
   
         CategoryPlot  plot = (CategoryPlot) chart.getPlot();  
         plot.setNoDataMessage("NO DATA");  
+        // Í¼Æ¬±³¾°É«  
+        chart.setBackgroundPaint(Color.GRAY);  
           
         // x axis  
         CategoryAxis domainAxis = plot.getDomainAxis();  
@@ -64,7 +77,7 @@ public class LineChart {
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("pic5.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 500, 500, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 300, 150, null);  
         } finally {  
             try {  
                 out.close();  
@@ -93,6 +106,8 @@ public class LineChart {
         CategoryAxis domainAxis = plot.getDomainAxis();  
           
         // Y axis  
+        // Í¼Æ¬±³¾°É«  
+        chart.setBackgroundPaint(Color.GRAY);  
         NumberAxis numberaxis = (NumberAxis) plot.getRangeAxis();  
         numberaxis.setAutoRange(true);  
         
@@ -118,7 +133,7 @@ public class LineChart {
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("pic6.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 500, 500, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 300, 150, null);  
         } finally {  
             try {  
                 out.close();  
@@ -142,6 +157,9 @@ public class LineChart {
   
         CategoryPlot  plot = (CategoryPlot) chart.getPlot();  
         plot.setNoDataMessage("NO DATA");  
+        
+        // Í¼Æ¬±³¾°É«  
+        chart.setBackgroundPaint(Color.MAGENTA);  
           
         // x axis  
         CategoryAxis domainAxis = plot.getDomainAxis();  
@@ -172,7 +190,7 @@ public class LineChart {
         FileOutputStream out = null;  
         try {  
             out = new FileOutputStream("pic7.jpg");  
-            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 500, 500, null);  
+            ChartUtilities.writeChartAsJPEG(out, 0.5f, chart, 300, 150, null);  
         } finally {  
             try {  
                 out.close();  

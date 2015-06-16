@@ -37,6 +37,7 @@ import ui.match.MatchPane;
 import ui.news.NewsList;
 import ui.player.Player;
 import ui.player.PlayerPane;
+import ui.stat.StatPanel;
 import ui.team.Team;
 import ui.team.TeamPane;
 import data.pre.Predo;
@@ -156,6 +157,7 @@ public class MainFrame extends JFrame {
 		JButton button5 = new JButton("统计");
 		JButton button6 = new JButton("新闻");
 		JButton button7 = new JButton("直播");
+		JButton button8 = new JButton("分析");
 		this.setMenu(button1);
 		this.setMenu(button2);
 		this.setMenu(button3);
@@ -163,6 +165,7 @@ public class MainFrame extends JFrame {
 		this.setMenu(button5);
 		this.setMenu(button6);
 		this.setMenu(button7);
+		this.setMenu(button8);
 		
 		menu.add(button6);
 		menu.add(button1);
@@ -171,6 +174,7 @@ public class MainFrame extends JFrame {
 		menu.add(button4);
 		menu.add(button5);
 		menu.add(button7);
+		menu.add(button8);
 		father.add(menu);
 		
 		button6.addActionListener(new ActionListener() {
@@ -351,6 +355,15 @@ public class MainFrame extends JFrame {
 				} else {
 					pane = new LivePane();
 				}
+				contentPane.add(pane, BorderLayout.CENTER);
+				revalidate();
+			}
+		});
+		
+		button8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.remove(pane);
+				pane = new StatPanel();
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}
