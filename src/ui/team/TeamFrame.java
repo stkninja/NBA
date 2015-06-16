@@ -513,7 +513,7 @@ public class TeamFrame extends JFrame{
 		try{
 			logofile = new File("logofile");
 		    logofile.createNewFile();
-		    SvgUtil.convertSvgFile2Png(vo.teamLogo, logofile);
+		    SvgUtil.convertSvgFile2Png(new File("data/teams/"+vo.abbName+".svg"), logofile);
 		    logo = ImageIO.read(logofile);
 		    logoicon = new ImageIcon(logo);
 		}
