@@ -23,14 +23,18 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		teamdata = new GetTeamInfo();
 	}
 
-	public ArrayList<MatchVO> getMatches(String season) {
+	public ArrayList<MatchVO> getMatches(String season,String isPlayOffs) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
 		for(MatchPO po : matchdata.getAllMatchesAtSeason(season)){
-			list.add(potovo(po));
+			if(po.getIsPlayOffs().equals(isPlayOffs)){
+				list.add(potovo(po));
+			} else if (isPlayOffs.equals("All")) {
+				list.add(potovo(po));
+			}
 		}
 		return list;
 	}
-
+	
 /*	public ArrayList<MatchVO> getOneMatch(String team1, String team2,
 			String season) {
 		ArrayList<MatchVO> list = new ArrayList<MatchVO>();
@@ -318,6 +322,7 @@ public class MatchBL implements businesslogicservice.MatchBLService{
 		vo.date = po.getDate();
 		vo.team1 = potovo(po.getTeam1());
 		vo.team2 = potovo(po.getTeam2());
+		vo.isPlayOffs = po.getIsPlayOffs();
 		
 		return vo;
 	}

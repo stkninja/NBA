@@ -225,7 +225,7 @@ public class MainFrame extends JFrame {
 		menuItemD1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
-				pane = new MatchPane(MainFrame.this);
+				pane = new MatchPane(MainFrame.this, "F");
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}
@@ -233,8 +233,7 @@ public class MainFrame extends JFrame {
 		menuItemD2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
-				//TODO
-				pane = new MatchPane(MainFrame.this);
+				pane = new MatchPane(MainFrame.this, "T");
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}
@@ -418,7 +417,7 @@ public class MainFrame extends JFrame {
 	 */
 	public void getPlayerMatch(String season, String name) {
 		contentPane.remove(pane);
-		pane = new MatchPane(MainFrame.this);
+		pane = new MatchPane(MainFrame.this, "All");
 		((MatchPane) pane).getSearchPane().getPlayerMatch(season, name);
 		contentPane.add(pane, BorderLayout.CENTER);
 		revalidate();
@@ -430,7 +429,7 @@ public class MainFrame extends JFrame {
 	 */
 	public void getTeamMatch(String season, String name) {
 		contentPane.remove(pane);
-		pane = new MatchPane(MainFrame.this);
+		pane = new MatchPane(MainFrame.this, "All");
 		((MatchPane) pane).getSearchPane().getTeamMatch(season, name);
 		contentPane.add(pane, BorderLayout.CENTER);
 		revalidate();
