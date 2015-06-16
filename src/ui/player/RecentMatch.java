@@ -176,7 +176,7 @@ public class RecentMatch{
 	 private CategoryDataset getDataSet2() {
 		    DefaultCategoryDataset ds = new DefaultCategoryDataset();
 		    for(int i = 0; i < data.length; i++){
-		    	if(data[i][6].toString().split("-")[1].equals("0")){
+		    	if(data[i][5].toString().split("-")[1].equals("0")){
 		    		ds.addValue(0, "", "µÚ"+(i+1)+"³¡");
 		    	}
 		    	else{

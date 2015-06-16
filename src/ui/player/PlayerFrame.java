@@ -464,7 +464,7 @@ public class PlayerFrame extends JFrame{
 		
 		panel1.add(Pic);
 		try{
-			action = ImageIO.read(new File("data/players/"+vo.name+".png"));
+			action = ImageIO.read(new File("data/players/action/"+vo.name+".png"));
 			actionicon = new ImageIcon(action);	   
 		}
         catch (Exception ex){
