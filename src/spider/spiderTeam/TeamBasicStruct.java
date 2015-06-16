@@ -11,6 +11,8 @@ public class TeamBasicStruct{
 	private String historyFullName = new String();
 	//曾经球队缩写
 	private String historyAbblName = new String();
+	private String historyAbblName2 = new String();
+
 	//所在地
 	private String location = new String();
 	//赛区
@@ -93,5 +95,13 @@ public class TeamBasicStruct{
 
 	public void setSetupTime(String setupTime) {
 		this.setupTime = setupTime;
+	}
+	
+	public String getHistoryAbblName2() {
+		return historyAbblName2;
+	}
+
+	public void setHistoryAbblName2(String historyAbblName2) {
+		this.historyAbblName2 = historyAbblName2;
 	}
 }

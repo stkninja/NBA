@@ -80,7 +80,7 @@ public class Player extends JPanel {
 		sp = new JScrollPane(table);
 		this.add(sp, BorderLayout.CENTER);
 		letter = "A";
-//		this.setData();();
+		this.setData();
 	}
 	/**
 	 * ³õÊ¼»¯ËÑË÷À¸
