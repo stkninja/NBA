@@ -45,14 +45,16 @@ public class MatchPane extends JPanel {
 	private MatchBLService bl;
 	private JTable table;
 	private JScrollPane sp;
+	protected String type;
 	//×Ó´°¿Ú
 	private MatchSearchPane searchPane;
 	/**
 	 * 
 	 * @param main Ö÷¿ò¼Ü
 	 */
-	public MatchPane(MainFrame main) {
+	public MatchPane(MainFrame main, String type) {
 		this.main = main;
+		this.type = type;
 		bl = new MatchBL();
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout(20, 20));

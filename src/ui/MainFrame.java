@@ -30,6 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import data.pre.Predo;
 import ui.hotspot.Hotspot;
 import ui.match.LivePane;
 import ui.match.MatchPane;
@@ -224,7 +225,7 @@ public class MainFrame extends JFrame {
 		menuItemD1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
-				pane = new MatchPane(MainFrame.this);
+				pane = new MatchPane(MainFrame.this, "F");
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}
@@ -232,8 +233,7 @@ public class MainFrame extends JFrame {
 		menuItemD2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.remove(pane);
-				//TODO
-				pane = new MatchPane(MainFrame.this);
+				pane = new MatchPane(MainFrame.this, "T");
 				contentPane.add(pane, BorderLayout.CENTER);
 				revalidate();
 			}
@@ -417,7 +417,7 @@ public class MainFrame extends JFrame {
 	 */
 	public void getPlayerMatch(String season, String name) {
 		contentPane.remove(pane);
-		pane = new MatchPane(MainFrame.this);
+		pane = new MatchPane(MainFrame.this, "All");
 		((MatchPane) pane).getSearchPane().getPlayerMatch(season, name);
 		contentPane.add(pane, BorderLayout.CENTER);
 		revalidate();
@@ -429,7 +429,7 @@ public class MainFrame extends JFrame {
 	 */
 	public void getTeamMatch(String season, String name) {
 		contentPane.remove(pane);
-		pane = new MatchPane(MainFrame.this);
+		pane = new MatchPane(MainFrame.this, "All");
 		((MatchPane) pane).getSearchPane().getTeamMatch(season, name);
 		contentPane.add(pane, BorderLayout.CENTER);
 		revalidate();
@@ -470,6 +470,7 @@ public class MainFrame extends JFrame {
 				| UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		Predo.predo();
 		MainFrame mf = new MainFrame();
 		mf.setOpacity(0.9f);
 		mf.setShape(new RoundRectangle2D.Double(0.0D, 0.0D, mf.getWidth(), mf.getHeight(), 26.0D, 26.0D));

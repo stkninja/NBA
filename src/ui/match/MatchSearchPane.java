@@ -100,7 +100,7 @@ public class MatchSearchPane extends JPanel {
 		});
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MatchSearchPane.this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
+				MatchSearchPane.this.setData(bl.getMatches((String)comboBox1.getSelectedItem(), father.type));
 			}
 		});
 	}
@@ -116,13 +116,13 @@ public class MatchSearchPane extends JPanel {
 	 * 获得所有数据
 	 */
 	public void getAll() {
-		this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
+		this.setData(bl.getMatches((String)comboBox1.getSelectedItem(), father.type));
 	}
 	/**
 	 * 刷新
 	 */
 	public void refresh() {
-		this.setData(bl.getMatches((String)comboBox1.getSelectedItem()));
+		this.setData(bl.getMatches((String)comboBox1.getSelectedItem(), father.type));
 	}
 	/**
 	 * 获得某个球员一个赛季比赛
