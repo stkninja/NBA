@@ -9,6 +9,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
@@ -73,6 +74,7 @@ public class HistoryData {
         BarRenderer3D customBarRenderer = (BarRenderer3D) plot.getRenderer(); 
         numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits()); //横线
         numberaxis.setUpperMargin(0.14999999999999999D); //顶端 
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
         customBarRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());//显示每个柱的数值 
         customBarRenderer.setBaseItemLabelsVisible(true); 
         //注意：此句很关键，若无此句，那数字的显示会被覆盖，给人数字没有显示出来的问题 
