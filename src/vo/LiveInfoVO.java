@@ -7,5 +7,5 @@ public class LiveInfoVO {
 	public static String visitTeam;//客队
 	public int homeScore;//勇士得分
 	public int visitScore;//骑士得分
-	
+		
 }

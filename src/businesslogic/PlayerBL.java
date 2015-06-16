@@ -1104,9 +1104,9 @@ public class PlayerBL implements businesslogicservice.PlayerBLService{
 		return res;
 	}
 
-	public ArrayList<PlayerBasicInfoVO> getPlayersByFirst(String s,String team) {
+	public ArrayList<PlayerBasicInfoVO> getPlayersByFirst(String s,String team,String season) {
 		ArrayList<PlayerBasicInfoVO> list = new ArrayList<PlayerBasicInfoVO>();
-		for(PlayerVO vo : getPlayers(matchdata.getLastSeason(),"All","All",team)){
+		for(PlayerVO vo : getPlayers(season,"All","All","All")){
 			if(vo.name.substring(0, 1).equals(s)){
 				list.add(getOnePlayer(vo.name));
 			}
