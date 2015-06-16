@@ -9,7 +9,7 @@ public enum TeamEnum {
 	//East
 	//Southeast
 	ATL("ATL", "Atlanta Hawks", "亚特兰大 老鹰", "老鹰"),
-	CHA("CHA", "Charlotte Hornets", "夏洛特 黄蜂", "黄蜂"),
+	CHO("CHO", "Charlotte Hornets", "夏洛特 黄蜂", "黄蜂"),
 	MIA("MIA", "Miami Heat", "迈阿密 热火", "热火"),
 	ORL("ORL", "Orlando Magic", "奥兰多 魔术", "魔术"),
 	WAS("WAS", "Washington Wizards", "华盛顿 奇才", "奇才"),
@@ -21,7 +21,7 @@ public enum TeamEnum {
 	MIL("MIL", "Milwaukee Bucks", "密尔沃基 雄鹿", "雄鹿"),
 	//Atlantic
 	BOS("BOS", "Boston Celtics", "波士顿 凯尔特人", "凯尔特人"),
-	BKN("BKN", "Brooklyn Nets", "布鲁克林 篮网", "篮网"),
+	BRK("BRK", "Brooklyn Nets", "布鲁克林 篮网", "篮网"),
 	NYK("NYK", "New York Knicks", "纽约 尼克斯", "尼克斯"),
 	PHI("PHI", "Philadelphia 76ers", "费城 76人", "76人"),
 	TOR("TOR", "Toronto Raptors", "多伦多 猛龙", "猛龙"),
@@ -30,7 +30,7 @@ public enum TeamEnum {
 	GSW("GSW", "Golden State Warriors", "金州 勇士", "勇士"),
 	LAC("LAC", "Los Angeles Clippers", "洛杉矶 快船", "快船"),
 	LAL("LAL", "Los Angeles Lakers", "洛杉矶 湖人", "湖人"),
-	PHX("PHX", "Phoenix Suns", "菲尼克斯 太阳", "太阳"),
+	PHO("PHO", "Phoenix Suns", "菲尼克斯 太阳", "太阳"),
 	SAC("SAC", "Sacramento Kings", "萨克拉门托 国王", "国王"),
 	//Northwest
 	DEN("DEN", "Denver Nuggets", "丹佛 掘金", "掘金"),
@@ -43,7 +43,6 @@ public enum TeamEnum {
 	HOU("HOU", "Houston Rockets", "休斯顿 火箭", "火箭"),
 	MEM("MEM", "Memphis Grizzlies", "孟菲斯 灰熊", "灰熊"),
 	NOP("NOP", "New Orleans Pelicans", "新奥尔良 鹈鹕", "鹈鹕"),
-	NOH("NOH", "New Orleans Hornet", "新奥尔良 黄蜂", "黄蜂"),
 	SAS("SAS", "San Antonio Spurs", "圣安东尼奥 马刺", "马刺"),
 	
 	All("All", "All", "所有球队", ""),
