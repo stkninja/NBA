@@ -11,6 +11,8 @@ public class TBasicInfoPO{
 	private String historyFullName = new String();
 	//曾经球队缩写
 	private String historyAbblName = new String();
+	private String historyAbblName2 = new String();
+
 	//所在地
 	private String location = new String();
 	//赛区
@@ -95,5 +97,14 @@ public class TBasicInfoPO{
 
 	public void setHistoryAbblName(String historyAbblName) {
 		this.historyAbblName = historyAbblName;
+	}
+	
+
+	public String getHistoryAbblName2() {
+		return historyAbblName2;
+	}
+
+	public void setHistoryAbblName2(String historyAbblName2) {
+		this.historyAbblName2 = historyAbblName2;
 	}
 }
