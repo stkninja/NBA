@@ -55,6 +55,10 @@ public class PlayerCareer {
 		po.setAlldefensiverebound(getDouble(po.getAlldefensiverebound()));
 		po.setAllrebound(getDouble(po.getAlloffensiverebound() + po.getAlldefensiverebound()));
 		
+		po.setPoint(getDouble(po.getAllpoint() / po.getGameplay()));
+		po.setRebound(getDouble(po.getAllrebound() / po.getGameplay()));
+		po.setAssist(getDouble(po.getAllassist() / po.getGameplay()));
+		
 		return po;
 	}
 	

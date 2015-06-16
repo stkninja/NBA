@@ -18,9 +18,11 @@ public class TeamSeasonVO {
 	public double avgdefensiveRebounds;//场均防守篮板
 	public double varthreepoint;
 	public double threepointrate;
-	public double avgthreepointmade;
+	public double avgthreepointmade;//三分得分
 	public double avgtwopoint;
 	public double avgfreethrowpoint;
+	public double avgthreepointHit;//三分命中
+	public double avgthreepointrate;//三分命中率
 	
 	//高阶数据
 	public double avgattackround;//赛季球队场均进攻回合

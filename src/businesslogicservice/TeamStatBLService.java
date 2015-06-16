@@ -9,11 +9,9 @@ public interface TeamStatBLService {
 	
 	public TeamSeasonVO getAllTeamData(String season);
 
-	public double[] getRandomScore(double n);
-	
-	public double[] getRandomThreepointShoot(double n);
-	
-//	public ArrayList<Double> getThreepoint();
-	
 	public ArrayList<Double> getThreepointPerYear(String season);
+	
+	public TeamSeasonVO getBefore();
+	
+	public double getLeagueThreepoint(String season);
 }
