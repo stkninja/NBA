@@ -19,12 +19,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import vo.TeamSeasonVO;
 import businesslogic.TeamStatBL;
 import businesslogicservice.TeamStatBLService;
-import vo.TeamSeasonVO;
 
 @SuppressWarnings("serial")
 public class StatPanel extends JPanel {
@@ -210,16 +211,19 @@ public class StatPanel extends JPanel {
 		JPanel pane32 = new JPanel(new GridLayout(1,4));
 		pane32.setOpaque(false);
 		
-		JTextField wordlabel3 = new JTextField("通过一元线性回归，"
-				+ "算出系数a = -2638.377,b = 1.323,"
-				+ "决定系数=0.654，Sy = 2.091,"
+		JTextArea wordlabel3 = new JTextArea("通过一元线性回归，\n"
+				+ "算出系数a = -2638.377,b = 1.323,\n"
+				+ "决定系数=0.654，Sy = 2.091,\n"
 				+ "因此认为回归方程拟合程度很高");
-		JTextField wordlabel4 = new JTextField("原假设：方差1 >= 方差2"
-				+ "计算样本方差0.0124，0.01"
-				+ "计算F检验=1.24"
-				+ "不拒绝原假设"
+		JTextArea wordlabel4 = new JTextArea("原假设：方差1 >= 方差2\n"
+				+ "计算样本方差0.0124，0.01\n"
+				+ "计算F检验=1.24\n"
+				+ "不拒绝原假设\n"
 				+  "因此认为最近3个赛季比前3个赛季在场均三分球命中率方差上更具稳定性");
-		
+		wordlabel3.setBorder(new EmptyBorder(0,0,0,0));
+		wordlabel4.setBorder(new EmptyBorder(0,0,0,0));
+		wordlabel3.setLineWrap(true);
+		wordlabel4.setLineWrap(true);
 		pane32.add(piclabel7);
 		pane32.add(wordlabel3);
 		pane32.add(piclabel8);
@@ -227,9 +231,11 @@ public class StatPanel extends JPanel {
 		
 		JPanel pane33 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane33.setOpaque(false);
-		JTextField conclusion = new JTextField("结论：通过以上分析，勇士队自从库里来了以后，三分球出手更多，所占投篮出手比例更大，虽然三分球投篮出手数逐年呈上升趋势，但命中率保持很好的稳定性。三分球成为了勇士的有力武器。");
+		JTextArea conclusion = new JTextArea("结论：通过以上分析，勇士队自从库里来了以后，三分球出手更多，所占投篮出手比例更大，\n虽然三分球投篮出手数逐年呈上升趋势，但命中率保持很好的稳定性。三分球成为了勇士的有力武器。");
 		conclusion.setFont(new Font("楷体",Font.BOLD,15));
+		conclusion.setBorder(new EmptyBorder(0,0,0,0));
 		conclusion.setForeground(Color.BLACK);
+		conclusion.setLineWrap(true);
 		pane33.add(conclusion);
 		
 		pane3.add(pane31,BorderLayout.NORTH);
@@ -240,13 +246,13 @@ public class StatPanel extends JPanel {
 		TeamSeasonVO vo1 = team.getAllTeamData(season);
 		TeamSeasonVO vo2 = team.getBefore();
 		Object[][]  data = new Object[5][3];
-		data[0][0] = "三分数据";
+		data[0][0] = "场均三分";
 		data[0][1] = "09年之前";
 		data[0][2] = String.valueOf(mode.getSelectedItem());
-		data[1][0] = "场均三分命中数";
-		data[2][0] = "场均三分出手数";
-		data[3][0] = "场均三分命中率";
-		data[4][0] = "场均投篮出手数";
+		data[1][0] = "三分命中数";
+		data[2][0] = "三分出手数";
+		data[3][0] = "三分命中率";
+		data[4][0] = "投篮出手数";
 		data[1][1] = vo2.avgthreepointHit;
 		data[2][1] = vo2.avgthreepoint;
 		data[3][1] = vo2.avgthreepointrate;
